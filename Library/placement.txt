@@ -1,0 +1,33 @@
+﻿La directive de placement a pour objectif de trier les rectangles dans l'ordre des plus proches aux plus éloignés.
+Le résultat est une structure rectangulaire dont je connais la taille totale (inscrite dans un rectangle).
+
+Au fur et à mesure que j'ajoute un élément dans la liste, je dois de façon incrémentale en déduire où placer
+le nouvel élément.
+
+Je dois aussi déterminer les chevauchements ainsi que l'ensemble des éléments qui sont impactés par un changement
+de taille (horizontale ou verticale) d'un élément.
+
+L'important est finalement de déterminer entre deux rectangles s'ils :
+ - s'emboîtent : dans ce cas, il y a chevauchement
+ - sont adjacents
+
+S'ils sont adjacents, cela signifie que je peux les accoller ensemble. Mais, lorsque deux rectangles se chevauchent, je dois identifier
+tous les chevauchements.
+
+Voici les différents cas de regroupement :
+
+					  _      _
+					| A |  | B |
+					-----  -----
+
+					  _      
+					| A | 
+					-----    _
+						   | B |
+					       -----
+
+Il peut y avoir renverssement pour isoler des combinaisons similaires par communtativité.
+
+Ce que je dois savoir, c'est de trouver des rectangles les plus proches.
+
+

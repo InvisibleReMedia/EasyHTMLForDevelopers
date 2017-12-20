@@ -1,0 +1,18 @@
+﻿Objectifs :
+= Vérifier et modifier la taille des objets
+= Repositionner les contenus
+= tenir compte de la disposition
+
+Un HTMLObject est une instance d'un outil ou d'un master objet.
+
+Lorsque c'est un outil, la taille de l'instance est susceptible de changer.
+S'il s'agit d'un modèle d'objet, la taille ne change pas.
+
+Si c'est une page, on ne peut pas changer les tailles du modèle de page.
+Si c'est un modèle de page, on peut changer les tailles des zones horizontales et verticales
+en fonction de la taille du contenu.
+
+L'idée du size controller est d'adapter la taille des contenants en fonction des contenus.
+
+
+

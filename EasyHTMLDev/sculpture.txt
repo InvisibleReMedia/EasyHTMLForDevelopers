@@ -1,0 +1,15 @@
+﻿1) Je déclare un tableau d'objets CadreModel qui représentent l'ensemble des objets
+   dans le panel. C'est le draw du panel qui dessine les objets.
+2) je fais une recherche pour trouver l'objet CadreModel que j'ai sélectionné.
+3) Si je change un objet, je déclare un timer qui fait un polling sur l'objet CadreUC
+   en cours de mouvement pendant que je bouge la souris.
+4) Je fais une recherche pour trouver les objets CadreModel qui interagissent ensembles :
+   L'objet déplacé peut avoir une certaine adhérence à d'autres objets. L'invalidate du panel
+   au moment du timer assure que les CadreModel seront correctement affichés 
+
+A chaque ajout d'un nouvel objet, je dois recalculer les solutions en :
+	1) déterminant la longueur et la largeur totale utilisée (en nombre de pixels)
+	2) vérifier qu'il n'y a pas de chevauchement (sinon colorier en rouge)
+
+Le déplacement d'un objet existant fait réagir le système de la même manière.
+

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="Container" Bounds="273.929315093333,503.64,71.5699999999999,25.96" />
+    <Node Id="Generating" Bounds="83.37098176,447.68,78.6866666666667,25.96" LayoutSettings="BottomToTop" />
+    <Node Id="Generating1" Bounds="270.37098176,391.72,78.6866666666667,25.96" Label="Generating" />
+    <Node Id="HTMLObject" Bounds="79.6509817599999,279.800225,86.1266666666667,25.96" />
+    <Node Id="HTMLObject1" Bounds="192.65098176,447.68,86.1266666666667,25.96" Label="HTMLObject" />
+    <Node Id="HorizontalZone" Bounds="71.76598176,167.880025,101.896666666667,25.96" />
+    <Node Id="MasterObject" Bounds="178.02098176,55.9598250000001,91.3866666666667,25.96" />
+    <Node Id="MasterObject1" Bounds="0,503.64221184,91.4286301866666,25.95557632" Label="MasterObject" />
+    <Node Id="MasterPage" Bounds="81.3826484266666,111.919925,82.6633333333333,25.96" />
+    <Node Id="MasterPage1" Bounds="300.382648426667,55.96,82.6633333333333,25.96" Label="MasterPage" />
+    <Node Id="Name" Bounds="96.86598176,559.6,51.6966666666666,25.96" />
+    <Node Id="O" Bounds="97.7143150933333,335.760325,50,25.96" Label="OU" />
+    <Node Id="Page" Bounds="97.7143150933333,55.9598250000001,50,25.96" />
+    <Node Id="Project" Bounds="195.35598176,-0.000274999999987813,56.7166666666667,25.96" />
+    <Node Id="VerticalZone" Bounds="79.5276484266666,223.840125,86.3733333333333,25.96" />
+  </Nodes>
+  <Links>
+    <Link Source="Container" Target="Name" Bounds="157.184863045255,527.303736686372,116.82811855784,34.9609106904503" />
+    <Link Source="Generating" Target="MasterObject1" Category="Contains" Bounds="70.8519523280226,473.64,34.0021054386488,24.7111405239842" />
+    <Link Source="Generating" Target="Name" Category="Contains" Bounds="122.714315093333,473.64,0,76.96" />
+    <Link Source="Generating1" Target="Container" Category="Contains" Bounds="309.714315093333,417.68,0,76.96" />
+    <Link Source="Generating1" Target="HTMLObject1" Category="Contains" Bounds="260.057242434547,417.68,32.4926695136824,24.5714835944009" />
+    <Link Source="HTMLObject" Target="O" Bounds="122.714315093333,305.760225,0,21.0001" />
+    <Link Source="HTMLObject1" Target="Container" Bounds="252.878718238437,473.64,32.4926695136824,24.5714835944009" />
+    <Link Source="HorizontalZone" Target="VerticalZone" Bounds="122.714315093333,193.840025,0,21.0001000000001" />
+    <Link Source="MasterObject1" Target="Name" Bounds="63.5715289660996,529.59778816,34.0021054386487,24.7111405239842" />
+    <Link Source="MasterPage" Target="HorizontalZone" Bounds="122.714315093333,137.879925,1.4210854715202E-14,21.0001" />
+    <Link Source="O" Target="Generating" Bounds="122.714315093333,361.720325,2.8421709430404E-14,76.9596750000001" />
+    <Link Source="O" Target="Generating1" Bounds="147.714315093333,356.221564973262,114.526482973664,34.2720040967876" />
+    <Link Source="Page" Target="MasterPage" Bounds="122.714315093333,81.9198250000001,1.4210854715202E-14,21.0001" />
+    <Link Source="Project" Target="MasterObject" Bounds="223.714315093333,25.959725,2.8421709430404E-14,21.0001" />
+    <Link Source="Project" Target="MasterPage1" Bounds="250.415413919943,25.6424439249091,55.7968788292539,26.4610905375146" />
+    <Link Source="Project" Target="Page" Bounds="153.657279852364,25.959725,46.6299863257597,25.8358286909718" />
+    <Link Source="VerticalZone" Target="HTMLObject" Bounds="122.714315093333,249.800125,0,21.0001" />
+  </Links>
+  <Categories>
+    <Category Id="Contains" Label="Contains" Description="Whether the source of the link contains the target object" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="Contained By" IsContainment="True" OutgoingActionLabel="Contains" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="LayoutSettings" DataType="Microsoft.VisualStudio.Diagrams.View.GroupLayoutStyle" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Comment" ValueLabel="Has comment">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>

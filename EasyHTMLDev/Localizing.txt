@@ -1,0 +1,25 @@
+﻿Pour localiser l'application, j'ai créé un component appelé Strings.
+
+Il contient les ressources selon la langue. Chaque élément peut être un texte voire même un control.
+
+Puisque Strings est un component, je peux l'ajouter dans n'importe quel form.
+
+Il m'intéresse de pouvoir tester l'application au runtime avec les textes localisés.
+En mode design, je définis donc le texte du control pour qu'il indique la clé indiquée dans la ressource localisée.
+
+Aussi, durant le mode design, le texte du control est toujours la clé de la ressource localisée.
+Tandis qu'au runtime, la clé est résolue et le texte localisé remplace la clé.
+
+Selon le type de control et selon le nom du control et le nom du form, je peux également
+traiter certains cas particuliers.
+
+Pour les cas particuliers, je peux augmenter les possibilités en formulant un TypeConverter capable de convertir
+le texte contenu du component en un nouveau control.
+
+Aussi, lorsqu'un control n'a pas de modification de contenu ou qu'il ne doit pas être transformé,
+il est nécessaire qu'il ne soit pas référencé dans la liste; cette liste peut être incluse dans une ressource
+de la classe Strings.
+
+Pour effectuer les changements au moment du runtime, il faut aller chercher le component Strings et puis, tester si designMode ou pas.
+Et pour que cela se produise à chaque affichage, il faut un binding.
+

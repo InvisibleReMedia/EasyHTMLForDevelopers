@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="BelongsTo" Category="Comment" Bounds="-7.54354452768962,-312.872929077148,50,25.96" Label="Has" UseManualLocation="True" />
+    <Node Id="ClassInstance" Bounds="-321.512439727783,-718.748259763824,98.87,25.96" Label="Class Instances" UseManualLocation="True" />
+    <Node Id="Container" Bounds="411.65086730957,-296.607759190799,71.5699999999999,25.96" UseManualLocation="True" />
+    <Node Id="HTMLObject" Bounds="-44.5124376424154,-246.9128234375,86.1266666666667,25.96" UseManualLocation="True" />
+    <Node Id="HTMLObject1" Bounds="139.001173197428,-700.363794540629,86.1266666666667,25.96" Label="HTMLObject" UseManualLocation="True" />
+    <Node Id="Has" Category="Comment" Bounds="425.161057025479,-381.567859190799,158.866666666667,25.96" Label="Has, Linked To(IContainer)" UseManualLocation="True" />
+    <Node Id="Has1" Category="Comment" Bounds="601.666504488547,-543.346470336914,50,25.96" Label="Has" UseManualLocation="True" />
+    <Node Id="Has2" Category="Comment" Bounds="400.167635701497,-603.51931340332,175.953333333333,25.96" Label="Has, ExistsIn(HTMLObject list)" UseManualLocation="True" />
+    <Node Id="Has3" Category="Comment" Bounds="-693.08349609375,-608.388635446102,50,25.96" Label="Has" UseManualLocation="True" />
+    <Node Id="HorizontalZone" Bounds="-131.039826939901,-467.347450468712,101.896666666667,25.96" UseManualLocation="True" />
+    <Node Id="IContainer" Bounds="498.527772420247,-681.47941340332,74.7633333333333,25.96" UseManualLocation="True" />
+    <Node Id="IContainer1" Bounds="78.5460715230306,-476.523394540629,74.7633333333333,25.96" Label="IContainer" UseManualLocation="True" />
+    <Node Id="IContainer2" Bounds="-340.335594727264,-543.182526005632,74.7633333333333,25.96" Label="IContainer" UseManualLocation="True" />
+    <Node Id="IContainer3" Bounds="-864.186156108942,-619.565540771484,74.7633333333333,25.96" Label="IContainer" UseManualLocation="True" />
+    <Node Id="IContent" Category="Comment" Bounds="390.713840535482,-442.527959190799,65.6433333333333,25.96" UseManualLocation="True" />
+    <Node Id="IContent1" Bounds="148.264408162435,-588.443594540629,65.6433333333333,25.96" Label="IContent" UseManualLocation="True" />
+    <Node Id="Implements" Category="Comment" Bounds="181.546071939403,-644.403694540629,82.33,25.96" UseManualLocation="True" />
+    <Node Id="Implements1" Category="Comment" Bounds="82.546071939403,-532.483494540629,82.33,25.96" Label="Implements" UseManualLocation="True" />
+    <Node Id="Implements2" Category="Comment" Bounds="-316.57226139393,-606.267650468712,82.33,25.96" Label="Implements" UseManualLocation="True" />
+    <Node Id="Implements3" Category="Comment" Bounds="-859.422822775609,-681.348735446102,82.3299999999999,25.96" Label="Implements" UseManualLocation="True" />
+    <Node Id="ListOf" Category="Comment" Bounds="-572.519592895508,-346.333378295898,50.52,25.96" UseManualLocation="True" />
+    <Node Id="ListOf1" Category="Comment" Bounds="-338.369590250651,-383.273337198893,50.52,25.96" Label="ListOf" UseManualLocation="True" />
+    <Node Id="ListOf2" Category="Comment" Bounds="-459.999592895508,-318.313237198893,50.52,25.96" Label="ListOf" UseManualLocation="True" />
+    <Node Id="ListOf3" Category="Comment" Bounds="-13.0800979232788,-524.839778143311,50.52,25.9600000000001" Label="ListOf" UseManualLocation="True" />
+    <Node Id="ListOf4" Category="Comment" Bounds="-71.2981870269775,-411.387350468712,50.52,25.96" Label="ListOf" UseManualLocation="True" />
+    <Node Id="ListOf5" Category="Comment" Bounds="-162.379453430176,-523.307550468712,50.52,25.96" Label="ListOf" UseManualLocation="True" />
+    <Node Id="MasterObjects" Bounds="-227.133747965495,-273.846784737011,99.7666666666667,25.96" Label="Master Objects" UseManualLocation="True" />
+    <Node Id="MasterObjects1" Bounds="2.1005465496911,-591.624958496094,94.6733333333333,25.96" Label="Master Object" UseManualLocation="True" />
+    <Node Id="MasterPage" Bounds="-755.815789794922,-552.428535446102,85.95,25.96" Label="Master Page" UseManualLocation="True" />
+    <Node Id="MasterPages" Bounds="-459.718333333333,-210.52,91.0433333333333,25.96" Label="Master Pages" UseManualLocation="True" />
+    <Node Id="MasterPages1" Bounds="-200.253049468994,-635.227750468712,85.95,25.96" Label="Master Page" UseManualLocation="True" />
+    <Node Id="Name" Bounds="383.736504488547,-526.346473435857,51.6966666666667,25.96" Label="Name" UseManualLocation="True" />
+    <Node Id="Page" Bounds="-733.336059570313,-720.308835446102,50,25.96" UseManualLocation="True" />
+    <Node Id="Pages" Bounds="-654.892079264323,-257.779998779297,51.2633333333333,25.96" UseManualLocation="True" />
+    <Node Id="Project" Bounds="-573.970511495333,-535.58939568455,56.7166666666667,25.96" UseManualLocation="True" />
+    <Node Id="Properties" Bounds="601.666504488547,-487.386387329102,127.093333333333,25.96" Label="GroupOf(Properties)" UseManualLocation="True" />
+    <Node Id="VerticalZone" Bounds="-123.916868387858,-355.427250468712,86.3733333333333,25.96" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="ClassInstance" Target="HTMLObject1" Bounds="-222.642439727783,-703.767043963795,352.650978351727,14.2759322296599" />
+    <Link Source="ClassInstance" Target="MasterObjects1" Bounds="-239.248995582632,-692.788259763824,247.488232610584,97.8540818164184" />
+    <Link Source="ClassInstance" Target="MasterPages1" Bounds="-254.236359756707,-692.788259763824,71.8395116460608,52.2657183689331" />
+    <Link Source="ClassInstance" Target="Page" Bounds="-674.336117152741,-707.20721152643,352.823677424957,1.26211386108537" />
+    <Link Source="ClassInstance" Target="Project" Bounds="-518.749159620437,-692.788259763824,227.287009974572,152.191361229403" />
+    <Link Source="HorizontalZone" Target="VerticalZone" Bounds="-80.6047667170018,-441.387450468712,0.439198624078799,76.9603465513483" />
+    <Link Source="IContainer" Target="Name" Bounds="394.691619873047,-655.564819335938,106.315948486328,120.392333984375" />
+    <Link Source="IContainer" Target="Properties" Bounds="550.116394042969,-655.519409179688,114.148559570313,159.141387939453" />
+    <Link Source="IContainer1" Target="HorizontalZone" Bounds="-20.1530050348228,-461.793518122909,98.6990765578534,4.62025510368017" />
+    <Link Source="IContainer1" Target="MasterObjects1" Bounds="59.0371246337891,-557.467895507813,39.6940536499023,80.9444885253906" />
+    <Link Source="IContainer1" Target="VerticalZone" Bounds="-51.9873157158954,-450.563411254883,146.835772419942,90.4171390902603" />
+    <Link Source="IContainer2" Target="MasterPages1" Bounds="-282.411039195501,-604.460363431195,96.9816553933956,61.2778182651793" />
+    <Link Source="IContainer3" Target="Page" Bounds="-811.540753599355,-688.518475705374,81.0847777678637,68.9529349338892" />
+    <Link Source="IContent" Target="Container" Bounds="419.334594726563,-416.567962646484,16.848876953125,112.035308837891" />
+    <Link Source="IContent1" Target="HTMLObject1" Bounds="180.894271850586,-665.405822753906,0.700180053710938,76.9622192382813" />
+    <Link Source="MasterObjects1" Target="HorizontalZone" Bounds="-65.9594192504883,-565.664978027344,99.6731834411621,90.9222412109375" />
+    <Link Source="MasterPages1" Target="HorizontalZone" Bounds="-150.56575012207,-609.267761230469,61.4518585205078,133.635192871094" />
+    <Link Source="Page" Target="MasterPage" Bounds="-712.251087627546,-694.348826904297,3.5667358823199,132.923548351427" />
+    <Link Source="Project" Target="MasterObjects" Bounds="-531.117858886719,-509.629425048828,319.802001953125,231.764221191406" />
+    <Link Source="Project" Target="MasterPages" Bounds="-541.227600097656,-509.629425048828,114.449462890625,291.421844482422" />
+    <Link Source="Project" Target="Pages" Bounds="-622.757344594756,-509.629420776367,73.2368915131113,243.231593229135" />
+    <Link Source="VerticalZone" Target="HTMLObject" Bounds="-71.2469584098335,-329.467250468712,55.0052430217932,75.2873284994986" />
+  </Links>
+  <Categories>
+    <Category Id="Comment" Label="Comment" Description="Represents a user defined comment on the diagram" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Comments" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Comment" ValueLabel="Has comment">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>

@@ -1,0 +1,35 @@
+﻿On modélise une page HTML par :
+ - une master page
+ - du code CSS
+ - du code JavaScript
+ - des objets dans la page indiquant le container dans laquelle ranger l'objet
+
+Une master page représente une boîte englobante composée de sous-boîtes appelé container.
+Dans un container, on peut y ranger un seul objet HTML appelé HTMLObject.
+
+Un objet peut avoir un masterObject : c'est une boîte englobante composée de sous-boîtes appelé container.
+Dans un container du masterObject, on peut trouver un autre objet HTML appelé HTMLObject.
+
+La hiérarchie des objets est visible dans l'arborescence : on y voit les objets et les sous-objets.
+
+Un masterObject a des objets prédéfinis que l'on ne peut pas modifier, remplacer ou supprimer depuis la page instance d'un masterObject.
+De même pour une master page.
+
+Un objet est donc une instance d'un masterObject. On peut avoir plusieurs objets qui ont la même instance de masterObject comme, on peut avoir plusieurs pages qui ont la même masterPage.
+
+En revanche, une page n'a qu'une seule masterPage et un container ne comporte qu'un seul objet.
+
+Dans la hiérarchie d'un masterObject, on y voit les sous-objets de ce masterObject.
+
+Dans un obet, une instance d'un masterObject, on ne voit dans la hiérarchie que les objets qui appartiennent à l'instance.
+
+Le code CSS peut être inclus dans la page ou bien déporté dans un autre fichier avec un lien CSS sur la page.
+Le code JavaScript peut être inclus dans la page ou bien déporté dans un autre fichier avec un lien sur la page.
+
+Le code CSS d'une masterPage peut être déporté dans un autre fichier et réutilisé par plusieurs pages.
+En particulier, les pages qui ont un code CSS spécifique peut être inclus dans la page ou bien déporté dans un autre fichier avec un lien CSS sur la page.
+De même pour le code JavaScript.
+
+Il y a 2 sortes de codes JavaScript :
+ - le code inclus en tant que fonctions et variables globales
+ - le code inclus dans le onload de la page

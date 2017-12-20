@@ -1,0 +1,39 @@
+﻿Etude du calcul des tailles d'objets dans des conteneurs:
+
+Il faut commencer par faire les outils.
+
+Ensuite, on place les outils dans les master objets puis les master objets dans les master pages puis les master pages dans les pages.
+
+Pour les outils spécifiques aux pages, on pourra laisser de la place.
+
+Il ne faut pas faire à l'envers en commençant par faire les master pages et les master objets parce que chaque outil a une taille fixe : si l'outil ne rentre pas dans
+la page, il faut agrandir la page ou bien réduire la taille de l'outil.
+
+Est-ce que l'on a besoin des cases ? réponse : oui pour calculer les zones.
+
+Il faudra une interface qui permette de mettre un outil dans un master objet, puis des master objets dans des master pages et enfin les master pages dans les pages.
+
+Les autres outils spécifiques aux pages pourront être ajoutés.
+
+
+Pour disposer (center,left ou right) un objet dans un conteneur, il faut :
+pour l'objet
+ - spécifier une taille en pixels
+ - indiquer margin-left, margin-right auto pour center horizontalement
+ - position relative
+pour le conteneur
+ - text-align center et vertical-align middle
+
+Pour aligner verticalement, il faut connaitre la taille de l'objet à aligner.
+Si sa taille est forced, il n'est pas nécessaire de l'aligner verticalement puisque l'objet prendra la taille de son conteneur.
+Si la taille de l'objet est auto, cela signifie que l'on détermine la taille uniquement par le contenant donc le conteneur aura la taille du contenant et ce n'est pas
+nécessaire de définir une taille fixe pour le conteneur parce que cela ne fonctionnera pas.
+
+En revanche, si le conteneur a une taille fixe et que l'objet dans le conteneur est auto, il ne faut pas que l'objet soit plus grand que son conteneur; il faut qu'il soit
+plus petit. Ensuite, on peut centrer cet objet.
+Mais, le plus intéressant c'est de remarquer que si le conteneur a une taille fixe alors son contenant supérieur pourrait le centrer puisqu'il en connait la taille.
+Donc, si le conteneur a une taille fixe et que l'objet dans le conteneur est auto, c'est au conteneur parent de centrer le conteneur.
+
+
+
+

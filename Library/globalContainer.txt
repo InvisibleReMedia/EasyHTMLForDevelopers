@@ -1,0 +1,15 @@
+﻿Deux fonctionnalités importantes du global container:
+  - en design, la liste des HTMLObject contient tous les globalContainer (reconnu par ce nom de container) à afficher dans un MasterObject ou une MasterPage ou une Page
+	- cette liste est écrite directement dans la liste des HTMLObject indiqués à l'intérieur de l'objet généré à ce moment-là.
+	  Les globalContainer des sous-éléments HTMLObject (à retrouver dans la liste des MasterObject du projet) ne sont pas générés.
+  - en production, les éléments des HTMLObject qui ont pour nom globalContainer sont inclus directement dans l'élément HTML en cours de génération.
+
+Les HTMLObject incluent la propriété MasterObjectName qui identifie immédiatement le nom du MasterObject à générer.
+
+La génération des HTMLObject recherche le master object correspondant dans la liste des master objects du projet en cours.
+
+Pour traiter l'ensemble des globalContainer pendant la génération en production, il suffit de traiter les instances HTMLObject qui sont identifiées par le nom
+du container "globalContainer". Pour cela, les classes MasterObject, MasterPage et Page sont impactées au niveau de la génération en production et non pas dans la classe
+VerticalZone ni celle de HTMLObject.
+
+Sauf que, la position HTML doit être adaptée : il faut que les globalContainer soient dans le div de l'objet HTMLObject auquel il appartient

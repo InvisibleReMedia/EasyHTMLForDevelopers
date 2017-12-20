@@ -1,0 +1,14 @@
+﻿CadreModel : index counter
+Folder : childs and ancestor (to be changed)
+FolderTool : childs and path (not to be changed)
+GeneratedSculpture : childs include CadreModel
+Granne : include CadreModel
+HorizontalZone : edit name and id
+HTMLObject : edit name and id
+HTMLTool : edit name and id
+MasterObject : edit name and id, change hzones et objects
+MasterPage : edit name and id, change hzones et objects
+Page : edit name and id, change hzones et objects
+SculptureObject : change objects
+VerticalZone : edit name and id
+

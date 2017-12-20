@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0089)http://samples.msdn.microsoft.com/workshop/samples/author/dhtml/refs/DragDropEventsEX.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Example of Drag-and-Drop Event Firing</title>
+
+<meta name="AUTHOR" content="InetSDK">
+<meta name="MS.LOCALE" content="EN-US">
+<meta name="ROBOTS" content="noindex">
+<!-- STYLE_START -->
+<link rel="stylesheet" href="./Example of Drag-and-Drop Event Firing_files/samplesSDKIE4.css" type="text/css">
+<link rel="stylesheet" href="./Example of Drag-and-Drop Event Firing_files/advSDKIE4.css" type="text/css">
+<!-- STYLE_END -->
+<script type="text/javascript">
+var oNewOption;            
+
+// Code for dynamically adding options to a select.
+
+function ShowResults()
+{                // Information about the events 
+                 // and what object fired them.
+  arg = event.type + "  fired by  " + event.srcElement.id;  
+  oNewOption = new Option(); 
+  oNewOption.text = arg;
+  oResults.add(oNewOption,0);
+}
+</script>
+</head>
+
+<!--TOOLBAR_START-->
+<!--TOOLBAR_EXEMPT-->
+<!--TOOLBAR_END-->
+<body>
+
+<div class="body">
+	<h1>Example of Drag-and-Drop Event Firing</h1>
+	<p>Open a second window containing the same source code to watch event firing 
+	across browser windows. In that case, only source events will display in the 
+	list box in the window of origin, just as only target events will be listed 
+	in the target browser window. </p>
+	<p>Source events are wired up to this text box.</p>
+	<input id="oSource" value="Text to Drag" ondragstart="ShowResults()" ondrag="ShowResults()" ondragend="ShowResults()">
+	<br>
+	<p>Target events are bound to this text box.</p>
+	<input id="oTarget" value="Drag Destination" ondragenter="ShowResults()" ondragover="ShowResults()" ondragleave="ShowResults()" ondrop="ShowResults()">
+	<hr><select id="oResults" size="30">
+	<option>List of events fired, starting with the most recent</option>
+	<option>dragstart  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>drag  fired by  oSource</option><option>dragenter  fired by  oTarget</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drag  fired by  oSource</option><option>dragover  fired by  oTarget</option><option>drop  fired by  oTarget</option><option>dragend  fired by  oSource</option></select>
+	<!-- START_PAGE_FOOTER --><br>
+	<br>
+	<br>
+	<p class="viewsource">[Right-click and choose View Source from the shortcut 
+	menu.] </p>
+	<a class="copyright" href="http://www.microsoft.com/isapi/gomscom.asp?TARGET=/info/cpyright.htm">
+	© 2007 Microsoft Corporation. All rights reserved. Terms of use.</a>
+	<!-- END_PAGE_FOOTER --></div>
+
+
+
+
+</body></html>

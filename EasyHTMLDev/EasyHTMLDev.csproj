@@ -1,0 +1,768 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DC52A503-9B2F-4606-8B52-3C61F4849087}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EasyHTMLDev</RootNamespace>
+    <AssemblyName>EasyHTMLDev</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>C:\Users\Olivier\Downloads\EasyHTML\publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://ehd.codeplex.com/releases/clickonce/</InstallUrl>
+    <TargetCulture>fr</TargetCulture>
+    <ProductName>Easy Html For Developers</ProductName>
+    <PublisherName>Invisible Software</PublisherName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationVersion>1.5.1.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>D93DA96B6A0F4F87CB34620FA01245EC49A7C0A4</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Invisible Media.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ehd_ico.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>InvisibleMedia.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WinSCPnet">
+      <HintPath>..\WinSCP\WinSCPnet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddObject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddObject.Designer.cs">
+      <DependentUpon>AddObject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BtnValidate.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BtnValidate.Designer.cs">
+      <DependentUpon>BtnValidate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CadreUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CadreUC.Designer.cs">
+      <DependentUpon>CadreUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Case.cs" />
+    <Compile Include="ColorSchemePopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ColorSchemePopup.Designer.cs">
+      <DependentUpon>ColorSchemePopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigView.Designer.cs">
+      <DependentUpon>ConfigView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BtnClose.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BtnClose.Designer.cs">
+      <DependentUpon>BtnClose.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CSSValidation.cs" />
+    <Compile Include="DynamicUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DynamicUC.Designer.cs">
+      <DependentUpon>DynamicUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions.cs" />
+    <Compile Include="FtpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FtpForm.Designer.cs">
+      <DependentUpon>FtpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LocaleKeyBinding.cs" />
+    <Compile Include="SiteGenerationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SiteGenerationForm.Designer.cs">
+      <DependentUpon>SiteGenerationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerateObjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerateObjectForm.Designer.cs">
+      <DependentUpon>GenerateObjectForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerateWithSculptureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerateWithSculptureForm.Designer.cs">
+      <DependentUpon>GenerateWithSculptureForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IBindingUC.cs" />
+    <Compile Include="MasterObjectUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MasterObjectUC.Designer.cs">
+      <DependentUpon>MasterObjectUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OutilUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OutilUC.Designer.cs">
+      <DependentUpon>OutilUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NewGeneration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="NewGeneration.Designer.cs">
+      <DependentUpon>NewGeneration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OverwriteGeneration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OverwriteGeneration.Designer.cs">
+      <DependentUpon>OverwriteGeneration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SchemeEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SchemeEditor.Designer.cs">
+      <DependentUpon>SchemeEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TexteUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TexteUC.Designer.cs">
+      <DependentUpon>TexteUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ImageUC.Designer.cs">
+      <DependentUpon>ImageUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ModelTypePopup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ModelTypePopup.Designer.cs">
+      <DependentUpon>ModelTypePopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PropertiesUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PropertiesUC.Designer.cs">
+      <DependentUpon>PropertiesUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SculptureCreationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SculptureCreationForm.Designer.cs">
+      <DependentUpon>SculptureCreationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SculpturePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SculptureView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SculptureView.Designer.cs">
+      <DependentUpon>SculptureView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToogleBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ToogleBar.Designer.cs">
+      <DependentUpon>ToogleBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TutorialExec.cs" />
+    <Compile Include="ZonesBinding.cs" />
+    <Compile Include="JavascriptUrls.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JavascriptUrls.Designer.cs">
+      <DependentUpon>JavascriptUrls.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileImport.Designer.cs">
+      <DependentUpon>FileImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HTMLOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HTMLOptions.Designer.cs">
+      <DependentUpon>HTMLOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import.Designer.cs">
+      <DependentUpon>Import.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JavascriptOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JavascriptOptions.Designer.cs">
+      <DependentUpon>JavascriptOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PageView.Designer.cs">
+      <DependentUpon>PageView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPageImg.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MasterPageImg.Designer.cs">
+      <DependentUpon>MasterPageImg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ObjectView.Designer.cs">
+      <DependentUpon>ObjectView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CSSOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CSSOptions.Designer.cs">
+      <DependentUpon>CSSOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PageCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PageCreate.Designer.cs">
+      <DependentUpon>PageCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RadioButtonBinding.cs" />
+    <Compile Include="RenameProject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RenameProject.Designer.cs">
+      <DependentUpon>RenameProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SimpleObjectView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SimpleObjectView.Designer.cs">
+      <DependentUpon>SimpleObjectView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FolderCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FolderCreate.Designer.cs">
+      <DependentUpon>FolderCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterObjectAdvanced.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterObjectAdvanced.Designer.cs">
+      <DependentUpon>MasterObjectAdvanced.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterObjectCreationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterObjectCreationForm.Designer.cs">
+      <DependentUpon>MasterObjectCreationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterObjectCreationPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MasterObjectCreationPanel.Designer.cs">
+      <DependentUpon>MasterObjectCreationPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterObjectCreationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterObjectCreationWindow.Designer.cs">
+      <DependentUpon>MasterObjectCreationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterObjectView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterObjectView.Designer.cs">
+      <DependentUpon>MasterObjectView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPageCreationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterPageCreationForm.Designer.cs">
+      <DependentUpon>MasterPageCreationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPageCreationPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MasterPageCreationPanel.Designer.cs">
+      <DependentUpon>MasterPageCreationPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPageCreationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterPageCreationWindow.Designer.cs">
+      <DependentUpon>MasterPageCreationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPageOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterPageOptions.Designer.cs">
+      <DependentUpon>MasterPageOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPageView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterPageView.Designer.cs">
+      <DependentUpon>MasterPageView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Open.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Open.designer.cs">
+      <DependentUpon>Open.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PopupBtn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PopupBtn.Designer.cs">
+      <DependentUpon>PopupBtn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToolCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ToolCreate.Designer.cs">
+      <DependentUpon>ToolCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ToolView.Designer.cs">
+      <DependentUpon>ToolView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Zones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Zones.Designer.cs">
+      <DependentUpon>Zones.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AddObject.resx">
+      <DependentUpon>AddObject.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BtnValidate.resx">
+      <DependentUpon>BtnValidate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CadreUC.resx">
+      <DependentUpon>CadreUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorSchemePopup.resx">
+      <DependentUpon>ColorSchemePopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigView.resx">
+      <DependentUpon>ConfigView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BtnClose.resx">
+      <DependentUpon>BtnClose.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DynamicUC.resx">
+      <DependentUpon>DynamicUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FtpForm.resx">
+      <DependentUpon>FtpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SiteGenerationForm.resx">
+      <DependentUpon>SiteGenerationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerateObjectForm.resx">
+      <DependentUpon>GenerateObjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerateWithSculptureForm.resx">
+      <DependentUpon>GenerateWithSculptureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterObjectUC.resx">
+      <DependentUpon>MasterObjectUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutilUC.resx">
+      <DependentUpon>OutilUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewGeneration.resx">
+      <DependentUpon>NewGeneration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OverwriteGeneration.resx">
+      <DependentUpon>OverwriteGeneration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SchemeEditor.resx">
+      <DependentUpon>SchemeEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TexteUC.resx">
+      <DependentUpon>TexteUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageUC.resx">
+      <DependentUpon>ImageUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JavascriptUrls.resx">
+      <DependentUpon>JavascriptUrls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileImport.resx">
+      <DependentUpon>FileImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HTMLOptions.resx">
+      <DependentUpon>HTMLOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Import.resx">
+      <DependentUpon>Import.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JavascriptOptions.resx">
+      <DependentUpon>JavascriptOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModelTypePopup.resx">
+      <DependentUpon>ModelTypePopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PageView.resx">
+      <DependentUpon>PageView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterPageImg.resx">
+      <DependentUpon>MasterPageImg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ObjectView.resx">
+      <DependentUpon>ObjectView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CSSOptions.resx">
+      <DependentUpon>CSSOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PageCreate.resx">
+      <DependentUpon>PageCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertiesUC.resx">
+      <DependentUpon>PropertiesUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RenameProject.resx">
+      <DependentUpon>RenameProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SculptureCreationForm.resx">
+      <DependentUpon>SculptureCreationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SculptureView.resx">
+      <DependentUpon>SculptureView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SimpleObjectView.resx">
+      <DependentUpon>SimpleObjectView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FolderCreate.resx">
+      <DependentUpon>FolderCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterObjectAdvanced.resx">
+      <DependentUpon>MasterObjectAdvanced.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterObjectCreationForm.resx">
+      <DependentUpon>MasterObjectCreationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterObjectCreationPanel.resx">
+      <DependentUpon>MasterObjectCreationPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterObjectCreationWindow.resx">
+      <DependentUpon>MasterObjectCreationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterObjectView.resx">
+      <DependentUpon>MasterObjectView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterPageCreationForm.resx">
+      <DependentUpon>MasterPageCreationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterPageCreationPanel.resx">
+      <DependentUpon>MasterPageCreationPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterPageCreationWindow.resx">
+      <DependentUpon>MasterPageCreationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterPageOptions.resx">
+      <DependentUpon>MasterPageOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterPageView.resx">
+      <DependentUpon>MasterPageView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Open.en.resx">
+      <DependentUpon>Open.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Open.fr.resx">
+      <DependentUpon>Open.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Open.resx">
+      <DependentUpon>Open.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PopupBtn.resx">
+      <DependentUpon>PopupBtn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="ToogleBar.resx">
+      <DependentUpon>ToogleBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToolCreate.resx">
+      <DependentUpon>ToolCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToolView.resx">
+      <DependentUpon>ToolView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Zones.resx">
+      <DependentUpon>Zones.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="EasyHTMLDev_TemporaryKey.pfx" />
+    <None Include="Graph1.dgml" />
+    <None Include="Invisible Media.pfx" />
+    <None Include="InvisibleMedia.snk" />
+    <None Include="Properties\DataSources\Library.CadreModel.datasource" />
+    <None Include="Properties\DataSources\Library.CadreModelType.datasource" />
+    <None Include="Properties\DataSources\Library.IProjectElement.datasource" />
+    <None Include="Properties\DataSources\Library.SculptureObject.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonDirectories\CommonDirectories.csproj">
+      <Project>{c71b69ee-bf40-4f4a-a3df-8b494d84f3e0}</Project>
+      <Name>CommonDirectories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Library\Library.csproj">
+      <Project>{368B20D8-0C17-4F3E-8C49-45C3A1115AE9}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Localization\Localization.csproj">
+      <Project>{7591a3d8-fdc6-4391-bbcc-ffc5a82f38f4}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TutorialListening\TutorialListening.csproj">
+      <Project>{0e79e824-04d0-4b52-9794-16a93cd2b5d1}</Project>
+      <Name>TutorialListening</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ehd_ask.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="ehd_logo.png" />
+    <Content Include="ehd_ico.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ehd_minus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ehd_plus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\center.png" />
+    <None Include="Resources\centerbottom.png" />
+    <None Include="Resources\centertop.png" />
+    <None Include="Resources\leftbottom.png" />
+    <None Include="Resources\leftmiddle.png" />
+    <None Include="Resources\lefttop.png" />
+    <None Include="Resources\rightbottom.png" />
+    <None Include="Resources\rightmiddle.png" />
+    <None Include="Resources\righttop.png" />
+    <None Include="Localizing.txt" />
+    <Content Include="ok.jpg" />
+    <Content Include="sculpture.txt" />
+    <Content Include="sup.jpg" />
+    <Content Include="tailles.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <PublishFile Include="en\EasyHTMLDev.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+    <PublishFile Include="en\Localization.resources">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Satellite</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,24 @@
+﻿Soit x le nombre de pixels constituant le bord à ajouter.
+Soit N le nombre de colonnes totales.
+
+e = N / x;
+e est le nombre de colonnes nécessaire et suffisant pour un 1 pixel.
+
+Si N et e ne sont pas divisibles entre eux alors il reste une partie modulo : par exemple, quand N = 15 et x = 2. A ce moment-là, N / x = 7 + 1/2.
+Cela signifie qu'il restera un pixel à répartir parmi les N. En généralisant, il restera p = N % x.
+
+Ce p sera donné à la partie la plus grande, en commençant par celle de gauche.
+
+Soit M le nombre de colonnes pour une partie.
+Si M = k*e + q alors :
+ si q > 0 alors z = k + 1
+ si q = 0 alors z = k
+
+z est donc le nombre de pixels que l'on ajoute à la partie.
+
+Pour trouver k, on divise M par e et pour trouver q on calcule M % e.
+
+Ainsi, on a réparti le nombre de pixels en fonction de la pertinence des parties. Si une partie est plus grande qu'une autre,
+elle aura plus de pixels constituant les bords.
+
+On calculera de même pour les lignes.

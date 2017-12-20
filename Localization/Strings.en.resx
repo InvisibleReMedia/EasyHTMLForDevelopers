@@ -1,0 +1,740 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddObjectHelp" xml:space="preserve">
+    <value>To insert an object, select a master object or a tool</value>
+  </data>
+  <data name="BackColor" xml:space="preserve">
+    <value>Background color</value>
+  </data>
+  <data name="Border" xml:space="preserve">
+    <value>Border</value>
+  </data>
+  <data name="BorderColor" xml:space="preserve">
+    <value>Border color</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+  <data name="ButtonAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ButtonClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ButtonCreate" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="ButtonNew" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="ButtonNext" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="ButtonOpen" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="ButtonRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="ButtonValidate" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ColorScheme" xml:space="preserve">
+    <value>Colors scheme</value>
+  </data>
+  <data name="ConfigView" xml:space="preserve">
+    <value>Configuration keys</value>
+  </data>
+  <data name="ContainerName" xml:space="preserve">
+    <value>Container name</value>
+  </data>
+  <data name="ConversionTypeLabel" xml:space="preserve">
+    <value>Conversion switch</value>
+  </data>
+  <data name="CreateColor" xml:space="preserve">
+    <value>Create a new color</value>
+  </data>
+  <data name="CSSOptions" xml:space="preserve">
+    <value>Cascading style-sheet options</value>
+  </data>
+  <data name="FolderComment" xml:space="preserve">
+    <value>It's possible to give a path, each folder is separated by a / char</value>
+  </data>
+  <data name="FolderCreation" xml:space="preserve">
+    <value>Folder creation</value>
+  </data>
+  <data name="FolderName" xml:space="preserve">
+    <value>Folder name</value>
+  </data>
+  <data name="ForeColor" xml:space="preserve">
+    <value>Foreground color</value>
+  </data>
+  <data name="GenerateObjectComment" xml:space="preserve">
+    <value>Create or replace a generation of a sculpture</value>
+  </data>
+  <data name="GenerateSculptureComment" xml:space="preserve">
+    <value>From a sculpture, it creates objects; you can choice to obtain a page, a master page, a master object or just a tool (all HTML content result will be written in it)</value>
+  </data>
+  <data name="ImportFile" xml:space="preserve">
+    <value>Import a file</value>
+  </data>
+  <data name="InsertObject" xml:space="preserve">
+    <value>Insert an object</value>
+  </data>
+  <data name="IsClean" xml:space="preserve">
+    <value>Clean</value>
+  </data>
+  <data name="LabelAddObjectMasterObjectSelect" xml:space="preserve">
+    <value>Select a master object</value>
+  </data>
+  <data name="LabelAddObjectName" xml:space="preserve">
+    <value>Object name to create</value>
+  </data>
+  <data name="LabelAddObjectToolSelect" xml:space="preserve">
+    <value>Select a tool</value>
+  </data>
+  <data name="Margin" xml:space="preserve">
+    <value>Margin</value>
+  </data>
+  <data name="MenuAbout" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="MenuClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="MenuCreate" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="MenuDoc" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="MenuExpand" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="MenuGenerate" xml:space="preserve">
+    <value>Generate web</value>
+  </data>
+  <data name="MenuImportFile" xml:space="preserve">
+    <value>A file</value>
+  </data>
+  <data name="MenuImportMasterObjects" xml:space="preserve">
+    <value>Master objects</value>
+  </data>
+  <data name="MenuImportMasterPages" xml:space="preserve">
+    <value>Master pages</value>
+  </data>
+  <data name="MenuImportTools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="MenuOpen" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="MenuQuit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="MenuRename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="MenuSuppress" xml:space="preserve">
+    <value>Suppress</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="OpenColorDialog" xml:space="preserve">
+    <value>Open the color dialog</value>
+  </data>
+  <data name="Padding" xml:space="preserve">
+    <value>Padding</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="PendingModification" xml:space="preserve">
+    <value>You have made change</value>
+  </data>
+  <data name="RectangleFormat" xml:space="preserve">
+    <value>left,right,top,bottom</value>
+  </data>
+  <data name="RootMenuFolder" xml:space="preserve">
+    <value>Folders</value>
+  </data>
+  <data name="RootMenuHelp" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="RootMenuImport" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="RootMenuMasterObjects" xml:space="preserve">
+    <value>Master objects</value>
+  </data>
+  <data name="RootMenuMasterPages" xml:space="preserve">
+    <value>Master pages</value>
+  </data>
+  <data name="RootMenuPages" xml:space="preserve">
+    <value>Pages</value>
+  </data>
+  <data name="RootMenuProject" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="RootMenuSculpting" xml:space="preserve">
+    <value>Sculpt</value>
+  </data>
+  <data name="RootMenuTools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SelectColor" xml:space="preserve">
+    <value>Select a color</value>
+  </data>
+  <data name="SoftwareTitle" xml:space="preserve">
+    <value>Easy Html For Developers</value>
+  </data>
+  <data name="UnselectComment" xml:space="preserve">
+    <value>Type space bar to unselect
+Format #(tag)</value>
+  </data>
+  <data name="URLImage" xml:space="preserve">
+    <value>Image on background (url)</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="ConversionType" xml:space="preserve">
+    <value>Create a master page
+Create a new page
+Create a master objet
+Create a tool</value>
+  </data>
+  <data name="GenerateScultpture" xml:space="preserve">
+    <value>Sculpture generation</value>
+  </data>
+  <data name="HTMLOptions" xml:space="preserve">
+    <value>Html options</value>
+  </data>
+  <data name="ImageImport" xml:space="preserve">
+    <value>Import image</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="InsertHtmlAfter" xml:space="preserve">
+    <value>HTML content ending</value>
+  </data>
+  <data name="InsertHtmlBefore" xml:space="preserve">
+    <value>HTML content starter</value>
+  </data>
+  <data name="JavascriptOptions" xml:space="preserve">
+    <value>Javascript options</value>
+  </data>
+  <data name="URLJavascript" xml:space="preserve">
+    <value>Url javascript</value>
+  </data>
+  <data name="Areas" xml:space="preserve">
+    <value>Areas</value>
+  </data>
+  <data name="AutoConstraints" xml:space="preserve">
+    <value>auto</value>
+  </data>
+  <data name="ButtonAdvanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="ButtonCreateNewMasterObject" xml:space="preserve">
+    <value>Create a new master object</value>
+  </data>
+  <data name="ButtonOption" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="CodeCSS" xml:space="preserve">
+    <value>CSS programming</value>
+  </data>
+  <data name="CodeJavascript" xml:space="preserve">
+    <value>Javascript programming</value>
+  </data>
+  <data name="CodeJavascriptOnLoad" xml:space="preserve">
+    <value>Executes this code on load</value>
+  </data>
+  <data name="ColumnCount" xml:space="preserve">
+    <value># of columns</value>
+  </data>
+  <data name="ConfigJavascript" xml:space="preserve">
+    <value>Javascript links</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="LineCount" xml:space="preserve">
+    <value># of lines</value>
+  </data>
+  <data name="MasterObjectAdvancedProperties" xml:space="preserve">
+    <value>Advanced properties of a master object  - </value>
+  </data>
+  <data name="MasterObjectAdvancedPropertiesComment" xml:space="preserve">
+    <value>Encapsulate HTML hierarchy around this master object</value>
+  </data>
+  <data name="MasterObjectCreation" xml:space="preserve">
+    <value>Create a new master object</value>
+  </data>
+  <data name="MasterObjectCreationComment" xml:space="preserve">
+    <value>Inserts a master object into a single page or into a master page. In order to compose successives areas, select multiple cells on the static grid</value>
+  </data>
+  <data name="MasterObjectCreationForm" xml:space="preserve">
+    <value>Create all adjacents zones</value>
+  </data>
+  <data name="MasterObjectForm" xml:space="preserve">
+    <value>Edit master object - {0}</value>
+  </data>
+  <data name="MasterObjectProperties" xml:space="preserve">
+    <value>Master object properties</value>
+  </data>
+  <data name="RelativeConstraints" xml:space="preserve">
+    <value>relative</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="TitleComment" xml:space="preserve">
+    <value>This title is not viewed on the final web site</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="BodyCodeCSS" xml:space="preserve">
+    <value>CSS master page properties</value>
+  </data>
+  <data name="ChangeType" xml:space="preserve">
+    <value>Change type</value>
+  </data>
+  <data name="Container" xml:space="preserve">
+    <value>Container</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="GenerateFromSculpture" xml:space="preserve">
+    <value>Automatically generate objects</value>
+  </data>
+  <data name="HeaderDynamic" xml:space="preserve">
+    <value>Dynamic</value>
+  </data>
+  <data name="HeaderMasterObject" xml:space="preserve">
+    <value>Master object</value>
+  </data>
+  <data name="HeaderPicture" xml:space="preserve">
+    <value>Picture</value>
+  </data>
+  <data name="HeaderText" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="HeaderTool" xml:space="preserve">
+    <value>Tool</value>
+  </data>
+  <data name="MasterObjectReference" xml:space="preserve">
+    <value>Master object ref.</value>
+  </data>
+  <data name="MasterPageCreation" xml:space="preserve">
+    <value>Créer un nouveau modèle de page</value>
+  </data>
+  <data name="MasterPageCreationComment" xml:space="preserve">
+    <value>One or more pages can have the same master page. In order to compose successives areas, select multiple cells on the static grid</value>
+  </data>
+  <data name="MasterPageCreationForm" xml:space="preserve">
+    <value>Create all adjacents zones</value>
+  </data>
+  <data name="MasterPageForm" xml:space="preserve">
+    <value>Edit master page - {0}</value>
+  </data>
+  <data name="MasterPageOptions" xml:space="preserve">
+    <value>Master page options</value>
+  </data>
+  <data name="MasterPageProperties" xml:space="preserve">
+    <value>Master page properties</value>
+  </data>
+  <data name="MasterPageSelectionComment" xml:space="preserve">
+    <value>Available master pages</value>
+  </data>
+  <data name="MetaTag" xml:space="preserve">
+    <value>Html head</value>
+  </data>
+  <data name="NewGenerationComment" xml:space="preserve">
+    <value>Obtain the first version of the selected sculpture with a name, a title or else a path</value>
+  </data>
+  <data name="NewObject" xml:space="preserve">
+    <value>New object</value>
+  </data>
+  <data name="NewToolCreation" xml:space="preserve">
+    <value>Create a new tool</value>
+  </data>
+  <data name="Object" xml:space="preserve">
+    <value>Object</value>
+  </data>
+  <data name="ObjectForm" xml:space="preserve">
+    <value>Object</value>
+  </data>
+  <data name="ObjectName" xml:space="preserve">
+    <value>Object name</value>
+  </data>
+  <data name="ObjectType" xml:space="preserve">
+    <value>Object type</value>
+  </data>
+  <data name="ObjectTypeCreation" xml:space="preserve">
+    <value>Object type creation</value>
+  </data>
+  <data name="ObjectTypeList" xml:space="preserve">
+    <value>picture
+text
+tool
+master object
+dynamic object</value>
+  </data>
+  <data name="PageCreationForm" xml:space="preserve">
+    <value>Page creation</value>
+  </data>
+  <data name="PageForm" xml:space="preserve">
+    <value>Page - {0}</value>
+  </data>
+  <data name="PageNameComment" xml:space="preserve">
+    <value>Folders are separated by a / char</value>
+  </data>
+  <data name="PageProperties" xml:space="preserve">
+    <value>Properties of a page</value>
+  </data>
+  <data name="RadioErasePrevious" xml:space="preserve">
+    <value>Erase the previous version</value>
+  </data>
+  <data name="RadioNewVersion" xml:space="preserve">
+    <value>Create a newer version</value>
+  </data>
+  <data name="RadioWriteCSS" xml:space="preserve">
+    <value>Write CSS into a file</value>
+  </data>
+  <data name="RadioWriteJavascript" xml:space="preserve">
+    <value>Write Javascript source into a file</value>
+  </data>
+  <data name="Scale" xml:space="preserve">
+    <value>Scale</value>
+  </data>
+  <data name="SchemeColorComment" xml:space="preserve">
+    <value>Paste a CSS source code with a chart of colors</value>
+  </data>
+  <data name="SculptureCreationComment" xml:space="preserve">
+    <value>A sculpture is a set of objects organized as a full rectangular set. Each object takes a rectangular piece of the owner.</value>
+  </data>
+  <data name="SculptureCreationForm" xml:space="preserve">
+    <value>Sculpture creation</value>
+  </data>
+  <data name="SculptureForm" xml:space="preserve">
+    <value>Sculpture</value>
+  </data>
+  <data name="SculptureGenerationComment" xml:space="preserve">
+    <value>Previous computed results have ever been registered. Do you want to erase it or create a new one ?</value>
+  </data>
+  <data name="WriteCSSFile" xml:space="preserve">
+    <value>CSS filename</value>
+  </data>
+  <data name="WriteJavascriptFile" xml:space="preserve">
+    <value>Javascript filename</value>
+  </data>
+  <data name="XBorder" xml:space="preserve">
+    <value>X border</value>
+  </data>
+  <data name="XCoordinate" xml:space="preserve">
+    <value>X pos.</value>
+  </data>
+  <data name="XPadding" xml:space="preserve">
+    <value>X pad.</value>
+  </data>
+  <data name="YBorder" xml:space="preserve">
+    <value>Y border</value>
+  </data>
+  <data name="YCoordinate" xml:space="preserve">
+    <value>Y pos.</value>
+  </data>
+  <data name="YPadding" xml:space="preserve">
+    <value>Y pad.</value>
+  </data>
+  <data name="ButtonSiteGeneration" xml:space="preserve">
+    <value>Generate the entire web site</value>
+  </data>
+  <data name="GenerateComment" xml:space="preserve">
+    <value>Full path of the destination folder</value>
+  </data>
+  <data name="GenerateProduction" xml:space="preserve">
+    <value>Make the entire web site</value>
+  </data>
+  <data name="HTMLCode" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="ObjectProperties" xml:space="preserve">
+    <value>Object - {0}</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="CodeCSSMasterPage" xml:space="preserve">
+    <value>CSS programming on the body element</value>
+  </data>
+  <data name="FixedConstraints" xml:space="preserve">
+    <value>fixed</value>
+  </data>
+  <data name="ForcedConstraints" xml:space="preserve">
+    <value>strict</value>
+  </data>
+  <data name="Advanced" xml:space="preserve">
+    <value>Advance</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="RootPage" xml:space="preserve">
+    <value>Root page</value>
+  </data>
+  <data name="ToolInstance" xml:space="preserve">
+    <value>Tool instance</value>
+  </data>
+  <data name="MasterObject" xml:space="preserve">
+    <value>Master object</value>
+  </data>
+  <data name="MasterObjectCreationWindow" xml:space="preserve">
+    <value>Create master object - {0}</value>
+  </data>
+  <data name="MasterPage" xml:space="preserve">
+    <value>Master page</value>
+  </data>
+  <data name="MasterPageCreationWindow" xml:space="preserve">
+    <value>Create master page - {0}</value>
+  </data>
+  <data name="Tool" xml:space="preserve">
+    <value>Tool</value>
+  </data>
+  <data name="ToolForm" xml:space="preserve">
+    <value>Tool - {0}</value>
+  </data>
+  <data name="MenuImportFolders" xml:space="preserve">
+    <value>Folders</value>
+  </data>
+  <data name="ButtonRename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="ButtonPrevious" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="ErrorOnSave" xml:space="preserve">
+    <value>ERROR ON SAVE</value>
+  </data>
+  <data name="ButtonTerminate" xml:space="preserve">
+    <value>Terminate</value>
+  </data>
+  <data name="RenameProject" xml:space="preserve">
+    <value>Rename project</value>
+  </data>
+  <data name="FixRenderingErrors" xml:space="preserve">
+    <value>Fix rendering errors</value>
+  </data>
+  <data name="ScaleValue" xml:space="preserve">
+    <value>16:1 (16 times bigger)
+8:1 (8 times bigger)
+4:1 (4 times bigger)
+2:1 (2 times bigger)
+1:1 (Identity)
+1:2 (2 times smaller)
+1:4 (4 times smaller)
+1:8 (8 times smaller)
+1:16 (16 times smaller)</value>
+  </data>
+  <data name="CarefullWindowsOpenText" xml:space="preserve">
+    <value>Another window is open. Continue ?</value>
+  </data>
+  <data name="CarefullWindowsOpenTitle" xml:space="preserve">
+    <value>Carefull</value>
+  </data>
+  <data name="DYNAMIC" xml:space="preserve">
+    <value>Dynamic</value>
+  </data>
+  <data name="ExceptionHexadecimalOverflow" xml:space="preserve">
+    <value>Arithmetic overflow (hexadecimal)</value>
+  </data>
+  <data name="ExceptionIncompletPath" xml:space="preserve">
+    <value>Incomplete path</value>
+  </data>
+  <data name="ExceptionMalFormedContent" xml:space="preserve">
+    <value>Incorrect CSS content.
+Format name:value;...</value>
+  </data>
+  <data name="ExceptionMasterObjectNotExists" xml:space="preserve">
+    <value>Instance '{1}' does not know '{0}'</value>
+  </data>
+  <data name="ExceptionMasterPageNotExists" xml:space="preserve">
+    <value>Master page '{0}' of the page '{1}/{2}' does not exist</value>
+  </data>
+  <data name="ExceptionNotHexadecimal" xml:space="preserve">
+    <value>Incorrect hexadecimal format</value>
+  </data>
+  <data name="ExceptionNotHexadecimalChar" xml:space="preserve">
+    <value>Non hexadecimal char</value>
+  </data>
+  <data name="ExceptionPageNotCreated" xml:space="preserve">
+    <value>The page has not created</value>
+  </data>
+  <data name="ExceptionPathNotExists" xml:space="preserve">
+    <value>Path does not exist</value>
+  </data>
+  <data name="ExceptionProjectNotLoaded" xml:space="preserve">
+    <value>Failed to load project</value>
+  </data>
+  <data name="ExceptionToolNotCreated" xml:space="preserve">
+    <value>The tool has not created</value>
+  </data>
+  <data name="ExceptionToolNotExists" xml:space="preserve">
+    <value>Tool does not exist</value>
+  </data>
+  <data name="HorizontalAreaStringified" xml:space="preserve">
+    <value>Horizontal area - {0} - {1}</value>
+  </data>
+  <data name="IMAGE" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="MASTER_OBJECT" xml:space="preserve">
+    <value>Master object</value>
+  </data>
+  <data name="OUTIL" xml:space="preserve">
+    <value>Tool</value>
+  </data>
+  <data name="TEXTE" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="VerticalAreaStringified" xml:space="preserve">
+    <value>Vertical area - {0} - {1}x{2}</value>
+  </data>
+  <data name="MenuTutorial" xml:space="preserve">
+    <value>Interactive tutorial</value>
+  </data>
+  <data name="ConversionTitle" xml:space="preserve">
+    <value>Convert</value>
+  </data>
+</root>

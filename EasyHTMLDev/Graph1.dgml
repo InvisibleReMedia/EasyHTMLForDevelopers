@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="4a26cf9d-f083-408a-a173-2bb942c2c4ba1" Bounds="120.771689097087,-248.047349499259,637.556666666667,41.92" Label="J'ai obtenu deux listes triées dont les rectangles par rapport à X se chevauchent du plus près au plus éloigné sur l'axe&#xD;&#xA;horizontal et l'axe vertical." UseManualLocation="True" />
+    <Node Id="RechercheDesChevauchements" Bounds="42.000004755656,143.27931959447,215.276666666667,25.96" Label="Recherche des chevauchements de X" UseManualLocation="True" />
+    <Node Id="RechercheDu" Bounds="172.331697387695,-168.04078040553,478.66,281.32" Label="Pour une distance donnée où X intervient, le rectangle Y est soit à gauche,&#xD;&#xA;soit à droite de X. Quand le rectangle Y est à gauche de X alors la distance&#xD;&#xA;X - Y est positive et la distance Y - X est négative.&#xD;&#xA;Quand le rectangle Y est à droite de X alors la distance X - Y est négative et&#xD;&#xA;Y - X est positif.&#xD;&#xA;Si le rectangle X est le second terme alors l'équation vaut X - Y. Si le rectangle X&#xD;&#xA;est le premier terme alors l'équation vaut Y - X.&#xD;&#xA;L'ensemble des plus proches éléments de X est telle que la valeur absolue&#xD;&#xA;de la distance est triée du plus petit au plus grand.&#xD;&#xA;Si le rectangle X est le premier terme alors si Y est à gauche de X (Y-X&lt;0) et&#xD;&#xA;si Y + S - X &gt; 0 alors il y a chevauchement. Si Y est à droite de X (Y-X&gt;0) alors&#xD;&#xA;si Y - X - S &lt; 0 alors il y a chevauchement.&#xD;&#xA;Si le rectangle X est le second terme alors si Y est à gauche de X (X-Y&gt;0) et&#xD;&#xA;si X + S - Y &gt; 0 alors il y a chevauchement. Si Y est à droite de X (X-Y&lt;0) alors&#xD;&#xA;si X - Y - S &lt; 0 alors il y a chevauchement.&#xD;&#xA;Sachant que je conserve uniquement les chevauchements si l'index de X est plus grand&#xD;&#xA;que celui de Y et quand il y a un chevauchement." UseManualLocation="True" />
+    <Node Id="RechercheDuMinimumSurY" Bounds="-103.908309007385,-58.0166668701172,215.276666666667,41.92" Label="Recherche des chevauchements de X&#xD;&#xA;sur l'axe vertical" UseManualLocation="True" />
+    <Node Id="cacc7b6f-23e9-49a8-a998-0f686dd1b7351" Bounds="288.790854197424,-317.00744949926,320.093333333333,25.96" Label="Je crée autant de rectangles qu'il y a de chevauchements" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="4a26cf9d-f083-408a-a173-2bb942c2c4ba1" Target="cacc7b6f-23e9-49a8-a998-0f686dd1b7351" Bounds="442.080120093014,-282.112311423098,4.11200765934387,34.0649619238381" />
+    <Link Source="RechercheDu" Target="4a26cf9d-f083-408a-a173-2bb942c2c4ba1" Bounds="431.304374746802,-197.213841671173,4.07391673059698,29.173066219513" />
+    <Link Source="RechercheDuMinimumSurY" Target="4a26cf9d-f083-408a-a173-2bb942c2c4ba1" Bounds="27.2668533325195,-204.56428527832,284.568412780762,146.547618865967" />
+  </Links>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Comment" ValueLabel="Has comment">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>
