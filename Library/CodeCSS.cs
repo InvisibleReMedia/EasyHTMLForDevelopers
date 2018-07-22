@@ -9,113 +9,224 @@ using System.Text.RegularExpressions;
 
 namespace Library
 {
+    /// <summary>
+    /// Class to contain CSS keys
+    /// </summary>
     [Serializable]
-    public class CodeCSS : ICloneable
+    public class CodeCSS : Marshalling.PersistentDataObject, ICloneable
     {
-        private string ids;
-        private string backgroundImageURL;
-        private CSSColor backgroundColor;
-        private CSSColor borderLeftColor;
-        private CSSColor borderRightColor;
-        private CSSColor borderTopColor;
-        private CSSColor borderBottomColor;
-        private CSSColor foregroundColor;
-        private Rectangle padding = new Rectangle();
-        private Rectangle margin = new Rectangle();
-        private Rectangle border = new Rectangle();
-        private NameValueCollection body = new NameValueCollection();
 
+        #region Fields
+
+        /// <summary>
+        /// Index name for id
+        /// Usefull to customize html tag
+        /// </summary>
+        protected static readonly string idsName = "ids";
+        /// <summary>
+        /// Index name for an url background image
+        /// </summary>
+        protected static readonly string backgroundImageUrlName = "backgroundUrl";
+        /// <summary>
+        /// Index name for a background color
+        /// </summary>
+        protected static readonly string backgroundColorName = "backgroundColor";
+        /// <summary>
+        /// Index name for a border left color
+        /// </summary>
+        protected static readonly string borderLeftColorName = "borderLeftColor";
+        /// <summary>
+        /// Index name for a border right color
+        /// </summary>
+        protected static readonly string borderRightColorName = "borderRightColor";
+        /// <summary>
+        /// Index name for a border top color
+        /// </summary>
+        protected static readonly string borderTopColorName = "borderTopColor";
+        /// <summary>
+        /// Index name for a border bottom color
+        /// </summary>
+        protected static readonly string borderBottomColorName = "borderBottomColor";
+        /// <summary>
+        /// Index name for a foreground color
+        /// </summary>
+        protected static readonly string foregroundColorName = "foregroundColor";
+        /// <summary>
+        /// Index name for a padding
+        /// </summary>
+        protected static readonly string paddingName = "padding";
+        /// <summary>
+        /// Index name for a margin
+        /// </summary>
+        protected static readonly string marginName = "margin";
+        /// <summary>
+        /// Index name for a border
+        /// </summary>
+        protected static readonly string borderName = "border";
+        /// <summary>
+        /// Index name for the body
+        /// </summary>
+        protected static readonly string bodyName = "body";
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="code">css source</param>
         public CodeCSS(CodeCSS code)
         {
-            this.ids = ExtensionMethods.CloneThis(code.ids);
-            this.backgroundImageURL = ExtensionMethods.CloneThis(code.backgroundImageURL);
-            this.backgroundColor = ExtensionMethods.CloneThis(code.backgroundColor);
-            this.borderLeftColor = ExtensionMethods.CloneThis(code.borderLeftColor);
-            this.borderRightColor = ExtensionMethods.CloneThis(code.borderRightColor);
-            this.borderTopColor = ExtensionMethods.CloneThis(code.borderTopColor);
-            this.borderBottomColor = ExtensionMethods.CloneThis(code.borderBottomColor);
-            this.foregroundColor = ExtensionMethods.CloneThis(code.foregroundColor);
-            this.padding = ExtensionMethods.CloneThis(code.padding);
-            this.margin = ExtensionMethods.CloneThis(code.margin);
-            this.border = ExtensionMethods.CloneThis(code.border);
-            foreach (string key in code.body.AllKeys)
+            this.Ids = ExtensionMethods.CloneThis(code.Ids);
+            this.BackgroundImageURL = ExtensionMethods.CloneThis(code.BackgroundImageURL);
+            this.BackgroundColor = ExtensionMethods.CloneThis(code.BackgroundColor);
+            this.BorderLeftColor = ExtensionMethods.CloneThis(code.BorderLeftColor);
+            this.BorderRightColor = ExtensionMethods.CloneThis(code.BorderRightColor);
+            this.BorderTopColor = ExtensionMethods.CloneThis(code.BorderTopColor);
+            this.BorderBottomColor = ExtensionMethods.CloneThis(code.BorderBottomColor);
+            this.ForegroundColor = ExtensionMethods.CloneThis(code.ForegroundColor);
+            this.Padding = ExtensionMethods.CloneThis(code.Padding);
+            this.Margin = ExtensionMethods.CloneThis(code.Margin);
+            this.Border = ExtensionMethods.CloneThis(code.Border);
+            foreach (string key in code.Body.AllKeys)
             {
-                this.body.Add(key, code.body[key]);
+                this.Body.Add(key, code.Body[key]);
             }
         }
 
-        public CodeCSS(string id) { this.ids = id; }
+        /// <summary>
+        /// Constructor with a specific Id of html tag
+        /// </summary>
+        /// <param name="id">html tag id</param>
+        public CodeCSS(string id) { this.Ids = id; }
 
-        public CodeCSS() { this.ids = "#body"; }
+        /// <summary>
+        /// Default constructor (addressed for the body of page)
+        /// </summary>
+        public CodeCSS() { this.Ids = "#body"; }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets Id command
+        /// CSS v3 valid declaration with multiple id
+        /// </summary>
         public string Ids
         {
-            get { return this.ids; }
-            set { this.ids = value.Trim(); }
+            get { return this.Get(idsName); }
+            set { this.Set(idsName, value.Trim()); }
         }
 
+        /// <summary>
+        /// Collection of CSS properties
+        /// </summary>
         public NameValueCollection Body
         {
-            get { return this.body; }
+            get { return this.Get(bodyName, new NameValueCollection()); }
         }
 
+        /// <summary>
+        /// Gets or sets the padding rectangle
+        /// </summary>
         public Rectangle Padding
         {
-            get { return this.padding; }
-            set { this.padding = value; }
+            get { return this.Get(paddingName, new Rectangle()); }
+            set { this.Set(paddingName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets margin rectangle
+        /// </summary>
         public Rectangle Margin
         {
-            get { return this.margin; }
-            set { this.margin = value; }
+            get { return this.Get(marginName, new Rectangle()); }
+            set { this.Set(marginName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets border rectangle
+        /// </summary>
         public Rectangle Border
         {
-            get { return this.border; }
-            set { this.border = value; }
+            get { return this.Get(borderName, new Rectangle()); }
+            set { this.Set(borderName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the background url
+        /// </summary>
         public string BackgroundImageURL
         {
-            get { return this.backgroundImageURL; }
-            set { this.backgroundImageURL = value; }
+            get { return this.Get(backgroundImageUrlName, ""); }
+            set { this.Set(backgroundImageUrlName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the background color
+        /// </summary>
         public CSSColor BackgroundColor
         {
-            get { return this.backgroundColor; }
-            set { this.backgroundColor = value; }
+            get { return this.Get(backgroundColorName, new CSSColor()); }
+            set { this.Set(backgroundColorName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the foreground color
+        /// </summary>
         public CSSColor ForegroundColor
         {
-            get { return this.foregroundColor; }
-            set { this.foregroundColor = value; }
+            get { return this.Get(foregroundColorName, new CSSColor()); }
+            set { this.Set(foregroundColorName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the border left color
+        /// </summary>
         public CSSColor BorderLeftColor
         {
-            get { return this.borderLeftColor; }
-            set { this.borderLeftColor = value; }
-        }
-        public CSSColor BorderRightColor
-        {
-            get { return this.borderRightColor; }
-            set { this.borderRightColor = value; }
-        }
-        public CSSColor BorderTopColor
-        {
-            get { return this.borderTopColor; }
-            set { this.borderTopColor = value; }
-        }
-        public CSSColor BorderBottomColor
-        {
-            get { return this.borderBottomColor; }
-            set { this.borderBottomColor = value; }
+            get { return this.Get(borderLeftColorName, new CSSColor()); }
+            set { this.Set(borderLeftColorName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the border right color
+        /// </summary>
+        public CSSColor BorderRightColor
+        {
+            get { return this.Get(borderRightColorName, new CSSColor()); }
+            set { this.Set(borderRightColorName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the border top color
+        /// </summary>
+        public CSSColor BorderTopColor
+        {
+            get { return this.Get(borderTopColorName, new CSSColor()); }
+            set { this.Set(borderTopColorName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the border bottom color
+        /// </summary>
+        public CSSColor BorderBottomColor
+        {
+            get { return this.Get(borderBottomColorName, new CSSColor()); }
+            set { this.Set(borderBottomColorName, value); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Add a property value to the CSS body
+        /// </summary>
+        /// <param name="name">property name</param>
+        /// <param name="value">property value</param>
         public void AddIntoBody(string name, string value)
         {
             if (this.Body.AllKeys.Contains(name))
@@ -128,6 +239,11 @@ namespace Library
             }
         }
 
+        /// <summary>
+        /// Sets a property that can be border, padding, margin and colors
+        /// </summary>
+        /// <param name="name">property name</param>
+        /// <param name="value">value to set</param>
         public void Discret(string name, string value)
         {
             try
@@ -136,19 +252,19 @@ namespace Library
                 {
                     if (name.CompareTo("padding-left") == 0)
                     {
-                        this.padding.Set(Rectangle.leftName, value);
+                        this.Padding.Set(Rectangle.leftName, value);
                     }
                     else if (name.CompareTo("padding-right") == 0)
                     {
-                        this.padding.Set(Rectangle.rightName, value);
+                        this.Padding.Set(Rectangle.rightName, value);
                     }
                     else if (name.CompareTo("padding-top") == 0)
                     {
-                        this.padding.Set(Rectangle.topName, value);
+                        this.Padding.Set(Rectangle.topName, value);
                     }
                     else if (name.CompareTo("padding-bottom") == 0)
                     {
-                        this.padding.Set(Rectangle.bottomName, value);
+                        this.Padding.Set(Rectangle.bottomName, value);
                     }
                     else
                     {
@@ -159,35 +275,35 @@ namespace Library
                 {
                     if (name.CompareTo("border-left-width") == 0)
                     {
-                        this.border.Set(Rectangle.leftName, value);
+                        this.Border.Set(Rectangle.leftName, value);
                     }
                     else if (name.CompareTo("border-right-width") == 0)
                     {
-                        this.border.Set(Rectangle.rightName, value);
+                        this.Border.Set(Rectangle.rightName, value);
                     }
                     else if (name.CompareTo("border-top-width") == 0)
                     {
-                        this.border.Set(Rectangle.topName, value);
+                        this.Border.Set(Rectangle.topName, value);
                     }
                     else if (name.CompareTo("border-bottom-width") == 0)
                     {
-                        this.border.Set(Rectangle.bottomName, value);
+                        this.Border.Set(Rectangle.bottomName, value);
                     }
                     else if (name.CompareTo("border-left-color") == 0)
                     {
-                        this.borderLeftColor = new CSSColor(value);
+                        this.BorderLeftColor = new CSSColor(value);
                     }
                     else if (name.CompareTo("border-right-color") == 0)
                     {
-                        this.borderRightColor = new CSSColor(value);
+                        this.BorderRightColor = new CSSColor(value);
                     }
                     else if (name.CompareTo("border-top-color") == 0)
                     {
-                        this.borderTopColor = new CSSColor(value);
+                        this.BorderTopColor = new CSSColor(value);
                     }
                     else if (name.CompareTo("border-bottom-color") == 0)
                     {
-                        this.borderBottomColor = new CSSColor(value);
+                        this.BorderBottomColor = new CSSColor(value);
                     }
                     else
                     {
@@ -198,19 +314,19 @@ namespace Library
                 {
                     if (name.CompareTo("margin-left") == 0)
                     {
-                        this.margin.Set(Rectangle.leftName, value);
+                        this.Margin.Set(Rectangle.leftName, value);
                     }
                     else if (name.CompareTo("margin-right") == 0)
                     {
-                        this.margin.Set(Rectangle.rightName, value);
+                        this.Margin.Set(Rectangle.rightName, value);
                     }
                     else if (name.CompareTo("margin-top") == 0)
                     {
-                        this.margin.Set(Rectangle.topName, value);
+                        this.Margin.Set(Rectangle.topName, value);
                     }
                     else if (name.CompareTo("margin-bottom") == 0)
                     {
-                        this.margin.Set(Rectangle.bottomName, value);
+                        this.Margin.Set(Rectangle.bottomName, value);
                     }
                     else
                     {
@@ -219,11 +335,11 @@ namespace Library
                 }
                 else if (name.CompareTo("background-color") == 0)
                 {
-                    this.backgroundColor = new CSSColor(value);
+                    this.BackgroundColor = new CSSColor(value);
                 }
                 else if (name.CompareTo("color") == 0)
                 {
-                    this.foregroundColor = new CSSColor(value);
+                    this.ForegroundColor = new CSSColor(value);
                 }
                 else
                 {
@@ -236,89 +352,101 @@ namespace Library
             }
         }
 
+        /// <summary>
+        /// Test if a key exists into body
+        /// </summary>
+        /// <param name="key">key to search</param>
+        /// <returns>true of false</returns>
         public bool IsBodyKey(string key)
         {
-            return this.body.AllKeys.Contains(key);
+            return this.Body.AllKeys.Contains(key);
         }
 
+        /// <summary>
+        /// Generates the CSS code
+        /// </summary>
+        /// <param name="addDefaultKeys">add default keys</param>
+        /// <param name="displayId">display id and print properties into</param>
+        /// <param name="resolveConfig">transforms configuration keys to values</param>
+        /// <returns>css string generated code output</returns>
         public string GenerateCSS(bool addDefaultKeys, bool displayId, bool resolveConfig=false)
         {
             string output = String.Empty;
             string data = String.Empty;
-            if ((displayId && !String.IsNullOrEmpty(this.ids)) || !displayId)
+            if ((displayId && !String.IsNullOrEmpty(this.Ids)) || !displayId)
             {
                 if (addDefaultKeys)
                 {
-                    if (!this.padding.IsEmpty() && !this.IsBodyKey("padding"))
+                    if (!this.Padding.IsEmpty() && !this.IsBodyKey("padding"))
                     {
-                        if (!this.IsBodyKey("padding-left")) data += "padding-left:" + this.padding.Left.ToString() + "px;" + Environment.NewLine;
-                        if (!this.IsBodyKey("padding-right")) data += "padding-right:" + this.padding.Right.ToString() + "px;" + Environment.NewLine;
-                        if (!this.IsBodyKey("padding-top")) data += "padding-top:" + this.padding.Top.ToString() + "px;" + Environment.NewLine;
-                        if (!this.IsBodyKey("padding-bottom")) data += "padding-bottom:" + this.padding.Bottom.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("padding-left")) data += "padding-left:" + this.Padding.Left.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("padding-right")) data += "padding-right:" + this.Padding.Right.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("padding-top")) data += "padding-top:" + this.Padding.Top.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("padding-bottom")) data += "padding-bottom:" + this.Padding.Bottom.ToString() + "px;" + Environment.NewLine;
                     }
-                    if (!this.margin.IsEmpty() && !this.IsBodyKey("margin"))
+                    if (!this.Margin.IsEmpty() && !this.IsBodyKey("margin"))
                     {
-                        if (!this.IsBodyKey("margin-left")) data += "margin-left:" + this.margin.Left.ToString() + "px;" + Environment.NewLine;
-                        if (!this.IsBodyKey("margin-right")) data += "margin-right:" + this.margin.Right.ToString() + "px;" + Environment.NewLine;
-                        if (!this.IsBodyKey("margin-top")) data += "margin-top:" + this.margin.Top.ToString() + "px;" + Environment.NewLine;
-                        if (!this.IsBodyKey("margin-bottom")) data += "margin-bottom:" + this.margin.Bottom.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("margin-left")) data += "margin-left:" + this.Margin.Left.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("margin-right")) data += "margin-right:" + this.Margin.Right.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("margin-top")) data += "margin-top:" + this.Margin.Top.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("margin-bottom")) data += "margin-bottom:" + this.Margin.Bottom.ToString() + "px;" + Environment.NewLine;
                     }
-                    if (!this.border.IsEmpty() && !this.IsBodyKey("border"))
+                    if (!this.Border.IsEmpty() && !this.IsBodyKey("border"))
                     {
                         if (!this.IsBodyKey("border-style")) data += "border-style:solid;" + Environment.NewLine;
-                        if (!this.IsBodyKey("border-left-width")) data += "border-left-width:" + this.border.Left.ToString() + "px;" + Environment.NewLine;
-                        if (!this.IsBodyKey("border-right-width")) data += "border-right-width:" + this.border.Right.ToString() + "px;" + Environment.NewLine;
-                        if (!this.IsBodyKey("border-top-width")) data += "border-top-width:" + this.border.Top.ToString() + "px;" + Environment.NewLine;
-                        if (!this.IsBodyKey("border-bottom-width")) data += "border-bottom-width:" + this.border.Bottom.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("border-left-width")) data += "border-left-width:" + this.Border.Left.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("border-right-width")) data += "border-right-width:" + this.Border.Right.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("border-top-width")) data += "border-top-width:" + this.Border.Top.ToString() + "px;" + Environment.NewLine;
+                        if (!this.IsBodyKey("border-bottom-width")) data += "border-bottom-width:" + this.Border.Bottom.ToString() + "px;" + Environment.NewLine;
                     }
-                    if (!String.IsNullOrEmpty(this.backgroundImageURL))
-                        if (!this.IsBodyKey("background-image")) { data += "background-image:url('" + this.backgroundImageURL + "');" + Environment.NewLine; }
-                    if (!CSSColor.TryEmpty(this.backgroundColor))
+                    if (!String.IsNullOrEmpty(this.BackgroundImageURL))
+                        if (!this.IsBodyKey("background-image")) { data += "background-image:url('" + this.BackgroundImageURL + "');" + Environment.NewLine; }
+                    if (!this.BackgroundColor.IsEmpty)
                         if (!this.IsBodyKey("background-color")) 
-                            if (this.backgroundColor.Color.A != 255)
-                                data += "background-color:rgba(" + this.backgroundColor.Color.R.ToString() + "," + this.backgroundColor.Color.G.ToString() + "," + this.backgroundColor.Color.B.ToString() + "," + (this.backgroundColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
+                            if (this.BackgroundColor.Color.A != 255)
+                                data += "background-color:rgba(" + this.BackgroundColor.Color.R.ToString() + "," + this.BackgroundColor.Color.G.ToString() + "," + this.BackgroundColor.Color.B.ToString() + "," + (this.BackgroundColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
                             else
-                            data += "background-color:rgb(" + this.backgroundColor.Color.R.ToString() + "," + this.backgroundColor.Color.G.ToString() + "," + this.backgroundColor.Color.B.ToString() + ");" + Environment.NewLine;
-                    if (!CSSColor.TryEmpty(this.BorderLeftColor))
+                            data += "background-color:rgb(" + this.BackgroundColor.Color.R.ToString() + "," + this.BackgroundColor.Color.G.ToString() + "," + this.BackgroundColor.Color.B.ToString() + ");" + Environment.NewLine;
+                    if (!this.BorderLeftColor.IsEmpty)
                         if (!this.IsBodyKey("border-left-color"))
-                            if (this.borderLeftColor.Color.A != 255)
-                                data += "border-left-color:rgba(" + this.borderLeftColor.Color.R.ToString() + "," + this.borderLeftColor.Color.G.ToString() + "," + this.borderLeftColor.Color.B.ToString() + "," + (this.borderLeftColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
+                            if (this.BorderLeftColor.Color.A != 255)
+                                data += "border-left-color:rgba(" + this.BorderLeftColor.Color.R.ToString() + "," + this.BorderLeftColor.Color.G.ToString() + "," + this.BorderLeftColor.Color.B.ToString() + "," + (this.BorderLeftColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
                             else
-                                data += "border-left-color:rgb(" + this.borderLeftColor.Color.R.ToString() + "," + this.borderLeftColor.Color.G.ToString() + "," + this.borderLeftColor.Color.B.ToString() + ");" + Environment.NewLine;
-                    if (!CSSColor.TryEmpty(this.BorderRightColor))
+                                data += "border-left-color:rgb(" + this.BorderLeftColor.Color.R.ToString() + "," + this.BorderLeftColor.Color.G.ToString() + "," + this.BorderLeftColor.Color.B.ToString() + ");" + Environment.NewLine;
+                    if (!this.BorderRightColor.IsEmpty)
                         if (!this.IsBodyKey("border-right-color"))
-                            if (this.borderRightColor.Color.A != 255)
-                                data += "border-right-color:rgba(" + this.borderRightColor.Color.R.ToString() + "," + this.borderRightColor.Color.G.ToString() + "," + this.borderRightColor.Color.B.ToString() + "," + (this.borderRightColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
+                            if (this.BorderRightColor.Color.A != 255)
+                                data += "border-right-color:rgba(" + this.BorderRightColor.Color.R.ToString() + "," + this.BorderRightColor.Color.G.ToString() + "," + this.BorderRightColor.Color.B.ToString() + "," + (this.BorderRightColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
                             else
-                                data += "border-right-color:rgb(" + this.borderRightColor.Color.R.ToString() + "," + this.borderRightColor.Color.G.ToString() + "," + this.borderRightColor.Color.B.ToString() + ");" + Environment.NewLine;
-                    if (!CSSColor.TryEmpty(this.BorderTopColor))
+                                data += "border-right-color:rgb(" + this.BorderRightColor.Color.R.ToString() + "," + this.BorderRightColor.Color.G.ToString() + "," + this.BorderRightColor.Color.B.ToString() + ");" + Environment.NewLine;
+                    if (!this.BorderTopColor.IsEmpty)
                         if (!this.IsBodyKey("border-top-color"))
-                            if (this.borderTopColor.Color.A != 255)
-                                data += "border-top-color:rgba(" + this.borderTopColor.Color.R.ToString() + "," + this.borderTopColor.Color.G.ToString() + "," + this.borderTopColor.Color.B.ToString() + "," + (this.borderTopColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
+                            if (this.BorderTopColor.Color.A != 255)
+                                data += "border-top-color:rgba(" + this.BorderTopColor.Color.R.ToString() + "," + this.BorderTopColor.Color.G.ToString() + "," + this.BorderTopColor.Color.B.ToString() + "," + (this.BorderTopColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
                             else
-                                data += "border-top-color:rgb(" + this.borderTopColor.Color.R.ToString() + "," + this.borderTopColor.Color.G.ToString() + "," + this.borderTopColor.Color.B.ToString() + ");" + Environment.NewLine;
-                    if (!CSSColor.TryEmpty(this.BorderBottomColor))
+                                data += "border-top-color:rgb(" + this.BorderTopColor.Color.R.ToString() + "," + this.BorderTopColor.Color.G.ToString() + "," + this.BorderTopColor.Color.B.ToString() + ");" + Environment.NewLine;
+                    if (!this.BorderBottomColor.IsEmpty)
                         if (!this.IsBodyKey("border-bottom-color"))
-                            if (this.borderBottomColor.Color.A != 255)
-                                data += "border-bottom-color:rgba(" + this.borderBottomColor.Color.R.ToString() + "," + this.borderBottomColor.Color.G.ToString() + "," + this.borderBottomColor.Color.B.ToString() + "," + (this.borderBottomColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
+                            if (this.BorderBottomColor.Color.A != 255)
+                                data += "border-bottom-color:rgba(" + this.BorderBottomColor.Color.R.ToString() + "," + this.BorderBottomColor.Color.G.ToString() + "," + this.BorderBottomColor.Color.B.ToString() + "," + (this.BorderBottomColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
                             else
-                                data += "border-bottom-color:rgb(" + this.borderBottomColor.Color.R.ToString() + "," + this.borderBottomColor.Color.G.ToString() + "," + this.borderBottomColor.Color.B.ToString() + ");" + Environment.NewLine;
-                    if (!CSSColor.TryEmpty(this.foregroundColor))
+                                data += "border-bottom-color:rgb(" + this.BorderBottomColor.Color.R.ToString() + "," + this.BorderBottomColor.Color.G.ToString() + "," + this.BorderBottomColor.Color.B.ToString() + ");" + Environment.NewLine;
+                    if (!this.ForegroundColor.IsEmpty)
                         if (!this.IsBodyKey("color"))
-                            if (this.foregroundColor.Color.A != 255)
-                                data += "color:rgba(" + this.foregroundColor.Color.R.ToString() + "," + this.foregroundColor.Color.G.ToString() + "," + this.foregroundColor.Color.B.ToString() + "," + (this.foregroundColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
+                            if (this.ForegroundColor.Color.A != 255)
+                                data += "color:rgba(" + this.ForegroundColor.Color.R.ToString() + "," + this.ForegroundColor.Color.G.ToString() + "," + this.ForegroundColor.Color.B.ToString() + "," + (this.ForegroundColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
                             else
-                                data += "color:rgb(" + this.foregroundColor.Color.R.ToString() + "," + this.foregroundColor.Color.G.ToString() + "," + this.foregroundColor.Color.B.ToString() + ");" + Environment.NewLine;
+                                data += "color:rgb(" + this.ForegroundColor.Color.R.ToString() + "," + this.ForegroundColor.Color.G.ToString() + "," + this.ForegroundColor.Color.B.ToString() + ");" + Environment.NewLine;
                 }
-                foreach (string key in body.AllKeys)
+                foreach (string key in Body.AllKeys)
                 {
-                    if (!String.IsNullOrEmpty(body[key]))
+                    if (!String.IsNullOrEmpty(Body[key]))
                     {
-                        data += key + ":" + body[key] + ";" + Environment.NewLine;
+                        data += key + ":" + Body[key] + ";" + Environment.NewLine;
                     }
                 }
                 if (displayId)
-                    output += this.ids + "{" + Environment.NewLine;
+                    output += this.Ids + "{" + Environment.NewLine;
                 if (addDefaultKeys || !String.IsNullOrEmpty(data))
                 {
                     output += data;
@@ -332,9 +460,15 @@ namespace Library
                 return output;
         }
 
+        /// <summary>
+        /// Clone this object
+        /// </summary>
+        /// <returns>cloned object</returns>
         public object Clone()
         {
             return new CodeCSS(this);
         }
+
+        #endregion
     }
 }

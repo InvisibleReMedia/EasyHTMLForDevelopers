@@ -8,41 +8,87 @@ using System.Threading.Tasks;
 
 namespace Library
 {
+    /// <summary>
+    /// Keep a color
+    /// </summary>
     [Serializable]
-    public class CSSColor : ICloneable
+    public class CSSColor : Marshalling.PersistentDataObject, ICloneable
     {
+
         #region Private Fields
-        private Color? color;
+
+        /// <summary>
+        /// Index name for color
+        /// </summary>
+        protected static readonly string colorName = "color";
+
         #endregion
 
         #region Public Constructors
+
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public CSSColor()
         {
-            this.color = null;
         }
 
+        /// <summary>
+        /// Constructor with a specific color
+        /// </summary>
+        /// <param name="c"></param>
         public CSSColor(Color c)
         {
-            this.color = c;
+            this.Set(colorName, c);
         }
 
+        /// <summary>
+        /// Constructor with a string representation of a color
+        /// </summary>
+        /// <param name="colorStr">color</param>
         public CSSColor(string colorStr)
         {
-            this.color = CSSColor.ParseColor(colorStr).Color;
+            this.Set(colorName, CSSColor.ParseColor(colorStr).Color);
         }
+
         #endregion
 
         #region Public Properties
-        public Color Color { get { if (this.color != null && this.color.HasValue) return this.color.Value; else return Color.Transparent; } }
-        public bool IsEmpty { get { return this.color == null || !this.color.HasValue; } }
+
+        /// <summary>
+        /// Gets the color
+        /// </summary>
+        public Color Color
+        {
+            get
+            {
+                if (this.Get(colorName) != null)
+                    return this.Get(colorName);
+                else
+                    return System.Drawing.Color.Transparent;
+            }
+        }
+
+        /// <summary>
+        /// Gets if this object has a setted color
+        /// </summary>
+        public bool IsEmpty
+        {
+            get
+            {
+                return this.Get(colorName) == null;
+            }
+        }
+
         #endregion
 
         #region Public Static Methods
-        public static bool TryEmpty(CSSColor c)
-        {
-            return (c == null || c.IsEmpty);
-        }
 
+        /// <summary>
+        /// Parse color and return a new CSSColor
+        /// </summary>
+        /// <param name="colorValue">color value to parse</param>
+        /// <returns>object result</returns>
         public static CSSColor ParseColor(string colorValue)
         {
             Regex rg = new Regex(@"(#(([0-9a-f][0-9a-f]){3,4}))|(rgba\((([0-9]|\s)+),(([0-9]|\s)+),(([0-9]|\s)+),(([0-9]|\s)+)\))|(#\([^)]+\))|([a-z0-9]+)", RegexOptions.IgnoreCase);
@@ -97,6 +143,13 @@ namespace Library
                 throw new FormatException();
         }
 
+        /// <summary>
+        /// Try Parse : a same parsing fonction but
+        /// do not raise an exception : return true if succeeded; the color result is a param out
+        /// </summary>
+        /// <param name="s">color value string</param>
+        /// <param name="c">color solution</param>
+        /// <returns>true if succeeded</returns>
         public static bool TryParse(string s, out CSSColor c)
         {
             bool res = false;
@@ -112,18 +165,19 @@ namespace Library
             }
             return res;
         }
+
         #endregion
 
+        /// <summary>
+        /// Clone the object
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
-            if (this.color != null && this.color.HasValue)
-            {
-                return new CSSColor(this.color.Value);
-            }
-            else
-            {
+            if (this.IsEmpty)
                 return new CSSColor();
-            }
+            else
+                return new CSSColor(this.Color);
         }
     }
 }

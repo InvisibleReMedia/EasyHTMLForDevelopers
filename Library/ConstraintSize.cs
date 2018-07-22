@@ -5,14 +5,50 @@ using System.Text;
 
 namespace Library
 {
+
+    /// <summary>
+    /// Set of elements to compute size
+    /// with respect of constraint enumeration
+    /// </summary>
     public struct ConstraintSize
     {
+
+        #region Fields
+
+        /// <summary>
+        /// Constraint with and height
+        /// </summary>
         public EnumConstraint constraintWidth, constraintHeight;
+        /// <summary>
+        /// Width and height size
+        /// </summary>
         public uint width, height;
+        /// <summary>
+        /// Width and height string representation
+        /// </summary>
         public string widthString, heightString;
+        /// <summary>
+        /// Width and height attributes
+        /// </summary>
         public string attributeWidth, attributeHeight;
+        /// <summary>
+        /// force Width and height values
+        /// </summary>
         public uint forcedWidth, forcedHeight;
 
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="constraintWidth">constraint width enumeration</param>
+        /// <param name="width">width size</param>
+        /// <param name="preceding_width">width size outbox</param>
+        /// <param name="constraintHeight">constraint height enumeration</param>
+        /// <param name="height">height size</param>
+        /// <param name="preceding_height">height size outbox</param>
         public ConstraintSize(EnumConstraint constraintWidth, uint width, uint preceding_width, EnumConstraint constraintHeight, uint height, uint preceding_height)
         {
             this.constraintWidth = constraintWidth;
@@ -79,6 +115,15 @@ namespace Library
             }
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Compute the string representation
+        /// respect to constraint enumeration
+        /// </summary>
+        /// <returns>string form</returns>
         public string ComputeStyle()
         {
             string output = String.Empty;
@@ -90,5 +135,7 @@ namespace Library
                 output = "style='cursor:pointer;" + output + "'";
             return output;
         }
+
+        #endregion
     }
 }

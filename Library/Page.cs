@@ -6,19 +6,56 @@ using System.ComponentModel;
 
 namespace Library
 {
+    /// <summary>
+    /// A page is a complete HTML Page (it generates a complete file)
+    /// </summary>
     [Serializable]
-    public class Page : IContainer, IProjectElement, IGenerateDesign, IGenerateProduction, ICloneable
+    public class Page : Marshalling.PersistentDataObject, IContainer, IProjectElement, IGenerateDesign, IGenerateProduction, ICloneable
     {
-        #region Private Fields
 
-        private Disposition disposition;
-        private EnumConstraint constraintWidth, constraintHeight;
-        private string name;
-        private string masterPageName;
-        private uint width;
-        private uint height;
-        private List<HTMLObject> objects = new List<HTMLObject>();
-        private Folder folder;
+        #region Fields
+
+        /// <summary>
+        /// Index name for unique id
+        /// </summary>
+        protected static readonly string uniqueName = "unique";
+        /// <summary>
+        /// Index name for disposition
+        /// </summary>
+        protected static readonly string dispositionName = "disposition";
+        /// <summary>
+        /// Index name for width constraint
+        /// </summary>
+        protected static readonly string constraintWidthName = "constraintWidth";
+        /// <summary>
+        /// Index name for height constraint
+        /// </summary>
+        protected static readonly string constraintHeightName = "constraintHeight";
+        /// <summary>
+        /// Index name for automatic name
+        /// </summary>
+        protected static readonly string nameName = "name";
+        /// <summary>
+        /// Index name for related master page name
+        /// </summary>
+        protected static readonly string masterPageNameName = "masterPageName";
+        /// <summary>
+        /// Index name for width value
+        /// </summary>
+        protected static readonly string widthName = "width";
+        /// <summary>
+        /// Index name for height value
+        /// </summary>
+        protected static readonly string heightName = "height";
+        /// <summary>
+        /// Index name for its own objects
+        /// </summary>
+        protected static readonly string objectListName = "objects";
+        /// <summary>
+        /// Index name for the hosted folder
+        /// </summary>
+        protected static readonly string folderObjectName = "folder";
+
         [NonSerialized]
         private OutputHTML specificOutput;
 
@@ -26,132 +63,181 @@ namespace Library
 
         #region Public Constructor
 
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public Page()
         {
-            this.folder = null;
+            this.Set(folderObjectName, null);
         }
 
-        public Page(Folder ancestor)
-        {
-            this.folder = ancestor;
-        }
-
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="refp">input page</param>
         private Page(Page refp)
         {
-            this.disposition = refp.disposition;
-            this.constraintWidth = refp.constraintWidth;
-            this.constraintHeight = refp.constraintHeight;
-            this.name = ExtensionMethods.CloneThis(refp.name);
-            this.masterPageName = ExtensionMethods.CloneThis(refp.masterPageName);
-            this.width = refp.width;
-            this.height = refp.height;
-            foreach (HTMLObject obj in refp.objects)
+            this.Disposition = refp.Disposition;
+            this.ConstraintWidth = refp.ConstraintWidth;
+            this.ConstraintHeight = refp.ConstraintHeight;
+            this.Name = ExtensionMethods.CloneThis(refp.Name);
+            this.MasterPageName = ExtensionMethods.CloneThis(refp.MasterPageName);
+            this.Width = refp.Width;
+            this.Height = refp.Height;
+            foreach (HTMLObject obj in refp.Objects)
             {
-                this.objects.Add(obj.Clone() as HTMLObject);
+                this.Objects.Add(obj.Clone() as HTMLObject);
             }
-            this.folder = ExtensionMethods.CloneThis(refp.folder);
         }
 
         #endregion
 
         #region Public Properties
 
-        public Disposition Disposition
+        /// <summary>
+        /// Gets or sets the unique id
+        /// </summary>
+        public string Unique
         {
-            get { return this.disposition; }
-            set { this.disposition = value; }
+            get { return this.Get(uniqueName); }
+            set { this.Set(uniqueName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the disposition
+        /// </summary>
+        public Disposition Disposition
+        {
+            get { return this.Get(dispositionName, new Disposition()); }
+            set { this.Set(dispositionName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the disposition text
+        /// </summary>
         public string DispositionText
         {
-            get { return this.disposition.ToString(); }
+            get { return this.Disposition.ToString(); }
             set
             {
-                Enum.TryParse(value, out this.disposition);
+                Disposition d;
+                if (Enum.TryParse(value, out d))
+                    this.Disposition = d;
             }
         }
 
+        /// <summary>
+        /// Gets or sets the width constraint
+        /// </summary>
         public EnumConstraint ConstraintWidth
         {
-            get { return this.constraintWidth; }
-            set { this.constraintWidth = value; }
+            get { return this.Get(constraintWidthName, EnumConstraint.AUTO); }
+            set { this.Set(constraintWidthName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the height constraint
+        /// </summary>
         public EnumConstraint ConstraintHeight
         {
-            get { return this.constraintHeight; }
-            set { this.constraintHeight = value; }
+            get { return this.Get(constraintHeightName, EnumConstraint.AUTO); }
+            set { this.Set(constraintHeightName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the width value
+        /// </summary>
         public uint Width
         {
-            get { return this.width; }
-            set { this.width = value; }
+            get { return this.Get(widthName, 0u); }
+            set { this.Set(widthName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the height value
+        /// </summary>
         public uint Height
         {
-            get { return this.height; }
-            set { this.height = value; }
+            get { return this.Get(heightName, 0u); }
+            set { this.Set(heightName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the name of this page
+        /// </summary>
         public string Name
         {
-            get { return this.name; }
-            set { this.name = value; }
+            get { return this.Get(nameName, ""); }
+            set { this.Get(nameName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the master page name
+        /// </summary>
         public string MasterPageName
         {
-            get { return this.masterPageName; }
-            set { this.masterPageName = value; }
+            get { return this.Get(masterPageNameName, ""); }
+            set { this.Set(masterPageNameName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a specific output
+        /// </summary>
         public OutputHTML SpecificOutput
         {
             get { return this.specificOutput; }
             set { this.specificOutput = value; }
         }
 
+        /// <summary>
+        /// Gets objects hosted by this page
+        /// </summary>
         public List<HTMLObject> Objects
         {
-            get { return this.objects; }
+            get { return this.Get(objectListName, new List<HTMLObject>()); }
         }
 
-        public Folder Ancestor
+        /// <summary>
+        /// Gets the type name
+        /// </summary>
+        public string TypeName
         {
-            get { return this.folder; }
-            set { this.folder = value; }
+            get { return "Page"; }
         }
 
-        public string Path
+        /// <summary>
+        /// Gets the element title
+        /// </summary>
+        public string ElementTitle
         {
-            get
-            {
-                string output = String.Empty;
-                Folder current = this.folder;
-                while (current.Ancestor != null)
-                {
-                    if (!String.IsNullOrEmpty(output))
-                        output = current.Name + "/" + output;
-                    else
-                        output = current.Name;
-                    current = current.Ancestor;
-                }
-                return output + (!String.IsNullOrEmpty(output) ? "/" : "");
-            }
+            get { return this.Name; }
         }
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Search a container from container list
+        /// </summary>
+        /// <param name="containers">all containers</param>
+        /// <param name="searchName">container name to search</param>
+        /// <param name="found">container</param>
+        /// <returns>true if a container has found</returns>
         public bool SearchContainer(List<IContainer> containers, string searchName, out IContainer found)
         {
             List<IContent> contents = new List<IContent>(this.Objects.Cast<IContent>());
             return this.SearchContainer(containers, contents, searchName, out found);
         }
 
+        /// <summary>
+        /// Search a container from a list of containers and a list of contents
+        /// </summary>
+        /// <param name="containers">list of container</param>
+        /// <param name="objects">list of objects</param>
+        /// <param name="searchName">container name to search</param>
+        /// <param name="found">container</param>
+        /// <returns>true if a container has found</returns>
         public bool SearchContainer(List<IContainer> containers, List<IContent> objects, string searchName, out IContainer found)
         {
             found = null;
@@ -167,9 +253,15 @@ namespace Library
             return done;
         }
 
+        /// <summary>
+        /// Generate page for design
+        /// A page is the top-level of generation
+        /// so, this function works with no argument
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign()
         {
-            MasterPage selectedMp = Project.CurrentProject.MasterPages.Find(mp => { return mp.Name == this.masterPageName; });
+            MasterPage selectedMp = Project.CurrentProject.MasterPages.Find(mp => { return mp.Name == this.MasterPageName; });
             if (selectedMp != null)
             {
                 OutputHTML output = selectedMp.GenerateDesign(this);
@@ -177,39 +269,82 @@ namespace Library
             }
             else
             {
-                throw new KeyNotFoundException(String.Format(Localization.Strings.GetString("ExceptionMasterPageNotExists"), this.MasterPageName, this.Path, this.Name));
+                throw new KeyNotFoundException(String.Format(Localization.Strings.GetString("ExceptionMasterPageNotExists"), this.MasterPageName, this.Name));
             }
         }
 
+        /// <summary>
+        /// Generate page from a referenced page
+        /// As a page is the top-level of generation, no other page is generated
+        /// </summary>
+        /// <param name="refPage"></param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate page for design
+        /// A page is the top-level of generation, so any argument is not needed
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate page for design
+        /// A page is the top-level of generation, so any argument is not needed
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">object list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
 
+        /// <summary>
+        /// Generate page for design
+        /// A page is the top-level of generation, so any argument is not needed
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="objects">object list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate a thumbnail of a page
+        /// This function should be implemented
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateThumbnail()
         {
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+        /// Generate page for actual website
+        /// A page is the top-level of generation
+        /// so, this function works with no argument
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProduction()
         {
-            MasterPage selectedMp = Project.CurrentProject.MasterPages.Find(mp => { return mp.Name == this.masterPageName; });
+            MasterPage selectedMp = Project.CurrentProject.MasterPages.Find(mp => { return mp.Name == this.MasterPageName; });
             if (selectedMp != null)
             {
                 OutputHTML output = selectedMp.GenerateProduction(this);
@@ -217,35 +352,52 @@ namespace Library
             }
             else
             {
-                throw new KeyNotFoundException(String.Format(Localization.Strings.GetString("ExceptionMasterPageNotExists"), this.MasterPageName, this.Path, this.Name));
+                throw new KeyNotFoundException(String.Format(Localization.Strings.GetString("ExceptionMasterPageNotExists"), this.MasterPageName, this.Name));
             }
         }
 
+        /// <summary>
+        /// Generate page from a referenced page
+        /// As a page is the top-level of generation, no other page is generated
+        /// </summary>
+        /// <param name="refPage"></param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProduction(Page refPage)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate page for actual website
+        /// A page is the top-level of generation, so any argument is not needed
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProduction(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate page for actual website
+        /// A page is the top-level of generation, so any argument is not needed
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">object list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProduction(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
-        public string TypeName
-        {
-            get { return "Page"; }
-        }
-
-        public string ElementTitle
-        {
-            get { return this.name; }
-        }
-
+        /// <summary>
+        /// Clone this object
+        /// </summary>
+        /// <returns>cloned object</returns>
         public object Clone()
         {
             Page newPage = new Page(this);
@@ -253,5 +405,6 @@ namespace Library
         }
 
         #endregion
+
     }
 }

@@ -5,27 +5,58 @@ using System.Text;
 
 namespace Library
 {
+    /// <summary>
+    /// Class container for JavaScript code
+    /// </summary>
     [Serializable]
-    public class CodeJavaScript : ICloneable
+    public class CodeJavaScript : Marshalling.PersistentDataObject, ICloneable
     {
-        private string code;
 
+        #region Fields
+
+        /// <summary>
+        /// Index name to handle code data
+        /// </summary>
+        protected static readonly string codeName = "code";
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the code
+        /// </summary>
         public string Code
         {
-            get { return this.code; }
-            set { this.code = value; string result = this.GeneratedCode; }
+            get { return this.Get(codeName, ""); }
+            set { this.Set(codeName, value); string result = this.GeneratedCode; }
         }
 
+        /// <summary>
+        /// Gets the generated code
+        /// Transforms all configuration keys by these values
+        /// </summary>
         public string GeneratedCode
         {
-            get { return Project.CurrentProject.Configuration.Replace(this.code); }
+            get { return Project.CurrentProject.Configuration.Replace(this.Code); }
         }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Clone this object
+        /// </summary>
+        /// <returns>cloned object</returns>
         public object Clone()
         {
             CodeJavaScript cj = new CodeJavaScript();
-            this.code = ExtensionMethods.CloneThis(cj.code);
+            this.Code = ExtensionMethods.CloneThis(cj.Code);
             return cj;
         }
+
+        #endregion
+
     }
 }

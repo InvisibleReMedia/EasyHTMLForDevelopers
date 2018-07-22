@@ -6,16 +6,42 @@ using System.Threading.Tasks;
 
 namespace Library
 {
+
+    /// <summary>
+    /// Adjusts size and keeps width and height constraints and values
+    /// </summary>
     public class AdjustementSize
     {
+
         #region Private Fields
+
+        /// <summary>
+        /// Constraint width
+        /// </summary>
         private EnumConstraint constraintWidth;
+        /// <summary>
+        /// Constraint height
+        /// </summary>
         private EnumConstraint constraintHeight;
+        /// <summary>
+        /// Width value
+        /// </summary>
         private uint width;
+        /// <summary>
+        /// Height value
+        /// </summary>
         private uint height;
         #endregion
 
         #region Default Constructor
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="constraintWidth">width constraint</param>
+        /// <param name="constraintHeight">height constraint</param>
+        /// <param name="width">width value</param>
+        /// <param name="height">height value</param>
         public AdjustementSize(EnumConstraint constraintWidth, EnumConstraint constraintHeight, uint width, uint height)
         {
             this.constraintWidth = constraintWidth;
@@ -26,24 +52,37 @@ namespace Library
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets or sets width constraint
+        /// </summary>
         public EnumConstraint ConstraintWidth
         {
             get { return this.constraintWidth; }
             set { this.constraintWidth = value; }
         }
 
+        /// <summary>
+        /// Gets or sets height constraint
+        /// </summary>
         public EnumConstraint ConstraintHeight
         {
             get { return this.constraintWidth; }
             set { this.constraintWidth = value; }
         }
 
+        /// <summary>
+        /// Gets or sets width value
+        /// </summary>
         public uint Width
         {
             get { return this.width; }
             set { this.width = value; }
         }
 
+        /// <summary>
+        /// Gets or sets height value
+        /// </summary>
         public uint Height
         {
             get { return this.height; }
@@ -52,9 +91,17 @@ namespace Library
         #endregion
     }
 
+    /// <summary>
+    /// Static class that compute size based on width and height constraint
+    /// </summary>
     public static class SizeCompute
     {
 
+        /// <summary>
+        /// Check constraints
+        /// </summary>
+        /// <param name="container">container adjustement size</param>
+        /// <param name="content">content adjustement size</param>
         private static void CheckConstraints(AdjustementSize container, AdjustementSize content)
         {
             switch (container.ConstraintWidth)
@@ -142,6 +189,12 @@ namespace Library
             }
         }
 
+        /// <summary>
+        /// Computes a constraint adjustement size
+        /// for an horizontal area
+        /// </summary>
+        /// <param name="hz">Horizontal area</param>
+        /// <returns>an adjustement size for horizontal area</returns>
         private static AdjustementSize CheckConstraints(HorizontalZone hz)
         {
             IEnumerator<VerticalZone> e = hz.VerticalZones.GetEnumerator();
@@ -215,6 +268,12 @@ namespace Library
             return new AdjustementSize(hz.ConstraintWidth, hz.ConstraintHeight, hz.Width, hz.Height);
         }
 
+        /// <summary>
+        /// Create an adjustement size agains a html object
+        /// </summary>
+        /// <param name="p">project to get relative object contained from given html object</param>
+        /// <param name="obj">Html object related</param>
+        /// <returns>adjustement size</returns>
         public static AdjustementSize ComputeHTMLObject(Project p, HTMLObject obj)
         {
             if (obj.IsMasterObject)
@@ -249,16 +308,16 @@ namespace Library
             }
             else
             {
-                int nonClientWidth = obj.Tool.CSS.Padding.Left + obj.Tool.CSS.Padding.Right + obj.Tool.CSS.Border.Left + obj.Tool.CSS.Border.Right + obj.Tool.CSS.Margin.Left + obj.Tool.CSS.Margin.Right;
-                int nonClientHeight = obj.Tool.CSS.Padding.Top + obj.Tool.CSS.Padding.Bottom + obj.Tool.CSS.Border.Top + obj.Tool.CSS.Border.Bottom + obj.Tool.CSS.Margin.Top + obj.Tool.CSS.Margin.Bottom;
-                uint width = obj.Tool.Width;
+                int nonClientWidth = obj.CSS.Padding.Left + obj.CSS.Padding.Right + obj.CSS.Border.Left + obj.CSS.Border.Right + obj.CSS.Margin.Left + obj.CSS.Margin.Right;
+                int nonClientHeight = obj.CSS.Padding.Top + obj.CSS.Padding.Bottom + obj.CSS.Border.Top + obj.CSS.Border.Bottom + obj.CSS.Margin.Top + obj.CSS.Margin.Bottom;
+                uint width = obj.Width;
                 if (nonClientWidth > 0) width += Convert.ToUInt32(nonClientWidth); else if (width > Convert.ToUInt32(nonClientWidth)) width -= Convert.ToUInt32(nonClientWidth);
-                uint height = obj.Tool.Height;
+                uint height = obj.Height;
                 if (nonClientHeight > 0) height += Convert.ToUInt32(nonClientHeight); else if (height > Convert.ToUInt32(nonClientHeight)) height -= Convert.ToUInt32(nonClientHeight);
 
                 // set information
                 AdjustementSize container = new AdjustementSize(obj.ConstraintWidth, obj.ConstraintHeight, obj.Width, obj.Height);
-                AdjustementSize content = new AdjustementSize(obj.Tool.ConstraintWidth, obj.Tool.ConstraintHeight, width, height);
+                AdjustementSize content = new AdjustementSize(obj.ConstraintWidth, obj.ConstraintHeight, width, height);
 
                 // compute
                 SizeCompute.CheckConstraints(container, content);
@@ -269,14 +328,22 @@ namespace Library
                 obj.Width = container.Width;
                 obj.Height = container.Height;
 
-                obj.Tool.ConstraintWidth = content.ConstraintWidth;
-                obj.Tool.ConstraintHeight = content.ConstraintHeight;
+                obj.ConstraintWidth = content.ConstraintWidth;
+                obj.ConstraintHeight = content.ConstraintHeight;
 
             }
 
             return new AdjustementSize(obj.ConstraintWidth, obj.ConstraintHeight, obj.Width, obj.Height);
         }
 
+        /// <summary>
+        /// Computes a constraint adjustement size
+        /// for a vertical area
+        /// </summary>
+        /// <param name="p">project with related elements</param>
+        /// <param name="vz">vertical area</param>
+        /// <param name="objects">list of html objects</param>
+        /// <returns>an adjustement size for vertical area</returns>
         public static AdjustementSize ComputeVerticalZones(Project p, VerticalZone vz, List<HTMLObject> objects)
         {
             HTMLObject found = objects.Find(a => a.Container == vz.Name);
@@ -310,6 +377,13 @@ namespace Library
             return new AdjustementSize(vz.ConstraintWidth, vz.ConstraintHeight, vz.Width, vz.Height);
         }
 
+        /// <summary>
+        /// Computes all vertical areas from an horizontal area
+        /// </summary>
+        /// <param name="p">project with related elements</param>
+        /// <param name="hz">horizontal zone</param>
+        /// <param name="objects">list of html objects</param>
+        /// <returns></returns>
         public static AdjustementSize ComputeHorizontalZones(Project p, HorizontalZone hz, List<HTMLObject> objects)
         {
             SizeCompute.CheckConstraints(hz);
@@ -320,6 +394,12 @@ namespace Library
             return new AdjustementSize(hz.ConstraintWidth, hz.ConstraintHeight, hz.Width, hz.Height);
         }
 
+        /// <summary>
+        /// Computes the adjustement size for a master object
+        /// </summary>
+        /// <param name="p">given a project</param>
+        /// <param name="mo">given a master object</param>
+        /// <returns>an adjustement size</returns>
         public static AdjustementSize ComputeMasterObject(Project p, MasterObject mo)
         {
             uint maxWidth = 0;
@@ -359,6 +439,12 @@ namespace Library
             return new AdjustementSize(mo.ConstraintWidth, mo.ConstraintHeight, mo.Width, mo.Height);
         }
 
+        /// <summary>
+        /// Computes the adjustement size for a master page
+        /// </summary>
+        /// <param name="p">given a project</param>
+        /// <param name="mp">given a master page</param>
+        /// <returns>an adjustement size</returns>
         public static AdjustementSize ComputeMasterPage(Project p, MasterPage mp)
         {
             uint maxWidth = 0;
@@ -402,6 +488,12 @@ namespace Library
             return new AdjustementSize(mp.ConstraintWidth, mp.ConstraintHeight, mp.Width, mp.Height);
         }
 
+        /// <summary>
+        /// Computes the adjustement size for a page
+        /// </summary>
+        /// <param name="p">given a project</param>
+        /// <param name="page">given a page</param>
+        /// <returns>an adjustement size</returns>
         public static AdjustementSize ComputePage(Project p, Page page)
         {
             MasterPage mp = p.MasterPages.Find(a => a.Name == page.MasterPageName);
@@ -434,5 +526,6 @@ namespace Library
                 return new AdjustementSize(page.ConstraintWidth, page.ConstraintHeight, page.Width, page.Height);
             }
         }
+
     }
 }

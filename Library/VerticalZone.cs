@@ -5,153 +5,287 @@ using System.Text;
 
 namespace Library
 {
+    /// <summary>
+    /// Defines a vertical area
+    /// A vertical area is a cell from a table with rows and columns
+    /// A vertical area is a host container for objects html, master object, tool or table
+    /// </summary>
     [Serializable]
-    public class VerticalZone : IContainer, IGenerateDesignDIV, IGenerateDesignTable, IGenerateProductionDIV, IGenerateProductionTable, ICloneable
+    public class VerticalZone : Marshalling.PersistentDataObject, IContainer, IGenerateDesignDIV, IGenerateDesignTable, IGenerateProductionDIV, IGenerateProductionTable, ICloneable
     {
-        private Disposition disposition;
-        private EnumConstraint constraintWidth;
-        private EnumConstraint constraintHeight;
-        private string name = "verti" + Project.CurrentProject.IncrementedCounter.ToString();
-        private string id = "idVerti" + Project.CurrentProject.IncrementedCounter.ToString();
-        private int countLines;
-        private int countColumns;
-        private uint width;
-        private uint height;
-        private CodeJavaScript javascript = new CodeJavaScript();
-        private CodeJavaScript javascriptOnLoad = new CodeJavaScript();
-        private CodeCSS css = new CodeCSS();
+
+        #region Fields
+
+        /// <summary>
+        /// Index name for disposition
+        /// </summary>
+        protected static readonly string dispositionName = "disposition";
+        /// <summary>
+        /// Index name for width constraint
+        /// </summary>
+        protected static readonly string constraintWidthName = "constraintWidth";
+        /// <summary>
+        /// Index name for height constraint
+        /// </summary>
+        protected static readonly string constraintHeightName = "constraintHeight";
+        /// <summary>
+        /// Index name for automatic name
+        /// </summary>
+        protected static readonly string automaticNameName = "automaticName";
+        /// <summary>
+        /// Index name for automatic id
+        /// </summary>
+        protected static readonly string automaticIdName = "automaticId";
+        /// <summary>
+        /// Index name for counting lines
+        /// </summary>
+        protected static readonly string countingLinesName = "countingLines";
+        /// <summary>
+        /// Index name for counting column
+        /// </summary>
+        protected static readonly string countingColumnsName = "countingColumns";
+        /// <summary>
+        /// Index name for width value
+        /// </summary>
+        protected static readonly string widthName = "width";
+        /// <summary>
+        /// Index name for height value
+        /// </summary>
+        protected static readonly string heightName = "height";
+        /// <summary>
+        /// Index name for javascript code
+        /// </summary>
+        protected static readonly string javascriptName = "javascript";
+        /// <summary>
+        /// Index name for javascript onload code
+        /// </summary>
+        protected static readonly string javascriptOnloadName = "javascriptOnload";
+        /// <summary>
+        /// Index name for css styles
+        /// </summary>
+        protected static readonly string cssName = "css";
+
+
+        #endregion
 
         #region Default Constructor
-        public VerticalZone() { }
+
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
+        public VerticalZone()
+        {
+            int val = Project.CurrentProject.IncrementedCounter;
+            this.Set(automaticNameName, String.Format("verti{0}", val));
+            this.Set(automaticIdName, String.Format("idVerti{0}", val));
+        }
+
         #endregion
 
         #region Copy constructor
+
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="vz">vertical zone to copy from</param>
         private VerticalZone(VerticalZone vz)
         {
-            this.disposition = vz.disposition;
-            this.constraintWidth = vz.constraintWidth;
-            this.constraintHeight = vz.constraintHeight;
-            this.width = vz.width;
-            this.height = vz.height;
-            this.countLines = vz.countLines;
-            this.javascript = vz.javascript.Clone() as CodeJavaScript;
-            this.javascriptOnLoad = vz.javascriptOnLoad.Clone() as CodeJavaScript;
-            this.css = vz.css.Clone() as CodeCSS;
-            this.css.Ids = "#" + this.id;
+            int val = Project.CurrentProject.IncrementedCounter;
+            this.Set(automaticNameName, String.Format("verti{0}", val));
+            this.Set(automaticIdName, String.Format("idVerti{0}", val));
+
+            this.Disposition = vz.Disposition;
+            this.ConstraintWidth = vz.ConstraintWidth;
+            this.ConstraintHeight = vz.ConstraintHeight;
+            this.Width = vz.Width;
+            this.Height = vz.Height;
+            this.CountLines = vz.CountLines;
+            this.Set(javascriptName, vz.JavaScript.Clone());
+            this.Set(javascriptOnloadName, vz.JavaScriptOnLoad.Clone());
+            this.Set(cssName, vz.CSS.Clone());
+            this.CSS.Ids = "#" + this.Get(automaticIdName);
         }
         #endregion
 
         #region Public Properties
 
+        /// <summary>
+        /// Gets or sets the disposition
+        /// </summary>
         public Disposition Disposition
         {
-            get { return this.disposition; }
-            set { this.disposition = value; }
+            get { return this.Get(dispositionName, new Disposition()); }
+            set { this.Set(dispositionName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets a disposition as a string text
+        /// </summary>
         public string DispositionText
         {
-            get { return this.disposition.ToString(); }
+            get { return this.Disposition.ToString(); }
             set
             {
-                Enum.TryParse(value, out this.disposition);
+                Disposition d;
+                if (Enum.TryParse(value, out d))
+                    this.Disposition = d;
             }
         }
 
+        /// <summary>
+        /// Gets or sets the width constraint
+        /// </summary>
         public EnumConstraint ConstraintWidth
         {
-            get { return this.constraintWidth; }
-            set { this.constraintWidth = value; }
+            get { return this.Get(constraintWidthName, EnumConstraint.AUTO); }
+            set { this.Set(constraintWidthName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the height constraint
+        /// </summary>
         public EnumConstraint ConstraintHeight
         {
-            get { return this.constraintHeight; }
-            set { this.constraintHeight = value; }
+            get { return this.Get(constraintHeightName, EnumConstraint.AUTO); }
+            set { this.Get(constraintHeightName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the automatic name
+        /// </summary>
         public string Name
         {
-            get { return this.name; }
-            set { this.name = value; }
+            get { return this.Get(automaticNameName); }
+            set { this.Set(automaticNameName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the automatic id
+        /// </summary>
         public string Id
         {
-            get { return this.id; }
-            set { this.id = value; }
+            get { return this.Get(automaticIdName); }
+            set { this.Set(automaticIdName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the counting lines
+        /// </summary>
         public int CountLines
         {
-            get { return this.countLines; }
-            set { this.countLines = value; }
+            get { return this.Get(countingLinesName, 0); }
+            set { this.Set(countingLinesName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the counting columns
+        /// </summary>
         public int CountColumns
         {
-            get { return this.countColumns; }
-            set { this.countColumns = value; }
+            get { return this.Get(countingColumnsName, 0); }
+            set { this.Set(countingColumnsName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the width value
+        /// </summary>
         public uint Width
         {
-            get { return this.width; }
-            set { this.width = value; }
+            get { return this.Get(widthName, 0u); }
+            set { this.Set(widthName, value); }
         }
 
+        /// <summary>
+        /// Gets inner box width
+        /// empty padding css left and right
+        /// </summary>
         public uint HtmlWidth
         {
-            get { return (uint)(this.width - this.css.Padding.Left - this.css.Padding.Right); }
+            get { return (uint)(this.Width - this.CSS.Padding.Left - this.CSS.Padding.Right); }
         }
 
+        /// <summary>
+        /// Gets or sets the height value
+        /// </summary>
         public uint Height
         {
-            get { return this.height; }
-            set { this.height = value; }
+            get { return this.Get(heightName, 0u); }
+            set { this.Set(heightName, value); }
         }
 
+        /// <summary>
+        /// Gets inner box height
+        /// empty padding css top and bottom
+        /// </summary>
         public uint HtmlHeight
         {
-            get { return (uint)(this.height - this.css.Padding.Top - this.css.Padding.Bottom); }
+            get { return (uint)(this.Height - this.CSS.Padding.Top - this.CSS.Padding.Bottom); }
         }
 
+        /// <summary>
+        /// Gets the css code
+        /// </summary>
         public CodeCSS CSS
         {
-            get { return this.css; }
+            get { return this.Get(cssName, new CodeCSS()); }
         }
 
+        /// <summary>
+        /// Gets the javascript code
+        /// </summary>
         public CodeJavaScript JavaScript
         {
-            get { return this.javascript; }
+            get { return this.Get(javascriptName, new CodeJavaScript()); }
         }
 
+        /// <summary>
+        /// Gets the javascript on load code
+        /// </summary>
         public CodeJavaScript JavaScriptOnLoad
         {
-            get { return this.javascriptOnLoad; }
+            get { return this.Get(javascriptOnloadName, new CodeJavaScript()); }
         }
 
+        /// <summary>
+        /// Gets or sets the javascript on load source code
+        /// </summary>
         public string JavaScriptOnLoadSource
         {
-            get { return this.javascriptOnLoad.Code; }
-            set { this.javascriptOnLoad.Code = value; }
+            get { return this.JavaScriptOnLoad.Code; }
+            set { this.JavaScriptOnLoad.Code = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the javascript source
+        /// </summary>
         public string JavaScriptSource
         {
-            get { return this.javascript.Code; }
-            set { this.javascript.Code = value; }
+            get { return this.JavaScript.Code; }
+            set { this.JavaScript.Code = value; }
         }
 
+        /// <summary>
+        /// Stringified vertical area
+        /// for debugging
+        /// </summary>
         public string Stringified
         {
-            get { return String.Format(Localization.Strings.GetString("VerticalAreaStringified"), this.name, this.countLines, this.countColumns); }
+            get { return String.Format(Localization.Strings.GetString("VerticalAreaStringified"), this.Name, this.CountLines, this.CountColumns); }
         }
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Search a container by name existing from all containers, all content
+        /// and returns the result
+        /// </summary>
+        /// <param name="containers">all containers</param>
+        /// <param name="objects">all contents</param>
+        /// <param name="searchName">container to search</param>
+        /// <param name="found">container result</param>
+        /// <returns>true if the container has found</returns>
         public bool SearchContainer(List<IContainer> containers, List<IContent> objects, string searchName, out IContainer found)
         {
             found = null;
@@ -175,21 +309,40 @@ namespace Library
             return done;
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag from null for design
+        /// A vertical area is hosted by an inner HTML tag
+        /// this inner HTML tag must exist to work fine
+        /// so, a vertical area do not generate a free DIV
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignDIV()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag for design
+        /// a given master page generates the page
+        /// restricted objects in page are computed equally
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignDIV(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             OutputHTML output = new OutputHTML();
-            CodeCSS myCss = new CodeCSS(this.css);
+            CodeCSS myCss = new CodeCSS(this.CSS);
             string myId = "verti" + Project.IncrementedTraceCounter.ToString();
 
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div title='" + Routines.PrintTipSize(newInfos.objectName, this.name, cs) + "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.name : newInfos.objectName + "_" + this.name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<div title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) +
+                               "' id='" + myId + "' name='" +
+                               (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) +
+                               "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
 
             // set css part
             myCss.Ids = "#" + myId;
@@ -202,10 +355,10 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             HTMLObject objMasterPage = null;
             if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, masterRefPage, newInfos);
@@ -229,28 +382,39 @@ namespace Library
             }
 
             // compute disposition
-            Routines.SetDIVDisposition(output.HTML, this.disposition, zone.HTML);
+            Routines.SetDIVDisposition(output.HTML, this.Disposition, zone.HTML);
 
             output.HTML.Append("</div>");
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.JavaScript.Append(this.javascript.GeneratedCode);
+            output.JavaScript.Append(this.JavaScript.GeneratedCode);
             return output;
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag for design
+        /// a page contains master objects related
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="objects">master objects</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignDIV(Page refPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             OutputHTML output = new OutputHTML();
-            CodeCSS myCss = new CodeCSS(this.css);
+            CodeCSS myCss = new CodeCSS(this.CSS);
             string myId = "verti" + Project.IncrementedTraceCounter.ToString();
 
             // compute size
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div title='" + Routines.PrintTipSize(newInfos.objectName, this.name, cs) + "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.name : newInfos.objectName + "_" + this.name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
-            myCss.Ids = "#" + myId;
+            output.HTML.Append("<div title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) +
+                               "' id='" + myId + "' name='" +
+                               (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) +
+                               "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
 
             // set css part
+            myCss.Ids = "#" + myId;
             if (!CommonDirectories.ConfigDirectories.RemoveTables)
             {
                 if (!myCss.Body.AllKeys.Contains("float"))
@@ -260,13 +424,13 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             List<HTMLObject> list = new List<HTMLObject>();
             foreach (MasterObject mObj in objects)
             {
                 list.AddRange(mObj.Objects);
             }
-            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, objects, newInfos);
@@ -290,27 +454,40 @@ namespace Library
             }
 
             // compute disposition
-            Routines.SetDIVDisposition(output.HTML, this.disposition, zone.HTML);
+            Routines.SetDIVDisposition(output.HTML, this.Disposition, zone.HTML);
 
             output.HTML.Append("</div>");
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.JavaScript.Append(this.javascript.GeneratedCode);
+            output.JavaScript.Append(this.JavaScript.GeneratedCode);
             return output;
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag for design
+        /// a given master page generates the page
+        /// a page contains master objects related
+        /// restricted objects in page are computed equally
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">master objects list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignDIV(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             OutputHTML output = new OutputHTML();
-            CodeCSS myCss = new CodeCSS(this.css);
+            CodeCSS myCss = new CodeCSS(this.CSS);
             string myId = "verti" + Project.IncrementedTraceCounter.ToString();
 
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div title='" + Routines.PrintTipSize(newInfos.objectName, this.name, cs) + "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.name : newInfos.objectName + "_" + this.name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
-            myCss.Ids = "#" + myId;
+            output.HTML.Append("<div title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) +
+                               "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) +
+                               "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
 
             // set css part
+            myCss.Ids = "#" + myId;
             if (!CommonDirectories.ConfigDirectories.RemoveTables)
             {
                 if (!myCss.Body.AllKeys.Contains("float"))
@@ -320,16 +497,16 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             HTMLObject objMasterPage = null;
             if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             List<HTMLObject> list = new List<HTMLObject>();
             foreach (MasterObject mObj in objects)
             {
                 list.AddRange(mObj.Objects);
             }
-            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, masterRefPage, objects, newInfos);
@@ -360,46 +537,71 @@ namespace Library
             }
 
             // compute disposition
-            Routines.SetDIVDisposition(output.HTML, this.disposition, zone.HTML);
+            Routines.SetDIVDisposition(output.HTML, this.Disposition, zone.HTML);
 
             output.HTML.Append("</div>");
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.JavaScript.Append(this.javascript.GeneratedCode);
+            output.JavaScript.Append(this.JavaScript.GeneratedCode);
             return output;
         }
 
 
+        /// <summary>
+        /// Generate an HTML DIV tag from null for design
+        /// A vertical area is hosted by an inner HTML tag table
+        /// this inner HTML tag table must exist to work fine
+        /// so, a vertical area do not generate a direct DIV starting at a page
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignDIV(Page refPage)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag from null for design
+        /// A vertical area is hosted by an inner HTML tag table
+        /// this inner HTML tag table must exist to work fine
+        /// so, a vertical area do not generate a direct TABLE starting at a page
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignTable(Page refPage)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag for design
+        /// a given master page generates the page
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignTable(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             OutputHTML output = new OutputHTML();
-            CodeCSS myCss = new CodeCSS(this.css);
+            CodeCSS myCss = new CodeCSS(this.CSS);
             string myId = "verti" + Project.IncrementedTraceCounter.ToString();
 
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td " + Routines.SetTableDisposition(this.disposition) + " title='" + Routines.PrintTipSize(newInfos.objectName, this.name, cs) + "' rowspan='" + this.countLines.ToString() + "' colspan='" + this.countColumns.ToString() + "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.name : newInfos.objectName + "_" + this.name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
-            myCss.Ids = "#" + myId;
+            output.HTML.Append("<td " + Routines.SetTableDisposition(this.Disposition) + " title='" +
+                               Routines.PrintTipSize(newInfos.objectName, this.Name, cs) +
+                               "' rowspan='" + this.CountLines.ToString() + "' colspan='" + this.CountColumns.ToString() + "' id='" + myId +
+                               "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
 
             // set css part
+            myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             HTMLObject objMasterPage = null;
             if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, masterRefPage, newInfos);
@@ -426,34 +628,45 @@ namespace Library
             }
             output.HTML.Append("</td>");
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.JavaScript.Append(this.javascript.GeneratedCode);
+            output.JavaScript.Append(this.JavaScript.GeneratedCode);
             return output;
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag for design
+        /// a page contains master objects related
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="objects">master objects</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignTable(Page refPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             OutputHTML output = new OutputHTML();
-            CodeCSS myCss = new CodeCSS(this.css);
+            CodeCSS myCss = new CodeCSS(this.CSS);
             string myId = "verti" + Project.IncrementedTraceCounter.ToString();
 
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td " + Routines.SetTableDisposition(this.disposition) + " title='" + Routines.PrintTipSize(newInfos.objectName, this.name, cs) + "' rowspan='" + this.countLines.ToString() + "' colspan='" + this.countColumns.ToString() + "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.name : newInfos.objectName + "_" + this.name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
-            myCss.Ids = "#" + myId;
+            output.HTML.Append("<td " + Routines.SetTableDisposition(this.Disposition) + " title='" +
+                               Routines.PrintTipSize(newInfos.objectName, this.Name, cs) +
+                               "' rowspan='" + this.CountLines.ToString() + "' colspan='" + this.CountColumns.ToString() + "' id='" + myId +
+                               "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
 
             // set css part
+            myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             List<HTMLObject> list = new List<HTMLObject>();
             foreach (MasterObject mObj in objects)
             {
                 list.AddRange(mObj.Objects);
             }
-            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, objects, newInfos);
@@ -480,37 +693,51 @@ namespace Library
             }
             output.HTML.Append("</td>");
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.JavaScript.Append(this.javascript.GeneratedCode);
+            output.JavaScript.Append(this.JavaScript.GeneratedCode);
             return output;
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag for design
+        /// a given master page generates the page
+        /// a page contains master objects related
+        /// restricted objects in page are computed equally
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">master objects list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignTable(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             OutputHTML output = new OutputHTML();
-            CodeCSS myCss = new CodeCSS(this.css);
+            CodeCSS myCss = new CodeCSS(this.CSS);
             string myId = "verti" + Project.IncrementedTraceCounter.ToString();
 
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td " + Routines.SetTableDisposition(this.disposition) + " title='" + Routines.PrintTipSize(newInfos.objectName, this.name, cs) + "' rowspan='" + this.countLines.ToString() + "' colspan='" + this.countColumns.ToString() + "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.name : newInfos.objectName + "_" + this.name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<td " + Routines.SetTableDisposition(this.Disposition) + " title='" +
+                               Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "' rowspan='" +
+                               this.CountLines.ToString() + "' colspan='" + this.CountColumns.ToString() + "' id='" + myId +
+                               "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
 
-            myCss.Ids = "#" + myId;
             // set css part
+            myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             HTMLObject objMasterPage = null;
             if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             List<HTMLObject> list = new List<HTMLObject>();
             foreach (MasterObject mObj in objects)
             {
                 list.AddRange(mObj.Objects);
             }
-            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, masterRefPage, objects, newInfos);
@@ -545,25 +772,42 @@ namespace Library
             }
             output.HTML.Append("</td>");
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.JavaScript.Append(this.javascript.GeneratedCode);
+            output.JavaScript.Append(this.JavaScript.GeneratedCode);
             return output;
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag from null for actual website
+        /// A vertical area is hosted by an inner HTML tag
+        /// this inner HTML tag must exist to work fine
+        /// so, a vertical area do not generate a free DIV
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionDIV(Page refPage)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag for actual website
+        /// a given master page generates the page
+        /// restricted objects in page are computed equally
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionDIV(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             OutputHTML output = new OutputHTML();
-            CodeCSS myCss = new CodeCSS(this.css);
+            CodeCSS myCss = new CodeCSS(this.CSS);
             string myId = "verti" + Project.IncrementedTraceCounter.ToString();
 
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.name : newInfos.objectName + "_" + this.name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<div id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) +
+                               "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
 
             // set css part
             if (!CommonDirectories.ConfigDirectories.RemoveTables)
@@ -576,10 +820,10 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             HTMLObject objMasterPage = null;
             if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateProduction(refPage, masterRefPage, newInfos);
@@ -596,27 +840,39 @@ namespace Library
             }
 
             // compute disposition
-            Routines.SetDIVDisposition(output.HTML, this.disposition, zone.HTML);
+            Routines.SetDIVDisposition(output.HTML, this.Disposition, zone.HTML);
 
             output.HTML.Append("</div>");
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.JavaScript.Append(this.javascript.GeneratedCode);
+            output.JavaScript.Append(this.JavaScript.GeneratedCode);
             return output;
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag for actual website
+        /// a given master page generates the page
+        /// a page contains master objects related
+        /// restricted objects in page are computed equally
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">master objects list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionDIV(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             OutputHTML output = new OutputHTML();
-            CodeCSS myCss = new CodeCSS(this.css);
+            CodeCSS myCss = new CodeCSS(this.CSS);
             string myId = "verti" + Project.IncrementedTraceCounter.ToString();
 
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.name : newInfos.objectName + "_" + this.name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
-            myCss.Ids = "#" + myId;
+            output.HTML.Append("<div id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) +
+                               "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
 
             // set css part
+            myCss.Ids = "#" + myId;
             if (!CommonDirectories.ConfigDirectories.RemoveTables)
             {
                 if (!myCss.Body.AllKeys.Contains("float"))
@@ -626,16 +882,16 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             HTMLObject objMasterPage = null;
             if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             List<HTMLObject> list = new List<HTMLObject>();
             foreach (MasterObject mObj in objects)
             {
                 list.AddRange(mObj.Objects);
             }
-            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateProduction(refPage, masterRefPage, objects, newInfos);
@@ -659,40 +915,58 @@ namespace Library
             }
 
             // compute disposition
-            Routines.SetDIVDisposition(output.HTML, this.disposition, zone.HTML);
+            Routines.SetDIVDisposition(output.HTML, this.Disposition, zone.HTML);
 
             output.HTML.Append("</div>");
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.JavaScript.Append(this.javascript.GeneratedCode);
+            output.JavaScript.Append(this.JavaScript.GeneratedCode);
             return output;
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag from null for actual website
+        /// A vertical area is hosted by an inner HTML tag table
+        /// this inner HTML tag table must exist to work fine
+        /// so, a vertical area do not generate a direct DIV starting at a page
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionTable(Page refPage)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag for actual website
+        /// a given master page generates the page
+        /// restricted objects in page are computed equally
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionTable(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             OutputHTML output = new OutputHTML();
-            CodeCSS myCss = new CodeCSS(this.css);
+            CodeCSS myCss = new CodeCSS(this.CSS);
             string myId = "verti" + Project.IncrementedTraceCounter.ToString();
 
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td " + Routines.SetTableDisposition(this.disposition) + " rowspan='" + this.countLines.ToString() + "' colspan='" + this.countColumns.ToString() + "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.name : newInfos.objectName + "_" + this.name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
-            myCss.Ids = "#" + myId;
+            output.HTML.Append("<td " + Routines.SetTableDisposition(this.Disposition) + " rowspan='" + this.CountLines.ToString() + "' colspan='" + this.CountColumns.ToString() +
+                               "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "' " +
+                               cs.attributeWidth + " " + cs.attributeHeight + ">");
 
             // set css part
+            myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             HTMLObject objMasterPage = null;
             if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateProduction(refPage, masterRefPage, newInfos);
@@ -711,37 +985,50 @@ namespace Library
             }
             output.HTML.Append("</td>");
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.JavaScript.Append(this.javascript.GeneratedCode);
+            output.JavaScript.Append(this.JavaScript.GeneratedCode);
             return output;
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag for actual design
+        /// a given master page generates the page
+        /// a page contains master objects related
+        /// restricted objects in page are computed equally
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">master objects list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionTable(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             OutputHTML output = new OutputHTML();
-            CodeCSS myCss = new CodeCSS(this.css);
+            CodeCSS myCss = new CodeCSS(this.CSS);
             string myId = "verti" + Project.IncrementedTraceCounter.ToString();
 
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td " + Routines.SetTableDisposition(this.disposition) + " rowspan='" + this.countLines.ToString() + "' colspan='" + this.countColumns.ToString() + "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.name : newInfos.objectName + "_" + this.name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<td " + Routines.SetTableDisposition(this.Disposition) + " rowspan='" + this.CountLines.ToString() + "' colspan='" + this.CountColumns.ToString() +
+                               "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "' " +
+                               cs.attributeWidth + " " + cs.attributeHeight + ">");
 
-            myCss.Ids = "#" + myId;
             // set css part
+            myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             HTMLObject objMasterPage = null;
             if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             List<HTMLObject> list = new List<HTMLObject>();
             foreach (MasterObject mObj in objects)
             {
                 list.AddRange(mObj.Objects);
             }
-            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.name); });
+            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateProduction(refPage, masterRefPage, objects, newInfos);
@@ -768,10 +1055,14 @@ namespace Library
             }
             output.HTML.Append("</td>");
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.JavaScript.Append(this.javascript.GeneratedCode);
+            output.JavaScript.Append(this.JavaScript.GeneratedCode);
             return output;
         }
 
+        /// <summary>
+        /// Clone this object
+        /// </summary>
+        /// <returns>cloned object</returns>
         public object Clone()
         {
             return new VerticalZone(this);

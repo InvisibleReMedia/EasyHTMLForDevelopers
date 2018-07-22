@@ -5,169 +5,477 @@ using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Collections;
+using System.ComponentModel;
 
 namespace Library
 {
+    /// <summary>
+    /// Contains all data for a project
+    /// </summary>
     [Serializable]
-    public class Project
+    public class Project : Marshalling.PersistentDataObject
     {
         #region Public Delegate
+
+        /// <summary>
+        /// Delegate for open a project
+        /// </summary>
         public delegate void OpenProject();
+        /// <summary>
+        /// Search where is the container
+        /// </summary>
+        /// <param name="containers">list of all containers</param>
+        /// <param name="objects">object that host a content</param>
+        /// <param name="searchName">name to search</param>
+        /// <param name="found">exact container if found</param>
+        /// <returns>true if found</returns>
         public delegate bool SearchContainer(List<IContainer> containers, List<IContent> objects, string searchName, out IContainer found);
         #endregion
 
+        #region Public Static Fields
+
+        /// <summary>
+        /// Name of the translation label for javascript list url
+        /// viewed into the tree of project elements
+        /// </summary>
+        public static readonly string JavaScriptUrlName = "JavaScriptURLs";
+        /// <summary>
+        /// Name of the translation label for css list url
+        /// viewed into the tree of project elements
+        /// </summary>
+        public static readonly string CSSUrlName = "CSSURLs";
+        /// <summary>
+        /// Name of the translation label for configuration
+        /// viewed into the tree of project elements
+        /// </summary>
+        public static readonly string ConfigurationName = "Configuration";
+        /// <summary>
+        /// Name of the translation label for master pages
+        /// viewed into the tree of project elements
+        /// </summary>
+        public static readonly string MasterPagesName = "MasterPages";
+        /// <summary>
+        /// Name of the translation label for master objects
+        /// viewed into the tree of project elements
+        /// </summary>
+        public static readonly string MasterObjectsName = "MasterObjects";
+        /// <summary>
+        /// Name of the translation label for pages
+        /// viewed into the tree of project elements
+        /// </summary>
+        public static readonly string PagesName = "Pages";
+        /// <summary>
+        /// Name of the translation label for tools
+        /// viewed into the tree of project elements
+        /// </summary>
+        public static readonly string ToolsName = "Tools";
+        /// <summary>
+        /// Name of the translation label for files
+        /// viewed into the tree of project elements
+        /// </summary>
+        public static readonly string FilesName = "Files";
+        /// <summary>
+        /// Name of the translation label for instances
+        /// viewed into the tree of project elements
+        /// </summary>
+        public static readonly string InstancesName = "Instances";
+        /// <summary>
+        /// Name of the translation label for folders
+        /// viewed into the tree of project elements
+        /// </summary>
+        public static readonly string FoldersName = "Folders";
+
+        #endregion
+
         #region Private Fields
-        private bool hasErrorSave = false;
-        private string reason;
-        private HTMLTool sculptureToolImage = null;
-        private HTMLTool sculptureToolText = null;
-        private string colorScheme = String.Empty;
+
+        /// <summary>
+        /// Index name for error switch occurred
+        /// </summary>
+        protected static readonly string hasErrorSaveName = "hasErrorSave";
+        /// <summary>
+        /// Index name for error reason string
+        /// </summary>
+        protected static readonly string errorReasonName = "errorReason";
+        /// <summary>
+        /// Index name for sculpture tool image
+        /// </summary>
+        protected static readonly string sculptureToolImageName = "sculptureToolImage";
+        /// <summary>
+        /// Index name for sculpture tool text
+        /// </summary>
+        protected static readonly string sculptureToolTextName = "sculptureToolText";
+        /// <summary>
+        /// Index name for colorscheme text
+        /// </summary>
+        protected static readonly string colorSchemeName = "colorScheme";
+        /// <summary>
+        /// Index name for creation date
+        /// </summary>
+        protected static readonly string creationDateName = "creationDate";
+        /// <summary>
+        /// Index name for modification date
+        /// </summary>
+        protected static readonly string modificationDateName = "modificationDate";
+        /// <summary>
+        /// Index name for revision number
+        /// </summary>
+        protected static readonly string revisionName = "revision";
+        /// <summary>
+        /// Index name for configuration
+        /// </summary>
+        protected static readonly string configurationName = "configuration";
+        /// <summary>
+        /// Index name for counter index to name elements
+        /// </summary>
+        protected static readonly string counterName = "counter";
+        /// <summary>
+        /// Index name for title of the project
+        /// </summary>
+        protected static readonly string titleName = "title";
+        /// <summary>
+        /// Index name for list of javascript urls
+        /// </summary>
+        protected static readonly string javascriptUrlListName = "javascriptUrlList";
+        /// <summary>
+        /// Index name for master page list
+        /// </summary>
+        protected static readonly string masterPageListName = "masterPageList";
+        /// <summary>
+        /// Index name for page list
+        /// </summary>
+        protected static readonly string pageListName = "pageList";
+        /// <summary>
+        /// Index name for files
+        /// </summary>
+        protected static readonly string filesName = "fileList";
+        /// <summary>
+        /// Index name for folders
+        /// </summary>
+        protected static readonly string foldersName = "folders";
+        /// <summary>
+        /// Index name for master object list
+        /// </summary>
+        protected static readonly string masterObjectListName = "masterObjectList";
+        /// <summary>
+        /// Index name for sculpture object list
+        /// </summary>
+        protected static readonly string sculptureObjectListName = "sculptureObjectList";
+        /// <summary>
+        /// Index name for javascript model list
+        /// </summary>
+        protected static readonly string javascriptModelListName = "javascriptModelList";
+        /// <summary>
+        /// Index name for css model list
+        /// </summary>
+        protected static readonly string cssModelList = "cssModelList";
+        /// <summary>
+        /// Index name for folders tool
+        /// </summary>
+        protected static readonly string toolslName = "toolList";
+        /// <summary>
+        /// Index name for instance object list
+        /// </summary>
+        protected static readonly string instanceObjectListName = "instanceObjectList";
+        /// <summary>
+        /// Index name for a tree representation by string identifier
+        /// </summary>
+        protected static readonly string treeName = "tree";
+        /// <summary>
+        /// Index name for custom color list
+        /// </summary>
+        protected static readonly string customColorsListName = "customColorList";
+        /// <summary>
+        /// Index name for unique strings
+        /// </summary>
+        protected static readonly string uniqueStringsName = "uniqueStrings";
+
+
+        /// <summary>
+        /// counter for dumping element
+        /// </summary>
         private static int traceCounter;
-        private DateTime creationDate;
-        private DateTime modificationDate;
-        private int revision;
-        private Configuration config = new Configuration();
+        /// <summary>
+        /// Keeps a reference to the current project
+        /// </summary>
         private static Project currentProject;
-        private int counter;
-        private string title;
-        private List<string> javascriptUrls = new List<string>();
-        private List<MasterPage> masterPages = new List<MasterPage>();
-        private Folder folders = new Folder();
-        private List<MasterObject> masterObjects = new List<MasterObject>();
-        private List<SculptureObject> sculptureObjects = new List<SculptureObject>();
-        private List<CodeJavaScript> javascriptModels = new List<CodeJavaScript>();
-        private List<CodeCSS> cssModels = new List<CodeCSS>();
-        private FolderTool tools = new FolderTool();
-        private List<HTMLObject> instances = new List<HTMLObject>();
-        private List<int> customColors = new List<int>();
         [NonSerialized]
         private OpenProject openProject;
+
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets or sets creation date
+        /// </summary>
         public DateTime CreationDate
         {
-            get { return this.creationDate; }
-            set { this.creationDate = value; }
+            get { return this.Get(creationDateName, DateTime.Now.ToShortDateString()); }
+            set { this.Set(creationDateName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets modification date
+        /// Is null if new project
+        /// </summary>
         public DateTime ModificationDate
         {
-            get { return this.modificationDate; }
-            set { this.modificationDate = value; }
+            get { return this.Get(modificationDateName); }
+            set { this.Set(modificationDateName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the revision value
+        /// </summary>
         public int Revision
         {
-            get { return this.revision; }
-            set { this.revision = value; }
+            get { return this.Get(revisionName, 1); }
+            set { this.Set(revisionName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the color scheme
+        /// </summary>
         public string ColorScheme
         {
-            get { return this.colorScheme; }
-            set { this.colorScheme = value; }
+            get { return this.Get(colorSchemeName, ""); }
+            set { this.Set(colorSchemeName, value); }
         }
 
+        /// <summary>
+        /// Gets the configuration object
+        /// </summary>
         public Configuration Configuration
         {
-            get { return this.config; }
+            get { return this.Get(configurationName, new Configuration()); }
         }
 
+        /// <summary>
+        /// Gets the current counter and increments it immediately
+        /// </summary>
         public int IncrementedCounter
         {
-            get { return this.counter++; }
+            get
+            {
+                int c = this.Get(counterName, 0);
+                this.Set(counterName, c + 1);
+                return c;
+            }
         }
 
+        /// <summary>
+        /// Gets or sets the title
+        /// </summary>
         public string Title
         {
-            get { return this.title; }
-            set { this.title = value; }
+            get { return this.Get(titleName, "new project"); }
+            set { this.Set(titleName, value); }
         }
 
+        /// <summary>
+        /// Gets the list of urls of javascript
+        /// </summary>
         public List<string> JavascriptUrls
         {
-            get { return this.javascriptUrls; }
+            get { return this.Get(javascriptUrlListName, new List<string>()); }
         }
 
+        /// <summary>
+        /// Gets the master page tree of string and master pages
+        /// </summary>
         public List<MasterPage> MasterPages
         {
-            get { return this.masterPages; }
+            get { return this.Get(masterPageListName, new List<MasterPage>()); }
         }
 
+        /// <summary>
+        /// Gets the page list
+        /// </summary>
         public List<Page> Pages
         {
-            get { return this.folders.Pages; }
+            get { return this.Get(pageListName, new List<Page>()); }
         }
 
-        public Folder Folders
+        /// <summary>
+        /// Gets the file list
+        /// </summary>
+        public List<File> Files
         {
-            get { return this.folders; }
+            get { return this.Get(filesName, new List<File>()); }
         }
 
+        /// <summary>
+        /// Gets master object list
+        /// </summary>
         public List<MasterObject> MasterObjects
         {
-            get { return this.masterObjects; }
+            get { return this.Get(masterObjectListName, new List<MasterObject>()); }
         }
 
+        /// <summary>
+        /// Gets sculpture object list
+        /// </summary>
         public List<SculptureObject> SculptureObjects
         {
-            get { return this.sculptureObjects; }
+            get { return this.Get(sculptureObjectListName, new List<SculptureObject>()); }
         }
 
+        /// <summary>
+        /// Gets javascript models
+        /// </summary>
         public List<CodeJavaScript> JavaScriptModels
         {
-            get { return this.javascriptModels; }
+            get { return this.Get(javascriptModelListName, new List<CodeJavaScript>()); }
         }
 
+        /// <summary>
+        /// Gets CSS models
+        /// </summary>
         public List<CodeCSS> CSSModels
         {
-            get { return this.cssModels; }
+            get { return this.Get(cssModelList, new List<CodeCSS>()); }
         }
 
-        public FolderTool Tools
+        /// <summary>
+        /// Gets folders tool
+        /// </summary>
+        public List<HTMLTool> Tools
         {
-            get { return this.tools; }
+            get { return this.Get(toolslName, new List<HTMLTool>()); }
         }
 
+        /// <summary>
+        /// Gets all instances
+        /// </summary>
         public List<HTMLObject> Instances
         {
-            get { return this.instances; }
+            get { return this.Get(instanceObjectListName, new List<HTMLObject>()); }
         }
 
+        /// <summary>
+        /// Gets the hierarchy of declared elements
+        /// </summary>
+        public Node<string, Accessor> Hierarchy
+        {
+            get
+            {
+                return this.Get(treeName, this.ConstructHierarchy());
+            }
+        }
+
+        /// <summary>
+        /// Gets Custom color list
+        /// </summary>
         public List<int> CustomColors
         {
-            get { if (this.customColors == null) this.customColors = new List<int>(); return this.customColors; }
+            get { return this.Get(customColorsListName, new List<int>()); }
         }
 
+        /// <summary>
+        /// Gets the scultpture tool image
+        /// </summary>
         public HTMLTool ToolImage
         {
-            get { return this.sculptureToolImage; }
+            get { return this.Get(sculptureToolImageName, new HTMLTool()); }
         }
 
+        /// <summary>
+        /// Gets the sculpture tool text
+        /// </summary>
         public HTMLTool ToolText
         {
-            get { return this.sculptureToolText; }
+            get { return this.Get(sculptureToolTextName, new HTMLTool()); }
         }
 
+        /// <summary>
+        /// Gets or sets the current project
+        /// </summary>
         public static Project CurrentProject
         {
             get { return Project.currentProject; }
             set { Project.currentProject = value; }
         }
 
+        /// <summary>
+        /// Gets if the project was not saved
+        /// also true if an error occurred during save
+        /// </summary>
         public bool NotSaved
         {
-            get { return this.hasErrorSave; }
+            get { return this.Get(hasErrorSaveName, true); }
         }
 
+        /// <summary>
+        /// Gets the error reasong
+        /// </summary>
         public string ErrorReason
         {
-            get { return this.reason; }
+            get { return this.Get(errorReasonName, "Not saved"); }
         }
+
+        /// <summary>
+        /// Gets the trace counter
+        /// </summary>
+        public static int TraceCounter
+        {
+            get { return Project.traceCounter; }
+        }
+
+        /// <summary>
+        /// Gets the trace counter and increments it immediately
+        /// </summary>
+        public static int IncrementedTraceCounter
+        {
+            get { return ++Project.traceCounter; }
+        }
+
+        /// <summary>
+        /// Gets a generation of unique strings operator
+        /// </summary>
+        public UniqueStrings Unique
+        {
+            get
+            {
+                return this.Get(uniqueStringsName, new UniqueStrings());
+            }
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        /// <summary>
+        /// Construct the initial hierarchy
+        /// </summary>
+        /// <returns></returns>
+        protected Node<string, Accessor> ConstructHierarchy()
+        {
+            Node<string, Accessor> node = new Node<string, Accessor>(this.Title);
+            node.AddNode(new Node<string, Accessor>(Project.JavaScriptUrlName));
+            node.AddNode(new Node<string, Accessor>(Project.CSSUrlName));
+            node.AddNode(new Node<string, Accessor>(Project.ConfigurationName));
+            node.AddNode(new Node<string, Accessor>(Project.MasterPagesName));
+            node.AddNode(new Node<string, Accessor>(Project.MasterObjectsName));
+            node.AddNode(new Node<string, Accessor>(Project.ToolsName));
+            node.AddNode(new Node<string, Accessor>(Project.InstancesName));
+            node.AddNode(new Node<string, Accessor>(Project.PagesName));
+            node.AddNode(new Node<string, Accessor>(Project.FilesName));
+            node.AddNode(new Node<string, Accessor>(Project.FoldersName));
+            return node;
+        }
+
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Fonction to find a container
+        /// </summary>
+        /// <param name="searchName">name of the container to search</param>
+        /// <param name="found">counter found</param>
+        /// <param name="del">delegate for recursive search</param>
+        /// <returns>true if found</returns>
         public bool FindContainer(string searchName, out IContainer found, SearchContainer del)
         {
             List<IContainer> containers = new List<IContainer>(this.MasterPages.Cast<IContainer>());
@@ -175,153 +483,215 @@ namespace Library
             return del(containers, new List<IContent>(), searchName, out found);
         }
 
+        /// <summary>
+        /// When you reload project
+        /// </summary>
         public void ReloadProject()
         {
             this.openProject();
         }
+
+        /// <summary>
+        /// Add a master page
+        /// given a specific path to organize project's element
+        /// </summary>
+        /// <param name="mp">master page</param>
+        /// <param name="path">path</param>
+        public void Add(MasterPage mp, string path)
+        {
+            this.MasterPages.Add(mp);
+            string u = this.Unique.ComputeNewString();
+            mp.Unique = u;
+            Accessor a = new Accessor(Project.MasterPagesName, u);
+            this.Hierarchy.Find(Project.MasterPagesName).Find(path.Split('/')).AddLeaf(a);
+        }
+
+        /// <summary>
+        /// Add a master object
+        /// given a specific path to organize project's element
+        /// </summary>
+        /// <param name="mo">master object</param>
+        /// <param name="path">path</param>
+        public void Add(MasterObject mo, string path)
+        {
+            this.MasterObjects.Add(mo);
+            string u = this.Unique.ComputeNewString();
+            mo.Unique = u;
+            Accessor a = new Accessor(Project.MasterObjectsName, u);
+            this.Hierarchy.Find(Project.MasterObjectsName).Find(path.Split('/')).AddLeaf(a);
+        }
+
+        /// <summary>
+        /// Add a page
+        /// given a specific path to organize project's element
+        /// </summary>
+        /// <param name="p">page</param>
+        /// <param name="path">path</param>
+        public void Add(Page p, string path)
+        {
+            this.Pages.Add(p);
+            string u = this.Unique.ComputeNewString();
+            p.Unique = u;
+            Accessor a = new Accessor(Project.PagesName, u);
+            this.Hierarchy.Find(Project.PagesName).Find(path.Split('/')).AddLeaf(a);
+        }
+
+        /// <summary>
+        /// Add a file
+        /// given a specific path to organize project's element
+        /// </summary>
+        /// <param name="f">file</param>
+        /// <param name="path">path</param>
+        public void Add(File f, string path)
+        {
+            this.Files.Add(f);
+            string u = this.Unique.ComputeNewString();
+            f.Unique = u;
+            Accessor a = new Accessor(Project.FilesName, u);
+            this.Hierarchy.Find(Project.FilesName).Find(path.Split('/')).AddLeaf(a);
+        }
+
+        /// <summary>
+        /// Add a tool
+        /// given a specific path to organize project's element
+        /// </summary>
+        /// <param name="t">tool</param>
+        /// <param name="path">path</param>
+        public void Add(HTMLTool t, string path)
+        {
+            this.Tools.Add(t);
+            string u = this.Unique.ComputeNewString();
+            t.Unique = u;
+            Accessor a = new Accessor(Project.ToolsName, u);
+            this.Hierarchy.Find(Project.ToolsName).Find(path.Split('/')).AddLeaf(a);
+        }
+
+        /// <summary>
+        /// Add an instance
+        /// given a specific path to organize project's element
+        /// </summary>
+        /// <param name="i">instance</param>
+        /// <param name="path">path</param>
+        public void Add(HTMLObject i, string path)
+        {
+            this.Instances.Add(i);
+            string u = this.Unique.ComputeNewString();
+            i.Unique = u;
+            Accessor a = new Accessor(Project.InstancesName, u);
+            this.Hierarchy.Find(Project.InstancesName).Find(path.Split('/')).AddLeaf(a);
+        }
+
         #endregion
 
         #region Private Static Methods
 
-        private static void ImportPages(Folder f, Tree<IProjectElement> t)
+        /// <summary>
+        /// Import all pages from an existing project
+        /// </summary>
+        /// <param name="src">project source</param>
+        /// <param name="dest">project destination</param>
+        private static void ImportPages(Project src, Project dest)
         {
-            t.Push();
-            foreach (Page p in f.Pages)
+            Tree<string, Accessor> t = new Tree<string, Accessor>(src.Hierarchy.Find(Project.PagesName));
+            BindingList<KeyValuePair<IEnumerable<string>, Accessor>> b = new BindingList<KeyValuePair<IEnumerable<string>, Accessor>>();
+            Node<string, Accessor> destNode = dest.Hierarchy.Find(Project.PagesName);
+            b.AddingNew += (sender, e) =>
             {
-                t.Add(p);
-            }
-            foreach (string s in f.Files)
-            {
-                t.Add(new File(s));
-            }
-            foreach (Folder subFolder in f.Folders)
-            {
-                t.Add(subFolder);
-                Project.ImportPages(subFolder, t);
-            }
-            t.Pop();
+                KeyValuePair<IEnumerable<string>, Accessor> kv = (KeyValuePair<IEnumerable<string>, Accessor>)e.NewObject;
+                destNode.Find(kv.Key).AddLeaf(kv.Value);
+            };
+            t.EnumerateSelected(b);
         }
 
-        private static void ImportTools(FolderTool f, Tree<IProjectElement> t)
+        /// <summary>
+        /// Import all tools from an existing project
+        /// </summary>
+        /// <param name="src">project source</param>
+        /// <param name="dest">project destination</param>
+        private static void ImportTools(Project src, Project dest)
         {
-            t.Push();
-            foreach (HTMLTool h in f.Tools)
+            Tree<string, Accessor> t = new Tree<string, Accessor>(src.Hierarchy.Find(Project.ToolsName));
+            BindingList<KeyValuePair<IEnumerable<string>, Accessor>> b = new BindingList<KeyValuePair<IEnumerable<string>, Accessor>>();
+            Node<string, Accessor> destNode = dest.Hierarchy.Find(Project.ToolsName);
+            b.AddingNew += (sender, e) =>
             {
-                t.Add(h);
-            }
-            foreach (FolderTool ft in f.Folders)
-            {
-                t.Add(ft);
-                Project.ImportTools(ft, t);
-            }
-            t.Pop();
+                KeyValuePair<IEnumerable<string>, Accessor> kv = (KeyValuePair<IEnumerable<string>, Accessor>)e.NewObject;
+                destNode.Find(kv.Key).AddLeaf(kv.Value);
+            };
+            t.EnumerateSelected(b);
         }
 
-        private static void ImportMasterPages(List<MasterPage> list, Tree<IProjectElement> t)
+        /// <summary>
+        /// Import all master pages from an existing project
+        /// </summary>
+        /// <param name="src">project source</param>
+        /// <param name="dest">project destination</param>
+        private static void ImportMasterPages(Project src, Project dest)
         {
-            t.Push();
-            foreach (MasterPage p in list)
+            Tree<string, Accessor> t = new Tree<string, Accessor>(src.Hierarchy.Find(Project.MasterPagesName));
+            BindingList<KeyValuePair<IEnumerable<string>, Accessor>> b = new BindingList<KeyValuePair<IEnumerable<string>, Accessor>>();
+            Node<string, Accessor> destNode = dest.Hierarchy.Find(Project.MasterPagesName);
+            b.AddingNew += (sender, e) =>
             {
-                t.Add(p);
-            }
-            t.Pop();
+                KeyValuePair<IEnumerable<string>, Accessor> kv = (KeyValuePair<IEnumerable<string>, Accessor>)e.NewObject;
+                destNode.Find(kv.Key).AddLeaf(kv.Value);
+            };
+            t.EnumerateSelected(b);
         }
 
-        private static void ImportMasterObjects(List<MasterObject> list, Tree<IProjectElement> t)
+        /// <summary>
+        /// Import all master object from an existing project
+        /// </summary>
+        /// <param name="src">project source</param>
+        /// <param name="dest">project destination</param>
+        /// <param name="needs">contains all subsequent elements to add</param>
+        private static void ImportMasterObjects(Project src, Project dest, List<string> needs)
         {
-            t.Push();
-            foreach (MasterObject o in list)
+            Tree<string, Accessor> t = new Tree<string, Accessor>(src.Hierarchy.Find(Project.MasterObjectsName));
+            BindingList<KeyValuePair<IEnumerable<string>, Accessor>> b = new BindingList<KeyValuePair<IEnumerable<string>, Accessor>>();
+            Node<string, Accessor> destNode = dest.Hierarchy.Find(Project.MasterObjectsName);
+            b.AddingNew += (sender, e) =>
             {
-                t.Add(o);
-            }
-            t.Pop();
-        }
-
-        private static void ImportSculptures(List<SculptureObject> list, Tree<IProjectElement> t)
-        {
-            t.Push();
-            foreach (SculptureObject o in list)
-            {
-                t.Add(o);
-            }
-            t.Pop();
-        }
-
-        private static void CopyTo(Project to, Node<IProjectElement> n, List<string> needs)
-        {
-            if (n.Object.TypeName == "ProjectCap")
-            {
-                switch (n.Object.ElementTitle)
+                KeyValuePair<IEnumerable<string>, Accessor> kv = (KeyValuePair<IEnumerable<string>, Accessor>)e.NewObject;
+                MasterObject srcMo = kv.Value.GetObject(src);
+                MasterObject destMo = srcMo.Clone() as MasterObject;
+                destMo.Unique = dest.Unique.ComputeNewString();
+                // recherche des objets (soit des tools, soit des master objects)
+                foreach (HTMLObject o in srcMo.Objects)
                 {
-                    case "MasterPages":
-                        foreach (Library.Node<Library.IProjectElement> sub in n)
-                        {
-                            if (sub.IsSelected)
-                            {
-                                MasterPage p = sub.Object as MasterPage;
-                                p = p.Clone() as MasterPage;
-                                // recherche des objets (soit des tools, soit des master objects)
-                                foreach (HTMLObject o in p.Objects)
-                                {
-                                    if (o.IsMasterObject)
-                                    {
-                                        needs.Add(o.MasterObjectName);
-                                    }
-                                }
-                                to.MasterPages.Add(p);
-                            }
-                        }
-                        break;
-                    case "MasterObjects":
-                        foreach (Library.Node<Library.IProjectElement> sub in n)
-                        {
-                            if (sub.IsSelected)
-                            {
-                                MasterObject o = sub.Object as MasterObject;
-                                o = o.Clone() as MasterObject;
-                                foreach (HTMLObject html in o.Objects)
-                                {
-                                    if (html.IsMasterObject)
-                                    {
-                                        needs.Add(html.MasterObjectName);
-                                    }
-                                }
-                                to.MasterObjects.Add(o);
-                            }
-                        }
-                        break;
-                    case "Sculptures":
-                        foreach (Library.Node<Library.IProjectElement> sub in n)
-                        {
-                            if (sub.IsSelected)
-                            {
-                                SculptureObject s = sub.Object as SculptureObject;
-                                to.SculptureObjects.Add(s.Clone() as SculptureObject);
-                            }
-                        }
-                        break;
-                    case "Folders":
-                        foreach (Library.Node<Library.IProjectElement> sub in n)
-                        {
-                            to.Folders.Import(sub);
-                        }
-                        break;
-                    case "Tools":
-                        foreach (Library.Node<Library.IProjectElement> sub in n)
-                        {
-                            to.Tools.Import("", sub);
-                        }
-                        break;
+                    if (o.IsMasterObject)
+                    {
+                        needs.Add(o.MasterObjectName);
+                    }
+                    else if (o.IsToolObject)
+                    {
+                        needs.Add(o.Name);
+                    }
                 }
-            }
+                destNode.Find(kv.Key).AddLeaf(kv.Value);
+            };
+            t.EnumerateSelected(b);
         }
 
-
+        /// <summary>
+        /// Import all sculptures from an existing project
+        /// </summary>
+        /// <param name="src">project source</param>
+        /// <param name="dest">project destination</param>
+        private static void ImportSculptures(Project src, Project dest)
+        {
+        }
 
         #endregion
 
         #region Public Static Methods
 
+        /// <summary>
+        /// Save project into file
+        /// </summary>
+        /// <param name="p">project object to save</param>
+        /// <param name="path">path of file</param>
+        /// <param name="fileName">file name</param>
         public static void Save(Project p, string path, string fileName)
         {
             FileInfo fi = new FileInfo(Path.Combine(path, fileName));
@@ -330,302 +700,169 @@ namespace Library
                 fi.CopyTo(Path.Combine(path, Path.GetFileNameWithoutExtension(fileName) + ".bak"), true);
             }
             ++p.Revision;
-            BinaryFormatter bf = new BinaryFormatter();
             p.ModificationDate = DateTime.Now;
-            try
+            string errorText;
+            if (Save(fi, p, out errorText))
             {
-                using (FileStream fs = new FileStream(Path.Combine(path, fileName), FileMode.Create))
-                {
-                    bf.Serialize(fs, p);
-                    fs.Close();
-                }
-                p.hasErrorSave = false;
-            }
-            catch(Exception ex)
-            {
-                FileInfo oldFi = new FileInfo(Path.Combine(path, Path.GetFileNameWithoutExtension(fileName) + ".bak"));
-                if (oldFi.Exists)
-                    oldFi.CopyTo(Path.Combine(path, fileName), true);
-                p.hasErrorSave = true;
-                p.reason = ex.Message;
-            }
-        }
-
-        public static Project Load(string path, string fileName, OpenProject del)
-        {
-            CadreModel.ReinitCounter(0);
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream fs = new FileStream(Path.Combine(path, fileName), FileMode.Open);
-            Project np = bf.Deserialize(fs) as Project;
-            fs.Close();
-            fs.Dispose();
-            if (np == null)
-            {
-                throw new FormatException(String.Format(Localization.Strings.GetString("ExceptionProjectNotLoaded"), fileName));
-            }
-            // reinit counter CadreModel
-            np.openProject = del;
-            Project.CurrentProject = np;
-            np.ReloadProject();
-            return np;
-        }
-
-        public static Project Load(string path, string fileName)
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream fs = new FileStream(Path.Combine(path, fileName), FileMode.Open);
-            Project np = bf.Deserialize(fs) as Project;
-            fs.Close();
-            fs.Dispose();
-            if (np == null)
-            {
-                throw new FormatException(String.Format(Localization.Strings.GetString("ExceptionProjectNotLoaded"), fileName));
-            }
-            np.openProject = Project.CurrentProject.openProject;
-            Project.CurrentProject = np;
-            return np;
-        }
-
-        public static Tree<IProjectElement> LoadImport(string path, string fileName)
-        {
-            Project np = null;
-            Tree<IProjectElement> t = new Tree<IProjectElement>();
-            try
-            {
-                BinaryFormatter bf = new BinaryFormatter();
-                using (FileStream fs = new FileStream(Path.Combine(path, fileName), FileMode.Open))
-                {
-                    np = bf.Deserialize(fs) as Project;
-                    fs.Close();
-                }
-            }
-            catch { }
-            if (np != null)
-            {
-                t.Add(new ProjectCap("MasterPages"));
-                Project.ImportMasterPages(np.MasterPages, t);
-
-                t.Add(new ProjectCap("MasterObjects"));
-                Project.ImportMasterObjects(np.MasterObjects, t);
-
-                t.Add(new ProjectCap("Folders"));
-                Project.ImportPages(np.Folders, t);
-
-                t.Add(new ProjectCap("Tools"));
-                Project.ImportTools(np.Tools, t);
-
-                t.Add(new ProjectCap("Sculptures"));
-                Project.ImportSculptures(np.SculptureObjects, t);
+                p.Set(hasErrorSaveName, false);
             }
             else
             {
+                p.Set(hasErrorSaveName, true);
+                p.Set(errorReasonName, errorText);
+                FileInfo oldFi = new FileInfo(Path.Combine(path, Path.GetFileNameWithoutExtension(fileName) + ".bak"));
+                if (oldFi.Exists)
+                    oldFi.CopyTo(Path.Combine(path, fileName), true);
+            }
+        }
+
+        /// <summary>
+        /// Load a project
+        /// </summary>
+        /// <param name="path">path of file</param>
+        /// <param name="fileName">file name</param>
+        /// <param name="del">delegate to open project</param>
+        /// <returns>project object</returns>
+        public static Project Load(string path, string fileName, OpenProject del)
+        {
+            CadreModel.ReinitCounter(0);
+            FileInfo fi = new FileInfo(Path.Combine(path, fileName));
+            Marshalling.PersistentDataObject obj = null;
+            Load(fi, out obj);
+
+            Project pn = obj as Project;
+            if (pn == null)
+            {
                 throw new FormatException(String.Format(Localization.Strings.GetString("ExceptionProjectNotLoaded"), fileName));
             }
-            return t;
+            pn.openProject = del;
+            Project.CurrentProject = pn;
+            pn.ReloadProject();
+            return pn;
         }
 
-        public static void Import(Tree<IProjectElement> from, Project to, ImportType type)
+        /// <summary>
+        /// Load a project
+        /// </summary>
+        /// <param name="path">path of file</param>
+        /// <param name="fileName">file name</param>
+        /// <returns>project object</returns>
+        public static Project Load(string path, string fileName)
         {
-            Node<IProjectElement> node;
-            switch (type)
+            CadreModel.ReinitCounter(0);
+            FileInfo fi = new FileInfo(Path.Combine(path, fileName));
+            Marshalling.PersistentDataObject obj = null;
+            Load(fi, out obj);
+
+            Project pn = obj as Project;
+            if (pn == null)
             {
-                case ImportType.TOOLS:
-                    node = from.Root.Find(a => a.Object.ElementTitle == "Tools");
-                    break;
-                case ImportType.MASTERPAGES:
-                    node = from.Root.Find(a => a.Object.ElementTitle == "MasterPages");
-                    break;
-                case ImportType.MASTEROBJECTS:
-                    node = from.Root.Find(a => a.Object.ElementTitle == "MasterObjects");
-                    break;
-                case ImportType.SCULPTURES:
-                    node = from.Root.Find(a => a.Object.ElementTitle == "Sculptures");
-                    break;
-                case ImportType.FILES:
-                    node = from.Root.Find(a => a.Object.ElementTitle == "Folders");
-                    break;
-                default:
-                    return;
+                throw new FormatException(String.Format(Localization.Strings.GetString("ExceptionProjectNotLoaded"), fileName));
             }
-            List<string> masterObjectToAdd = new List<string>();
-            Project.CopyTo(to, node, masterObjectToAdd);
-            node = from.Root.Find(a => a.Object.ElementTitle == "MasterObjects");
-            for (int index = 0; index < masterObjectToAdd.Count; ++index)
-            {
-                string name = masterObjectToAdd[index];
-                Node<IProjectElement> masterObjectNode = node.Find(a => a.Object.ElementTitle == name);
-                masterObjectNode.IsSelected = true;
-                Project.CopyTo(to, node, masterObjectToAdd);
-            }
+            pn.openProject = Project.CurrentProject.openProject;
+            Project.CurrentProject = pn;
+            return pn;
         }
 
-        public static bool AddFile(Project proj, string fileName)
+        /// <summary>
+        /// Add a file
+        /// </summary>
+        /// <param name="proj">project source</param>
+        /// <param name="path">path for the directory of this file to copy</param>
+        /// <param name="fileName">file name to add</param>
+        /// <returns>true if added</returns>
+        public static bool AddFile(Project proj, string path, string fileName)
         {
-            Folder rootFolder = proj.Folders;
-            Folder currentFolder = rootFolder;
-            string[] list = fileName.Split('/');
-            IEnumerator el = list.GetEnumerator();
-            string lastItem = String.Empty;
-            if (el.MoveNext())
+            FileInfo fi = new FileInfo(fileName);
+            string f = Path.GetFileName(fileName);
+            proj.Add(new File(f), path);
+            bool result;
+            try
             {
-                do
-                {
-                    if (!String.IsNullOrEmpty(lastItem))
-                    {
-                        if (!currentFolder.Folders.Exists(a => { return a.Name == lastItem; }))
-                        {
-                            Folder newFolder = new Folder();
-                            newFolder.Name = lastItem;
-                            newFolder.Ancestor = currentFolder;
-                            currentFolder.Folders.Add(newFolder);
-                            currentFolder = newFolder;
-                        }
-                        else
-                        {
-                            currentFolder = currentFolder.Folders.Find(a => { return a.Name == lastItem; });
-                        }
-                    }
-                    if (!String.IsNullOrEmpty((string)el.Current))
-                        lastItem = (string)el.Current;
-                }
-                while (el.MoveNext());
+                CommonDirectories.ConfigDirectories.AddFile(proj.Title, Path.Combine(path, f), fileName);
+                result = true;
             }
-            if (!String.IsNullOrEmpty(lastItem))
+            catch
             {
-                if (!currentFolder.Files.Exists(s => s == lastItem))
-                    currentFolder.Files.Add(lastItem);
-                return true;
+                result = false;
             }
-            return false;
+            return result;
         }
 
-        public static bool AddPage(Project proj, Page page, string fileName)
+        /// <summary>
+        /// Add a new Page
+        /// </summary>
+        /// <param name="proj">concerned project</param>
+        /// <param name="p">new page</param>
+        /// <param name="path">path for this page</param>
+        /// <returns></returns>
+        public static bool AddPage(Project proj, Page p, string path)
         {
-            Folder rootFolder = proj.Folders;
-            Folder currentFolder = rootFolder;
-            string[] list = fileName.Split('/');
-            IEnumerator el = list.GetEnumerator();
-            string lastItem = null;
-            if (el.MoveNext())
-            {
-                do
-                {
-                    if (!String.IsNullOrEmpty(lastItem))
-                    {
-                        if (!currentFolder.Folders.Exists(a => { return a.Name == lastItem; }))
-                        {
-                            Folder newFolder = new Folder();
-                            newFolder.Name = lastItem;
-                            newFolder.Ancestor = currentFolder;
-                            currentFolder.Folders.Add(newFolder);
-                            currentFolder = newFolder;
-                        }
-                        else
-                        {
-                            currentFolder = currentFolder.Folders.Find(a => { return a.Name == lastItem; });
-                        }
-                    }
-                    if (!String.IsNullOrEmpty((string)el.Current))
-                        lastItem = (string)el.Current;
-                }
-                while (el.MoveNext());
-            }
-            if (!String.IsNullOrEmpty(lastItem))
-            {
-                page.Ancestor = currentFolder;
-                page.Name = lastItem;
-                currentFolder.Pages.Add(page);
-                return true;
-            }
-            return false;
+            proj.Add(p, path);
+            return true;
         }
 
-        public static bool AddTool(Project proj, HTMLTool tool, string toolName)
+        /// <summary>
+        /// Add a new Page
+        /// </summary>
+        /// <param name="proj">concerned project</param>
+        /// <param name="t">new tool</param>
+        /// <param name="path">path for this page</param>
+        /// <returns></returns>
+        public static bool AddTool(Project proj, HTMLTool t, string path)
         {
-            Library.FolderTool rootFolder = proj.Tools;
-            Library.FolderTool currentFolder = rootFolder;
-            string[] list = toolName.Split('/');
-            IEnumerator el = list.GetEnumerator();
-            string last = String.Empty;
-            string oldPath = String.Empty;
-            if (el.MoveNext())
-            {
-                do
-                {
-                    if (!String.IsNullOrEmpty(last))
-                    {
-                        if (!currentFolder.Folders.Exists(a => { return a.Name == last; }))
-                        {
-                            Library.FolderTool newFolder = new Library.FolderTool();
-                            newFolder.Path = oldPath;
-                            newFolder.Name = last;
-                            if (!String.IsNullOrEmpty(oldPath))
-                                oldPath = oldPath + System.IO.Path.AltDirectorySeparatorChar + last;
-                            else
-                                oldPath = last;
-                            currentFolder.Folders.Add(newFolder);
-                            currentFolder = newFolder;
-                        }
-                        else
-                        {
-                            currentFolder = currentFolder.Folders.Find(a => { return a.Name == last; });
-                        }
-                    }
-                    if (!String.IsNullOrEmpty((string)el.Current))
-                    {
-                        last = (string)el.Current;
-                    }
-                }
-                while (el.MoveNext());
-            }
-            if (!String.IsNullOrEmpty(last))
-            {
-                tool.Title = last;
-                tool.Path = oldPath;
-                currentFolder.Tools.Add(tool);
-                return true;
-            }
-            return false;
+            proj.Add(t, path);
+            return true;
         }
 
+        /// <summary>
+        /// Check sculpture generation
+        /// </summary>
+        /// <param name="proj">project</param>
         public static void EnsureSculptureGeneration(Project proj)
         {
-            if (proj.sculptureToolImage == null)
+            if (proj.ToolImage == null)
             {
                 // créer un tool image
                 HTMLTool newToolImage = new HTMLTool();
                 newToolImage.ConstraintHeight = EnumConstraint.AUTO;
                 newToolImage.ConstraintWidth = EnumConstraint.AUTO;
-                proj.sculptureToolImage = newToolImage;
+                proj.Set(sculptureToolImageName, newToolImage);
                 newToolImage.CSS.Body.Add("background-position", "center");
                 newToolImage.CSS.Body.Add("background-repeat", "no-repeat");
-                Project.AddTool(proj, proj.sculptureToolImage, "/#sculpture/image");
+                Project.AddTool(proj, proj.ToolImage, "/#sculpture/image");
             }
-            if (proj.sculptureToolText == null)
+            if (proj.ToolText == null)
             {
                 // créer un tool texte
                 HTMLTool newToolText = new HTMLTool();
                 newToolText.ConstraintHeight = EnumConstraint.AUTO;
                 newToolText.ConstraintWidth = EnumConstraint.AUTO;
-                proj.sculptureToolText = newToolText;
-                Project.AddTool(proj, proj.sculptureToolText, "/#sculpture/texte");
+                proj.Set(sculptureToolTextName, newToolText);
+                Project.AddTool(proj, proj.ToolText, "/#sculpture/texte");
             }
         }
 
+        /// <summary>
+        /// Generate an HtmlObject from a sculpture object
+        /// </summary>
+        /// <param name="proj">project source</param>
+        /// <param name="model">model</param>
+        /// <returns>HTMLObject constructed</returns>
         public static HTMLObject InstanciateSculptureTool(Project proj, CadreModel model)
         {
             HTMLObject obj = null;
             Project.EnsureSculptureGeneration(proj);
             if (model.SelectedModelTypeObject.Type == CadreModelType.Image)
             {
-                obj = new HTMLObject(proj.sculptureToolImage);
+                obj = new HTMLObject(proj.ToolImage);
                 model.CopyProperties(obj);
                 obj.CSS.BackgroundImageURL = model.SelectedModelTypeObject.Content;
                 proj.Instances.Add(obj);
             }
             else if (model.SelectedModelTypeObject.Type == CadreModelType.Text)
             {
-                obj = new HTMLObject(proj.sculptureToolText);
+                obj = new HTMLObject(proj.ToolText);
                 model.CopyProperties(obj);
                 obj.HTML = model.SelectedModelTypeObject.Content;
                 proj.Instances.Add(obj);
@@ -638,29 +875,21 @@ namespace Library
             }
             else if (model.SelectedModelTypeObject.Type == CadreModelType.MasterObject)
             {
-                obj = new HTMLObject();
-                obj.Title = model.SelectedModelTypeObject.DirectObject.Title;
-                obj.MasterObjectName = model.SelectedModelTypeObject.DirectObject;
+                obj = new HTMLObject(model.SelectedModelTypeObject.DirectObject);
                 model.CopyProperties(obj);
                 proj.Instances.Add(obj);
             }
             return obj;
         }
 
+        /// <summary>
+        /// Initialize trace counter
+        /// </summary>
         public static void InitializeTraceCounter()
         {
             Project.traceCounter = 0;
         }
 
-        public static int TraceCounter
-        {
-            get { return Project.traceCounter; }
-        }
-
-        public static int IncrementedTraceCounter
-        {
-            get { return ++Project.traceCounter; }
-        }
         #endregion
     }
 }

@@ -7,200 +7,376 @@ using System.IO;
 
 namespace Library
 {
+    /// <summary>
+    /// A master page is a template that acts as the first content generator
+    /// all objects of master page and all specific objects for a single page are mixed
+    /// object name are dissocied by a prefix name to correspond distinguished as page or master page behave
+    /// </summary>
     [Serializable]
-    public class MasterPage : IContainer, IProjectElement, IGenerateDesign, IGenerateDesignDIV, IGenerateDesignTable, IGenerateProduction, IGenerateProductionDIV, IGenerateProductionTable, ICloneable
+    public class MasterPage : Marshalling.PersistentDataObject, IContainer, IProjectElement, IGenerateDesign, IGenerateDesignDIV, IGenerateDesignTable, IGenerateProduction, IGenerateProductionDIV, IGenerateProductionTable, ICloneable
     {
-        #region Private Fields
-        private EnumConstraint constraintWidth, constraintHeight;
-        private bool cssOnFile;
-        private string cssFileName;
-        private bool javascriptOnFile;
-        private string javascriptFileName;
-        private uint width;
-        private uint height;
-        private uint countLines;
-        private uint countColumns;
-        private string name;
-        private List<HTMLObject> objects = new List<HTMLObject>();
-        private List<HorizontalZone> hZones = new List<HorizontalZone>();
-        private CodeJavaScript javascript = new CodeJavaScript();
-        private List<string> javascriptFiles = new List<string>();
-        private CodeJavaScript javascriptOnLoad = new CodeJavaScript();
-        private string meta;
-        private CodeCSS css = new CodeCSS("body");
+
+        #region Fields
+
+        /// <summary>
+        /// Index name for unique id
+        /// </summary>
+        protected static readonly string uniqueName = "unique";
+        /// <summary>
+        /// Index name for width constraint
+        /// </summary>
+        protected static readonly string constraintWidthName = "constraintWidth";
+        /// <summary>
+        /// Index name for height constraint
+        /// </summary>
+        protected static readonly string constraintHeightName = "constraintHeight";
+        /// <summary>
+        /// Index name for css on file or css inline switch
+        /// </summary>
+        protected static readonly string cssOnFileName = "cssOnFile";
+        /// <summary>
+        /// Index name for css file name
+        /// </summary>
+        protected static readonly string cssFilenameName = "cssFilename";
+        /// <summary>
+        /// Index name for javascript on file or javascript inline switch
+        /// </summary>
+        protected static readonly string javascriptOnFileName = "javascriptOnFile";
+        /// <summary>
+        /// Index name for javascript file name
+        /// </summary>
+        protected static readonly string javascriptFilenameName = "javascriptFilename";
+        /// <summary>
+        /// Index name for width value
+        /// </summary>
+        protected static readonly string widthName = "width";
+        /// <summary>
+        /// Index name for height value
+        /// </summary>
+        protected static readonly string heightName = "height";
+        /// <summary>
+        /// Index name for counting lines
+        /// </summary>
+        protected static readonly string countingLinesName = "countingLines";
+        /// <summary>
+        /// Index name for counting columns
+        /// </summary>
+        protected static readonly string countingColumnsName = "countingColumns";
+        /// <summary>
+        /// Index name for name
+        /// </summary>
+        protected static readonly string nameName = "name";
+        /// <summary>
+        /// Index name for its own objects
+        /// </summary>
+        protected static readonly string objectListName = "objects";
+        /// <summary>
+        /// Index name for horizontal areas
+        /// </summary>
+        protected static readonly string horizontalZoneListName = "horizontalZones";
+        /// <summary>
+        /// Index name for javascript code
+        /// </summary>
+        protected static readonly string javascriptName = "javascript";
+        /// <summary>
+        /// Index name for javascript on load code
+        /// </summary>
+        protected static readonly string javascriptOnloadName = "javascriptOnload";
+        /// <summary>
+        /// Index name for css
+        /// </summary>
+        protected static readonly string cssName = "css";
+        /// <summary>
+        /// Index name for meta keywords
+        /// </summary>
+        protected static readonly string metaName = "meta";
+
         #endregion
 
         #region Default Constructor
+
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public MasterPage() { }
+
         #endregion
 
         #region Copy Constructor
+
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="refObj">master page to copy from</param>
         private MasterPage(MasterPage refObj)
         {
-            this.constraintWidth = refObj.constraintWidth;
-            this.constraintHeight = refObj.constraintHeight;
-            this.cssOnFile = refObj.cssOnFile;
-            this.cssFileName = ExtensionMethods.CloneThis(refObj.cssFileName);
-            this.javascriptOnFile = refObj.javascriptOnFile;
-            this.javascriptFileName = ExtensionMethods.CloneThis(refObj.javascriptFileName);
-            this.width = refObj.width;
-            this.height = refObj.height;
-            this.countLines = refObj.countLines;
-            this.countColumns = refObj.countColumns;
-            this.name = ExtensionMethods.CloneThis(refObj.name);
-            foreach (HTMLObject obj in refObj.objects)
+            this.ConstraintWidth = refObj.ConstraintWidth;
+            this.ConstraintHeight = refObj.ConstraintHeight;
+            this.IsCSSOnFile = refObj.IsCSSOnFile;
+            this.CSSFileName = ExtensionMethods.CloneThis(refObj.CSSFileName);
+            this.IsJavaScriptOnFile = refObj.IsJavaScriptOnFile;
+            this.JavaScriptFileName = ExtensionMethods.CloneThis(refObj.JavaScriptFileName);
+            this.Width = refObj.Width;
+            this.Height = refObj.Height;
+            this.CountLines = refObj.CountLines;
+            this.CountColumns = refObj.CountColumns;
+            this.Name = ExtensionMethods.CloneThis(refObj.Name);
+            foreach (HTMLObject obj in refObj.Objects)
             {
-                this.objects.Add(obj.Clone() as HTMLObject);
+                this.Objects.Add(obj.Clone() as HTMLObject);
             }
-            foreach (HorizontalZone hz in refObj.hZones)
+            foreach (HorizontalZone hz in refObj.HorizontalZones)
             {
-                this.hZones.Add(hz.Clone() as HorizontalZone);
+                this.HorizontalZones.Add(hz.Clone() as HorizontalZone);
             }
-            this.javascript = refObj.javascript.Clone() as CodeJavaScript;
-            this.javascriptOnLoad = refObj.javascriptOnLoad.Clone() as CodeJavaScript;
-            this.css = refObj.css.Clone() as CodeCSS;
-            this.meta = ExtensionMethods.CloneThis(refObj.meta);
+            this.Set(javascriptName, refObj.JavaScript.Clone());
+            this.Set(javascriptOnloadName, refObj.JavaScriptOnLoad.Clone());
+            this.Set(cssName, refObj.CSS.Clone());
+            this.Meta = ExtensionMethods.CloneThis(refObj.Meta);
+
         }
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the unique id
+        /// </summary>
+        public string Unique
+        {
+            get { return this.Get(uniqueName); }
+            set { this.Set(uniqueName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets width constraint
+        /// </summary>
         public EnumConstraint ConstraintWidth
         {
-            get { return this.constraintWidth; }
-            set { this.constraintWidth = value; }
+            get { return this.Get(constraintWidthName, EnumConstraint.AUTO); }
+            set { this.Set(constraintWidthName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets height constraint
+        /// </summary>
         public EnumConstraint ConstraintHeight
         {
-            get { return this.constraintHeight; }
-            set { this.constraintHeight = value; }
+            get { return this.Get(constraintHeightName, EnumConstraint.AUTO); }
+            set { this.Set(constraintHeightName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets if the css is exported to a file
+        /// </summary>
         public bool IsCSSOnFile
         {
-            get { return this.cssOnFile; }
-            set { this.cssOnFile = value; }
+            get { return this.Get(cssOnFileName, false); }
+            set { this.Set(cssOnFileName, value); }
         }
 
+        /// <summary>
+        /// Gets ot sets the file name where the css code resides
+        /// </summary>
         public string CSSFileName
         {
-            get { return this.cssFileName; }
-            set { this.cssFileName = value; }
+            get { return this.Get(cssFilenameName, ""); }
+            set { this.Set(cssFilenameName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets if javascript is exported to a file
+        /// </summary>
         public bool IsJavaScriptOnFile
         {
-            get { return this.javascriptOnFile; }
-            set { this.javascriptOnFile = value; }
+            get { return this.Get(javascriptOnFileName, false); }
+            set { this.Set(javascriptOnFileName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the file name where the javascript code resides
+        /// </summary>
         public string JavaScriptFileName
         {
-            get { return this.javascriptFileName; }
-            set { this.javascriptFileName = value; }
+            get { return this.Get(javascriptFilenameName, ""); }
+            set { this.Set(javascriptFilenameName, value); }
         }
 
-        public List<string> JavascriptFiles
-        {
-            get { return this.javascriptFiles; }
-        }
-
+        /// <summary>
+        /// Gets or sets the width value
+        /// </summary>
         public uint Width
         {
-            get { return this.width; }
-            set { this.width = value; }
+            get { return this.Get(widthName, 0u); }
+            set { this.Set(widthName, value); }
         }
 
+        /// <summary>
+        /// Gets inner box width
+        /// empty padding css left and right
+        /// </summary>
         public uint HtmlWidth
         {
-            get { return (uint)(this.width - this.css.Padding.Left - this.css.Padding.Right); }
+            get { return (uint)(this.Width - this.CSS.Padding.Left - this.CSS.Padding.Right); }
         }
 
+        /// <summary>
+        /// Gets or sets the height value
+        /// </summary>
         public uint Height
         {
-            get { return this.height; }
-            set { this.height = value; }
+            get { return this.Get(heightName, 0u); }
+            set { this.Set(heightName, value); }
         }
 
+        /// <summary>
+        /// Gets inner box height
+        /// empty padding css top and bottom
+        /// </summary>
         public uint HtmlHeight
         {
-            get { return (uint)(this.height - this.css.Padding.Top - this.css.Padding.Bottom); }
+            get { return (uint)(this.Height - this.CSS.Padding.Top - this.CSS.Padding.Bottom); }
         }
 
+        /// <summary>
+        /// Gets the size string for dumping mode
+        /// </summary>
         public string SizeString
         {
-            get { return this.width.ToString() + "x" + this.height.ToString(); }
+            get { return this.Width.ToString() + "x" + this.Height.ToString(); }
         }
 
+        /// <summary>
+        /// Gets the grid size for dumping mode
+        /// </summary>
         public string GridSizeString
         {
-            get { return this.countColumns.ToString() + "x" + this.countLines.ToString(); }
+            get { return this.CountColumns.ToString() + "x" + this.CountLines.ToString(); }
         }
 
+        /// <summary>
+        /// Gets or sets the counting lines
+        /// </summary>
         public uint CountLines
         {
-            get { return this.countLines; }
-            set { this.countLines = value; }
+            get { return this.Get(countingLinesName, 0u); }
+            set { this.Set(countingLinesName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the counting columns
+        /// </summary>
         public uint CountColumns
         {
-            get { return this.countColumns; }
-            set { this.countColumns = value; }
+            get { return this.Get(countingColumnsName, 0u); }
+            set { this.Set(countingColumnsName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the name of this master page
+        /// </summary>
         public string Name
         {
-            get { return this.name; }
-            set { this.name = value; }
+            get { return this.Get(nameName, ""); }
+            set { this.Set(nameName, value); }
         }
 
+        /// <summary>
+        /// Gets own objects
+        /// </summary>
         public List<HTMLObject> Objects
         {
-            get { return this.objects; }
+            get { return this.Get(objectListName, new List<HTMLObject>()); }
         }
 
+        /// <summary>
+        /// Gets horizontal areas
+        /// </summary>
         public List<HorizontalZone> HorizontalZones
         {
-            get { return this.hZones; }
+            get { return this.Get(horizontalZoneListName, new List<HorizontalZone>()); }
         }
 
+        /// <summary>
+        /// Gets the javascript code
+        /// </summary>
         public CodeJavaScript JavaScript
         {
-            get { return this.javascript; }
+            get { return this.Get(javascriptName, new CodeJavaScript()); }
         }
 
+        /// <summary>
+        /// Gets the javascript on load code
+        /// </summary>
         public CodeJavaScript JavaScriptOnLoad
         {
-            get { return this.javascriptOnLoad; }
+            get { return this.Get(javascriptOnloadName, new CodeJavaScript()); }
         }
 
+        /// <summary>
+        /// Gets or sets the javascript on load source code
+        /// </summary>
         public string JavaScriptOnLoadSource
         {
-            get { return this.javascriptOnLoad.Code; }
-            set { this.javascriptOnLoad.Code = value; }
+            get { return this.JavaScriptOnLoad.Code; }
+            set { this.JavaScriptOnLoad.Code = value; }
         }
 
+        /// <summary>
+        /// Gets the javascript source code
+        /// </summary>
         public string JavaScriptSource
         {
-            get { return this.javascript.Code; }
-            set { this.javascript.Code = value; }
+            get { return this.JavaScript.Code; }
+            set { this.JavaScript.Code = value; }
         }
 
+        /// <summary>
+        /// Gets the css code
+        /// </summary>
         public CodeCSS CSS
         {
-            get { return this.css; }
+            get { return this.Get(cssName, new CodeCSS("body")); }
         }
 
+        /// <summary>
+        /// Gets or sets the meta keywords string
+        /// </summary>
         public string Meta
         {
-            get { return this.meta; }
-            set { this.meta = value; }
+            get { return this.Get(metaName, ""); }
+            set { this.Set(metaName, value); }
         }
+
+        /// <summary>
+        /// Gets the type name
+        /// </summary>
+        public string TypeName
+        {
+            get { return "MasterPage"; }
+        }
+
+        /// <summary>
+        /// Gets the element title
+        /// </summary>
+        public string ElementTitle
+        {
+            get { return this.Name; }
+        }
+
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Search a container by name existing from all containers, all content
+        /// and returns the result
+        /// </summary>
+        /// <param name="containers">all containers</param>
+        /// <param name="objects">all contents</param>
+        /// <param name="searchName">container to search</param>
+        /// <param name="found">container result</param>
+        /// <returns>true if the container has found</returns>
         public bool SearchContainer(List<IContainer> containers, List<IContent> objects, string searchName, out IContainer found)
         {
             found = null;
@@ -215,6 +391,10 @@ namespace Library
             return done;
         }
 
+        /// <summary>
+        /// Construct all zones and compute total size
+        /// </summary>
+        /// <param name="list">list of rectangle the user supplied</param>
         public void MakeZones(List<SizedRectangle> list)
         {
             SizedRectangle[,] indexes = new SizedRectangle[this.CountLines, this.CountColumns];
@@ -230,14 +410,14 @@ namespace Library
                 uint hSize = 0;
                 uint vSize = 0;
                 Nullable<int> minCountLines = null;
-                Library.HorizontalZone hz = new Library.HorizontalZone();
+                HorizontalZone hz = new HorizontalZone();
                 hz.ConstraintWidth = this.ConstraintWidth;
                 hz.ConstraintHeight = this.ConstraintHeight;
                 for (int pos_colonne = 0; pos_colonne < this.CountColumns; ++pos_colonne)
                 {
                     if (indexes[pos_ligne, pos_colonne] != null)
                     {
-                        Library.VerticalZone vz = new Library.VerticalZone();
+                        VerticalZone vz = new VerticalZone();
                         vz.ConstraintWidth = this.ConstraintWidth;
                         vz.ConstraintHeight = this.ConstraintHeight;
                         SizedRectangle sr = indexes[pos_ligne, pos_colonne];
@@ -257,7 +437,7 @@ namespace Library
                             minCountLines = vz.CountLines;
                         }
                         if (hz == null)
-                            hz = new Library.HorizontalZone();
+                            hz = new HorizontalZone();
                         hz.VerticalZones.Add(vz);
                     }
                 }
@@ -270,86 +450,159 @@ namespace Library
                     hz.Width = hSize;
                     hz.Height = vSize;
                     // cette longueur et hauteur servira pour calculer le resize des zones verticales
-                    hz.ConstraintWidth = Library.EnumConstraint.AUTO;
-                    hz.ConstraintHeight = Library.EnumConstraint.AUTO;
+                    hz.ConstraintWidth = EnumConstraint.AUTO;
+                    hz.ConstraintHeight = EnumConstraint.AUTO;
                     this.HorizontalZones.Add(hz);
                 }
             }
         }
+
         #endregion
 
         #region Interfaces implementations
+
+        /// <summary>
+        /// Generate an HTML DIV tag from null for design
+        /// A master page is hosted in a page
+        /// This function is not implemented nor called
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignDIV()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag from a page for design
+        /// A master page is set for a page
+        /// so, a master page is designed to generate a page
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignDIV(Page refPage)
         {
+
             DesignPage config = new DesignPage();
-            config.constraintWidth = this.constraintWidth;
-            config.constraintHeight = this.constraintHeight;
-            config.width = this.width;
-            config.height = this.height;
-            config.cssPart = this.css;
-            config.cssOnFile = this.cssOnFile;
-            config.cssFile = this.cssFileName;
-            config.javascriptPart = this.javascript;
-            config.javascriptOnFile = this.javascriptOnFile;
-            config.javascriptFile = this.javascriptFileName;
-            config.javascriptFiles = this.javascriptFiles;
-            config.onload = this.javascriptOnLoad;
-            config.zones = this.hZones;
+            config.constraintWidth = this.ConstraintWidth;
+            config.constraintHeight = this.ConstraintHeight;
+            config.width = this.Width;
+            config.height = this.Height;
+            config.cssPart = this.CSS;
+            config.cssOnFile = this.IsCSSOnFile;
+            config.cssFile = this.CSSFileName;
+            config.javascriptPart = this.JavaScript;
+            config.javascriptOnFile = this.IsJavaScriptOnFile;
+            config.javascriptFile = this.JavaScriptFileName;
+            config.onload = this.JavaScriptOnLoad;
+            config.zones = this.HorizontalZones;
             config.includeContainer = true;
             config.subObjects = new List<HTMLObject>();
-            config.subObjects.AddRange(this.objects);
+            config.subObjects.AddRange(this.Objects);
             config.subObjects.AddRange(refPage.Objects);
             return Routines.GenerateDesignPageDIV(refPage, this, config);
+
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag for design
+        /// The master page hosts the complete page, so this function is never implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="objects">master objects</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignDIV(Page refPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag for design
+        /// a given master page generates the page
+        /// The master page hosts the complete page, so this function is never implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignDIV(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag for design
+        /// a given master page generates the page
+        /// restricted objects in page are computed equally
+        /// The master page hosts the complete page, so this function is never implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">master objects list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignDIV(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag from a page for design
+        /// A master page is set for a page
+        /// so, a master page is designed to generate a page
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignTable(Page refPage)
         {
+
             DesignPage config = new DesignPage();
-            config.constraintWidth = this.constraintWidth;
-            config.constraintHeight = this.constraintHeight;
-            config.width = this.width;
-            config.height = this.height;
-            config.cssPart = this.css;
-            config.cssOnFile = this.cssOnFile;
-            config.cssFile = this.cssFileName;
-            config.javascriptPart = this.javascript;
-            config.javascriptOnFile = this.javascriptOnFile;
-            config.javascriptFile = this.javascriptFileName;
-            config.javascriptFiles = this.javascriptFiles;
-            config.onload = this.javascriptOnLoad;
-            config.zones = this.hZones;
+            config.constraintWidth = this.ConstraintWidth;
+            config.constraintHeight = this.ConstraintHeight;
+            config.width = this.Width;
+            config.height = this.Height;
+            config.cssPart = this.CSS;
+            config.cssOnFile = this.IsCSSOnFile;
+            config.cssFile = this.CSSFileName;
+            config.javascriptPart = this.JavaScript;
+            config.javascriptOnFile = this.IsJavaScriptOnFile;
+            config.javascriptFile = this.JavaScriptFileName;
+            config.onload = this.JavaScriptOnLoad;
+            config.zones = this.HorizontalZones;
             config.includeContainer = true;
             config.subObjects = new List<HTMLObject>();
-            config.subObjects.AddRange(this.objects);
+            config.subObjects.AddRange(this.Objects);
             config.subObjects.AddRange(refPage.Objects);
             return Routines.GenerateDesignPageTable(refPage, this, config);
+
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag for design
+        /// a given master page generates the page
+        /// The master page hosts the complete page, so this function is never implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignTable(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag for design
+        /// a given master page generates the page
+        /// a page contains master objects related
+        /// restricted objects in page are computed equally
+        /// The master page hosts the complete page, so this function is never implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">master objects list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignTable(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
@@ -357,16 +610,21 @@ namespace Library
 
         /// <summary>
         /// Génération de la master page sans la page (design)
+        /// This is a special case for a master page
+        /// A master page can be viewed at design mode.
+        /// So, you create a fake page to handle a master page
         /// </summary>
         /// <returns>page html</returns>
         public OutputHTML GenerateDesign()
         {
+            // Create a fake page
             Page page = new Page();
+
             page.ConstraintWidth = EnumConstraint.RELATIVE;
             page.Width = 100;
             page.ConstraintHeight = EnumConstraint.RELATIVE;
             page.Height = 100;
-            if (this.constraintWidth == EnumConstraint.RELATIVE || this.constraintHeight == EnumConstraint.RELATIVE)
+            if (this.ConstraintWidth == EnumConstraint.RELATIVE || this.ConstraintHeight == EnumConstraint.RELATIVE)
             {
                 OutputHTML html = this.GenerateDesignTable(page);
                 return html;
@@ -377,7 +635,7 @@ namespace Library
                 // s'il existe une colonne dont countLines > countLines de l'horizontal alors on utilise une table
                 // sinon on peut utiliser des div
                 bool cannotUseDiv = false;
-                foreach (HorizontalZone hz in this.hZones)
+                foreach (HorizontalZone hz in this.HorizontalZones)
                 {
                     bool sup = false;
                     foreach (VerticalZone vz in hz.VerticalZones)
@@ -410,7 +668,7 @@ namespace Library
         /// <returns>page html</returns>
         public OutputHTML GenerateDesign(Page refPage)
         {
-            if (this.constraintWidth == EnumConstraint.RELATIVE || this.constraintHeight == EnumConstraint.RELATIVE)
+            if (this.ConstraintWidth == EnumConstraint.RELATIVE || this.ConstraintHeight == EnumConstraint.RELATIVE)
             {
                 OutputHTML html = this.GenerateDesignTable(refPage);
                 return html;
@@ -421,7 +679,7 @@ namespace Library
                 // s'il existe une colonne dont countLines > countLines de l'horizontal alors on utilise une table
                 // sinon on peut utiliser des div
                 bool cannotUseDiv = false;
-                foreach (HorizontalZone hz in this.hZones)
+                foreach (HorizontalZone hz in this.HorizontalZones)
                 {
                     bool sup = false;
                     foreach (VerticalZone vz in hz.VerticalZones)
@@ -447,63 +705,117 @@ namespace Library
             }
         }
 
+        /// <summary>
+        /// Generate design of a page that you were supplied and its master page
+        /// The master page object doesn't use any other master page, so this function is not implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate design of a page that you were supplied and its master page
+        /// The master page object doesn't use any other master page, so this function is not implemented
+        /// restricted objects in page are computed equally
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">objects list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate design of a page that you were supplied
+        /// restricted objects in page are computed equally
+        /// This function is not implemented nor called
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="objects">object list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate HTML DIV tag on design of a page that you were supplied and its master page
+        /// The master page object doesn't use any other master page, so this function is not implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="refMasterObject">master object reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignDIV(Page refPage, MasterObject refMasterObject, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
-
+        /// <summary>
+        /// Generate HTML TABLE tag on design of a page that you were supplied and its master page
+        /// The master page object doesn't play with objects themselves, so this function is not implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="objects">master object list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesignTable(Page refPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
 
+        /// <summary>
+        /// Generate design of a page that you were supplied and its master page
+        /// The master page object doesn't use any other master page, so this function is not implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="refMasterObject">master object reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage, MasterObject refMasterObject, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// A master page has a thumbnail visual
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateThumbnail()
         {
             Page page = new Page();
+
             page.ConstraintWidth = EnumConstraint.RELATIVE;
             page.Width = 100;
             page.ConstraintHeight = EnumConstraint.RELATIVE;
             page.Height = 100;
-            if (this.constraintWidth == EnumConstraint.RELATIVE || this.constraintHeight == EnumConstraint.RELATIVE)
+            if (this.ConstraintWidth == EnumConstraint.RELATIVE || this.ConstraintHeight == EnumConstraint.RELATIVE)
             {
                 DesignPage config = new DesignPage();
-                config.constraintWidth = this.constraintWidth;
-                config.constraintHeight = this.constraintHeight;
-                config.width = this.width;
-                config.height = this.height;
-                CodeCSS cssThumbnail = new CodeCSS(this.css);
+                config.constraintWidth = this.ConstraintWidth;
+                config.constraintHeight = this.ConstraintHeight;
+                config.width = this.Width;
+                config.height = this.Height;
+                CodeCSS cssThumbnail = new CodeCSS(this.CSS);
                 cssThumbnail.Body.Add("zoom", "0.4");
                 config.cssPart = cssThumbnail;
                 config.cssOnFile = false;
                 config.cssFile = "";
-                config.javascriptPart = this.javascript;
+                config.javascriptPart = this.JavaScript;
                 config.javascriptOnFile = false;
                 config.javascriptFile = "";
-                config.javascriptFiles = this.javascriptFiles;
-                config.onload = this.javascriptOnLoad;
-                config.zones = this.hZones;
+                config.onload = this.JavaScriptOnLoad;
+                config.zones = this.HorizontalZones;
                 config.includeContainer = false;
                 return Routines.GenerateDesignPageTable(page, this, config);
             }
@@ -513,7 +825,7 @@ namespace Library
                 // s'il existe une colonne dont countLines > countLines de l'horizontal alors on utilise une table
                 // sinon on peut utiliser des div
                 bool cannotUseDiv = false;
-                foreach (HorizontalZone hz in this.hZones)
+                foreach (HorizontalZone hz in this.HorizontalZones)
                 {
                     bool sup = false;
                     foreach (VerticalZone vz in hz.VerticalZones)
@@ -527,60 +839,53 @@ namespace Library
                     }
                 }
                 OutputHTML html;
+                DesignPage config = new DesignPage();
+                config.constraintWidth = this.ConstraintWidth;
+                config.constraintHeight = this.ConstraintHeight;
+                config.width = this.Width;
+                config.height = this.Height;
+                CodeCSS cssThumbnail = new CodeCSS(this.CSS);
+                cssThumbnail.Body.Add("zoom", "0.4");
+                config.cssPart = cssThumbnail;
+                config.cssOnFile = false;
+                config.cssFile = "";
+                config.javascriptPart = this.JavaScript;
+                config.javascriptOnFile = false;
+                config.javascriptFile = "";
+                config.onload = this.JavaScriptOnLoad;
+                config.zones = this.HorizontalZones;
+                config.includeContainer = false;
                 if (cannotUseDiv)
                 {
-                    DesignPage config = new DesignPage();
-                    config.constraintWidth = this.constraintWidth;
-                    config.constraintHeight = this.constraintHeight;
-                    config.width = this.width;
-                    config.height = this.height;
-                    CodeCSS cssThumbnail = new CodeCSS(this.css);
-                    cssThumbnail.Body.Add("zoom", "0.4");
-                    config.cssPart = cssThumbnail;
-                    config.cssOnFile = false;
-                    config.cssFile = "";
-                    config.javascriptPart = this.javascript;
-                    config.javascriptOnFile = false;
-                    config.javascriptFile = "";
-                    config.javascriptFiles = this.javascriptFiles;
-                    config.onload = this.javascriptOnLoad;
-                    config.zones = this.hZones;
-                    config.includeContainer = false;
                     html = Routines.GenerateDesignPageTable(page, this, config);
                 }
                 else
                 {
-                    DesignPage config = new DesignPage();
-                    config.constraintWidth = this.constraintWidth;
-                    config.constraintHeight = this.constraintHeight;
-                    config.width = this.width;
-                    config.height = this.height;
-                    CodeCSS cssThumbnail = new CodeCSS(this.css);
-                    cssThumbnail.Body.Add("zoom", "0.4");
-                    config.cssPart = cssThumbnail;
-                    config.cssOnFile = false;
-                    config.cssFile = "";
-                    config.javascriptPart = this.javascript;
-                    config.javascriptOnFile = false;
-                    config.javascriptFile = "";
-                    config.javascriptFiles = this.javascriptFiles;
-                    config.onload = this.javascriptOnLoad;
-                    config.zones = this.hZones;
-                    config.includeContainer = false;
                     html = Routines.GenerateDesignPageDIV(page, this, config);
                 }
                 return html;
             }
         }
 
+        /// <summary>
+        /// Génération de la master page sans la page on actual website
+        /// A master page can be viewed herself on actual website.
+        /// So, the function is not implemented nor called
+        /// </summary>
+        /// <returns>page html</returns>
         public OutputHTML GenerateProduction()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Mode production de la page
+        /// </summary>
+        /// <param name="refPage">page à afficher</param>
+        /// <returns>page html</returns>
         public OutputHTML GenerateProduction(Page refPage)
         {
-            if (this.constraintWidth == EnumConstraint.RELATIVE || this.constraintHeight == EnumConstraint.RELATIVE)
+            if (this.ConstraintWidth == EnumConstraint.RELATIVE || this.ConstraintHeight == EnumConstraint.RELATIVE)
             {
                 OutputHTML html = this.GenerateProductionTable(refPage);
                 return html;
@@ -591,7 +896,7 @@ namespace Library
                 // s'il existe une colonne dont countLines > countLines de l'horizontal alors on utilise une table
                 // sinon on peut utiliser des div
                 bool cannotUseDiv = false;
-                foreach (HorizontalZone hz in this.hZones)
+                foreach (HorizontalZone hz in this.HorizontalZones)
                 {
                     bool sup = false;
                     foreach (VerticalZone vz in hz.VerticalZones)
@@ -617,93 +922,163 @@ namespace Library
             }
         }
 
+        /// <summary>
+        /// Generate actual website of a page that you were supplied and its master page
+        /// The master page object doesn't use any other master page, so this function is not implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProduction(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate actual website of a page that you were supplied and its master page
+        /// The master page object doesn't use any other master page, so this function is not implemented
+        /// restricted objects in page are computed equally
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">objects list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProduction(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag from a page for actual website
+        /// A master page is set for a page
+        /// so, a master page is designed to generate a page
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionDIV(Page refPage)
         {
+
             DesignPage config = new DesignPage();
-            config.constraintWidth = this.constraintWidth;
-            config.constraintHeight = this.constraintHeight;
-            config.width = this.width;
-            config.height = this.height;
-            config.cssPart = this.css;
-            config.cssOnFile = this.cssOnFile;
-            config.cssFile = this.cssFileName;
-            config.javascriptPart = this.javascript;
-            config.javascriptOnFile = this.javascriptOnFile;
-            config.javascriptFile = this.javascriptFileName;
-            config.javascriptFiles = this.javascriptFiles;
+            config.constraintWidth = this.ConstraintWidth;
+            config.constraintHeight = this.ConstraintHeight;
+            config.width = this.Width;
+            config.height = this.Height;
+            config.cssPart = this.CSS;
+            config.cssOnFile = this.IsCSSOnFile;
+            config.cssFile = this.CSSFileName;
+            config.javascriptPart = this.JavaScript;
+            config.javascriptOnFile = this.IsJavaScriptOnFile;
+            config.javascriptFile = this.JavaScriptFileName;
+            config.onload = this.JavaScriptOnLoad;
+            config.zones = this.HorizontalZones;
             config.includeContainer = true;
             config.subObjects = new List<HTMLObject>();
-            config.subObjects.AddRange(this.objects);
+            config.subObjects.AddRange(this.Objects);
             config.subObjects.AddRange(refPage.Objects);
-            config.onload = this.javascriptOnLoad;
-            config.zones = this.hZones;
             return Routines.GenerateProductionPageDIV(refPage, this, config);
+
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag for actual website
+        /// a given master page generates the page
+        /// The master page hosts the complete page, so this function is never implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionDIV(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML DIV tag for actual website
+        /// a given master page generates the page
+        /// restricted objects in page are computed equally
+        /// The master page hosts the complete page, so this function is never implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">master objects list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionDIV(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag from a page for actual website
+        /// A master page is set for a page
+        /// so, a master page is designed to generate a page
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionTable(Page refPage)
         {
+
             DesignPage config = new DesignPage();
-            config.constraintWidth = this.constraintWidth;
-            config.constraintHeight = this.constraintHeight;
-            config.width = this.width;
-            config.height = this.height;
-            config.cssPart = this.css;
-            config.cssOnFile = this.cssOnFile;
-            config.cssFile = this.cssFileName;
-            config.javascriptPart = this.javascript;
-            config.javascriptOnFile = this.javascriptOnFile;
-            config.javascriptFile = this.javascriptFileName;
-            config.javascriptFiles = this.javascriptFiles;
-            config.onload = this.javascriptOnLoad;
-            config.zones = this.hZones;
+            config.constraintWidth = this.ConstraintWidth;
+            config.constraintHeight = this.ConstraintHeight;
+            config.width = this.Width;
+            config.height = this.Height;
+            config.cssPart = this.CSS;
+            config.cssOnFile = this.IsCSSOnFile;
+            config.cssFile = this.CSSFileName;
+            config.javascriptPart = this.JavaScript;
+            config.javascriptOnFile = this.IsJavaScriptOnFile;
+            config.javascriptFile = this.JavaScriptFileName;
+            config.onload = this.JavaScriptOnLoad;
+            config.zones = this.HorizontalZones;
             config.includeContainer = true;
             config.subObjects = new List<HTMLObject>();
-            config.subObjects.AddRange(this.objects);
+            config.subObjects.AddRange(this.Objects);
             config.subObjects.AddRange(refPage.Objects);
             return Routines.GenerateProductionPageTable(refPage, this, config);
+
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag for actual website
+        /// a given master page generates the page
+        /// The master page hosts the complete page, so this function is never implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionTable(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate an HTML TABLE tag for actual website
+        /// a given master page generates the page
+        /// a page contains master objects related
+        /// restricted objects in page are computed equally
+        /// The master page hosts the complete page, so this function is never implemented
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">master objects list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateProductionTable(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
+
         #endregion
 
-        public string TypeName
-        {
-            get { return "MasterPage"; }
-        }
-
-        public string ElementTitle
-        {
-            get { return this.name; }
-        }
-
+        /// <summary>
+        /// Clone this object
+        /// </summary>
+        /// <returns>cloned object</returns>
         public object Clone()
         {
             return new MasterPage(this);

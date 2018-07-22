@@ -7,338 +7,589 @@ using System.Text;
 
 namespace Library
 {
+    /// <summary>
+    /// Cadre model form to create a sculpture
+    /// and generate a complete or partial form of an html page, master page, master object or a tool
+    /// </summary>
     [Serializable]
-    public class CadreModel : INotifyPropertyChanged, ICloneable
+    public class CadreModel : Marshalling.PersistentDataObject, INotifyPropertyChanged, ICloneable
     {
+
         #region Private Static Fields
+
+        /// <summary>
+        /// Static Counter
+        /// </summary>
         private static int counter = 0;
+        /// <summary>
+        /// Distance minimum under two objects are collapsed
+        /// </summary>
         private static int aimentedDistance = 20;
+
         #endregion
 
-        #region Private Fields
+        #region Protected Static Fields
+
+        /// <summary>
+        /// Index name for name
+        /// </summary>
+        protected static readonly string nameName = "name";
+        /// <summary>
+        /// Index name for existing standard model
+        /// </summary>
+        protected static readonly string modelTypesName = "modelTypeList";
+        /// <summary>
+        /// Index name for select the desired model type
+        /// </summary>
+        protected static readonly string selectedModelTypeName = "selectedModelType";
+        /// <summary>
+        /// Index name for width
+        /// </summary>
+        protected static readonly string widthName = "width";
+        /// <summary>
+        /// Index name for height
+        /// </summary>
+        protected static readonly string heightName = "height";
+        /// <summary>
+        /// Index name for padding width
+        /// </summary>
+        protected static readonly string paddingWidthName = "paddingWidth";
+        /// <summary>
+        /// Index name for padding height
+        /// </summary>
+        protected static readonly string paddingHeightName = "paddingHeight";
+        /// <summary>
+        /// Index name for position width
+        /// </summary>
+        protected static readonly string positionWidthName = "positionWidth";
+        /// <summary>
+        /// Index name for position height
+        /// </summary>
+        protected static readonly string positionHeightName = "positionHeight";
+        /// <summary>
+        /// Index name for border width
+        /// </summary>
+        protected static readonly string borderWidthName = "borderWidth";
+        /// <summary>
+        /// Index name for border height
+        /// </summary>
+        protected static readonly string borderHeightName = "borderHeight";
+        /// <summary>
+        /// Index name for contact width
+        /// </summary>
+        protected static readonly string contactWidthName = "contactWidth";
+        /// <summary>
+        /// Index name for contact height
+        /// </summary>
+        protected static readonly string contactHeightName = "contactHeight";
+        /// <summary>
+        /// Index name for background color
+        /// </summary>
+        protected static readonly string backgroundColorName = "backgroundColor";
+        /// <summary>
+        /// Index name for foreground color
+        /// </summary>
+        protected static readonly string foregroundColorName = "foregroundColor";
+        /// <summary>
+        /// Index name for border color
+        /// </summary>
+        protected static readonly string borderColorName = "borderColor";
+        /// <summary>
+        /// Index name for index position of this object from the list
+        /// </summary>
+        protected static readonly string indexName = "indexPosition";
+        /// <summary>
+        /// Index name for suspending binding switch
+        /// </summary>
+        protected static readonly string suspendBindingName = "suspendBinding";
+        /// <summary>
+        /// Index name for group switch
+        /// </summary>
+        protected static readonly string isGroupName = "isGroup";
+        /// <summary>
+        /// Index name for group index
+        /// </summary>
+        protected static readonly string groupIndexName = "groupIndex";
+
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Event handler when a cadre model was updated
+        /// </summary>
         [NonSerialized]
         protected EventHandler<CadreIndexArgs> updated;
+        /// <summary>
+        /// Event handler when a property of a cadre model has changed
+        /// </summary>
         [NonSerialized]
         protected PropertyChangedEventHandler propertyChanged;
-        protected string name;
-        protected List<CadreModelType> modelTypes;
-        protected int selectedModelType;
-        protected int L, H;
-        protected int paddingL, paddingH;
-        protected int positionL, positionH;
-        protected int borderL, borderH;
-        protected int? contactL, contactH;
-        protected Color background, foreground, borderColor;
-        protected int index;
-        protected bool suspendBinding;
-        protected bool isGrouped;
-        protected int groupIndex;
+
         #endregion
 
         #region Public Constructor
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public CadreModel()
         {
-            this.suspendBinding = false;
-            this.modelTypes = new List<CadreModelType>();
-            this.modelTypes.Add(new CadreModelType(CadreModelType.Image));
-            this.modelTypes.Add(new CadreModelType(CadreModelType.Text));
-            this.modelTypes.Add(new CadreModelType(CadreModelType.Tool));
-            this.modelTypes.Add(new CadreModelType(CadreModelType.MasterObject));
-            this.modelTypes.Add(new CadreModelType(CadreModelType.DynamicObject));
-            this.selectedModelType = 4;
-            this.L = 100; this.H = 100;
-            this.paddingL = 0; this.paddingH = 0;
-            this.positionL = 0; this.positionH = 0;
-            this.borderL = 0; this.borderH = 0;
-            this.background = Color.Black;
-            this.foreground = Color.White;
-            this.borderColor = Color.White;
-            this.index = ++CadreModel.counter;
-            this.isGrouped = false;
+            List<CadreModelType> modelTypes = new List<CadreModelType>();
+            modelTypes.Add(new CadreModelType(CadreModelType.Image));
+            modelTypes.Add(new CadreModelType(CadreModelType.Text));
+            modelTypes.Add(new CadreModelType(CadreModelType.Tool));
+            modelTypes.Add(new CadreModelType(CadreModelType.MasterObject));
+            modelTypes.Add(new CadreModelType(CadreModelType.DynamicObject));
+            this.Set(modelTypesName, modelTypes);
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="cm">object source</param>
         private CadreModel(CadreModel cm)
         {
-            this.name = cm.name;
-            this.suspendBinding = false;
-            this.modelTypes = new List<CadreModelType>();
-            foreach (CadreModelType t in cm.modelTypes)
+            this.Name = cm.Name;
+            this.SuspendBinding = false;
+            List<CadreModelType> modelTypes = new List<CadreModelType>();
+            foreach(CadreModelType cmt in cm.ModelTypes)
             {
-                this.modelTypes.Add(t.Clone() as CadreModelType);
+                modelTypes.Add(cmt.Clone() as CadreModelType);
             }
-            this.selectedModelType = 4;
-            this.L = cm.L; this.H = cm.H;
-            this.paddingL = cm.paddingL; this.paddingH = cm.paddingH;
-            this.positionL = cm.positionL; this.positionH = cm.positionH;
-            this.borderL = cm.borderL; this.borderH = cm.borderH;
-            this.background = cm.background;
-            this.foreground = cm.foreground;
-            this.borderColor = cm.borderColor;
-            this.index = ++CadreModel.counter;
-            this.isGrouped = cm.isGrouped;
+            this.Set(modelTypesName, modelTypes);
+            this.SelectedModelTypeIndex = 4;
+            this.Width = cm.Width; this.Height = cm.Height;
+            this.WidthPadding = cm.WidthPadding; this.HeightPadding = cm.HeightPadding;
+            this.WidthPosition = cm.WidthPosition; this.HeightPosition = cm.HeightPosition;
+            this.WidthBorder = cm.WidthBorder; this.HeightBorder = cm.HeightBorder;
+            this.Background = cm.Background;
+            this.Foreground = cm.Foreground;
+            this.Border = cm.Border;
+            this.IsGroup = cm.IsGroup;
         }
+
+        #endregion
+
+        #region Public Properties
+        
+        /// <summary>
+        /// Gets or sets Suspending binding switch
+        /// </summary>
+        public bool SuspendBinding
+        {
+            get { return this.Get(suspendBindingName, false); }
+            set { this.Set(suspendBindingName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the name of this cadre model
+        /// </summary>
+        public string Name
+        {
+            get
+            {
+                return this.Get(nameName, "new");
+            }
+            set
+            {
+                this.Set(nameName, value);
+            }
+        }
+
+        /// <summary>
+        /// List of available model types
+        /// </summary>
+        public List<CadreModelType> ModelTypes
+        {
+            get { return this.Get(modelTypesName); }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected model type
+        /// </summary>
+        public int SelectedModelTypeIndex
+        {
+            get { return this.Get(selectedModelTypeName, 4); }
+            set { this.Get(selectedModelTypeName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected model object
+        /// </summary>
+        public CadreModelType SelectedModelTypeObject
+        {
+            get
+            {
+                if (this.SelectedModelTypeIndex != -1) return this.ModelTypes[this.SelectedModelTypeIndex]; else return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the width value
+        /// </summary>
+        public int Width
+        {
+            get { return this.Get(widthName, 100); }
+            set { this.Set(widthName, value); this.UpdateProperty("Width"); }
+        }
+
+        /// <summary>
+        /// Gets or sets the height value
+        /// </summary>
+        public int Height
+        {
+            get { return this.Get(heightName, 100); }
+            set { this.Set(heightName, value); this.UpdateProperty("Height"); }
+        }
+
+        /// <summary>
+        /// Gets or sets the width contact
+        /// </summary>
+        public int? WidthContact
+        {
+            get { return this.Get(contactWidthName, new Nullable<int>()); }
+            set { this.Set(contactWidthName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the height contact
+        /// </summary>
+        public int? HeightContact
+        {
+            get { return this.Get(contactHeightName, new Nullable<int>()); }
+            set { this.Set(contactHeightName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the width padding
+        /// </summary>
+        public int WidthPadding
+        {
+            get { return this.Get(paddingWidthName, 0); }
+            set { this.Set(paddingWidthName, value); this.UpdateProperty("WidthPadding"); }
+        }
+
+        /// <summary>
+        /// Gets or sets the height padding
+        /// </summary>
+        public int HeightPadding
+        {
+            get { return this.Get(paddingHeightName, 0); }
+            set { this.Set(paddingHeightName, value); this.UpdateProperty("HeightPadding"); }
+        }
+
+        /// <summary>
+        /// Gets or sets the width position
+        /// </summary>
+        public int WidthPosition
+        {
+            get { return this.Get(positionWidthName, 0); }
+            set { this.Set(positionWidthName, value); this.UpdateProperty("WidthPosition"); }
+        }
+
+        /// <summary>
+        /// Gets or sets the height position
+        /// </summary>
+        public int HeightPosition
+        {
+            get { return this.Get(positionHeightName, 0); }
+            set { this.Set(positionHeightName, value); this.UpdateProperty("HeightPosition"); }
+        }
+
+        /// <summary>
+        /// Gets or sets the width border
+        /// </summary>
+        public int WidthBorder
+        {
+            get { return this.Get(borderWidthName, 0); }
+            set { this.Set(borderWidthName, value); this.UpdateProperty("WidthBorder"); }
+        }
+
+        /// <summary>
+        /// Gets or sets the height border
+        /// </summary>
+        public int HeightBorder
+        {
+            get { return this.Get(borderHeightName, 0); }
+            set { this.Set(borderHeightName, value); this.UpdateProperty("HeightBorder"); }
+        }
+
+        /// <summary>
+        /// Gets or sets the foreground color
+        /// </summary>
+        public Color Foreground
+        {
+            get { return this.Get(foregroundColorName, Color.White); }
+            set { this.Set(foregroundColorName, value); this.UpdateProperty("Foreground"); }
+        }
+
+        /// <summary>
+        /// Gets or sets the background color
+        /// </summary>
+        public Color Background
+        {
+            get { return this.Get(backgroundColorName, Color.Black); }
+            set { this.Set(backgroundColorName, value); this.UpdateProperty("Background"); }
+        }
+
+        /// <summary>
+        /// Gets or sets the border color
+        /// </summary>
+        public Color Border
+        {
+            get { return this.Get(borderColorName, Color.Chocolate); }
+            set { this.Set(borderColorName, value); this.UpdateProperty("Border"); }
+        }
+
+        /// <summary>
+        /// Gets the index
+        /// </summary>
+        public int Index
+        {
+            get {
+                if (!this.Exists(indexName))
+                {
+                    int c = counter++;
+                    this.Set(indexName, c);
+                }
+                return this.Get(indexName);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the group switch
+        /// </summary>
+        public bool IsGroup
+        {
+            get { return this.Get(isGroupName, false); }
+            set { this.Set(isGroupName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the index group
+        /// </summary>
+        public int? IndexGroup
+        {
+            get { return this.Get(groupIndexName, new Nullable<int>()); }
+            set { this.Set(groupIndexName, value); }
+        }
+
         #endregion
 
         #region Private Methods
+
+        /// <summary>
+        /// Update property
+        /// </summary>
+        /// <param name="name">property name</param>
         private void UpdateProperty(string name)
         {
-            if (!this.suspendBinding)
+            if (!this.SuspendBinding)
             {
                 if (this.propertyChanged != null)
                     this.propertyChanged(this, new PropertyChangedEventArgs(name));
             }
             if (this.updated != null)
             {
-                this.contactH = this.contactL = null;
+                this.HeightContact = this.WidthContact = null;
                 this.updated(this, new CadreIndexArgs(this));
             }
         }
-        #endregion
 
-        #region Public Properties
-        public bool SuspendBinding
-        {
-            get { return this.suspendBinding; }
-            set { this.suspendBinding = value; }
-        }
-
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
-        }
-
-        public List<CadreModelType> ModelTypes
-        {
-            get { return this.modelTypes; }
-        }
-
-        public int SelectedModelTypeIndex
-        {
-            get { return this.selectedModelType; }
-            set { this.selectedModelType = value; }
-        }
-
-        public CadreModelType SelectedModelTypeObject
-        {
-            get
-            {
-                if (this.selectedModelType != -1) return this.modelTypes[this.selectedModelType]; else return null;
-            }
-        }
-
-        public int Largeur
-        {
-            get { return this.L; }
-            set { this.L = value; this.UpdateProperty("Largeur"); }
-        }
-
-        public int Hauteur
-        {
-            get { return this.H; }
-            set { this.H = value; this.UpdateProperty("Hauteur"); }
-        }
-
-        public int? HorizontalContact
-        {
-            get { return this.contactH; }
-            set { this.contactH = value; }
-        }
-
-        public int? VerticalContact
-        {
-            get { return this.contactL; }
-            set { this.contactL = value; }
-        }
-
-        public int VerticalPadding
-        {
-            get { return this.paddingL; }
-            set { this.paddingL = value; this.UpdateProperty("VerticalPadding"); }
-        }
-
-        public int HorizontalPadding
-        {
-            get { return this.paddingH; }
-            set { this.paddingH = value; this.UpdateProperty("HorizontalPadding"); }
-        }
-
-        public int VerticalPosition
-        {
-            get { return this.positionL; }
-            set { this.positionL = value; this.UpdateProperty("VerticalPosition"); }
-        }
-
-        public int HorizontalPosition
-        {
-            get { return this.positionH; }
-            set { this.positionH = value; this.UpdateProperty("HorizontalPosition"); }
-        }
-
-        public int VerticalBorder
-        {
-            get { return this.borderL; }
-            set { this.borderL = value; this.UpdateProperty("VerticalBorder"); }
-        }
-
-        public int HorizontalBorder
-        {
-            get { return this.borderH; }
-            set { this.borderH = value; this.UpdateProperty("HorizontalBorder"); }
-        }
-
-        public Color Foreground
-        {
-            get { return this.foreground; }
-            set { this.foreground = value; this.UpdateProperty("Foreground"); }
-        }
-
-        public Color Background
-        {
-            get { return this.background; }
-            set { this.background = value; this.UpdateProperty("Background"); }
-        }
-
-        public Color Border
-        {
-            get { return this.borderColor; }
-            set { this.borderColor = value; this.UpdateProperty("Border"); }
-        }
-
-        public int Index
-        {
-            get { return this.index; }
-        }
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Raise property changed event
+        /// </summary>
         public void RaisePropertyChanged()
         {
             this.propertyChanged(this, new PropertyChangedEventArgs(""));
         }
 
+        /// <summary>
+        /// Gets aimented move
+        /// </summary>
         public void AimentedMove()
         {
-            if (this.HorizontalContact.HasValue && this.HorizontalContact.Value > 0 && this.HorizontalContact.Value > CadreModel.aimentedDistance)
+            if (this.WidthContact.HasValue && this.WidthContact.Value > 0 && this.WidthContact.Value > CadreModel.aimentedDistance)
             {
-                this.positionH += this.HorizontalContact.Value;
+                this.WidthPosition += this.WidthContact.Value;
             }
-            if (this.VerticalContact.HasValue && this.VerticalContact.Value > 0 && this.VerticalContact.Value > CadreModel.aimentedDistance)
+            if (this.HeightContact.HasValue && this.HeightContact.Value > 0 && this.HeightContact.Value > CadreModel.aimentedDistance)
             {
-                this.positionL += this.VerticalContact.Value;
+                this.HeightPosition += this.HeightContact.Value;
             }
             this.RaisePropertyChanged();
         }
 
-        public void Reinit()
+        /// <summary>
+        /// Clear events
+        /// </summary>
+        public void ClearEvents()
         {
             this.propertyChanged = null;
         }
 
+        /// <summary>
+        /// Copy properties
+        /// </summary>
+        /// <param name="obj">html object</param>
         public void CopyProperties(HTMLObject obj)
         {
-            obj.Title = this.name;
-            if (this.Largeur >= 0)
+            obj.Title = this.Name;
+            if (this.Width >= 0)
             {
                 obj.ConstraintWidth = EnumConstraint.FIXED;
-                obj.Width = (uint)this.Largeur;
+                obj.Width = (uint)this.Width;
             }
             else
             {
                 obj.ConstraintWidth = EnumConstraint.AUTO;
                 obj.Width = 0;
             }
-            if (this.Hauteur >= 0)
+            if (this.Height >= 0)
             {
                 obj.ConstraintHeight = EnumConstraint.FIXED;
-                obj.Height = (uint)this.Hauteur;
+                obj.Height = (uint)this.Height;
             }
             else
             {
                 obj.ConstraintHeight = EnumConstraint.AUTO;
                 obj.Height = 0;
             }
-            obj.CSS.Padding = new Rectangle(this.HorizontalPadding, this.HorizontalPadding, this.VerticalPadding, this.VerticalPadding);
-            obj.CSS.Border = new Rectangle(this.HorizontalBorder, this.HorizontalBorder, this.VerticalBorder, this.VerticalBorder);
+            obj.CSS.Padding = new Rectangle(this.WidthPadding, this.WidthPadding, this.HeightPadding, this.HeightPadding);
+            obj.CSS.Border = new Rectangle(this.WidthBorder, this.WidthBorder, this.HeightBorder, this.HeightBorder);
 
             obj.CSS.BackgroundColor = new CSSColor(this.Background);
             obj.CSS.BorderBottomColor = obj.CSS.BorderLeftColor = obj.CSS.BorderRightColor = obj.CSS.BorderTopColor = new CSSColor(this.Border);
         }
+
+        /// <summary>
+        /// Clone this object
+        /// </summary>
+        /// <returns>cloned object</returns>
+        public object Clone()
+        {
+            CadreModel cm = new CadreModel(this);
+            return cm;
+        }
+        
         #endregion
 
         #region Public Static Methods
+
+        /// <summary>
+        /// Reinitialize counter
+        /// Used just after an opened project
+        /// </summary>
+        /// <param name="value">value to set</param>
         public static void ReinitCounter(int value)
         {
             CadreModel.counter = value;
         }
+
         #endregion
 
         #region Public Events
+
+        /// <summary>
+        /// Event property changed
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged
         {
             add { this.propertyChanged += new PropertyChangedEventHandler(value); }
             remove { this.propertyChanged -= new PropertyChangedEventHandler(value); }
         }
 
+        /// <summary>
+        /// Event after update
+        /// </summary>
         public event EventHandler<CadreIndexArgs> Updated
         {
             add { this.updated += new EventHandler<CadreIndexArgs>(value); }
             remove { this.updated -= new EventHandler<CadreIndexArgs>(value); }
         }
+
         #endregion
 
-        public object Clone()
-        {
-            CadreModel cm = new CadreModel(this);
-            return cm;
-        }
     }
 
+    /// <summary>
+    /// Placement Method
+    /// </summary>
     public class PlacementModel
     {
+
         #region Internal class
+
         /// <summary>
         /// Une classe MixedZone est un quadrillage
         /// des objets placés n'importe comment
         /// </summary>
         internal class MixedZone
         {
+
             #region Private Fields
+
+            /// <summary>
+            /// Position in pixel
+            /// </summary>
             private int hPosition, vPosition;
+
             #endregion
 
             #region Public Constructor
+
+            /// <summary>
+            /// Default constructor
+            /// </summary>
+            /// <param name="h">width</param>
+            /// <param name="v">height</param>
             public MixedZone(int h, int v)
             {
                 this.hPosition = h;
                 this.vPosition = v;
             }
+
             #endregion
 
             #region Public Properties
+
+            /// <summary>
+            /// Gets the width position
+            /// </summary>
             public int HorizontalPosition
             {
                 get { return this.hPosition; }
             }
 
+            /// <summary>
+            /// Get the height position
+            /// </summary>
             public int VerticalPosition
             {
                 get { return this.vPosition; }
             }
+
             #endregion
 
             #region Public Methods
+
+            /// <summary>
+            /// Move to new position
+            /// </summary>
+            /// <param name="h">new width</param>
+            /// <param name="v">new height</param>
             public void Move(int h, int v)
             {
                 this.hPosition = h;
                 this.vPosition = v;
             }
+
             #endregion
         }
 
@@ -347,16 +598,31 @@ namespace Library
         /// </summary>
         internal class PlacementItem : IEqualityComparer<RectangleF>
         {
+
             #region Private Fields
+
+            /// <summary>
+            /// A rectangular area
+            /// </summary>
             private RectangleF rect;
+            
             #endregion
 
             #region Public Constructor
+
+            /// <summary>
+            /// Default constructor
+            /// </summary>
+            /// <param name="cm">cadre model</param>
+            /// <param name="ratio">ratio</param>
             public PlacementItem(CadreModel cm, float ratio)
             {
-                this.rect = new RectangleF(cm.VerticalPosition / ratio, cm.HorizontalPosition / ratio, cm.Largeur / ratio, cm.Hauteur / ratio);
+                this.rect = new RectangleF(cm.WidthPosition / ratio, cm.HeightPosition / ratio, cm.Width / ratio, cm.Height / ratio);
             }
+
             #endregion
+
+            #region Methods
 
             /// <summary>
             /// Retourne vrai si les deux rectangles s'intersectent
@@ -369,17 +635,22 @@ namespace Library
                 return !RectangleF.Intersect(x, y).IsEmpty;
             }
 
+            /// <summary>
+            /// Computes an hash code that reduces sort algorithm
+            /// </summary>
+            /// <param name="obj">input</param>
+            /// <returns>hash code</returns>
             public int GetHashCode(RectangleF obj)
             {
                 return Convert.ToInt32(Math.Sqrt(Math.Pow(obj.Width, 2) + Math.Pow(obj.Height, 2)));
             }
 
             /// <summary>
-            /// Compare deux éléments
+            /// Compare deux éléments en largeur
             /// </summary>
             /// <param name="x">élément 1</param>
             /// <param name="y">élément 2</param>
-            /// <returns>x=y 0, x>y 1 ou x<y -1</returns>
+            /// <returns>x=y 0, x &gt; y 1 ou x &lt; y -1</returns>
             public int CompareWidth(PlacementItem x, PlacementItem y)
             {
                 if (this.Equals(x.rect, y.rect))
@@ -395,6 +666,12 @@ namespace Library
                 }
             }
 
+            /// <summary>
+            /// Compare deux éléments en hauteur
+            /// </summary>
+            /// <param name="x">élément 1</param>
+            /// <param name="y">élément 2</param>
+            /// <returns>x=y 0, x &gt; y 1 ou x &lt; y -1</returns>
             public int CompareHeight(PlacementItem x, PlacementItem y)
             {
                 if (this.Equals(x.rect, y.rect))
@@ -429,6 +706,9 @@ namespace Library
             {
                 return this.CompareHeight(this, other);
             }
+
+            #endregion
+
         }
 
         /// <summary>
@@ -438,11 +718,24 @@ namespace Library
         internal class PositionArgs : EventArgs
         {
             #region Private Fields
+
+            /// <summary>
+            /// old value
+            /// </summary>
             private int oldValue;
+            /// <summary>
+            /// new value
+            /// </summary>
             private int newValue;
             #endregion
 
             #region Public Constructor
+
+            /// <summary>
+            /// Default constructor
+            /// </summary>
+            /// <param name="oldValue">old value</param>
+            /// <param name="newValue">new value</param>
             public PositionArgs(int oldValue, int newValue)
             {
                 this.oldValue = oldValue;
@@ -451,15 +744,23 @@ namespace Library
             #endregion
 
             #region Public Properties
+
+            /// <summary>
+            /// Gets old position
+            /// </summary>
             public int OldPosition
             {
                 get { return this.oldValue; }
             }
 
+            /// <summary>
+            /// Gets new position
+            /// </summary>
             public int NewPosition
             {
                 get { return this.newValue; }
             }
+
             #endregion
         }
 
@@ -468,14 +769,34 @@ namespace Library
         /// </summary>
         internal class HorizontalPlacementItem
         {
+
             #region Private Fields
+
+            /// <summary>
+            /// Event when position has changed
+            /// </summary>
             private event EventHandler<PositionArgs> positionChanged;
+            /// <summary>
+            /// Old and new position
+            /// </summary>
             private int oldValue, newValue;
+            /// <summary>
+            /// Position
+            /// </summary>
             private int position;
+            /// <summary>
+            /// Element à placer
+            /// </summary>
             private PlacementItem item;
+
             #endregion
 
             #region Public Constructor
+
+            /// <summary>
+            /// Default constructor
+            /// </summary>
+            /// <param name="item">élement à placer</param>
             public HorizontalPlacementItem(PlacementItem item)
             {
                 this.item = item;
@@ -484,14 +805,25 @@ namespace Library
             #endregion
 
             #region Private Methods
+
+            /// <summary>
+            /// Action position changed
+            /// </summary>
+            /// <param name="sender">origin</param>
+            /// <param name="e">args</param>
             private void action(object sender, PositionArgs e)
             {
                 this.oldValue = e.OldPosition;
                 this.newValue = e.NewPosition;
             }
+
             #endregion
 
             #region Public Properties
+
+            /// <summary>
+            /// Gets or sets position
+            /// </summary>
             public int Position
             {
                 get { return this.position; }
@@ -505,24 +837,45 @@ namespace Library
                 }
             }
 
+            /// <summary>
+            /// Gets item
+            /// </summary>
             public PlacementItem Item
             {
                 get { return this.item; }
             }
+
             #endregion
 
             #region Events
+
+            /// <summary>
+            /// Add or remove event Position Changed
+            /// </summary>
             public event EventHandler<PositionArgs> PositionChanged
             {
                 add { this.positionChanged += new EventHandler<PositionArgs>(value); }
                 remove { this.positionChanged -= new EventHandler<PositionArgs>(value); }
             }
+
             #endregion
+
         }
 
+        /// <summary>
+        /// Comparer for horizontal item
+        /// </summary>
         internal static class HorizontalComparer
         {
+
             #region Public Static Methods
+
+            /// <summary>
+            /// Insert a new horizontal placement from a linked list
+            /// based on the comparison of the horizontal position
+            /// </summary>
+            /// <param name="list">list d'éléments horizontaux successifs</param>
+            /// <param name="input">élément horizontal</param>
             public static void Compare(LinkedList<HorizontalPlacementItem> list, HorizontalPlacementItem input)
             {
                 LinkedListNode<HorizontalPlacementItem> positiveCurrent = list.First;
@@ -549,10 +902,17 @@ namespace Library
                 }
             }
 
+            /// <summary>
+            /// Compare two horizontal elements of placement
+            /// </summary>
+            /// <param name="x">placement item 1</param>
+            /// <param name="y">placement item 2</param>
+            /// <returns>1 or -1</returns>
             public static int Compare(HorizontalPlacementItem x, HorizontalPlacementItem y)
             {
                 return x.Item.CompareWidth(y.Item);
             }
+
             #endregion
 
         }
@@ -562,35 +922,69 @@ namespace Library
         /// </summary>
         internal class VerticalPlacementItem : IComparer<VerticalPlacementItem>
         {
+
             #region Private Fields
+
+            /// <summary>
+            /// Event when position has changed
+            /// </summary>
             private event EventHandler<PositionArgs> positionChanged;
+            /// <summary>
+            /// Old and new position
+            /// </summary>
             private int oldValue, newValue;
+            /// <summary>
+            /// Position
+            /// </summary>
             private int position;
+            /// <summary>
+            /// Linked list of horizontal element
+            /// </summary>
             private LinkedList<HorizontalPlacementItem> list;
+
             #endregion
 
             #region Public Constructor
+
+            /// <summary>
+            /// Default constructor
+            /// </summary>
             public VerticalPlacementItem()
             {
                 this.list = new LinkedList<HorizontalPlacementItem>();
                 this.PositionChanged += action;
             }
+
             #endregion
 
             #region Private Methods
+
+            /// <summary>
+            /// Action position changed
+            /// </summary>
+            /// <param name="sender">origin</param>
+            /// <param name="e">args</param>
             private void action(object sender, PositionArgs e)
             {
                 this.oldValue = e.OldPosition;
                 this.newValue = e.NewPosition;
             }
+
             #endregion
 
             #region Public Properties
+
+            /// <summary>
+            /// Gets the linked list of horizontal item
+            /// </summary>
             public LinkedList<HorizontalPlacementItem> Items
             {
                 get { return this.list; }
             }
 
+            /// <summary>
+            /// Gets or sets position
+            /// </summary>
             public int Position
             {
                 get { return this.position; }
@@ -604,6 +998,9 @@ namespace Library
                 }
             }
 
+            /// <summary>
+            /// Compute the shortest position
+            /// </summary>
             public PlacementItem LessPosition
             {
                 get
@@ -635,9 +1032,14 @@ namespace Library
                     return less;
                 }
             }
+
             #endregion
 
             #region Public Events
+
+            /// <summary>
+            /// Add or remove event Position Changed
+            /// </summary>
             public event EventHandler<PositionArgs> PositionChanged
             {
                 add { this.positionChanged += new EventHandler<PositionArgs>(value); }
@@ -646,6 +1048,11 @@ namespace Library
             #endregion
 
             #region Public Methods
+
+            /// <summary>
+            /// Add a new horizontal item into this vertical item
+            /// </summary>
+            /// <param name="h">horizontal item</param>
             public void Add(HorizontalPlacementItem h)
             {
                 this.list.AddLast(h);
@@ -668,16 +1075,33 @@ namespace Library
                     else return 1;
             }
 
+            /// <summary>
+            /// Compare this with one another vertical item
+            /// </summary>
+            /// <param name="other">vertical item to compare</param>
+            /// <returns>1 or -1</returns>
             public int Compare(VerticalPlacementItem other)
             {
                 return this.Compare(this, other);
             }
+
             #endregion
+
         }
 
+        /// <summary>
+        /// Class for the vertical comparer
+        /// </summary>
         internal static class VerticalComparer
         {
+
             #region Public Constructor
+
+            /// <summary>
+            /// Insert a placement item into the right horizontal placement item
+            /// </summary>
+            /// <param name="list">vertical placement</param>
+            /// <param name="p">element to place</param>
             public static void Compare(LinkedList<VerticalPlacementItem> list, PlacementItem p)
             {
                 VerticalPlacementItem input = new VerticalPlacementItem();
@@ -714,23 +1138,40 @@ namespace Library
                     list.AddLast(input);
                 }
             }
+
             #endregion
 
             #region Public Methods
+
+            /// <summary>
+            /// Compare two vertical elements of placement
+            /// </summary>
+            /// <param name="x">placement item 1</param>
+            /// <param name="y">placement item 2</param>
+            /// <returns>1 or -1</returns>
             public static int Compare(VerticalPlacementItem x, VerticalPlacementItem y)
             {
                 return y.Compare(x);
             }
+
             #endregion
         }
 
         #endregion
 
         #region Private Fields
+
+        /// <summary>
+        /// Linked list of vertical placement
+        /// </summary>
         private LinkedList<VerticalPlacementItem> list;
         #endregion
 
         #region Public Constructor
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public PlacementModel()
         {
             this.list = new LinkedList<VerticalPlacementItem>();
@@ -738,6 +1179,11 @@ namespace Library
         #endregion
 
         #region Private Methods
+
+        /// <summary>
+        /// Inspect content
+        /// </summary>
+        /// <param name="p">placement</param>
         private void InspectQuadrille(PlacementItem p)
         {
             VerticalComparer.Compare(this.list, p);
@@ -745,12 +1191,25 @@ namespace Library
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// Add a new element
+        /// Create a new placement item, set update position changed event
+        /// and place item
+        /// </summary>
+        /// <param name="cm">new cadre model</param>
+        /// <param name="ratio">ratio</param>
         public void Add(CadreModel cm, float ratio)
         {
             PlacementItem p = new PlacementItem(cm, ratio);
             this.InspectQuadrille(p);
         }
 
+        /// <summary>
+        /// Computes all areas
+        /// This function is not terminated.
+        /// When two elements intersects each other, it takes a zIndex (3D)
+        /// </summary>
         public void ComputeMixedZones()
         {
             List<List<PlacementItem>> zList = new List<List<PlacementItem>>();
@@ -777,6 +1236,8 @@ namespace Library
                 }
             }
         }
+
         #endregion
+
     }
 }

@@ -7,16 +7,39 @@ using System.Text.RegularExpressions;
 
 namespace Library
 {
+    /// <summary>
+    /// Configuration element for a project
+    /// </summary>
     [Serializable]
-    public class Configuration
+    public class Configuration : Marshalling.PersistentDataObject
     {
-        private NameValueCollection collection = new NameValueCollection();
 
+        #region Fields
+
+        /// <summary>
+        /// Index name for collection
+        /// </summary>
+        protected static readonly string collectionName = "collection";
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets elements
+        /// </summary>
         public NameValueCollection Elements
         {
-            get { return this.collection; }
+            get { return this.Get(collectionName, new NameValueCollection()); }
         }
 
+        #endregion
+
+        /// <summary>
+        /// Replace each name by its value
+        /// </summary>
+        /// <param name="input">input string</param>
+        /// <returns>output</returns>
         public string Replace(string input)
         {
             string output = String.Empty;

@@ -5,140 +5,301 @@ using System.Text;
 
 namespace Library
 {
+    /// <summary>
+    /// HTML tool : a tool is simply a host for any HTML code
+    /// </summary>
     [Serializable]
-    public class HTMLTool: IProjectElement, IGenerateDesign, ICloneable
+    public class HTMLTool : Marshalling.PersistentDataObject, IProjectElement, IGenerateDesign, ICloneable
     {
-        private EnumConstraint constraintWidth;
-        private EnumConstraint constraintHeight;
-        private uint width;
-        private uint height;
-        private string title;
-        private string path;
-        private string name = "tool" + Project.CurrentProject.IncrementedCounter.ToString();
-        private string id = "idTool" + Project.CurrentProject.IncrementedCounter.ToString();
-        private string html;
-        private CodeJavaScript javascript = new CodeJavaScript();
-        private CodeJavaScript javascriptOnLoad = new CodeJavaScript();
-        private CodeCSS css = new CodeCSS();
-        private List<CodeCSS> cssAdditional = new List<CodeCSS>();
+        #region Fields
 
+        /// <summary>
+        /// Index name for unique id
+        /// </summary>
+        protected static readonly string uniqueName = "unique";
+        /// <summary>
+        /// Index name for width constraint
+        /// </summary>
+        protected static readonly string constraintWidthName = "constraintWidth";
+        /// <summary>
+        /// Index name for height constraint
+        /// </summary>
+        protected static readonly string constraintHeightName = "constraintHeight";
+        /// <summary>
+        /// Index name for width value
+        /// </summary>
+        protected static readonly string widthName = "width";
+        /// <summary>
+        /// Index name for height value
+        /// </summary>
+        protected static readonly string heightName = "height";
+        /// <summary>
+        /// Index name for path
+        /// </summary>
+        protected static readonly string pathName = "path";
+        /// <summary>
+        /// Index name for title
+        /// </summary>
+        protected static readonly string titleName = "title";
+        /// <summary>
+        /// Index name for automatic name
+        /// </summary>
+        protected static readonly string automaticNameName = "automaticName";
+        /// <summary>
+        /// Index name for automatic id
+        /// </summary>
+        protected static readonly string automaticIdName = "automaticId";
+        /// <summary>
+        /// Index name for HTML content
+        /// </summary>
+        protected static readonly string HTMLContentName = "htmlContent";
+        /// <summary>
+        /// Index name for javascript code
+        /// </summary>
+        protected static readonly string javascriptName = "javascript";
+        /// <summary>
+        /// Index name for javascript on load code
+        /// </summary>
+        protected static readonly string javascriptOnloadName = "javascriptOnload";
+        /// <summary>
+        /// Index name for css
+        /// </summary>
+        protected static readonly string cssName = "css";
+        /// <summary>
+        /// Index name for additional css
+        /// </summary>
+        protected static readonly string additionalCssName = "additionalCss";
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public HTMLTool()
         {
-            this.css.Ids = "#" + this.id;
+            int val = Project.CurrentProject.IncrementedCounter;
+            this.Set(automaticNameName, String.Format("tool{0}", val));
+            this.Set(automaticIdName, String.Format("idTool{0}", val));
+            this.CSS.Ids = "#" + this.Id;
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the unique id
+        /// </summary>
+        public string Unique
+        {
+            get { return this.Get(uniqueName); }
+            set { this.Set(uniqueName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the width constraint 
+        /// </summary>
         public EnumConstraint ConstraintWidth
         {
-            get { return this.constraintWidth; }
-            set { this.constraintWidth = value; }
+            get { return this.Get(constraintWidthName, EnumConstraint.AUTO); }
+            set { this.Set(constraintHeightName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets height constraint
+        /// </summary>
         public EnumConstraint ConstraintHeight
         {
-            get { return this.constraintHeight; }
-            set { this.constraintHeight = value; }
+            get { return this.Get(constraintHeightName, EnumConstraint.AUTO); }
+            set { this.Set(constraintHeightName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the width value
+        /// </summary>
         public uint Width
         {
-            get { return this.width; }
-            set { this.width = value; }
+            get { return this.Get(widthName, 0u); }
+            set { this.Set(widthName, value); }
         }
 
+        /// <summary>
+        /// Gets inner box width
+        /// empty padding css left and right
+        /// </summary>
         public uint HtmlWidth
         {
-            get { return (uint)(this.width - this.css.Padding.Left - this.css.Padding.Right); }
+            get { return (uint)(this.Width - this.CSS.Padding.Left - this.CSS.Padding.Right); }
         }
 
+        /// <summary>
+        /// Gets or sets the height value
+        /// </summary>
         public uint Height
         {
-            get { return this.height; }
-            set { this.height = value; }
+            get { return this.Get(heightName, 0u); }
+            set { this.Set(heightName, value); }
         }
 
+        /// <summary>
+        /// Gets inner box height
+        /// empty padding css top and bottom
+        /// </summary>
         public uint HtmlHeight
         {
-            get { return (uint)(this.height - this.css.Padding.Top - this.css.Padding.Bottom); }
+            get { return (uint)(this.Height - this.CSS.Padding.Top - this.CSS.Padding.Bottom); }
         }
 
+        /// <summary>
+        /// Gets the size string for dumping mode
+        /// </summary>
         public string SizeString
         {
-            get { return this.width.ToString() + "x" + this.height.ToString(); }
+            get { return this.Width.ToString() + "x" + this.Height.ToString(); }
         }
 
+        /// <summary>
+        /// Gets or sets the title of this master object
+        /// </summary>
         public string Title
         {
-            get { return this.title; }
-            set { this.title = value; }
+            get { return this.Get(titleName, 0); }
+            set { this.Set(titleName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the automatic id
+        /// </summary>
         public string Id
         {
-            get { return this.id; }
-            set { this.id = value; }
+            get { return this.Get(automaticIdName); }
+            set { this.Set(automaticIdName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the automatic name
+        /// </summary>
         public string Name
         {
-            get { return this.name; }
-            set { this.name = value; }
+            get { return this.Get(automaticNameName); }
+            set { this.Set(automaticNameName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the path where this tool is placed
+        /// </summary>
         public string Path
         {
-            get { return this.path; }
-            set { this.path = value; }
+            get { return this.Get(pathName, ""); }
+            set { this.Set(pathName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the HTML content
+        /// </summary>
         public string HTML
         {
-            get { return this.html; }
-            set { this.html = value; string result = this.GeneratedHTML; }
+            get { return this.Get(HTMLContentName, ""); }
+            set { this.Set(HTMLContentName, value); string result = this.GeneratedHTML; }
         }
 
+        /// <summary>
+        /// Gets the final HTML content after translation of any configuration key
+        /// </summary>
         public string GeneratedHTML
         {
-            get { return Project.CurrentProject.Configuration.Replace(this.html); }
+            get { return Project.CurrentProject.Configuration.Replace(this.HTML); }
         }
 
+        /// <summary>
+        /// Gets the JavaScript code
+        /// </summary>
         public CodeJavaScript JavaScript
         {
-            get { return this.javascript; }
+            get { return this.Get(javascriptName, new CodeJavaScript()); }
         }
 
+        /// <summary>
+        /// Gets or sets the JavaScript source code
+        /// </summary>
         public string JavaScriptSource
         {
-            get { return this.javascript.Code; }
-            set { this.javascript.Code = value; }
+            get { return this.JavaScript.Code; }
+            set { this.JavaScript.Code = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the javascript on load
+        /// </summary>
         public CodeJavaScript JavaScriptOnLoad
         {
-            get { return this.javascriptOnLoad; }
+            get { return this.Get(javascriptOnloadName, new CodeJavaScript()); }
+            set { this.Set(javascriptOnloadName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the javascript on load source code
+        /// </summary>
         public string JavaScriptOnLoadSource
         {
-            get { return this.javascriptOnLoad.Code; }
-            set { this.javascriptOnLoad.Code = value; }
+            get { return this.JavaScriptOnLoad.Code; }
+            set { this.JavaScriptOnLoad.Code = value; }
         }
 
+        /// <summary>
+        /// Gets or sets CSS
+        /// </summary>
         public CodeCSS CSS
         {
-            get { return this.css; }
+            get { return this.Get(cssName, new CodeCSS()); }
+            set { this.Set(cssName, value); }
         }
 
+        /// <summary>
+        /// Gets the CSS additional list
+        /// </summary>
         public List<CodeCSS> CSSAdditional
         {
-            get { return this.cssAdditional; }
-            set { this.cssAdditional = value; }
+            get { return this.Get(additionalCssName, new List<CodeCSS>()); }
         }
 
+        /// <summary>
+        /// Gets the type name
+        /// </summary>
+        public string TypeName
+        {
+            get { return "MasterObject"; }
+        }
+
+        /// <summary>
+        /// Gets the element title
+        /// </summary>
+        public string ElementTitle
+        {
+            get { return this.Title; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Import a CSS
+        /// </summary>
+        /// <param name="css">css code</param>
         public void ImportCSS(CodeCSS css)
         {
-            this.css = css.Clone() as CodeCSS;
+            this.CSS = css.Clone() as CodeCSS;
         }
 
+        /// <summary>
+        /// Obtain the CSS output
+        /// given a switch to resolve configuration key
+        /// </summary>
+        /// <param name="resolveConfig">true if replace configuration key by its value</param>
+        /// <returns>css output</returns>
         public string CSSOutput(bool resolveConfig)
         {
             string output = this.CSS.GenerateCSS(false, true, resolveConfig) + Environment.NewLine;
@@ -147,62 +308,100 @@ namespace Library
             return output;
         }
 
+        /// <summary>
+        /// Generate design from nothing
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign()
         {
             return Routines.GenerateDesignTool(this);
         }
 
+        /// <summary>
+        /// Generate design from a page reference
+        /// No tool is directly inherited from a page
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate design from a page or a master page
+        /// No tool is directly inherited from a page or a master page
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate design from a page or a master page
+        /// No tool is directly inherited from a page or a master page
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="objects">object list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate design from a page or a master page
+        /// No tool is directly inherited from a page or a master page
+        /// </summary>
+        /// <param name="refPage">page reference</param>
+        /// <param name="masterRefPage">master page reference</param>
+        /// <param name="objects">object list</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>html output</returns>
         public OutputHTML GenerateDesign(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Generate a thumbnail
+        /// This function should be implemented
+        /// </summary>
+        /// <returns>html output</returns>
         public OutputHTML GenerateThumbnail()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Clone this object
+        /// </summary>
+        /// <returns>cloned object</returns>
         public object Clone()
         {
+
             HTMLTool tool = new HTMLTool();
-            tool.constraintWidth = this.constraintWidth;
-            tool.constraintHeight = this.constraintHeight;
-            tool.width = this.width;
-            tool.height = this.height;
-            tool.title = ExtensionMethods.CloneThis(this.title);
-            tool.path = ExtensionMethods.CloneThis(this.path);
-            tool.html = ExtensionMethods.CloneThis(this.html);
-            tool.javascript = this.javascript.Clone() as CodeJavaScript;
-            tool.javascriptOnLoad = this.javascriptOnLoad.Clone() as CodeJavaScript;
-            tool.css = new CodeCSS(this.css);
-            tool.css.Ids = "#" + tool.id;
-            tool.cssAdditional.AddRange(from CodeCSS c in this.cssAdditional select c.Clone() as CodeCSS);
+            tool.ConstraintWidth = this.ConstraintWidth;
+            tool.ConstraintHeight = this.ConstraintHeight;
+            tool.Width = this.Width;
+            tool.Height = this.Height;
+            tool.Title = ExtensionMethods.CloneThis(this.Title);
+            tool.Path = ExtensionMethods.CloneThis(this.Path);
+            tool.HTML = ExtensionMethods.CloneThis(this.HTML);
+            tool.Set(javascriptName, this.JavaScript.Clone());
+            tool.Set(javascriptOnloadName, this.JavaScriptOnLoad.Clone());
+            tool.Set(cssName, new CodeCSS(this.CSS));
+            tool.CSS.Ids = "#" + tool.Id;
+            tool.CSSAdditional.AddRange(from CodeCSS c in this.CSSAdditional select c.Clone() as CodeCSS);
             return tool;
+
         }
 
-        public string TypeName
-        {
-            get { return "HTMLTool"; }
-        }
-
-        public string ElementTitle
-        {
-            get { return this.title; }
-        }
+        #endregion
     }
 }

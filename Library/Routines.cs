@@ -108,8 +108,7 @@ namespace Library
                 sw.Dispose();
                 fs.Close();
                 fs.Dispose();
-                if (Project.AddFile(Project.CurrentProject, config.cssFile))
-                    CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title, config.cssFile, AppDomain.CurrentDomain.BaseDirectory + "file.css");
+                CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title, config.cssFile, AppDomain.CurrentDomain.BaseDirectory + "file.css");
             }
         }
 
@@ -124,8 +123,7 @@ namespace Library
                 sw.Dispose();
                 fs.Close();
                 fs.Dispose();
-                if (Project.AddFile(Project.CurrentProject, config.cssFile))
-                    CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title, config.cssFile, AppDomain.CurrentDomain.BaseDirectory + "file.css");
+                CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title, config.cssFile, AppDomain.CurrentDomain.BaseDirectory + "file.css");
             }
         }
 
@@ -140,8 +138,7 @@ namespace Library
                 sw.Dispose();
                 fs.Close();
                 fs.Dispose();
-                if (Project.AddFile(Project.CurrentProject, config.javascriptFile))
-                    CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title, config.javascriptFile, AppDomain.CurrentDomain.BaseDirectory + "file.js");
+                CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title, config.javascriptFile, AppDomain.CurrentDomain.BaseDirectory + "file.js");
             }
         }
 
@@ -156,8 +153,7 @@ namespace Library
                 sw.Dispose();
                 fs.Close();
                 fs.Dispose();
-                if (Project.AddFile(Project.CurrentProject, config.javascriptFile))
-                    CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title, config.javascriptFile, AppDomain.CurrentDomain.BaseDirectory + "file.js");
+                CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title, config.javascriptFile, AppDomain.CurrentDomain.BaseDirectory + "file.js");
             }
         }
 
@@ -337,11 +333,6 @@ namespace Library
             outputPage.HTML.Append("<style>");
             outputPage.HTML.Append(refPage.SpecificOutput.CSS.ToString());
             outputPage.HTML.Append("</style>");
-            foreach (string file in pageConfig.javascriptFiles)
-            {
-                outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + file + "'>");
-                outputPage.HTML.Append("</script>");
-            }
             foreach (string url in Project.CurrentProject.JavascriptUrls)
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");
@@ -451,11 +442,6 @@ namespace Library
             outputPage.HTML.Append("<style>");
             outputPage.HTML.Append(refPage.SpecificOutput.CSS.ToString());
             outputPage.HTML.Append("</style>");
-            foreach (string file in pageConfig.javascriptFiles)
-            {
-                outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + file + "'>");
-                outputPage.HTML.Append("</script>");
-            }
             foreach (string url in Project.CurrentProject.JavascriptUrls)
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");
@@ -649,11 +635,6 @@ namespace Library
             outputPage.HTML.Append("<style>");
             outputPage.HTML.Append(refPage.SpecificOutput.CSS.ToString());
             outputPage.HTML.Append("</style>");
-            foreach (string file in pageConfig.javascriptFiles)
-            {
-                outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + file + "'>");
-                outputPage.HTML.Append("</script>");
-            }
             foreach (string url in Project.CurrentProject.JavascriptUrls)
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");
@@ -778,11 +759,6 @@ namespace Library
             outputPage.HTML.Append("<style>");
             outputPage.HTML.Append(refPage.SpecificOutput.CSS.ToString());
             outputPage.HTML.Append("</style>");
-            foreach (string file in pageConfig.javascriptFiles)
-            {
-                outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + file + "'>");
-                outputPage.HTML.Append("</script>");
-            }
             foreach (string url in Project.CurrentProject.JavascriptUrls)
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");

@@ -6,38 +6,70 @@ using System.Text.RegularExpressions;
 
 namespace Library
 {
+    /// <summary>
+    /// Class for defining a rectangle
+    /// </summary>
     [Serializable]
-    public class Rectangle : ICloneable
+    public class Rectangle : Marshalling.PersistentDataObject, ICloneable
     {
-        private int left;
-        private int right;
-        private int top;
-        private int bottom;
 
-        public static string leftName = "left";
-        public static string rightName = "right";
-        public static string topName = "top";
-        public static string bottomName = "bottom";
+        #region Fields
 
+        /// <summary>
+        /// Index name of left value
+        /// </summary>
+        public static readonly string leftName = "left";
+        /// <summary>
+        /// Index name of right value
+        /// </summary>
+        public static readonly string rightName = "right";
+        /// <summary>
+        /// Index name of top value
+        /// </summary>
+        public static readonly string topName = "top";
+        /// <summary>
+        /// Index name of bottom value
+        /// </summary>
+        public static readonly string bottomName = "bottom";
+
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public Rectangle() { }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="left">left value</param>
+        /// <param name="right">right value</param>
+        /// <param name="top">top value</param>
+        /// <param name="bottom">bottom value</param>
         public Rectangle(int left, int right, int top, int bottom)
         {
-            this.left = left;
-            this.right = right;
-            this.top = top;
-            this.bottom = bottom;
+            this.Set(leftName, left);
+            this.Set(rightName, right);
+            this.Set(topName, top);
+            this.Set(bottomName, bottom);
         }
 
+        /// <summary>
+        /// Constructor from a string
+        /// </summary>
+        /// <param name="rectStr">string representation of a rectangle</param>
         public Rectangle(string rectStr)
         {
             Rectangle r = new Rectangle();
             if (Rectangle.TryParse(rectStr, out r))
             {
-                this.left = r.left;
-                this.right = r.right;
-                this.top = r.top;
-                this.bottom = r.bottom;
+                this.Set(leftName, r.Left);
+                this.Set(rightName, r.Right);
+                this.Set(topName, r.Top);
+                this.Set(bottomName, r.Bottom);
             }
             else
             {
@@ -45,30 +77,49 @@ namespace Library
             }
         }
 
+        #endregion
+
+        /// <summary>
+        /// Gets or sets the left value
+        /// </summary>
         public int Left
         {
-            get { return this.left; }
-            set { this.left = value; }
+            get { return this.Get(leftName, 0); }
+            set { this.Set(leftName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the right value
+        /// </summary>
         public int Right
         {
-            get { return this.right; }
-            set { this.right = value; }
+            get { return this.Get(rightName, 0); }
+            set { this.Set(rightName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the top value
+        /// </summary>
         public int Top
         {
-            get { return this.top; }
-            set { this.top = value; }
+            get { return this.Get(topName, 0); }
+            set { this.Set(topName, value); }
         }
 
+        /// <summary>
+        /// Gets or sets the bottom value
+        /// </summary>
         public int Bottom
         {
-            get { return this.bottom; }
-            set { this.bottom = value; }
+            get { return this.Get(bottomName, 0); }
+            set { this.Set(bottomName, value); }
         }
 
+        /// <summary>
+        /// Convert value string to an int
+        /// </summary>
+        /// <param name="value">value string</param>
+        /// <returns>int</returns>
         private int ConvertToInt(string value)
         {
             Regex r = new Regex(@"([0-9]+)");
@@ -83,31 +134,53 @@ namespace Library
             }
         }
 
+        /// <summary>
+        /// Gets rectangle to string representation
+        /// </summary>
+        /// <returns>string representation</returns>
         public override string ToString()
         {
-            return left.ToString() + "," + right.ToString() + "," + top.ToString() + "," + bottom.ToString();
+            return this.Left.ToString() + "," + this.Right.ToString() + "," + this.Top.ToString() + "," + this.Bottom.ToString();
         }
 
+        /// <summary>
+        /// Set an adapted value
+        /// given the value name
+        /// </summary>
+        /// <param name="type">type name</param>
+        /// <param name="value">string value</param>
         public void Set(string type, string value)
         {
-            if (type == Rectangle.leftName) { this.left = Convert.ToInt32(value); }
+            if (type == Rectangle.leftName) { this.Left = Convert.ToInt32(value); }
             else
-                if (type == Rectangle.rightName) { this.right = Convert.ToInt32(value); }
+                if (type == Rectangle.rightName) { this.Right = Convert.ToInt32(value); }
                 else
-                    if (type == Rectangle.topName) { this.top = Convert.ToInt32(value); }
+                    if (type == Rectangle.topName) { this.Top = Convert.ToInt32(value); }
                     else
-                        if (type == Rectangle.bottomName) { this.bottom = Convert.ToInt32(value); }
+                        if (type == Rectangle.bottomName) { this.Bottom = Convert.ToInt32(value); }
         }
 
+        /// <summary>
+        /// Operator to sum rectangle with an another
+        /// </summary>
+        /// <param name="from">rectangle source and destination</param>
+        /// <param name="plus">rectangle to size</param>
+        /// <returns>rectangle modified</returns>
         public static Rectangle operator +(Rectangle from, Rectangle plus)
         {
-            from.left += plus.left;
-            from.right += plus.right;
-            from.top += plus.top;
-            from.bottom += plus.bottom;
+            from.Left += plus.Left;
+            from.Right += plus.Right;
+            from.Top += plus.Top;
+            from.Bottom += plus.Bottom;
             return from;
         }
 
+        /// <summary>
+        /// Try parsing a rect string
+        /// </summary>
+        /// <param name="s">string</param>
+        /// <param name="rect">rectangle out</param>
+        /// <returns>true if parse ok</returns>
         public static bool TryParse(string s, out Rectangle rect)
         {
             rect = new Rectangle();
@@ -148,46 +221,86 @@ namespace Library
             }
         }
 
+        /// <summary>
+        /// Test if an empty rectangle
+        /// </summary>
+        /// <returns>true if empty</returns>
         public bool IsEmpty()
         {
-            return !(left != 0 || right != 0 || top != 0 || bottom != 0);
+            return !(Left != 0 || Right != 0 || Top != 0 || Bottom != 0);
         }
 
+        /// <summary>
+        /// Clone this rectangle
+        /// </summary>
+        /// <returns></returns>
         public object Clone()
         {
-            return new Rectangle(this.left, this.right, this.top, this.bottom);
+            return new Rectangle(this.Left, this.Right, this.Top, this.Bottom);
         }
     }
 
+    /// <summary>
+    /// A rectangle with its size in width and height
+    /// </summary>
     [Serializable]
     public class SizedRectangle : Rectangle
     {
         #region Private Field
-        private int width = 0;
-        private int height = 0;
+
+        /// <summary>
+        /// Index name of width value
+        /// </summary>
+        protected static readonly string widthName = "width";
+        /// <summary>
+        /// Index name of height value
+        /// </summary>
+        protected static readonly string heightName = "height";
+
         #endregion
 
         #region Public Constructors
+
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public SizedRectangle() { }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
+        /// <param name="left">left corner position</param>
+        /// <param name="right">right corner position</param>
+        /// <param name="top">top corner position</param>
+        /// <param name="bottom">bottom corner position</param>
         public SizedRectangle(int width, int height, int left, int right, int top, int bottom)
             : base(left, right, top, bottom)
         {
-            this.width = width;
-            this.height = height;
+            this.Set(widthName, width);
+            this.Set(heightName, height);
         }
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets the width value
+        /// </summary>
         public int Width
         {
-            get { return this.width; }
+            get { return this.Get(widthName, 0); }
         }
 
+        /// <summary>
+        /// Gets the height value
+        /// </summary>
         public int Height
         {
-            get { return this.height; }
+            get { return this.Get(heightName, 0); }
         }
+
         #endregion
     }
 }
