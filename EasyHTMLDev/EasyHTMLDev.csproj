@@ -10,9 +10,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EasyHTMLDev</RootNamespace>
     <AssemblyName>EasyHTMLDev</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <PublishUrl>C:\Users\Olivier\Downloads\EasyHTML\publish\</PublishUrl>
@@ -64,7 +63,7 @@
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
@@ -125,9 +124,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WinSCPnet">
-      <HintPath>..\WinSCP\WinSCPnet.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddObject.cs">
@@ -662,6 +658,10 @@
     <ProjectReference Include="..\Localization\Localization.csproj">
       <Project>{7591a3d8-fdc6-4391-bbcc-ffc5a82f38f4}</Project>
       <Name>Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Marshalling\Marshalling.csproj">
+      <Project>{241a5402-6749-45fd-b693-19b54b380443}</Project>
+      <Name>Marshalling</Name>
     </ProjectReference>
     <ProjectReference Include="..\TutorialListening\TutorialListening.csproj">
       <Project>{0e79e824-04d0-4b52-9794-16a93cd2b5d1}</Project>

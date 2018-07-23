@@ -43,69 +43,12 @@ namespace EasyHTMLDev
             }
         }
 
-        private void BrowseFolder(string curPath, Folder f, TreeNode node, object selectedTag, TreeNode root)
+        private void BrowseFolder(string curPath, TreeNode node, object selectedTag, TreeNode root)
         {
-            foreach (Folder sf in f.Folders)
-            {
-                TreeNode subNode = node.Nodes.Add(this.StandardTitle(sf.Name));
-                subNode.Tag = sf;
-                if (selectedTag is Folder && selectedTag.Equals(sf))
-                {
-                    this.treeView1.SelectedNode = subNode;
-                    root.Expand();
-                }
-                BrowseFolder(curPath + Path.DirectorySeparatorChar + sf.Name, sf, subNode, selectedTag, root);
-            }
-            foreach (Page p in f.Pages)
-            {
-                TreeNode pageNode = node.Nodes.Add(this.StandardTitle(p.Name));
-                pageNode.Tag = p;
-                if (selectedTag is Page && selectedTag.Equals(p))
-                {
-                    this.treeView1.SelectedNode = pageNode;
-                    root.Expand();
-                }
-                foreach (HTMLObject obj in p.Objects)
-                {
-                    pageNode.Nodes.Add(this.StandardTitle(obj.Title)).Tag = obj;
-                }
-            }
-            foreach (string s in f.Files)
-            {
-                TreeNode fileNode = node.Nodes.Add(this.StandardTitle(s));
-                string fullName = curPath + Path.DirectorySeparatorChar + s;
-                if (selectedTag is string && selectedTag.Equals(fullName))
-                {
-                    this.treeView1.SelectedNode = fileNode;
-                    root.Expand();
-                }
-                fileNode.Tag = fullName;
-            }
         }
 
-        private void BrowseTool(FolderTool f, TreeNode node, object selectedTag, TreeNode root)
+        private void BrowseTool(Library.HTMLTool f, TreeNode node, object selectedTag, TreeNode root)
         {
-            foreach (FolderTool sf in f.Folders)
-            {
-                TreeNode subNode = node.Nodes.Add(this.StandardTitle(sf.Name));
-                subNode.Tag = sf;
-                if (selectedTag is FolderTool && selectedTag.Equals(sf))
-                {
-                    this.treeView1.SelectedNode = subNode;
-                    root.Expand();
-                }
-                BrowseTool(sf, subNode, selectedTag, root);
-            }
-            foreach (HTMLTool p in f.Tools)
-            {
-                TreeNode toolNode = node.Nodes.Add(this.StandardTitle(p.Title));
-                toolNode.Tag = p;
-                if (selectedTag is HTMLTool && selectedTag.Equals(p))
-                {
-                    this.treeView1.SelectedNode = toolNode;
-                    root.Expand();
-                }
-            }
         }
 
         private string Translate(string key)
@@ -172,6 +115,18 @@ namespace EasyHTMLDev
                     urls.Nodes.Add(this.StandardTitle(s));
                 }
 
+                var it = proj.Hierarchy.Find(Library.Project.MasterPagesName).GetNodesEnumerator();
+                while(it.MoveNext())
+                {
+                    TreeNode masterPageNode = masterPages.Nodes.Add(this.StandardTitle(it.Current.Get("name")));
+                    masterPageNode.Tag = it.Current;
+                    if (selectedTag is MasterPage && selectedTag.Equals(it.Current))
+                    {
+                        this.treeView1.SelectedNode = masterPageNode;
+                        masterPages.Expand();
+                    }
+                }
+
                 foreach (MasterPage mp in proj.MasterPages)
                 {
                     TreeNode masterPageNode = masterPages.Nodes.Add(this.StandardTitle(mp.Name));
@@ -201,56 +156,6 @@ namespace EasyHTMLDev
                     {
                         TreeNode node = masterObjectNode.Nodes.Add(this.StandardTitle(obj.Title));
                         node.Tag = obj;
-                    }
-                }
-
-                foreach (Page p in proj.Folders.Pages)
-                {
-                    TreeNode pageNode = folders.Nodes.Add(this.StandardTitle(p.Name));
-                    pageNode.Tag = p;
-                    if (selectedTag is Page && selectedTag.Equals(p))
-                    {
-                        this.treeView1.SelectedNode = pageNode;
-                        folders.Expand();
-                    }
-                    foreach (HTMLObject obj in p.Objects)
-                    {
-                        TreeNode node = pageNode.Nodes.Add(this.StandardTitle(obj.Title));
-                        node.Tag = obj;
-                    }
-                }
-
-                foreach (Folder sf in proj.Folders.Folders)
-                {
-                    TreeNode subNode = folders.Nodes.Add(this.StandardTitle(sf.Name));
-                    if (selectedTag is Folder && selectedTag.Equals(sf))
-                    {
-                        this.treeView1.SelectedNode = subNode;
-                        folders.Expand();
-                    }
-                    BrowseFolder(sf.Name, sf, subNode, selectedTag, folders);
-                }
-
-                foreach (FolderTool tool in proj.Tools.Folders)
-                {
-                    TreeNode toolNode = tools.Nodes.Add(this.StandardTitle(tool.Name));
-                    toolNode.Tag = tool;
-                    if (selectedTag is FolderTool && selectedTag.Equals(tool))
-                    {
-                        this.treeView1.SelectedNode = toolNode;
-                        tools.Expand();
-                    }
-                    BrowseTool(tool, toolNode, selectedTag, tools);
-                }
-
-                foreach (HTMLTool tool in proj.Tools.Tools)
-                {
-                    TreeNode toolNode = tools.Nodes.Add(this.StandardTitle(tool.Title));
-                    toolNode.Tag = tool;
-                    if (selectedTag is FolderTool && selectedTag.Equals(tool))
-                    {
-                        this.treeView1.SelectedNode = toolNode;
-                        tools.Expand();
                     }
                 }
 
@@ -636,40 +541,12 @@ namespace EasyHTMLDev
             }
         }
 
-        private void ImportTool(FolderTool f, TreeNode node)
+        private void ImportTool(Library.HTMLTool f, TreeNode node)
         {
-            foreach (FolderTool sf in f.Folders)
-            {
-                TreeNode subNode = node.Nodes.Add(this.StandardTitle(sf.Name));
-                ImportTool(sf, subNode);
-            }
-            foreach (HTMLTool p in f.Tools)
-            {
-                TreeNode toolNode = node.Nodes.Add(this.StandardTitle(p.Title));
-                toolNode.Tag = p;
-            }
         }
 
-        private void SelectTool(TreeNode node, FolderTool import, bool all)
+        private void SelectTool(TreeNode node, Library.HTMLTool import, bool all)
         {
-            if (node.Tag != null && (node.Checked || all))
-            {
-                // c'est un outil
-                import.Tools.Add(node.Tag as HTMLTool);
-            }
-            else
-            {
-                if (node.Checked || all)
-                {
-                    FolderTool newFolder = new FolderTool();
-                    newFolder.Name = node.Text;
-                    import.Folders.Add(newFolder);
-                    foreach (TreeNode subNode in node.Nodes)
-                    {
-                        SelectTool(subNode, newFolder, true);
-                    }
-                }
-            }
         }
 
         private void lesMasterPagesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -680,17 +557,6 @@ namespace EasyHTMLDev
                 DialogResult drOp = op.ShowDialog();
                 if (drOp == System.Windows.Forms.DialogResult.OK)
                 {
-                    Tree<IProjectElement> t = Project.LoadImport(ConfigDirectories.GetDocumentsFolder(), op.FileName);
-                    Import im = new Import();
-                    Node<IProjectElement> node = t.Root.Find(a => a.Object.ElementTitle == "MasterPages");
-                    im.DataBind(node);
-                    DialogResult dr = im.ShowDialog();
-                    if (dr == System.Windows.Forms.DialogResult.OK)
-                    {
-                        Project.Import(t, Project.CurrentProject, ImportType.MASTERPAGES);
-                        Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
-                        Project.CurrentProject.ReloadProject();
-                    }
                 }
             }
             catch (Exception ex)
@@ -707,17 +573,6 @@ namespace EasyHTMLDev
                 DialogResult drOp = op.ShowDialog();
                 if (drOp == System.Windows.Forms.DialogResult.OK)
                 {
-                    Tree<IProjectElement> t = Project.LoadImport(ConfigDirectories.GetDocumentsFolder(), op.FileName);
-                    Import im = new Import();
-                    Node<IProjectElement> node = t.Root.Find(a => a.Object.ElementTitle == "Tools");
-                    im.DataBind(node);
-                    DialogResult dr = im.ShowDialog();
-                    if (dr == System.Windows.Forms.DialogResult.OK)
-                    {
-                        Project.Import(t, Project.CurrentProject, ImportType.TOOLS);
-                        Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
-                        Project.CurrentProject.ReloadProject();
-                    }
                 }
             }
             catch (Exception ex)
@@ -734,17 +589,6 @@ namespace EasyHTMLDev
                 DialogResult drOp = op.ShowDialog();
                 if (drOp == System.Windows.Forms.DialogResult.OK)
                 {
-                    Tree<IProjectElement> t = Project.LoadImport(ConfigDirectories.GetDocumentsFolder(), op.FileName);
-                    Import im = new Import();
-                    Node<IProjectElement> node = t.Root.Find(a => a.Object.ElementTitle == "MasterObjects");
-                    im.DataBind(node);
-                    DialogResult dr = im.ShowDialog();
-                    if (dr == System.Windows.Forms.DialogResult.OK)
-                    {
-                        Project.Import(t, Project.CurrentProject, ImportType.MASTEROBJECTS);
-                        Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
-                        Project.CurrentProject.ReloadProject();
-                    }
                 }
             }
             catch (Exception ex)
@@ -761,17 +605,6 @@ namespace EasyHTMLDev
                 DialogResult drOp = op.ShowDialog();
                 if (drOp == System.Windows.Forms.DialogResult.OK)
                 {
-                    Tree<IProjectElement> t = Project.LoadImport(ConfigDirectories.GetDocumentsFolder(), op.FileName);
-                    Import im = new Import();
-                    Node<IProjectElement> node = t.Root.Find(a => a.Object.ElementTitle == "Folders");
-                    im.DataBind(node);
-                    DialogResult dr = im.ShowDialog();
-                    if (dr == System.Windows.Forms.DialogResult.OK)
-                    {
-                        Project.Import(t, Project.CurrentProject, ImportType.FILES);
-                        Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
-                        Project.CurrentProject.ReloadProject();
-                    }
                 }
             }
             catch (Exception ex)
@@ -787,7 +620,7 @@ namespace EasyHTMLDev
             if (dr == System.Windows.Forms.DialogResult.OK)
             {
                 fi.path.Text = ConfigDirectories.RemoveLeadBackslash(fi.path.Text);
-                Project.AddFile(Project.CurrentProject, fi.path.Text);
+                Project.AddFile(Project.CurrentProject, Path.GetDirectoryName(fi.path.Text), Path.GetFileName(fi.path.Text));
                 ConfigDirectories.AddFile(Project.CurrentProject.Title, fi.path.Text, fi.ofd.FileName);
                 Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Project.CurrentProject.ReloadProject();
@@ -829,7 +662,7 @@ namespace EasyHTMLDev
                         else if (t.Tag is Library.HTMLTool)
                         {
                             Library.HTMLTool tool = t.Tag as Library.HTMLTool;
-                            Project.CurrentProject.Tools.Find(tool.Path).Tools.Remove(tool);
+                            Project.CurrentProject.Tools.Remove(tool);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
@@ -875,41 +708,9 @@ namespace EasyHTMLDev
                         }
                         else if (t.Tag is Library.Page)
                         {
-                            Page page = t.Tag as Page;
-                            if (!Project.CurrentProject.Pages.Remove(page))
-                            {
-                                // recherche dans les dossiers
-                                string[] path = page.Path.TrimEnd('/').Split('/');
-                                Folder current = Project.CurrentProject.Folders;
-                                foreach (string p in path)
-                                {
-                                    current = current.Folders.Find(a => { return a.Name == p; });
-                                }
-                                current.Pages.Remove(page);
-                            }
-                            Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
-                            Project.CurrentProject.ReloadProject();
                         }
                         else if (t.Tag is string)
                         {
-                            string fileName = t.Tag as string;
-                            if (!Project.CurrentProject.Folders.Files.Remove(fileName))
-                            {
-                                // recherche dans les dossiers
-                                string[] path = fileName.TrimEnd(Path.DirectorySeparatorChar).Split(Path.DirectorySeparatorChar);
-                                Folder current = Project.CurrentProject.Folders;
-                                foreach (string p in path)
-                                {
-                                    Folder f = current.Folders.Find(a => { return a.Name == p; });
-                                    if (f != null)
-                                    {
-                                        current = f;
-                                    }
-                                }
-                                current.Files.Remove(path[path.Length - 1]);
-                            }
-                            Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
-                            Project.CurrentProject.ReloadProject();
                         }
                     }
                 }
@@ -950,28 +751,8 @@ namespace EasyHTMLDev
             }
         }
 
-        private void GenerateProduction(string path, Folder f, string destinationDirectory)
+        private void GenerateProduction(string path, Library.File f, string destinationDirectory)
         {
-            ConfigDirectories.AddProductionFolder(Project.CurrentProject.Title, path, destinationDirectory);
-            foreach (Page p in f.Pages)
-            {
-                OutputHTML html = p.GenerateProduction();
-                FileStream fs = new FileStream(Path.Combine(destinationDirectory, Path.Combine(p.Path, p.Name)), FileMode.Create);
-                StreamWriter sw = new StreamWriter(fs);
-                sw.WriteLine(html.HTML.ToString());
-                sw.Close();
-                sw.Dispose();
-                fs.Close();
-                fs.Dispose();
-            }
-            foreach (string s in f.Files)
-            {
-                ConfigDirectories.AddProductionFile(Project.CurrentProject.Title, Path.Combine(path, s), Path.Combine(ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title), path, s), destinationDirectory);
-            }
-            foreach (Folder subFolder in f.Folders)
-            {
-                this.GenerateProduction(Path.Combine(path, subFolder.Name), subFolder, destinationDirectory);
-            }
         }
 
         private void toolStripMenuItem1_Click_1(object sender, EventArgs e)
@@ -986,7 +767,7 @@ namespace EasyHTMLDev
             {
                 Library.Project.CurrentProject.Configuration.Elements.Remove("BASE_HREF");
                 Library.Project.CurrentProject.Configuration.Elements.Add("BASE_HREF", f.path.Text);
-                this.GenerateProduction("", Project.CurrentProject.Folders, f.ffd.SelectedPath);
+                this.GenerateProduction("", Project.CurrentProject.Files.First(), f.ffd.SelectedPath);
                 // it's possible added new files
                 Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Project.CurrentProject.ReloadProject();
@@ -1026,7 +807,7 @@ namespace EasyHTMLDev
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             Library.HTMLTool tool = t.Tag as Library.HTMLTool;
-                            Project.CurrentProject.Tools.Find(tool.Path).Tools.Remove(tool);
+                            Project.CurrentProject.Tools.Remove(tool);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
@@ -1100,20 +881,10 @@ namespace EasyHTMLDev
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             string fileName = t.Tag as string;
-                            if (!Project.CurrentProject.Folders.Files.Remove(fileName))
+                            if (!Project.CurrentProject.Files.Exists(x => x.FileName == fileName))
                             {
                                 // recherche dans les dossiers
                                 string[] path = fileName.TrimEnd(Path.DirectorySeparatorChar).Split(Path.DirectorySeparatorChar);
-                                Folder current = Project.CurrentProject.Folders;
-                                foreach (string p in path)
-                                {
-                                    Folder f = current.Folders.Find(a => { return a.Name == p; });
-                                    if (f != null)
-                                    {
-                                        current = f;
-                                    }
-                                }
-                                current.Files.Remove(path[path.Length - 1]);
                             }
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
@@ -1138,14 +909,6 @@ namespace EasyHTMLDev
                             Page page = t.Tag as Page;
                             if (!Project.CurrentProject.Pages.Remove(page))
                             {
-                                // recherche dans les dossiers
-                                string[] path = page.Path.TrimEnd('/').Split('/');
-                                Folder current = Project.CurrentProject.Folders;
-                                foreach (string p in path)
-                                {
-                                    current = current.Folders.Find(a => { return a.Name == p; });
-                                }
-                                current.Pages.Remove(page);
                             }
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();

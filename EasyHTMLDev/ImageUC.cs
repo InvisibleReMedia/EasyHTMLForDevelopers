@@ -34,13 +34,8 @@ namespace EasyHTMLDev
         }
 
         #region Private Methods
-        private void LoadFileNames(List<string> list, Library.Folder f)
+        private void LoadFileNames(List<string> list, Library.File f)
         {
-            list.AddRange(from string s in f.Files select (f.Name + "/" + s));
-            foreach (Library.Folder sub in f.Folders)
-            {
-                this.LoadFileNames(list, sub);
-            }
         }
 
         private void btnBrowseImage_Click(object sender, EventArgs e)
@@ -49,7 +44,6 @@ namespace EasyHTMLDev
             DialogResult dr = fi.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                Library.Project.AddFile(Library.Project.CurrentProject, fi.path.Text);
                 ConfigDirectories.AddFile(Library.Project.CurrentProject.Title, ConfigDirectories.RemoveLeadBackslash(fi.path.Text), fi.ofd.FileName);
                 Library.Project.Save(Library.Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Library.Project.CurrentProject.ReloadProject();
@@ -70,17 +64,6 @@ namespace EasyHTMLDev
 
         public void BindDataToControl(Library.CadreModelType data)
         {
-            List<string> files = new List<string>();
-            this.LoadFileNames(files, Library.Project.CurrentProject.Folders);
-            if (files.Count > 0 && this.cmbFiles.Items.Count == 0)
-            {
-                this.cmbFiles.Items.AddRange(files.ConvertAll(s =>
-                {
-                    return new Library.CadreModelType(Library.CadreModelType.Image, s, s);
-                }).ToArray());
-            }
-            this.cmbFiles.DisplayMember = "Content";
-            this.cmbFiles.DataBindings.Add("Text", data, "Content");
         }
         #endregion
 

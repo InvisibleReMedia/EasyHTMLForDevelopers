@@ -196,7 +196,7 @@ namespace Localization
             if (pi != null)
             {
                 if (!String.IsNullOrEmpty(text))
-                    pi.SetValue(obj, text);
+                    pi.SetValue(obj, text, new object[] { });
             }
             else
             {
@@ -209,12 +209,10 @@ namespace Localization
             System.Reflection.PropertyInfo pi = obj.GetType().GetProperty("Text");
             if (pi != null)
             {
-                System.Diagnostics.Trace.WriteLine("Text=" + pi.GetValue(obj).ToString());
-                return pi.GetValue(obj).ToString();
+                return pi.GetValue(obj, new object[] { }).ToString();
             }
             else
             {
-                System.Diagnostics.Trace.WriteLine("Property Text not exists");
                 throw new KeyNotFoundException();
             }
         }
@@ -224,7 +222,7 @@ namespace Localization
             System.Reflection.PropertyInfo pi = obj.GetType().GetProperty("Name");
             if (pi != null)
             {
-                return pi.GetValue(obj).ToString();
+                return pi.GetValue(obj, new object[] { }).ToString();
             }
             else
             {
@@ -237,7 +235,7 @@ namespace Localization
             System.Reflection.PropertyInfo pi = obj.GetType().GetProperty("DataBindings");
             if (pi != null)
             {
-                return pi.GetValue(obj) as System.Windows.Forms.ControlBindingsCollection;
+                return pi.GetValue(obj, new object[] { }) as System.Windows.Forms.ControlBindingsCollection;
             }
             else
             {

@@ -44,7 +44,7 @@ namespace EasyHTMLDev
             this.BackColor = this.cm.Background;
             this.ForeColor = this.cm.Foreground;
             this.BorderColor = this.cm.Border;
-            base.Left = this.cm.HorizontalPosition;
+            base.Left = this.cm.Ho;
             base.Top = this.cm.VerticalPosition;
             this.Width = this.cm.Largeur;
             this.Height = this.cm.Hauteur;

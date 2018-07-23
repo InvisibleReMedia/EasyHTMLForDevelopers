@@ -51,13 +51,8 @@ namespace EasyHTMLDev
             this.RegisterControls(ref this.localeComponentId);
         }
 
-        private void LoadTools(List<Tool> list, Library.FolderTool t)
+        private void LoadTools(List<Tool> list, Library.File t)
         {
-            list.AddRange(from Library.HTMLTool s in t.Tools select new Tool(t.Name + "/" + s.Title, s));
-            foreach (Library.FolderTool sub in t.Folders)
-            {
-                this.LoadTools(list, sub);
-            }
         }
 
         public void ClearBindings()
@@ -67,17 +62,6 @@ namespace EasyHTMLDev
 
         public void BindDataToControl(Library.CadreModelType data)
         {
-            List<Tool> tools = new List<Tool>();
-            this.LoadTools(tools, Library.Project.CurrentProject.Tools);
-            if (tools.Count > 0 && this.cmbTools.Items.Count == 0)
-            {
-                this.cmbTools.Items.AddRange(tools.ConvertAll(s =>
-                {
-                    return new Library.CadreModelType(Library.CadreModelType.Tool, s.Title, s.DirectObject);
-                }).ToArray());
-            }
-            this.cmbTools.DisplayMember = "Content";
-            this.cmbTools.DataBindings.Add("SelectedItem", data, "DirectObject");
         }
 
         private void btnCreateTool_Click(object sender, EventArgs e)

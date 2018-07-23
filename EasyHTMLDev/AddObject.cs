@@ -63,40 +63,21 @@ namespace EasyHTMLDev
             this.Close();
         }
 
-        private void AddTool(Library.FolderTool tool, TreeNode node)
-        {
-            foreach (Library.FolderTool ft in tool.Folders)
-            {
-                TreeNode subNode = node.Nodes.Add(ft.Name);
-                AddTool(ft, subNode);
-            }
-
-            foreach (Library.HTMLTool ht in tool.Tools)
-            {
-                TreeNode toolNode = node.Nodes.Add(ht.Title);
-                toolNode.Tag = ht;
-            }
-        }
-
         private void AddObject_Load(object sender, EventArgs e)
         {
             TreeNode mObjects = this.treeView1.Nodes.Add(Localization.Strings.GetString("MasterObject"));
-            foreach(Library.MasterObject mo in Library.Project.CurrentProject.MasterObjects)
+            var it = Library.Project.CurrentProject.Hierarchy.Find(Library.Project.MasterObjectsName).GetNodesEnumerator();
+            while(it.MoveNext())
             {
-                TreeNode subNode = mObjects.Nodes.Add(mo.Title);
-                subNode.Tag = mo;
-            }
-            Library.FolderTool tool = Library.Project.CurrentProject.Tools;
-            foreach (Library.FolderTool ft in tool.Folders)
-            {
-                TreeNode subNode = this.treeView1.Nodes.Add(ft.Name);
-                AddTool(ft, subNode);
+                TreeNode subNode = mObjects.Nodes.Add(it.Current.Get("title"));
+                subNode.Tag = it.Current;
             }
 
-            foreach (Library.HTMLTool ht in tool.Tools)
+            it = Library.Project.CurrentProject.Hierarchy.Find("Tools").GetNodesEnumerator();
+            while (it.MoveNext())
             {
-                TreeNode toolNode = this.treeView1.Nodes.Add(ht.Title);
-                toolNode.Tag = ht;
+                TreeNode subNode = mObjects.Nodes.Add(it.Current.Get("title"));
+                subNode.Tag = it.Current;
             }
         }
     }
