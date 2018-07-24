@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{368B20D8-0C17-4F3E-8C49-45C3A1115AE9}"
 EndProject
@@ -14,6 +14,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorialListening", "TutorialListening\TutorialListening.csproj", "{0E79E824-04D0-4B52-9794-16A93CD2B5D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marshalling", "Marshalling\Marshalling.csproj", "{241A5402-6749-45FD-B693-19B54B380443}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEasy", "AppEasy\AppEasy.csproj", "{BD644EEE-FEDC-479A-B7AD-F256AA09C01E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UXFramework", "UXFramework\UXFramework.csproj", "{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +75,18 @@ Global
 		{241A5402-6749-45FD-B693-19B54B380443}.Release|Any CPU.Build.0 = Release|Any CPU
 		{241A5402-6749-45FD-B693-19B54B380443}.Release|x64.ActiveCfg = Release|x64
 		{241A5402-6749-45FD-B693-19B54B380443}.Release|x64.Build.0 = Release|x64
+		{BD644EEE-FEDC-479A-B7AD-F256AA09C01E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD644EEE-FEDC-479A-B7AD-F256AA09C01E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD644EEE-FEDC-479A-B7AD-F256AA09C01E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BD644EEE-FEDC-479A-B7AD-F256AA09C01E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD644EEE-FEDC-479A-B7AD-F256AA09C01E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD644EEE-FEDC-479A-B7AD-F256AA09C01E}.Release|x64.ActiveCfg = Release|Any CPU
+		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -523,6 +523,46 @@
             </summary>
             <param name="cm">object source</param>
         </member>
+        <member name="M:Library.CadreModel.UpdateProperty(System.String)">
+            <summary>
+            Update property
+            </summary>
+            <param name="name">property name</param>
+        </member>
+        <member name="M:Library.CadreModel.RaisePropertyChanged">
+            <summary>
+            Raise property changed event
+            </summary>
+        </member>
+        <member name="M:Library.CadreModel.AimentedMove">
+            <summary>
+            Gets aimented move
+            </summary>
+        </member>
+        <member name="M:Library.CadreModel.ClearEvents">
+            <summary>
+            Clear events
+            </summary>
+        </member>
+        <member name="M:Library.CadreModel.CopyProperties(Library.HTMLObject)">
+            <summary>
+            Copy properties
+            </summary>
+            <param name="obj">html object</param>
+        </member>
+        <member name="M:Library.CadreModel.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>cloned object</returns>
+        </member>
+        <member name="M:Library.CadreModel.ReinitCounter(System.Int32)">
+            <summary>
+            Reinitialize counter
+            Used just after an opened project
+            </summary>
+            <param name="value">value to set</param>
+        </member>
         <member name="P:Library.CadreModel.SuspendBinding">
             <summary>
             Gets or sets Suspending binding switch
@@ -628,46 +668,6 @@
             Gets or sets the index group
             </summary>
         </member>
-        <member name="M:Library.CadreModel.UpdateProperty(System.String)">
-            <summary>
-            Update property
-            </summary>
-            <param name="name">property name</param>
-        </member>
-        <member name="M:Library.CadreModel.RaisePropertyChanged">
-            <summary>
-            Raise property changed event
-            </summary>
-        </member>
-        <member name="M:Library.CadreModel.AimentedMove">
-            <summary>
-            Gets aimented move
-            </summary>
-        </member>
-        <member name="M:Library.CadreModel.ClearEvents">
-            <summary>
-            Clear events
-            </summary>
-        </member>
-        <member name="M:Library.CadreModel.CopyProperties(Library.HTMLObject)">
-            <summary>
-            Copy properties
-            </summary>
-            <param name="obj">html object</param>
-        </member>
-        <member name="M:Library.CadreModel.Clone">
-            <summary>
-            Clone this object
-            </summary>
-            <returns>cloned object</returns>
-        </member>
-        <member name="M:Library.CadreModel.ReinitCounter(System.Int32)">
-            <summary>
-            Reinitialize counter
-            Used just after an opened project
-            </summary>
-            <param name="value">value to set</param>
-        </member>
         <member name="E:Library.CadreModel.PropertyChanged">
             <summary>
             Event property changed
@@ -681,6 +681,38 @@
         <member name="T:Library.PlacementModel">
             <summary>
             Placement Method
+            </summary>
+        </member>
+        <member name="F:Library.PlacementModel.list">
+            <summary>
+            Linked list of vertical placement
+            </summary>
+        </member>
+        <member name="M:Library.PlacementModel.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Library.PlacementModel.InspectQuadrille(Library.PlacementModel.PlacementItem)">
+            <summary>
+            Inspect content
+            </summary>
+            <param name="p">placement</param>
+        </member>
+        <member name="M:Library.PlacementModel.Add(Library.CadreModel,System.Single)">
+            <summary>
+            Add a new element
+            Create a new placement item, set update position changed event
+            and place item
+            </summary>
+            <param name="cm">new cadre model</param>
+            <param name="ratio">ratio</param>
+        </member>
+        <member name="M:Library.PlacementModel.ComputeMixedZones">
+            <summary>
+            Computes all areas
+            This function is not terminated.
+            When two elements intersects each other, it takes a zIndex (3D)
             </summary>
         </member>
         <member name="T:Library.PlacementModel.MixedZone">
@@ -706,6 +738,13 @@
             <param name="h">width</param>
             <param name="v">height</param>
         </member>
+        <member name="M:Library.PlacementModel.MixedZone.Move(System.Int32,System.Int32)">
+            <summary>
+            Move to new position
+            </summary>
+            <param name="h">new width</param>
+            <param name="v">new height</param>
+        </member>
         <member name="P:Library.PlacementModel.MixedZone.HorizontalPosition">
             <summary>
             Gets the width position
@@ -715,13 +754,6 @@
             <summary>
             Get the height position
             </summary>
-        </member>
-        <member name="M:Library.PlacementModel.MixedZone.Move(System.Int32,System.Int32)">
-            <summary>
-            Move to new position
-            </summary>
-            <param name="h">new width</param>
-            <param name="v">new height</param>
         </member>
         <member name="T:Library.PlacementModel.PlacementItem">
             <summary>
@@ -823,11 +855,6 @@
             Lignes horizontales des éléments
             </summary>
         </member>
-        <member name="E:Library.PlacementModel.HorizontalPlacementItem.positionChanged">
-            <summary>
-            Event when position has changed
-            </summary>
-        </member>
         <member name="F:Library.PlacementModel.HorizontalPlacementItem.oldValue">
             <summary>
             Old and new position
@@ -860,6 +887,11 @@
             </summary>
             <param name="sender">origin</param>
             <param name="e">args</param>
+        </member>
+        <member name="E:Library.PlacementModel.HorizontalPlacementItem.positionChanged">
+            <summary>
+            Event when position has changed
+            </summary>
         </member>
         <member name="P:Library.PlacementModel.HorizontalPlacementItem.Position">
             <summary>
@@ -902,11 +934,6 @@
             Lignes verticales des éléments
             </summary>
         </member>
-        <member name="E:Library.PlacementModel.VerticalPlacementItem.positionChanged">
-            <summary>
-            Event when position has changed
-            </summary>
-        </member>
         <member name="F:Library.PlacementModel.VerticalPlacementItem.oldValue">
             <summary>
             Old and new position
@@ -939,26 +966,6 @@
             <param name="sender">origin</param>
             <param name="e">args</param>
         </member>
-        <member name="P:Library.PlacementModel.VerticalPlacementItem.Items">
-            <summary>
-            Gets the linked list of horizontal item
-            </summary>
-        </member>
-        <member name="P:Library.PlacementModel.VerticalPlacementItem.Position">
-            <summary>
-            Gets or sets position
-            </summary>
-        </member>
-        <member name="P:Library.PlacementModel.VerticalPlacementItem.LessPosition">
-            <summary>
-            Compute the shortest position
-            </summary>
-        </member>
-        <member name="E:Library.PlacementModel.VerticalPlacementItem.PositionChanged">
-            <summary>
-            Add or remove event Position Changed
-            </summary>
-        </member>
         <member name="M:Library.PlacementModel.VerticalPlacementItem.Add(Library.PlacementModel.HorizontalPlacementItem)">
             <summary>
             Add a new horizontal item into this vertical item
@@ -980,6 +987,31 @@
             <param name="other">vertical item to compare</param>
             <returns>1 or -1</returns>
         </member>
+        <member name="E:Library.PlacementModel.VerticalPlacementItem.positionChanged">
+            <summary>
+            Event when position has changed
+            </summary>
+        </member>
+        <member name="P:Library.PlacementModel.VerticalPlacementItem.Items">
+            <summary>
+            Gets the linked list of horizontal item
+            </summary>
+        </member>
+        <member name="P:Library.PlacementModel.VerticalPlacementItem.Position">
+            <summary>
+            Gets or sets position
+            </summary>
+        </member>
+        <member name="P:Library.PlacementModel.VerticalPlacementItem.LessPosition">
+            <summary>
+            Compute the shortest position
+            </summary>
+        </member>
+        <member name="E:Library.PlacementModel.VerticalPlacementItem.PositionChanged">
+            <summary>
+            Add or remove event Position Changed
+            </summary>
+        </member>
         <member name="T:Library.PlacementModel.VerticalComparer">
             <summary>
             Class for the vertical comparer
@@ -999,38 +1031,6 @@
             <param name="x">placement item 1</param>
             <param name="y">placement item 2</param>
             <returns>1 or -1</returns>
-        </member>
-        <member name="F:Library.PlacementModel.list">
-            <summary>
-            Linked list of vertical placement
-            </summary>
-        </member>
-        <member name="M:Library.PlacementModel.#ctor">
-            <summary>
-            Default constructor
-            </summary>
-        </member>
-        <member name="M:Library.PlacementModel.InspectQuadrille(Library.PlacementModel.PlacementItem)">
-            <summary>
-            Inspect content
-            </summary>
-            <param name="p">placement</param>
-        </member>
-        <member name="M:Library.PlacementModel.Add(Library.CadreModel,System.Single)">
-            <summary>
-            Add a new element
-            Create a new placement item, set update position changed event
-            and place item
-            </summary>
-            <param name="cm">new cadre model</param>
-            <param name="ratio">ratio</param>
-        </member>
-        <member name="M:Library.PlacementModel.ComputeMixedZones">
-            <summary>
-            Computes all areas
-            This function is not terminated.
-            When two elements intersects each other, it takes a zIndex (3D)
-            </summary>
         </member>
         <member name="T:Library.CadreModelType">
             <summary>
@@ -1097,6 +1097,23 @@
             <param name="content">content string</param>
             <param name="obj">object as content</param>
         </member>
+        <member name="M:Library.CadreModelType.UpdateProperty(System.String)">
+            <summary>
+            Update property
+            </summary>
+            <param name="name">property name</param>
+        </member>
+        <member name="M:Library.CadreModelType.Reinit">
+            <summary>
+            Reinitialization
+            </summary>
+        </member>
+        <member name="M:Library.CadreModelType.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>cloned object</returns>
+        </member>
         <member name="P:Library.CadreModelType.Type">
             <summary>
             Gets the type name
@@ -1112,27 +1129,10 @@
             Gets or sets object as content
             </summary>
         </member>
-        <member name="M:Library.CadreModelType.UpdateProperty(System.String)">
-            <summary>
-            Update property
-            </summary>
-            <param name="name">property name</param>
-        </member>
         <member name="E:Library.CadreModelType.PropertyChanged">
             <summary>
             Add or remove event Position Changed
             </summary>
-        </member>
-        <member name="M:Library.CadreModelType.Reinit">
-            <summary>
-            Reinitialization
-            </summary>
-        </member>
-        <member name="M:Library.CadreModelType.Clone">
-            <summary>
-            Clone this object
-            </summary>
-            <returns>cloned object</returns>
         </member>
         <member name="T:Library.CodeCSS">
             <summary>
@@ -1217,6 +1217,42 @@
             Default constructor (addressed for the body of page)
             </summary>
         </member>
+        <member name="M:Library.CodeCSS.AddIntoBody(System.String,System.String)">
+            <summary>
+            Add a property value to the CSS body
+            </summary>
+            <param name="name">property name</param>
+            <param name="value">property value</param>
+        </member>
+        <member name="M:Library.CodeCSS.Discret(System.String,System.String)">
+            <summary>
+            Sets a property that can be border, padding, margin and colors
+            </summary>
+            <param name="name">property name</param>
+            <param name="value">value to set</param>
+        </member>
+        <member name="M:Library.CodeCSS.IsBodyKey(System.String)">
+            <summary>
+            Test if a key exists into body
+            </summary>
+            <param name="key">key to search</param>
+            <returns>true of false</returns>
+        </member>
+        <member name="M:Library.CodeCSS.GenerateCSS(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Generates the CSS code
+            </summary>
+            <param name="addDefaultKeys">add default keys</param>
+            <param name="displayId">display id and print properties into</param>
+            <param name="resolveConfig">transforms configuration keys to values</param>
+            <returns>css string generated code output</returns>
+        </member>
+        <member name="M:Library.CodeCSS.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>cloned object</returns>
+        </member>
         <member name="P:Library.CodeCSS.Ids">
             <summary>
             Gets or sets Id command
@@ -1278,42 +1314,6 @@
             Gets or sets the border bottom color
             </summary>
         </member>
-        <member name="M:Library.CodeCSS.AddIntoBody(System.String,System.String)">
-            <summary>
-            Add a property value to the CSS body
-            </summary>
-            <param name="name">property name</param>
-            <param name="value">property value</param>
-        </member>
-        <member name="M:Library.CodeCSS.Discret(System.String,System.String)">
-            <summary>
-            Sets a property that can be border, padding, margin and colors
-            </summary>
-            <param name="name">property name</param>
-            <param name="value">value to set</param>
-        </member>
-        <member name="M:Library.CodeCSS.IsBodyKey(System.String)">
-            <summary>
-            Test if a key exists into body
-            </summary>
-            <param name="key">key to search</param>
-            <returns>true of false</returns>
-        </member>
-        <member name="M:Library.CodeCSS.GenerateCSS(System.Boolean,System.Boolean,System.Boolean)">
-            <summary>
-            Generates the CSS code
-            </summary>
-            <param name="addDefaultKeys">add default keys</param>
-            <param name="displayId">display id and print properties into</param>
-            <param name="resolveConfig">transforms configuration keys to values</param>
-            <returns>css string generated code output</returns>
-        </member>
-        <member name="M:Library.CodeCSS.Clone">
-            <summary>
-            Clone this object
-            </summary>
-            <returns>cloned object</returns>
-        </member>
         <member name="T:Library.CodeJavaScript">
             <summary>
             Class container for JavaScript code
@@ -1323,6 +1323,12 @@
             <summary>
             Index name to handle code data
             </summary>
+        </member>
+        <member name="M:Library.CodeJavaScript.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>cloned object</returns>
         </member>
         <member name="P:Library.CodeJavaScript.Code">
             <summary>
@@ -1335,12 +1341,6 @@
             Transforms all configuration keys by these values
             </summary>
         </member>
-        <member name="M:Library.CodeJavaScript.Clone">
-            <summary>
-            Clone this object
-            </summary>
-            <returns>cloned object</returns>
-        </member>
         <member name="T:Library.Configuration">
             <summary>
             Configuration element for a project
@@ -1351,17 +1351,17 @@
             Index name for collection
             </summary>
         </member>
-        <member name="P:Library.Configuration.Elements">
-            <summary>
-            Gets elements
-            </summary>
-        </member>
         <member name="M:Library.Configuration.Replace(System.String)">
             <summary>
             Replace each name by its value
             </summary>
             <param name="input">input string</param>
             <returns>output</returns>
+        </member>
+        <member name="P:Library.Configuration.Elements">
+            <summary>
+            Gets elements
+            </summary>
         </member>
         <member name="T:Library.ConstraintSize">
             <summary>
@@ -1464,16 +1464,6 @@
             </summary>
             <param name="colorStr">color</param>
         </member>
-        <member name="P:Library.CSSColor.Color">
-            <summary>
-            Gets the color
-            </summary>
-        </member>
-        <member name="P:Library.CSSColor.IsEmpty">
-            <summary>
-            Gets if this object has a setted color
-            </summary>
-        </member>
         <member name="M:Library.CSSColor.ParseColor(System.String)">
             <summary>
             Parse color and return a new CSSColor
@@ -1495,6 +1485,16 @@
             Clone the object
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:Library.CSSColor.Color">
+            <summary>
+            Gets the color
+            </summary>
+        </member>
+        <member name="P:Library.CSSColor.IsEmpty">
+            <summary>
+            Gets if this object has a setted color
+            </summary>
         </member>
         <member name="T:Library.DesignPage">
             <summary>
@@ -1769,41 +1769,6 @@
             </summary>
             <param name="gs">generated sculpture to copy</param>
         </member>
-        <member name="P:Library.GeneratedSculpture.Unique">
-            <summary>
-            Gets or sets the unique id
-            </summary>
-        </member>
-        <member name="P:Library.GeneratedSculpture.Type">
-            <summary>
-            Gets or sets the generation type
-            </summary>
-        </member>
-        <member name="P:Library.GeneratedSculpture.Name">
-            <summary>
-            Gets or sets a name
-            </summary>
-        </member>
-        <member name="P:Library.GeneratedSculpture.SecondObject">
-            <summary>
-            Second object
-            </summary>
-        </member>
-        <member name="P:Library.GeneratedSculpture.Objects">
-            <summary>
-            Gets referenced objects
-            </summary>
-        </member>
-        <member name="P:Library.GeneratedSculpture.RemainerModels">
-            <summary>
-            Gets remain models
-            </summary>
-        </member>
-        <member name="P:Library.GeneratedSculpture.Destination">
-            <summary>
-            Gets or sets the destination object
-            </summary>
-        </member>
         <member name="M:Library.GeneratedSculpture.FillContainerObject(System.Collections.Generic.List{Library.HorizontalZone},System.Collections.Generic.List{Library.HTMLObject})">
             <summary>
             Fill container object
@@ -1839,6 +1804,41 @@
             Clone this object
             </summary>
             <returns>cloned object</returns>
+        </member>
+        <member name="P:Library.GeneratedSculpture.Unique">
+            <summary>
+            Gets or sets the unique id
+            </summary>
+        </member>
+        <member name="P:Library.GeneratedSculpture.Type">
+            <summary>
+            Gets or sets the generation type
+            </summary>
+        </member>
+        <member name="P:Library.GeneratedSculpture.Name">
+            <summary>
+            Gets or sets a name
+            </summary>
+        </member>
+        <member name="P:Library.GeneratedSculpture.SecondObject">
+            <summary>
+            Second object
+            </summary>
+        </member>
+        <member name="P:Library.GeneratedSculpture.Objects">
+            <summary>
+            Gets referenced objects
+            </summary>
+        </member>
+        <member name="P:Library.GeneratedSculpture.RemainerModels">
+            <summary>
+            Gets remain models
+            </summary>
+        </member>
+        <member name="P:Library.GeneratedSculpture.Destination">
+            <summary>
+            Gets or sets the destination object
+            </summary>
         </member>
         <member name="T:Library.Granne">
             <summary>
@@ -1968,11 +1968,6 @@
             </summary>
             <returns>sized rectangle</returns>
         </member>
-        <member name="P:Library.Granne.TrueSize">
-            <summary>
-            Computes the true size
-            </summary>
-        </member>
         <member name="M:Library.Granne.Init">
             <summary>
             Initialize Granne sequence construction
@@ -2019,6 +2014,17 @@
             <param name="g2"></param>
             <returns></returns>
         </member>
+        <member name="M:Library.Granne.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>cloned object</returns>
+        </member>
+        <member name="P:Library.Granne.TrueSize">
+            <summary>
+            Computes the true size
+            </summary>
+        </member>
         <member name="P:Library.Granne.Size">
             <summary>
             Gets the total size for all cadre model list
@@ -2033,12 +2039,6 @@
             <summary>
             Gets the unity size
             </summary>
-        </member>
-        <member name="M:Library.Granne.Clone">
-            <summary>
-            Clone this object
-            </summary>
-            <returns>cloned object</returns>
         </member>
         <member name="T:Library.HorizontalGranneComparer">
             <summary>
@@ -2088,11 +2088,6 @@
             </summary>
             <param name="val">input value</param>
         </member>
-        <member name="P:Library.Hexadecimal.Value">
-            <summary>
-            Gets the int value
-            </summary>
-        </member>
         <member name="M:Library.Hexadecimal.HexadecimalDigitToChar(System.Int32)">
             <summary>
             Gets the hexadecimal digit of a value
@@ -2139,10 +2134,203 @@
             <param name="result">object of hexadecimal class</param>
             <returns>true if successfull parsing</returns>
         </member>
+        <member name="P:Library.Hexadecimal.Value">
+            <summary>
+            Gets the int value
+            </summary>
+        </member>
         <member name="T:Library.HorizontalZone">
             <summary>
             An horizontal area that can contains multiple vertical areas
             </summary>
+        </member>
+        <member name="T:Library.IContainer">
+            <summary>
+            Interface for a container
+            </summary>
+        </member>
+        <member name="M:Library.IContainer.SearchContainer(System.Collections.Generic.List{Library.IContainer},System.Collections.Generic.List{Library.IContent},System.String,Library.IContainer@)">
+            <summary>
+            Search the container where this container is
+            </summary>
+            <param name="containers">container list</param>
+            <param name="objects">objects of content</param>
+            <param name="searchName">container name to search</param>
+            <param name="found">container result</param>
+            <returns>true if a container has found</returns>
+        </member>
+        <member name="P:Library.IContainer.ConstraintWidth">
+            <summary>
+            Gets or sets the width constraint
+            </summary>
+        </member>
+        <member name="P:Library.IContainer.ConstraintHeight">
+            <summary>
+            Gets or sets the height constraint
+            </summary>
+        </member>
+        <member name="P:Library.IContainer.Width">
+            <summary>
+            Gets or sets the width value
+            </summary>
+        </member>
+        <member name="P:Library.IContainer.Height">
+            <summary>
+            Gets or sets the height value
+            </summary>
+        </member>
+        <member name="P:Library.IContainer.Name">
+            <summary>
+            Gets or sets the name of the container
+            </summary>
+        </member>
+        <member name="T:Library.IGenerateDesignDIV">
+            <summary>
+            Interface for the generation of HTML DIV tag (design mode)
+            </summary>
+        </member>
+        <member name="M:Library.IGenerateDesignDIV.GenerateDesignDIV">
+            <summary>
+            Generate table on design
+            </summary>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesignDIV.GenerateDesignDIV(Library.Page)">
+            <summary>
+            Generate HTML DIV tag at design
+            </summary>
+            <param name="refPage">from a page</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesignDIV.GenerateDesignDIV(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate HTML DIV tag at design
+            </summary>
+            <param name="refPage">from a page</param>
+            <param name="objects">objects</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesignDIV.GenerateDesignDIV(Library.Page,Library.MasterPage,Library.ParentConstraint)">
+            <summary>
+            Generate HTML DIV tag at design
+            </summary>
+            <param name="refPage">from a page</param>
+            <param name="masterRefPage">from a master page</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesignDIV.GenerateDesignDIV(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate HTML DIV tag at design
+            </summary>
+            <param name="refPage">from a page</param>
+            <param name="masterRefPage">from a master page</param>
+            <param name="objects">objects</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="T:Library.IGenerateDesignTable">
+            <summary>
+            Interface for the generation of table (design mode)
+            </summary>
+        </member>
+        <member name="M:Library.IGenerateDesignTable.GenerateDesignTable(Library.Page)">
+            <summary>
+            Generate table at design
+            </summary>
+            <param name="refPage">from a page</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesignTable.GenerateDesignTable(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate table at design
+            </summary>
+            <param name="refPage">from a page</param>
+            <param name="objects">objects</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesignTable.GenerateDesignTable(Library.Page,Library.MasterPage,Library.ParentConstraint)">
+            <summary>
+            Generate table at design
+            </summary>
+            <param name="refPage">from a page</param>
+            <param name="masterRefPage">from a master page</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesignTable.GenerateDesignTable(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate table at design
+            </summary>
+            <param name="refPage">from a page</param>
+            <param name="masterRefPage">from a master page</param>
+            <param name="objects">objects</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="T:Library.IGenerateProductionDIV">
+            <summary>
+            Interface for the generation of HTML DIV tag (actual website)
+            </summary>
+        </member>
+        <member name="M:Library.IGenerateProductionDIV.GenerateProductionDIV(Library.Page)">
+            <summary>
+            Generate HTML DIV tag at actual website
+            </summary>
+            <param name="refPage">from a page</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateProductionDIV.GenerateProductionDIV(Library.Page,Library.MasterPage,Library.ParentConstraint)">
+            <summary>
+            Generate HTML DIV tag at actual website
+            </summary>
+            <param name="refPage">from a page</param>
+            <param name="masterRefPage">from a master page</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateProductionDIV.GenerateProductionDIV(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate HTML DIV tag at actual website
+            </summary>
+            <param name="refPage">from a page</param>
+            <param name="masterRefPage">from a master page</param>
+            <param name="objects">objects</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="T:Library.IGenerateProductionTable">
+            <summary>
+            Interface for the generation of table (actual website)
+            </summary>
+        </member>
+        <member name="M:Library.IGenerateProductionTable.GenerateProductionTable(Library.Page)">
+            <summary>
+            Generate table at actual website
+            </summary>
+            <param name="refPage">from a page</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateProductionTable.GenerateProductionTable(Library.Page,Library.MasterPage,Library.ParentConstraint)">
+            <summary>
+            Generate table at actual website
+            </summary>
+            <param name="refPage">from a page</param>
+            <param name="masterRefPage">from a master page</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateProductionTable.GenerateProductionTable(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate table at actual website
+            </summary>
+            <param name="refPage">from a page</param>
+            <param name="masterRefPage">from a master page</param>
+            <param name="objects">objects</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
         </member>
         <member name="F:Library.HorizontalZone.constraintWidthName">
             <summary>
@@ -2209,93 +2397,6 @@
             Copy Constructor
             </summary>
             <param name="hz">horizontal zone source</param>
-        </member>
-        <member name="P:Library.HorizontalZone.ConstraintWidth">
-            <summary>
-            Gets or sets width constraint
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.ConstraintHeight">
-            <summary>
-            Gets or sets height constraint
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.Width">
-            <summary>
-            Gets or sets the width value
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.HtmlWidth">
-            <summary>
-            Gets inner box width
-            empty padding css left and right
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.Height">
-            <summary>
-            Gets or sets the height value
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.HtmlHeight">
-            <summary>
-            Gets inner box height
-            empty padding css top and bottom
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.CountLines">
-            <summary>
-            Gets or sets the counting lines
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.VerticalZones">
-            <summary>
-            Gets vertical areas
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.TotalCountColumns">
-            <summary>
-            Gets the total count columns
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.Id">
-            <summary>
-            Gets or sets the automatic id
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.Name">
-            <summary>
-            Gets or sets the automatic name
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.JavaScript">
-            <summary>
-            Gets or sets the javascript code
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.JavaScriptOnLoad">
-            <summary>
-            Gets or sets the javascript on load
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.JavaScriptOnLoadSource">
-            <summary>
-            Gets or sets the javascript on load source code
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.JavaScriptSource">
-            <summary>
-            Gets or sets the javascript source code
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.CSS">
-            <summary>
-            Gets or sets CSS
-            </summary>
-        </member>
-        <member name="P:Library.HorizontalZone.Stringified">
-            <summary>
-            Gets the stringified horizontal area
-            </summary>
         </member>
         <member name="M:Library.HorizontalZone.SearchContainer(System.Collections.Generic.List{Library.IContainer},System.Collections.Generic.List{Library.IContent},System.String,Library.IContainer@)">
             <summary>
@@ -2468,6 +2569,93 @@
             </summary>
             <returns>cloned object</returns>
         </member>
+        <member name="P:Library.HorizontalZone.ConstraintWidth">
+            <summary>
+            Gets or sets width constraint
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.ConstraintHeight">
+            <summary>
+            Gets or sets height constraint
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.Width">
+            <summary>
+            Gets or sets the width value
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.HtmlWidth">
+            <summary>
+            Gets inner box width
+            empty padding css left and right
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.Height">
+            <summary>
+            Gets or sets the height value
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.HtmlHeight">
+            <summary>
+            Gets inner box height
+            empty padding css top and bottom
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.CountLines">
+            <summary>
+            Gets or sets the counting lines
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.VerticalZones">
+            <summary>
+            Gets vertical areas
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.TotalCountColumns">
+            <summary>
+            Gets the total count columns
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.Id">
+            <summary>
+            Gets or sets the automatic id
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.Name">
+            <summary>
+            Gets or sets the automatic name
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.JavaScript">
+            <summary>
+            Gets or sets the javascript code
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.JavaScriptOnLoad">
+            <summary>
+            Gets or sets the javascript on load
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.JavaScriptOnLoadSource">
+            <summary>
+            Gets or sets the javascript on load source code
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.JavaScriptSource">
+            <summary>
+            Gets or sets the javascript source code
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.CSS">
+            <summary>
+            Gets or sets CSS
+            </summary>
+        </member>
+        <member name="P:Library.HorizontalZone.Stringified">
+            <summary>
+            Gets the stringified horizontal area
+            </summary>
+        </member>
         <member name="T:Library.HTMLObject">
             <summary>
             An HTML Object is an instance of an existing tool or a master object
@@ -2476,6 +2664,115 @@
             If HTML Object is a tool, it means that the HTML tool source is no more linked with.
             Any changes in a tool after creating an instance of a tool are not propagated
             </summary>
+        </member>
+        <member name="T:Library.IContent">
+            <summary>
+            Element of a project that acts as a content
+            </summary>
+        </member>
+        <member name="M:Library.IContent.SearchContainer(System.Collections.Generic.List{Library.IContainer},System.Collections.Generic.List{Library.IContent},System.String,Library.IContainer@)">
+            <summary>
+            Search the container where this content resides
+            </summary>
+            <param name="containers">container list</param>
+            <param name="objects">objects of content</param>
+            <param name="searchName">container name to search</param>
+            <param name="found">container result</param>
+            <returns>true if a container has found</returns>
+        </member>
+        <member name="P:Library.IContent.Container">
+            <summary>
+            Gets or sets the container name
+            </summary>
+        </member>
+        <member name="T:Library.IGenerateDesign">
+            <summary>
+            Interface for the generation of page (design mode)
+            </summary>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateThumbnail">
+            <summary>
+            Generate a thumbnail
+            </summary>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateDesign">
+            <summary>
+            Generate the top-level design
+            </summary>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page)">
+            <summary>
+            Generate the next level (from a page) design
+            </summary>
+            <param name="refPage">page reference</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,Library.MasterPage,Library.ParentConstraint)">
+            <summary>
+            Generate the third level (from a page or a master page)
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate objects owned by a page
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="objects">objects owned</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate objects owned by a page or a master page
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="objects">objects owned</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="T:Library.IGenerateProduction">
+            <summary>
+            Interface for the generation of page (design mode)
+            </summary>
+        </member>
+        <member name="M:Library.IGenerateProduction.GenerateProduction">
+            <summary>
+            Generate the top-level design
+            </summary>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateProduction.GenerateProduction(Library.Page)">
+            <summary>
+            Generate the next level (from a page) at actual website
+            </summary>
+            <param name="refPage">page reference</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateProduction.GenerateProduction(Library.Page,Library.MasterPage,Library.ParentConstraint)">
+            <summary>
+            Generate the third level (from a page or a master page) at actual website
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateProduction.GenerateProduction(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate objects owned by a page or a master page at actual website
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="objects">objects owned</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
         </member>
         <member name="F:Library.HTMLObject.uniqueName">
             <summary>
@@ -2585,6 +2882,120 @@
             Copy constructor
             </summary>
             <param name="obj">object to copy</param>
+        </member>
+        <member name="M:Library.HTMLObject.SearchContainer(System.Collections.Generic.List{Library.IContainer},System.Collections.Generic.List{Library.IContent},System.String,Library.IContainer@)">
+            <summary>
+            Search container
+            </summary>
+            <param name="containers">container list</param>
+            <param name="objects">object content list</param>
+            <param name="searchName">container name to search</param>
+            <param name="found">container result</param>
+            <returns>true if a container has found</returns>
+        </member>
+        <member name="M:Library.HTMLObject.ImportCSS(Library.CodeCSS)">
+            <summary>
+            Import a css object
+            </summary>
+            <param name="css">css code </param>
+        </member>
+        <member name="M:Library.HTMLObject.CSSOutput(System.Boolean)">
+            <summary>
+            Obtain the CSS output
+            given a switch to resolve configuration key
+            </summary>
+            <param name="resolveConfig">true if replace configuration key by its value</param>
+            <returns>css output</returns>
+        </member>
+        <member name="M:Library.HTMLObject.GenerateDesign">
+            <summary>
+            Generate design from nothing
+            Function to design this object
+            a master object or a tool
+            </summary>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLObject.GenerateDesign(Library.Page)">
+            <summary>
+            Generate design from a page reference
+            No html object is directly inherited from a page
+            </summary>
+            <param name="refPage">page reference</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLObject.GenerateDesign(Library.Page,Library.MasterPage,Library.ParentConstraint)">
+            <summary>
+            Generate design from a page or a master page
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLObject.GenerateDesign(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate design from a page and its objects
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="objects">object list</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLObject.GenerateDesign(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate design from a page or a master page with their objects
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="objects">object list</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLObject.GenerateThumbnail">
+            <summary>
+            Generate a thumbnail
+            This function should be implemented
+            </summary>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLObject.GenerateProduction">
+            <summary>
+            Generate actual website from nothing
+            </summary>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLObject.GenerateProduction(Library.Page)">
+            <summary>
+            Generate design from a page reference
+            No html object is directly inherited from a page
+            </summary>
+            <param name="refPage">page reference</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLObject.GenerateProduction(Library.Page,Library.MasterPage,Library.ParentConstraint)">
+            <summary>
+            Generate actual website from a page or a master page
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLObject.GenerateProduction(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate actual website from a page and its objects
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="objects">object list</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLObject.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>cloned object</returns>
         </member>
         <member name="P:Library.HTMLObject.Unique">
             <summary>
@@ -2713,123 +3124,24 @@
             Gets the CSS additional list
             </summary>
         </member>
-        <member name="M:Library.HTMLObject.SearchContainer(System.Collections.Generic.List{Library.IContainer},System.Collections.Generic.List{Library.IContent},System.String,Library.IContainer@)">
-            <summary>
-            Search container
-            </summary>
-            <param name="containers">container list</param>
-            <param name="objects">object content list</param>
-            <param name="searchName">container name to search</param>
-            <param name="found">container result</param>
-            <returns>true if a container has found</returns>
-        </member>
-        <member name="M:Library.HTMLObject.ImportCSS(Library.CodeCSS)">
-            <summary>
-            Import a css object
-            </summary>
-            <param name="css">css code </param>
-        </member>
-        <member name="M:Library.HTMLObject.CSSOutput(System.Boolean)">
-            <summary>
-            Obtain the CSS output
-            given a switch to resolve configuration key
-            </summary>
-            <param name="resolveConfig">true if replace configuration key by its value</param>
-            <returns>css output</returns>
-        </member>
-        <member name="M:Library.HTMLObject.GenerateDesign">
-            <summary>
-            Generate design from nothing
-            Function to design this object
-            a master object or a tool
-            </summary>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLObject.GenerateDesign(Library.Page)">
-            <summary>
-            Generate design from a page reference
-            No html object is directly inherited from a page
-            </summary>
-            <param name="refPage">page reference</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLObject.GenerateDesign(Library.Page,Library.MasterPage,Library.ParentConstraint)">
-            <summary>
-            Generate design from a page or a master page
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLObject.GenerateDesign(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate design from a page and its objects
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="objects">object list</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLObject.GenerateDesign(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate design from a page or a master page with their objects
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="objects">object list</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLObject.GenerateThumbnail">
-            <summary>
-            Generate a thumbnail
-            This function should be implemented
-            </summary>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLObject.GenerateProduction">
-            <summary>
-            Generate actual website from nothing
-            </summary>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLObject.GenerateProduction(Library.Page)">
-            <summary>
-            Generate design from a page reference
-            No html object is directly inherited from a page
-            </summary>
-            <param name="refPage">page reference</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLObject.GenerateProduction(Library.Page,Library.MasterPage,Library.ParentConstraint)">
-            <summary>
-            Generate actual website from a page or a master page
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLObject.GenerateProduction(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate actual website from a page and its objects
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="objects">object list</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLObject.Clone">
-            <summary>
-            Clone this object
-            </summary>
-            <returns>cloned object</returns>
-        </member>
         <member name="T:Library.HTMLTool">
             <summary>
             HTML tool : a tool is simply a host for any HTML code
+            </summary>
+        </member>
+        <member name="T:Library.IProjectElement">
+            <summary>
+            Interface of an element project
+            </summary>
+        </member>
+        <member name="P:Library.IProjectElement.TypeName">
+            <summary>
+            Gets the type name
+            </summary>
+        </member>
+        <member name="P:Library.IProjectElement.ElementTitle">
+            <summary>
+            Gets the element title
             </summary>
         </member>
         <member name="F:Library.HTMLTool.uniqueName">
@@ -2906,6 +3218,78 @@
             <summary>
             Empty constructor
             </summary>
+        </member>
+        <member name="M:Library.HTMLTool.ImportCSS(Library.CodeCSS)">
+            <summary>
+            Import a CSS
+            </summary>
+            <param name="css">css code</param>
+        </member>
+        <member name="M:Library.HTMLTool.CSSOutput(System.Boolean)">
+            <summary>
+            Obtain the CSS output
+            given a switch to resolve configuration key
+            </summary>
+            <param name="resolveConfig">true if replace configuration key by its value</param>
+            <returns>css output</returns>
+        </member>
+        <member name="M:Library.HTMLTool.GenerateDesign">
+            <summary>
+            Generate design from nothing
+            </summary>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLTool.GenerateDesign(Library.Page)">
+            <summary>
+            Generate design from a page reference
+            No tool is directly inherited from a page
+            </summary>
+            <param name="refPage">page reference</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLTool.GenerateDesign(Library.Page,Library.MasterPage,Library.ParentConstraint)">
+            <summary>
+            Generate design from a page or a master page
+            No tool is directly inherited from a page or a master page
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLTool.GenerateDesign(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate design from a page or a master page
+            No tool is directly inherited from a page or a master page
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="objects">object list</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLTool.GenerateDesign(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate design from a page or a master page
+            No tool is directly inherited from a page or a master page
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="objects">object list</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLTool.GenerateThumbnail">
+            <summary>
+            Generate a thumbnail
+            This function should be implemented
+            </summary>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.HTMLTool.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>cloned object</returns>
         </member>
         <member name="P:Library.HTMLTool.Unique">
             <summary>
@@ -3019,375 +3403,6 @@
             Gets the element title
             </summary>
         </member>
-        <member name="M:Library.HTMLTool.ImportCSS(Library.CodeCSS)">
-            <summary>
-            Import a CSS
-            </summary>
-            <param name="css">css code</param>
-        </member>
-        <member name="M:Library.HTMLTool.CSSOutput(System.Boolean)">
-            <summary>
-            Obtain the CSS output
-            given a switch to resolve configuration key
-            </summary>
-            <param name="resolveConfig">true if replace configuration key by its value</param>
-            <returns>css output</returns>
-        </member>
-        <member name="M:Library.HTMLTool.GenerateDesign">
-            <summary>
-            Generate design from nothing
-            </summary>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLTool.GenerateDesign(Library.Page)">
-            <summary>
-            Generate design from a page reference
-            No tool is directly inherited from a page
-            </summary>
-            <param name="refPage">page reference</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLTool.GenerateDesign(Library.Page,Library.MasterPage,Library.ParentConstraint)">
-            <summary>
-            Generate design from a page or a master page
-            No tool is directly inherited from a page or a master page
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLTool.GenerateDesign(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate design from a page or a master page
-            No tool is directly inherited from a page or a master page
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="objects">object list</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLTool.GenerateDesign(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate design from a page or a master page
-            No tool is directly inherited from a page or a master page
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="objects">object list</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLTool.GenerateThumbnail">
-            <summary>
-            Generate a thumbnail
-            This function should be implemented
-            </summary>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.HTMLTool.Clone">
-            <summary>
-            Clone this object
-            </summary>
-            <returns>cloned object</returns>
-        </member>
-        <member name="T:Library.IContainer">
-            <summary>
-            Interface for a container
-            </summary>
-        </member>
-        <member name="P:Library.IContainer.ConstraintWidth">
-            <summary>
-            Gets or sets the width constraint
-            </summary>
-        </member>
-        <member name="P:Library.IContainer.ConstraintHeight">
-            <summary>
-            Gets or sets the height constraint
-            </summary>
-        </member>
-        <member name="P:Library.IContainer.Width">
-            <summary>
-            Gets or sets the width value
-            </summary>
-        </member>
-        <member name="P:Library.IContainer.Height">
-            <summary>
-            Gets or sets the height value
-            </summary>
-        </member>
-        <member name="P:Library.IContainer.Name">
-            <summary>
-            Gets or sets the name of the container
-            </summary>
-        </member>
-        <member name="M:Library.IContainer.SearchContainer(System.Collections.Generic.List{Library.IContainer},System.Collections.Generic.List{Library.IContent},System.String,Library.IContainer@)">
-            <summary>
-            Search the container where this container is
-            </summary>
-            <param name="containers">container list</param>
-            <param name="objects">objects of content</param>
-            <param name="searchName">container name to search</param>
-            <param name="found">container result</param>
-            <returns>true if a container has found</returns>
-        </member>
-        <member name="T:Library.IContent">
-            <summary>
-            Element of a project that acts as a content
-            </summary>
-        </member>
-        <member name="P:Library.IContent.Container">
-            <summary>
-            Gets or sets the container name
-            </summary>
-        </member>
-        <member name="M:Library.IContent.SearchContainer(System.Collections.Generic.List{Library.IContainer},System.Collections.Generic.List{Library.IContent},System.String,Library.IContainer@)">
-            <summary>
-            Search the container where this content resides
-            </summary>
-            <param name="containers">container list</param>
-            <param name="objects">objects of content</param>
-            <param name="searchName">container name to search</param>
-            <param name="found">container result</param>
-            <returns>true if a container has found</returns>
-        </member>
-        <member name="T:Library.IGenerateDesign">
-            <summary>
-            Interface for the generation of page (design mode)
-            </summary>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateThumbnail">
-            <summary>
-            Generate a thumbnail
-            </summary>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateDesign">
-            <summary>
-            Generate the top-level design
-            </summary>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page)">
-            <summary>
-            Generate the next level (from a page) design
-            </summary>
-            <param name="refPage">page reference</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,Library.MasterPage,Library.ParentConstraint)">
-            <summary>
-            Generate the third level (from a page or a master page)
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate objects owned by a page
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="objects">objects owned</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate objects owned by a page or a master page
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="objects">objects owned</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="T:Library.IGenerateProduction">
-            <summary>
-            Interface for the generation of page (design mode)
-            </summary>
-        </member>
-        <member name="M:Library.IGenerateProduction.GenerateProduction">
-            <summary>
-            Generate the top-level design
-            </summary>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateProduction.GenerateProduction(Library.Page)">
-            <summary>
-            Generate the next level (from a page) at actual website
-            </summary>
-            <param name="refPage">page reference</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateProduction.GenerateProduction(Library.Page,Library.MasterPage,Library.ParentConstraint)">
-            <summary>
-            Generate the third level (from a page or a master page) at actual website
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateProduction.GenerateProduction(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate objects owned by a page or a master page at actual website
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="objects">objects owned</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="T:Library.IGenerateDesignTable">
-            <summary>
-            Interface for the generation of table (design mode)
-            </summary>
-        </member>
-        <member name="M:Library.IGenerateDesignTable.GenerateDesignTable(Library.Page)">
-            <summary>
-            Generate table at design
-            </summary>
-            <param name="refPage">from a page</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesignTable.GenerateDesignTable(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate table at design
-            </summary>
-            <param name="refPage">from a page</param>
-            <param name="objects">objects</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesignTable.GenerateDesignTable(Library.Page,Library.MasterPage,Library.ParentConstraint)">
-            <summary>
-            Generate table at design
-            </summary>
-            <param name="refPage">from a page</param>
-            <param name="masterRefPage">from a master page</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesignTable.GenerateDesignTable(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate table at design
-            </summary>
-            <param name="refPage">from a page</param>
-            <param name="masterRefPage">from a master page</param>
-            <param name="objects">objects</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="T:Library.IGenerateProductionTable">
-            <summary>
-            Interface for the generation of table (actual website)
-            </summary>
-        </member>
-        <member name="M:Library.IGenerateProductionTable.GenerateProductionTable(Library.Page)">
-            <summary>
-            Generate table at actual website
-            </summary>
-            <param name="refPage">from a page</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateProductionTable.GenerateProductionTable(Library.Page,Library.MasterPage,Library.ParentConstraint)">
-            <summary>
-            Generate table at actual website
-            </summary>
-            <param name="refPage">from a page</param>
-            <param name="masterRefPage">from a master page</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateProductionTable.GenerateProductionTable(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate table at actual website
-            </summary>
-            <param name="refPage">from a page</param>
-            <param name="masterRefPage">from a master page</param>
-            <param name="objects">objects</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="T:Library.IGenerateDesignDIV">
-            <summary>
-            Interface for the generation of HTML DIV tag (design mode)
-            </summary>
-        </member>
-        <member name="M:Library.IGenerateDesignDIV.GenerateDesignDIV">
-            <summary>
-            Generate table on design
-            </summary>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesignDIV.GenerateDesignDIV(Library.Page)">
-            <summary>
-            Generate HTML DIV tag at design
-            </summary>
-            <param name="refPage">from a page</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesignDIV.GenerateDesignDIV(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate HTML DIV tag at design
-            </summary>
-            <param name="refPage">from a page</param>
-            <param name="objects">objects</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesignDIV.GenerateDesignDIV(Library.Page,Library.MasterPage,Library.ParentConstraint)">
-            <summary>
-            Generate HTML DIV tag at design
-            </summary>
-            <param name="refPage">from a page</param>
-            <param name="masterRefPage">from a master page</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesignDIV.GenerateDesignDIV(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate HTML DIV tag at design
-            </summary>
-            <param name="refPage">from a page</param>
-            <param name="masterRefPage">from a master page</param>
-            <param name="objects">objects</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="T:Library.IGenerateProductionDIV">
-            <summary>
-            Interface for the generation of HTML DIV tag (actual website)
-            </summary>
-        </member>
-        <member name="M:Library.IGenerateProductionDIV.GenerateProductionDIV(Library.Page)">
-            <summary>
-            Generate HTML DIV tag at actual website
-            </summary>
-            <param name="refPage">from a page</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateProductionDIV.GenerateProductionDIV(Library.Page,Library.MasterPage,Library.ParentConstraint)">
-            <summary>
-            Generate HTML DIV tag at actual website
-            </summary>
-            <param name="refPage">from a page</param>
-            <param name="masterRefPage">from a master page</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateProductionDIV.GenerateProductionDIV(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate HTML DIV tag at actual website
-            </summary>
-            <param name="refPage">from a page</param>
-            <param name="masterRefPage">from a master page</param>
-            <param name="objects">objects</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
         <member name="T:Library.ImportType">
             <summary>
             Import type
@@ -3416,21 +3431,6 @@
         <member name="F:Library.ImportType.SCULPTURES">
             <summary>
             Import sculptures
-            </summary>
-        </member>
-        <member name="T:Library.IProjectElement">
-            <summary>
-            Interface of an element project
-            </summary>
-        </member>
-        <member name="P:Library.IProjectElement.TypeName">
-            <summary>
-            Gets the type name
-            </summary>
-        </member>
-        <member name="P:Library.IProjectElement.ElementTitle">
-            <summary>
-            Gets the element title
             </summary>
         </member>
         <member name="T:Library.MasterObject">
@@ -3539,150 +3539,6 @@
             Copy constructor
             </summary>
             <param name="refObj">object source</param>
-        </member>
-        <member name="P:Library.MasterObject.Unique">
-            <summary>
-            Gets or sets the unique id
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.RelativeWidth">
-            <summary>
-            Test if width constraint is relative
-            Or set the constraint to relative
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.RelativeHeight">
-            <summary>
-            Test if height constraint is relative
-            Or set the constraint to relative
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.ConstraintWidth">
-            <summary>
-            Gets or sets width constraint
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.ConstraintHeight">
-            <summary>
-            Gets or sets height constraint
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.Width">
-            <summary>
-            Gets or sets the width value
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.HtmlWidth">
-            <summary>
-            Gets inner box width
-            empty padding css left and right
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.Height">
-            <summary>
-            Gets or sets the height value
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.HtmlHeight">
-            <summary>
-            Gets inner box height
-            empty padding css top and bottom
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.CountLines">
-            <summary>
-            Gets or sets the counting lines
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.CountColumns">
-            <summary>
-            Gets or sets the counting columns
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.SizeString">
-            <summary>
-            Gets the size string for dumping mode
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.GridSizeString">
-            <summary>
-            Gets the grid size for dumping mode
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.Container">
-            <summary>
-            Gets or sets the container name
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.Title">
-            <summary>
-            Gets or sets the title of this master object
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.Id">
-            <summary>
-            Gets or sets the automatic id
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.Name">
-            <summary>
-            Gets or sets the automatic name
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.Objects">
-            <summary>
-            Gets its own objects
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.HorizontalZones">
-            <summary>
-            Gets the horizontal areas
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.JavaScript">
-            <summary>
-            Gets or sets the javascript code
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.JavaScriptOnLoad">
-            <summary>
-            Gets or sets the javascript on load
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.JavaScriptOnLoadSource">
-            <summary>
-            Gets or sets the javascript on load source code
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.JavaScriptSource">
-            <summary>
-            Gets or sets the javascript source code
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.CSS">
-            <summary>
-            Gets or sets CSS
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.HTMLBefore">
-            <summary>
-            Gets or sets a plain text html header
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.HTMLAfter">
-            <summary>
-            Gets or sets a plain text html footer
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.TypeName">
-            <summary>
-            Gets the type name
-            </summary>
-        </member>
-        <member name="P:Library.MasterObject.ElementTitle">
-            <summary>
-            Gets the element title
-            </summary>
         </member>
         <member name="M:Library.MasterObject.SearchContainer(System.Collections.Generic.List{Library.IContainer},System.Collections.Generic.List{Library.IContent},System.String,Library.IContainer@)">
             <summary>
@@ -3947,6 +3803,150 @@
             </summary>
             <returns>cloned object</returns>
         </member>
+        <member name="P:Library.MasterObject.Unique">
+            <summary>
+            Gets or sets the unique id
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.RelativeWidth">
+            <summary>
+            Test if width constraint is relative
+            Or set the constraint to relative
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.RelativeHeight">
+            <summary>
+            Test if height constraint is relative
+            Or set the constraint to relative
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.ConstraintWidth">
+            <summary>
+            Gets or sets width constraint
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.ConstraintHeight">
+            <summary>
+            Gets or sets height constraint
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.Width">
+            <summary>
+            Gets or sets the width value
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.HtmlWidth">
+            <summary>
+            Gets inner box width
+            empty padding css left and right
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.Height">
+            <summary>
+            Gets or sets the height value
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.HtmlHeight">
+            <summary>
+            Gets inner box height
+            empty padding css top and bottom
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.CountLines">
+            <summary>
+            Gets or sets the counting lines
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.CountColumns">
+            <summary>
+            Gets or sets the counting columns
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.SizeString">
+            <summary>
+            Gets the size string for dumping mode
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.GridSizeString">
+            <summary>
+            Gets the grid size for dumping mode
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.Container">
+            <summary>
+            Gets or sets the container name
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.Title">
+            <summary>
+            Gets or sets the title of this master object
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.Id">
+            <summary>
+            Gets or sets the automatic id
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.Name">
+            <summary>
+            Gets or sets the automatic name
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.Objects">
+            <summary>
+            Gets its own objects
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.HorizontalZones">
+            <summary>
+            Gets the horizontal areas
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.JavaScript">
+            <summary>
+            Gets or sets the javascript code
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.JavaScriptOnLoad">
+            <summary>
+            Gets or sets the javascript on load
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.JavaScriptOnLoadSource">
+            <summary>
+            Gets or sets the javascript on load source code
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.JavaScriptSource">
+            <summary>
+            Gets or sets the javascript source code
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.CSS">
+            <summary>
+            Gets or sets CSS
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.HTMLBefore">
+            <summary>
+            Gets or sets a plain text html header
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.HTMLAfter">
+            <summary>
+            Gets or sets a plain text html footer
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.TypeName">
+            <summary>
+            Gets the type name
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.ElementTitle">
+            <summary>
+            Gets the element title
+            </summary>
+        </member>
         <member name="T:Library.MasterPage">
             <summary>
             A master page is a template that acts as the first content generator
@@ -4054,138 +4054,6 @@
             Copy constructor
             </summary>
             <param name="refObj">master page to copy from</param>
-        </member>
-        <member name="P:Library.MasterPage.Unique">
-            <summary>
-            Gets or sets the unique id
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.ConstraintWidth">
-            <summary>
-            Gets or sets width constraint
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.ConstraintHeight">
-            <summary>
-            Gets or sets height constraint
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.IsCSSOnFile">
-            <summary>
-            Gets or sets if the css is exported to a file
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.CSSFileName">
-            <summary>
-            Gets ot sets the file name where the css code resides
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.IsJavaScriptOnFile">
-            <summary>
-            Gets or sets if javascript is exported to a file
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.JavaScriptFileName">
-            <summary>
-            Gets or sets the file name where the javascript code resides
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.Width">
-            <summary>
-            Gets or sets the width value
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.HtmlWidth">
-            <summary>
-            Gets inner box width
-            empty padding css left and right
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.Height">
-            <summary>
-            Gets or sets the height value
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.HtmlHeight">
-            <summary>
-            Gets inner box height
-            empty padding css top and bottom
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.SizeString">
-            <summary>
-            Gets the size string for dumping mode
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.GridSizeString">
-            <summary>
-            Gets the grid size for dumping mode
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.CountLines">
-            <summary>
-            Gets or sets the counting lines
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.CountColumns">
-            <summary>
-            Gets or sets the counting columns
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.Name">
-            <summary>
-            Gets or sets the name of this master page
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.Objects">
-            <summary>
-            Gets own objects
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.HorizontalZones">
-            <summary>
-            Gets horizontal areas
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.JavaScript">
-            <summary>
-            Gets the javascript code
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.JavaScriptOnLoad">
-            <summary>
-            Gets the javascript on load code
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.JavaScriptOnLoadSource">
-            <summary>
-            Gets or sets the javascript on load source code
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.JavaScriptSource">
-            <summary>
-            Gets the javascript source code
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.CSS">
-            <summary>
-            Gets the css code
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.Meta">
-            <summary>
-            Gets or sets the meta keywords string
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.TypeName">
-            <summary>
-            Gets the type name
-            </summary>
-        </member>
-        <member name="P:Library.MasterPage.ElementTitle">
-            <summary>
-            Gets the element title
-            </summary>
         </member>
         <member name="M:Library.MasterPage.SearchContainer(System.Collections.Generic.List{Library.IContainer},System.Collections.Generic.List{Library.IContent},System.String,Library.IContainer@)">
             <summary>
@@ -4484,10 +4352,150 @@
             </summary>
             <returns>cloned object</returns>
         </member>
+        <member name="P:Library.MasterPage.Unique">
+            <summary>
+            Gets or sets the unique id
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.ConstraintWidth">
+            <summary>
+            Gets or sets width constraint
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.ConstraintHeight">
+            <summary>
+            Gets or sets height constraint
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.IsCSSOnFile">
+            <summary>
+            Gets or sets if the css is exported to a file
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.CSSFileName">
+            <summary>
+            Gets ot sets the file name where the css code resides
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.IsJavaScriptOnFile">
+            <summary>
+            Gets or sets if javascript is exported to a file
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.JavaScriptFileName">
+            <summary>
+            Gets or sets the file name where the javascript code resides
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.Width">
+            <summary>
+            Gets or sets the width value
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.HtmlWidth">
+            <summary>
+            Gets inner box width
+            empty padding css left and right
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.Height">
+            <summary>
+            Gets or sets the height value
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.HtmlHeight">
+            <summary>
+            Gets inner box height
+            empty padding css top and bottom
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.SizeString">
+            <summary>
+            Gets the size string for dumping mode
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.GridSizeString">
+            <summary>
+            Gets the grid size for dumping mode
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.CountLines">
+            <summary>
+            Gets or sets the counting lines
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.CountColumns">
+            <summary>
+            Gets or sets the counting columns
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.Name">
+            <summary>
+            Gets or sets the name of this master page
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.Objects">
+            <summary>
+            Gets own objects
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.HorizontalZones">
+            <summary>
+            Gets horizontal areas
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.JavaScript">
+            <summary>
+            Gets the javascript code
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.JavaScriptOnLoad">
+            <summary>
+            Gets the javascript on load code
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.JavaScriptOnLoadSource">
+            <summary>
+            Gets or sets the javascript on load source code
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.JavaScriptSource">
+            <summary>
+            Gets the javascript source code
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.CSS">
+            <summary>
+            Gets the css code
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.Meta">
+            <summary>
+            Gets or sets the meta keywords string
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.TypeName">
+            <summary>
+            Gets the type name
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.ElementTitle">
+            <summary>
+            Gets the element title
+            </summary>
+        </member>
         <member name="T:Library.OutputHTML">
             <summary>
             Output html source
             </summary>
+        </member>
+        <member name="M:Library.OutputHTML.AppendCSS(System.Collections.Generic.List{Library.CodeCSS})">
+            <summary>
+            Append additional CSS
+            multiple CSS-style properties are overriden
+            each last CSS-style property is prioritized for all objects
+            </summary>
+            <param name="cssAdditional">css to add</param>
         </member>
         <member name="P:Library.OutputHTML.HTML">
             <summary>
@@ -4508,14 +4516,6 @@
             <summary>
             Gets the JavaScript On Load builder
             </summary>
-        </member>
-        <member name="M:Library.OutputHTML.AppendCSS(System.Collections.Generic.List{Library.CodeCSS})">
-            <summary>
-            Append additional CSS
-            multiple CSS-style properties are overriden
-            each last CSS-style property is prioritized for all objects
-            </summary>
-            <param name="cssAdditional">css to add</param>
         </member>
         <member name="T:Library.Page">
             <summary>
@@ -4582,71 +4582,6 @@
             Copy constructor
             </summary>
             <param name="refp">input page</param>
-        </member>
-        <member name="P:Library.Page.Unique">
-            <summary>
-            Gets or sets the unique id
-            </summary>
-        </member>
-        <member name="P:Library.Page.Disposition">
-            <summary>
-            Gets or sets the disposition
-            </summary>
-        </member>
-        <member name="P:Library.Page.DispositionText">
-            <summary>
-            Gets or sets the disposition text
-            </summary>
-        </member>
-        <member name="P:Library.Page.ConstraintWidth">
-            <summary>
-            Gets or sets the width constraint
-            </summary>
-        </member>
-        <member name="P:Library.Page.ConstraintHeight">
-            <summary>
-            Gets or sets the height constraint
-            </summary>
-        </member>
-        <member name="P:Library.Page.Width">
-            <summary>
-            Gets or sets the width value
-            </summary>
-        </member>
-        <member name="P:Library.Page.Height">
-            <summary>
-            Gets or sets the height value
-            </summary>
-        </member>
-        <member name="P:Library.Page.Name">
-            <summary>
-            Gets or sets the name of this page
-            </summary>
-        </member>
-        <member name="P:Library.Page.MasterPageName">
-            <summary>
-            Gets or sets the master page name
-            </summary>
-        </member>
-        <member name="P:Library.Page.SpecificOutput">
-            <summary>
-            Gets or sets a specific output
-            </summary>
-        </member>
-        <member name="P:Library.Page.Objects">
-            <summary>
-            Gets objects hosted by this page
-            </summary>
-        </member>
-        <member name="P:Library.Page.TypeName">
-            <summary>
-            Gets the type name
-            </summary>
-        </member>
-        <member name="P:Library.Page.ElementTitle">
-            <summary>
-            Gets the element title
-            </summary>
         </member>
         <member name="M:Library.Page.SearchContainer(System.Collections.Generic.List{Library.IContainer},System.String,Library.IContainer@)">
             <summary>
@@ -4764,6 +4699,71 @@
             </summary>
             <returns>cloned object</returns>
         </member>
+        <member name="P:Library.Page.Unique">
+            <summary>
+            Gets or sets the unique id
+            </summary>
+        </member>
+        <member name="P:Library.Page.Disposition">
+            <summary>
+            Gets or sets the disposition
+            </summary>
+        </member>
+        <member name="P:Library.Page.DispositionText">
+            <summary>
+            Gets or sets the disposition text
+            </summary>
+        </member>
+        <member name="P:Library.Page.ConstraintWidth">
+            <summary>
+            Gets or sets the width constraint
+            </summary>
+        </member>
+        <member name="P:Library.Page.ConstraintHeight">
+            <summary>
+            Gets or sets the height constraint
+            </summary>
+        </member>
+        <member name="P:Library.Page.Width">
+            <summary>
+            Gets or sets the width value
+            </summary>
+        </member>
+        <member name="P:Library.Page.Height">
+            <summary>
+            Gets or sets the height value
+            </summary>
+        </member>
+        <member name="P:Library.Page.Name">
+            <summary>
+            Gets or sets the name of this page
+            </summary>
+        </member>
+        <member name="P:Library.Page.MasterPageName">
+            <summary>
+            Gets or sets the master page name
+            </summary>
+        </member>
+        <member name="P:Library.Page.SpecificOutput">
+            <summary>
+            Gets or sets a specific output
+            </summary>
+        </member>
+        <member name="P:Library.Page.Objects">
+            <summary>
+            Gets objects hosted by this page
+            </summary>
+        </member>
+        <member name="P:Library.Page.TypeName">
+            <summary>
+            Gets the type name
+            </summary>
+        </member>
+        <member name="P:Library.Page.ElementTitle">
+            <summary>
+            Gets the element title
+            </summary>
+        </member>
         <member name="T:Library.ParentConstraint">
             <summary>
             Parent Constraint
@@ -4855,21 +4855,6 @@
             <summary>
             Contains all data for a project
             </summary>
-        </member>
-        <member name="T:Library.Project.OpenProject">
-            <summary>
-            Delegate for open a project
-            </summary>
-        </member>
-        <member name="T:Library.Project.SearchContainer">
-            <summary>
-            Search where is the container
-            </summary>
-            <param name="containers">list of all containers</param>
-            <param name="objects">object that host a content</param>
-            <param name="searchName">name to search</param>
-            <param name="found">exact container if found</param>
-            <returns>true if found</returns>
         </member>
         <member name="F:Library.Project.JavaScriptUrlName">
             <summary>
@@ -5066,143 +5051,6 @@
             Keeps a reference to the current project
             </summary>
         </member>
-        <member name="P:Library.Project.CreationDate">
-            <summary>
-            Gets or sets creation date
-            </summary>
-        </member>
-        <member name="P:Library.Project.ModificationDate">
-            <summary>
-            Gets or sets modification date
-            Is null if new project
-            </summary>
-        </member>
-        <member name="P:Library.Project.Revision">
-            <summary>
-            Gets or sets the revision value
-            </summary>
-        </member>
-        <member name="P:Library.Project.ColorScheme">
-            <summary>
-            Gets or sets the color scheme
-            </summary>
-        </member>
-        <member name="P:Library.Project.Configuration">
-            <summary>
-            Gets the configuration object
-            </summary>
-        </member>
-        <member name="P:Library.Project.IncrementedCounter">
-            <summary>
-            Gets the current counter and increments it immediately
-            </summary>
-        </member>
-        <member name="P:Library.Project.Title">
-            <summary>
-            Gets or sets the title
-            </summary>
-        </member>
-        <member name="P:Library.Project.JavascriptUrls">
-            <summary>
-            Gets the list of urls of javascript
-            </summary>
-        </member>
-        <member name="P:Library.Project.MasterPages">
-            <summary>
-            Gets the master page tree of string and master pages
-            </summary>
-        </member>
-        <member name="P:Library.Project.Pages">
-            <summary>
-            Gets the page list
-            </summary>
-        </member>
-        <member name="P:Library.Project.Files">
-            <summary>
-            Gets the file list
-            </summary>
-        </member>
-        <member name="P:Library.Project.MasterObjects">
-            <summary>
-            Gets master object list
-            </summary>
-        </member>
-        <member name="P:Library.Project.SculptureObjects">
-            <summary>
-            Gets sculpture object list
-            </summary>
-        </member>
-        <member name="P:Library.Project.JavaScriptModels">
-            <summary>
-            Gets javascript models
-            </summary>
-        </member>
-        <member name="P:Library.Project.CSSModels">
-            <summary>
-            Gets CSS models
-            </summary>
-        </member>
-        <member name="P:Library.Project.Tools">
-            <summary>
-            Gets folders tool
-            </summary>
-        </member>
-        <member name="P:Library.Project.Instances">
-            <summary>
-            Gets all instances
-            </summary>
-        </member>
-        <member name="P:Library.Project.Hierarchy">
-            <summary>
-            Gets the hierarchy of declared elements
-            </summary>
-        </member>
-        <member name="P:Library.Project.CustomColors">
-            <summary>
-            Gets Custom color list
-            </summary>
-        </member>
-        <member name="P:Library.Project.ToolImage">
-            <summary>
-            Gets the scultpture tool image
-            </summary>
-        </member>
-        <member name="P:Library.Project.ToolText">
-            <summary>
-            Gets the sculpture tool text
-            </summary>
-        </member>
-        <member name="P:Library.Project.CurrentProject">
-            <summary>
-            Gets or sets the current project
-            </summary>
-        </member>
-        <member name="P:Library.Project.NotSaved">
-            <summary>
-            Gets if the project was not saved
-            also true if an error occurred during save
-            </summary>
-        </member>
-        <member name="P:Library.Project.ErrorReason">
-            <summary>
-            Gets the error reasong
-            </summary>
-        </member>
-        <member name="P:Library.Project.TraceCounter">
-            <summary>
-            Gets the trace counter
-            </summary>
-        </member>
-        <member name="P:Library.Project.IncrementedTraceCounter">
-            <summary>
-            Gets the trace counter and increments it immediately
-            </summary>
-        </member>
-        <member name="P:Library.Project.Unique">
-            <summary>
-            Gets a generation of unique strings operator
-            </summary>
-        </member>
         <member name="M:Library.Project.ConstructHierarchy">
             <summary>
             Construct the initial hierarchy
@@ -5378,6 +5226,158 @@
             Initialize trace counter
             </summary>
         </member>
+        <member name="P:Library.Project.CreationDate">
+            <summary>
+            Gets or sets creation date
+            </summary>
+        </member>
+        <member name="P:Library.Project.ModificationDate">
+            <summary>
+            Gets or sets modification date
+            Is null if new project
+            </summary>
+        </member>
+        <member name="P:Library.Project.Revision">
+            <summary>
+            Gets or sets the revision value
+            </summary>
+        </member>
+        <member name="P:Library.Project.ColorScheme">
+            <summary>
+            Gets or sets the color scheme
+            </summary>
+        </member>
+        <member name="P:Library.Project.Configuration">
+            <summary>
+            Gets the configuration object
+            </summary>
+        </member>
+        <member name="P:Library.Project.IncrementedCounter">
+            <summary>
+            Gets the current counter and increments it immediately
+            </summary>
+        </member>
+        <member name="P:Library.Project.Title">
+            <summary>
+            Gets or sets the title
+            </summary>
+        </member>
+        <member name="P:Library.Project.JavascriptUrls">
+            <summary>
+            Gets the list of urls of javascript
+            </summary>
+        </member>
+        <member name="P:Library.Project.MasterPages">
+            <summary>
+            Gets the master page tree of string and master pages
+            </summary>
+        </member>
+        <member name="P:Library.Project.Pages">
+            <summary>
+            Gets the page list
+            </summary>
+        </member>
+        <member name="P:Library.Project.Files">
+            <summary>
+            Gets the file list
+            </summary>
+        </member>
+        <member name="P:Library.Project.MasterObjects">
+            <summary>
+            Gets master object list
+            </summary>
+        </member>
+        <member name="P:Library.Project.SculptureObjects">
+            <summary>
+            Gets sculpture object list
+            </summary>
+        </member>
+        <member name="P:Library.Project.JavaScriptModels">
+            <summary>
+            Gets javascript models
+            </summary>
+        </member>
+        <member name="P:Library.Project.CSSModels">
+            <summary>
+            Gets CSS models
+            </summary>
+        </member>
+        <member name="P:Library.Project.Tools">
+            <summary>
+            Gets folders tool
+            </summary>
+        </member>
+        <member name="P:Library.Project.Instances">
+            <summary>
+            Gets all instances
+            </summary>
+        </member>
+        <member name="P:Library.Project.Hierarchy">
+            <summary>
+            Gets the hierarchy of declared elements
+            </summary>
+        </member>
+        <member name="P:Library.Project.CustomColors">
+            <summary>
+            Gets Custom color list
+            </summary>
+        </member>
+        <member name="P:Library.Project.ToolImage">
+            <summary>
+            Gets the scultpture tool image
+            </summary>
+        </member>
+        <member name="P:Library.Project.ToolText">
+            <summary>
+            Gets the sculpture tool text
+            </summary>
+        </member>
+        <member name="P:Library.Project.CurrentProject">
+            <summary>
+            Gets or sets the current project
+            </summary>
+        </member>
+        <member name="P:Library.Project.NotSaved">
+            <summary>
+            Gets if the project was not saved
+            also true if an error occurred during save
+            </summary>
+        </member>
+        <member name="P:Library.Project.ErrorReason">
+            <summary>
+            Gets the error reasong
+            </summary>
+        </member>
+        <member name="P:Library.Project.TraceCounter">
+            <summary>
+            Gets the trace counter
+            </summary>
+        </member>
+        <member name="P:Library.Project.IncrementedTraceCounter">
+            <summary>
+            Gets the trace counter and increments it immediately
+            </summary>
+        </member>
+        <member name="P:Library.Project.Unique">
+            <summary>
+            Gets a generation of unique strings operator
+            </summary>
+        </member>
+        <member name="T:Library.Project.OpenProject">
+            <summary>
+            Delegate for open a project
+            </summary>
+        </member>
+        <member name="T:Library.Project.SearchContainer">
+            <summary>
+            Search where is the container
+            </summary>
+            <param name="containers">list of all containers</param>
+            <param name="objects">object that host a content</param>
+            <param name="searchName">name to search</param>
+            <param name="found">exact container if found</param>
+            <returns>true if found</returns>
+        </member>
         <member name="T:Library.ProjectCap">
             <summary>
             Hat of a Project
@@ -5449,26 +5449,6 @@
             </summary>
             <param name="rectStr">string representation of a rectangle</param>
         </member>
-        <member name="P:Library.Rectangle.Left">
-            <summary>
-            Gets or sets the left value
-            </summary>
-        </member>
-        <member name="P:Library.Rectangle.Right">
-            <summary>
-            Gets or sets the right value
-            </summary>
-        </member>
-        <member name="P:Library.Rectangle.Top">
-            <summary>
-            Gets or sets the top value
-            </summary>
-        </member>
-        <member name="P:Library.Rectangle.Bottom">
-            <summary>
-            Gets or sets the bottom value
-            </summary>
-        </member>
         <member name="M:Library.Rectangle.ConvertToInt(System.String)">
             <summary>
             Convert value string to an int
@@ -5517,6 +5497,26 @@
             Clone this rectangle
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:Library.Rectangle.Left">
+            <summary>
+            Gets or sets the left value
+            </summary>
+        </member>
+        <member name="P:Library.Rectangle.Right">
+            <summary>
+            Gets or sets the right value
+            </summary>
+        </member>
+        <member name="P:Library.Rectangle.Top">
+            <summary>
+            Gets or sets the top value
+            </summary>
+        </member>
+        <member name="P:Library.Rectangle.Bottom">
+            <summary>
+            Gets or sets the bottom value
+            </summary>
         </member>
         <member name="T:Library.SizedRectangle">
             <summary>
@@ -5623,6 +5623,12 @@
             </summary>
             <param name="r">ref object to copy</param>
         </member>
+        <member name="M:Library.RefObject.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>cloned object</returns>
+        </member>
         <member name="P:Library.RefObject.Type">
             <summary>
             Gets the object type
@@ -5637,12 +5643,6 @@
             <summary>
             Gets the direct object (uniquely existing)
             </summary>
-        </member>
-        <member name="M:Library.RefObject.Clone">
-            <summary>
-            Clone this object
-            </summary>
-            <returns>cloned object</returns>
         </member>
         <member name="T:Library.SculptureObject">
             <summary>
@@ -5684,41 +5684,6 @@
             Copy constructor
             </summary>
             <param name="obj">object source to copy</param>
-        </member>
-        <member name="P:Library.SculptureObject.Unique">
-            <summary>
-            Gets or sets the unique id
-            </summary>
-        </member>
-        <member name="P:Library.SculptureObject.TypeName">
-            <summary>
-            Gets the type name
-            </summary>
-        </member>
-        <member name="P:Library.SculptureObject.ElementTitle">
-            <summary>
-            Gets the element title
-            </summary>
-        </member>
-        <member name="P:Library.SculptureObject.Title">
-            <summary>
-            Gets or sets the title
-            </summary>
-        </member>
-        <member name="P:Library.SculptureObject.Cadres">
-            <summary>
-            Gets cadres
-            </summary>
-        </member>
-        <member name="P:Library.SculptureObject.Generated">
-            <summary>
-            Gets generated sculptures
-            </summary>
-        </member>
-        <member name="P:Library.SculptureObject.Distances">
-            <summary>
-            Gets the distances
-            </summary>
         </member>
         <member name="M:Library.SculptureObject.cm_Updated(System.Object,Library.CadreIndexArgs)">
             <summary>
@@ -5785,6 +5750,41 @@
             Clone this object
             </summary>
             <returns>cloned object</returns>
+        </member>
+        <member name="P:Library.SculptureObject.Unique">
+            <summary>
+            Gets or sets the unique id
+            </summary>
+        </member>
+        <member name="P:Library.SculptureObject.TypeName">
+            <summary>
+            Gets the type name
+            </summary>
+        </member>
+        <member name="P:Library.SculptureObject.ElementTitle">
+            <summary>
+            Gets the element title
+            </summary>
+        </member>
+        <member name="P:Library.SculptureObject.Title">
+            <summary>
+            Gets or sets the title
+            </summary>
+        </member>
+        <member name="P:Library.SculptureObject.Cadres">
+            <summary>
+            Gets cadres
+            </summary>
+        </member>
+        <member name="P:Library.SculptureObject.Generated">
+            <summary>
+            Gets generated sculptures
+            </summary>
+        </member>
+        <member name="P:Library.SculptureObject.Distances">
+            <summary>
+            Gets the distances
+            </summary>
         </member>
         <member name="T:Library.DistanceCadreModel">
             <summary>
@@ -6156,6 +6156,12 @@
             </summary>
             <param name="from">from this leaf</param>
         </member>
+        <member name="M:Library.Leaf`1.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>cloned object</returns>
+        </member>
         <member name="P:Library.Leaf`1.Object">
             <summary>
             Gets or sets the object in a leaf node
@@ -6166,12 +6172,6 @@
             <summary>
             Gets or sets if it is a selected leaf
             </summary>
-        </member>
-        <member name="M:Library.Leaf`1.Clone">
-            <summary>
-            Clone this object
-            </summary>
-            <returns>cloned object</returns>
         </member>
         <member name="T:Library.Node`2">
             <summary>
@@ -6237,41 +6237,6 @@
             </summary>
             <param name="from">element to copy</param>
         </member>
-        <member name="P:Library.Node`2.Parent">
-            <summary>
-            Gets the unique parent of this node
-            </summary>
-        </member>
-        <member name="P:Library.Node`2.NodeValue">
-            <summary>
-            Gets or sets the node value
-            </summary>
-        </member>
-        <member name="P:Library.Node`2.SubNodes">
-            <summary>
-            Gets the enumerable node elements
-            </summary>
-        </member>
-        <member name="P:Library.Node`2.Elements">
-            <summary>
-            Gets enumerable leaf elements
-            </summary>
-        </member>
-        <member name="P:Library.Node`2.ListOfElement">
-            <summary>
-            Gets the list of element
-            </summary>
-        </member>
-        <member name="P:Library.Node`2.ListOfNodes">
-            <summary>
-            Gets the list of sub nodes
-            </summary>
-        </member>
-        <member name="P:Library.Node`2.IsSelected">
-            <summary>
-            Gets or sets if it is a selected node
-            </summary>
-        </member>
         <member name="M:Library.Node`2.AddNode(Library.Node{`0,`1})">
             <summary>
             Add a node
@@ -6324,6 +6289,41 @@
             </summary>
             <returns>cloned object</returns>
         </member>
+        <member name="P:Library.Node`2.Parent">
+            <summary>
+            Gets the unique parent of this node
+            </summary>
+        </member>
+        <member name="P:Library.Node`2.NodeValue">
+            <summary>
+            Gets or sets the node value
+            </summary>
+        </member>
+        <member name="P:Library.Node`2.SubNodes">
+            <summary>
+            Gets the enumerable node elements
+            </summary>
+        </member>
+        <member name="P:Library.Node`2.Elements">
+            <summary>
+            Gets enumerable leaf elements
+            </summary>
+        </member>
+        <member name="P:Library.Node`2.ListOfElement">
+            <summary>
+            Gets the list of element
+            </summary>
+        </member>
+        <member name="P:Library.Node`2.ListOfNodes">
+            <summary>
+            Gets the list of sub nodes
+            </summary>
+        </member>
+        <member name="P:Library.Node`2.IsSelected">
+            <summary>
+            Gets or sets if it is a selected node
+            </summary>
+        </member>
         <member name="T:Library.Tree`2">
             <summary>
             A tree class
@@ -6347,26 +6347,6 @@
             Copy constructor
             </summary>
             <param name="from">tree to copy</param>
-        </member>
-        <member name="P:Library.Tree`2.Root">
-            <summary>
-            Root node tree
-            </summary>
-        </member>
-        <member name="P:Library.Tree`2.Current">
-            <summary>
-            Current node
-            </summary>
-        </member>
-        <member name="P:Library.Tree`2.RootCount">
-            <summary>
-            Number of root nodes
-            </summary>
-        </member>
-        <member name="P:Library.Tree`2.Recent">
-            <summary>
-            Inserted last node 
-            </summary>
         </member>
         <member name="M:Library.Tree`2.EnumerateSelected(System.ComponentModel.BindingList{System.Collections.Generic.KeyValuePair{System.Collections.Generic.IEnumerable{`0},`1}},System.Boolean)">
             <summary>
@@ -6404,6 +6384,26 @@
             Up move
             </summary>
         </member>
+        <member name="P:Library.Tree`2.Root">
+            <summary>
+            Root node tree
+            </summary>
+        </member>
+        <member name="P:Library.Tree`2.Current">
+            <summary>
+            Current node
+            </summary>
+        </member>
+        <member name="P:Library.Tree`2.RootCount">
+            <summary>
+            Number of root nodes
+            </summary>
+        </member>
+        <member name="P:Library.Tree`2.Recent">
+            <summary>
+            Inserted last node 
+            </summary>
+        </member>
         <member name="T:Library.UniqueStrings">
             <summary>
             Class to stand unique strings
@@ -6430,16 +6430,16 @@
             Constructs a new instance
             </summary>
         </member>
-        <member name="P:Library.UniqueStrings.Counter">
-            <summary>
-            Gets or sets the counter position
-            </summary>
-        </member>
         <member name="M:Library.UniqueStrings.ComputeNewString">
             <summary>
             Create a new unique name and increment pointer
             </summary>
             <returns>new unique name</returns>
+        </member>
+        <member name="P:Library.UniqueStrings.Counter">
+            <summary>
+            Gets or sets the counter position
+            </summary>
         </member>
         <member name="T:Library.VerticalZone">
             <summary>
@@ -6518,99 +6518,6 @@
             Copy constructor
             </summary>
             <param name="vz">vertical zone to copy from</param>
-        </member>
-        <member name="P:Library.VerticalZone.Disposition">
-            <summary>
-            Gets or sets the disposition
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.DispositionText">
-            <summary>
-            Gets or sets a disposition as a string text
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.ConstraintWidth">
-            <summary>
-            Gets or sets the width constraint
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.ConstraintHeight">
-            <summary>
-            Gets or sets the height constraint
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.Name">
-            <summary>
-            Gets or sets the automatic name
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.Id">
-            <summary>
-            Gets or sets the automatic id
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.CountLines">
-            <summary>
-            Gets or sets the counting lines
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.CountColumns">
-            <summary>
-            Gets or sets the counting columns
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.Width">
-            <summary>
-            Gets or sets the width value
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.HtmlWidth">
-            <summary>
-            Gets inner box width
-            empty padding css left and right
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.Height">
-            <summary>
-            Gets or sets the height value
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.HtmlHeight">
-            <summary>
-            Gets inner box height
-            empty padding css top and bottom
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.CSS">
-            <summary>
-            Gets the css code
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.JavaScript">
-            <summary>
-            Gets the javascript code
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.JavaScriptOnLoad">
-            <summary>
-            Gets the javascript on load code
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.JavaScriptOnLoadSource">
-            <summary>
-            Gets or sets the javascript on load source code
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.JavaScriptSource">
-            <summary>
-            Gets or sets the javascript source
-            </summary>
-        </member>
-        <member name="P:Library.VerticalZone.Stringified">
-            <summary>
-            Stringified vertical area
-            for debugging
-            </summary>
         </member>
         <member name="M:Library.VerticalZone.SearchContainer(System.Collections.Generic.List{Library.IContainer},System.Collections.Generic.List{Library.IContent},System.String,Library.IContainer@)">
             <summary>
@@ -6788,6 +6695,99 @@
             Clone this object
             </summary>
             <returns>cloned object</returns>
+        </member>
+        <member name="P:Library.VerticalZone.Disposition">
+            <summary>
+            Gets or sets the disposition
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.DispositionText">
+            <summary>
+            Gets or sets a disposition as a string text
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.ConstraintWidth">
+            <summary>
+            Gets or sets the width constraint
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.ConstraintHeight">
+            <summary>
+            Gets or sets the height constraint
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.Name">
+            <summary>
+            Gets or sets the automatic name
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.Id">
+            <summary>
+            Gets or sets the automatic id
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.CountLines">
+            <summary>
+            Gets or sets the counting lines
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.CountColumns">
+            <summary>
+            Gets or sets the counting columns
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.Width">
+            <summary>
+            Gets or sets the width value
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.HtmlWidth">
+            <summary>
+            Gets inner box width
+            empty padding css left and right
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.Height">
+            <summary>
+            Gets or sets the height value
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.HtmlHeight">
+            <summary>
+            Gets inner box height
+            empty padding css top and bottom
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.CSS">
+            <summary>
+            Gets the css code
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.JavaScript">
+            <summary>
+            Gets the javascript code
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.JavaScriptOnLoad">
+            <summary>
+            Gets the javascript on load code
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.JavaScriptOnLoadSource">
+            <summary>
+            Gets or sets the javascript on load source code
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.JavaScriptSource">
+            <summary>
+            Gets or sets the javascript source
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.Stringified">
+            <summary>
+            Stringified vertical area
+            for debugging
+            </summary>
         </member>
     </members>
 </doc>
