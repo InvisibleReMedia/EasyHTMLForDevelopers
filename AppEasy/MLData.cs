@@ -29,30 +29,40 @@ namespace AppEasy
             Project.CurrentProject = p;
             Page p1 = new Page();
             MasterPage mp = new MasterPage();
+            mp.ConstraintWidth = EnumConstraint.AUTO;
+            mp.ConstraintHeight = EnumConstraint.AUTO;
+
             mp.Name = "mp1";
-            mp.Width = 1000;
-            mp.Height = 500;
-            mp.CountColumns = 15;
-            mp.CountLines = 20;
+            mp.CountColumns = 4;
+            mp.CountLines = 4;
             List<SizedRectangle> rects = new List<SizedRectangle>();
-            SizedRectangle sz = new SizedRectangle(5, 20, 5, 10, 5, 20);
+            SizedRectangle sz = new SizedRectangle(250, 100, 1, 4, 0, 0);
             rects.Add(sz);
-            sz = new SizedRectangle(5, 5, 5, 10, 5, 10);
+            sz = new SizedRectangle(500, 100, 2, 1, 1, 0);
             rects.Add(sz);
-            sz = new SizedRectangle(5, 5, 5, 10, 10, 15);
+            sz = new SizedRectangle(500, 500, 2, 2, 1, 1);
             rects.Add(sz);
-            sz = new SizedRectangle(5, 5, 5, 10, 15, 20);
+            sz = new SizedRectangle(500, 100, 2, 1, 1, 3);
             rects.Add(sz);
-            sz = new SizedRectangle(5, 20, 10, 15, 5, 20);
+            sz = new SizedRectangle(250, 100, 1, 4, 3, 0);
             rects.Add(sz);
 
             mp.MakeZones(rects);
+            foreach(HorizontalZone h in mp.HorizontalZones)
+            {
+                foreach(VerticalZone v in h.VerticalZones)
+                {
+                    v.CSS.BackgroundColor = CSSColor.ParseColor("Red");
+                    v.CSS.Border = new Rectangle("2,2,2,2");
+                    v.CSS.BorderBottomColor = v.CSS.BorderLeftColor = v.CSS.BorderRightColor = v.CSS.BorderTopColor = CSSColor.ParseColor("white");
+                }
+            }
 
             p1.MasterPageName = "mp1";
             p.MasterPages.Add(mp);
             p.Pages.Add(p1);
 
-            OutputHTML o = p1.GenerateDesign();
+            OutputHTML o = p1.GenerateProduction();
             UXWindow w = new UXWindow();
             UXReadOnlyText u = new UXReadOnlyText(o.HTML.ToString());
             w.Add(u);

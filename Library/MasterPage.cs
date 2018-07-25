@@ -411,18 +411,18 @@ namespace Library
                 uint vSize = 0;
                 Nullable<int> minCountLines = null;
                 HorizontalZone hz = new HorizontalZone();
-                hz.ConstraintWidth = this.ConstraintWidth;
-                hz.ConstraintHeight = this.ConstraintHeight;
+                hz.ConstraintWidth = EnumConstraint.FIXED;
+                hz.ConstraintHeight = EnumConstraint.FIXED;
                 for (int pos_colonne = 0; pos_colonne < this.CountColumns; ++pos_colonne)
                 {
                     if (indexes[pos_ligne, pos_colonne] != null)
                     {
                         VerticalZone vz = new VerticalZone();
-                        vz.ConstraintWidth = this.ConstraintWidth;
-                        vz.ConstraintHeight = this.ConstraintHeight;
+                        vz.ConstraintWidth = EnumConstraint.FIXED;
+                        vz.ConstraintHeight = EnumConstraint.FIXED;
                         SizedRectangle sr = indexes[pos_ligne, pos_colonne];
-                        vz.CountColumns = sr.Right - sr.Left + 1;
-                        vz.CountLines = sr.Bottom - sr.Top + 1;
+                        vz.CountColumns = sr.CountWidth;
+                        vz.CountLines = sr.CountHeight;
                         if (sr.Height > 0) { vz.Height = (uint)sr.Height; if (vz.Height > vSize) vSize = vz.Height; }
                         if (sr.Width > 0) { vz.Width = (uint)sr.Width; hSize += vz.Width; }
                         if (minCountLines.HasValue)
@@ -449,8 +449,9 @@ namespace Library
                         hz.CountLines = 0;
                     hz.Width = hSize;
                     hz.Height = vSize;
+                    hSize = 0; vSize = 0;
                     // cette longueur et hauteur servira pour calculer le resize des zones verticales
-                    hz.ConstraintWidth = EnumConstraint.AUTO;
+                    hz.ConstraintWidth = EnumConstraint.FIXED;
                     hz.ConstraintHeight = EnumConstraint.AUTO;
                     this.HorizontalZones.Add(hz);
                 }

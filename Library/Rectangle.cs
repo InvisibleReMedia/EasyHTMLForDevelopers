@@ -251,6 +251,15 @@ namespace Library
         /// <summary>
         /// Index name of width value
         /// </summary>
+        protected static readonly string countWidthName = "CountWidth";
+        /// <summary>
+        /// Index name of height value
+        /// </summary>
+        protected static readonly string countHeightName = "CountHeight";
+
+        /// <summary>
+        /// Index name of width value
+        /// </summary>
         protected static readonly string widthName = "width";
         /// <summary>
         /// Index name of height value
@@ -271,13 +280,15 @@ namespace Library
         /// </summary>
         /// <param name="width">width</param>
         /// <param name="height">height</param>
+        /// <param name="countWidth">width count</param>
+        /// <param name="countHeight">height count</param>
         /// <param name="left">left corner position</param>
-        /// <param name="right">right corner position</param>
         /// <param name="top">top corner position</param>
-        /// <param name="bottom">bottom corner position</param>
-        public SizedRectangle(int width, int height, int left, int right, int top, int bottom)
-            : base(left, right, top, bottom)
+        public SizedRectangle(int width, int height, int countWidth, int countHeight, int left, int top)
+            : base(left, 0, top, 0)
         {
+            this.Set(countWidthName, countWidth);
+            this.Set(countHeightName, countHeight);
             this.Set(widthName, width);
             this.Set(heightName, height);
         }
@@ -300,6 +311,23 @@ namespace Library
         {
             get { return this.Get(heightName, 0); }
         }
+
+        /// <summary>
+        /// Gets the count width value
+        /// </summary>
+        public int CountWidth
+        {
+            get { return this.Get(countWidthName, 0); }
+        }
+
+        /// <summary>
+        /// Gets the count height value
+        /// </summary>
+        public int CountHeight
+        {
+            get { return this.Get(countHeightName, 0); }
+        }
+
 
         #endregion
     }
