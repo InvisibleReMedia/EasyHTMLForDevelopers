@@ -102,6 +102,7 @@ namespace Library
             this.Set(automaticNameName, String.Format("object{0}", val));
             this.Set(automaticIdName, String.Format("idObject{0}", val));
 
+            this.Set(masterObjectName, "");
             this.Set(toolName, htmlTool.Path + "/" + htmlTool.Title);
             this.Width = htmlTool.Width;
             this.Height = htmlTool.Height;

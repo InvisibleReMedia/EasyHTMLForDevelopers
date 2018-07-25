@@ -32,6 +32,18 @@ namespace UXFramework
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the file name to where write html to print
+        /// </summary>
+        public string FileName
+        {
+            get { return this.Name + ".html"; }
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -40,21 +52,10 @@ namespace UXFramework
         /// <param name="www">web browser control</param>
         public override void Navigate(WebBrowser www)
         {
-            using (FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "source.html", FileMode.Create, FileAccess.Write, FileShare.Write))
-            {
-                using (StreamWriter sw = new StreamWriter(fs))
-                {
-                    Write(sw);
-                    foreach (IUXObject ux in this.Children)
-                    {
-                        ux.Write(sw);
-                    }
-                    sw.Close();
-                }
-                fs.Close();
-            }
+            webReference = new WeakReference(www);
+            renderer.RenderControl(this);
             www.DocumentCompleted += WWW_DocumentCompleted;
-            www.Navigate(AppDomain.CurrentDomain.BaseDirectory + "source.html");
+            www.Navigate(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this.FileName));
         }
 
         /// <summary>
@@ -65,7 +66,6 @@ namespace UXFramework
         private void WWW_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             WebBrowser www = (WebBrowser)sender;
-            webReference = new WeakReference(www);
             Connect();
             foreach (IUXObject ux in this.Children)
             {

@@ -13,6 +13,11 @@ namespace UXFramework
 
         #region Fields
 
+        protected static IUXRenderer renderer = new WebImplementation.WebRenderer();
+        /// <summary>
+        /// Name
+        /// </summary>
+        private string name;
         /// <summary>
         /// Parent object
         /// </summary>
@@ -46,6 +51,15 @@ namespace UXFramework
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets a name of this ux
+        /// </summary>
+        public string Name
+        {
+            get { return this.name; }
+            set { this.name = value; }
+        }
 
         /// <summary>
         /// Children UX

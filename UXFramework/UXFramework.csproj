@@ -42,6 +42,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,6 +53,7 @@
   <ItemGroup>
     <Compile Include="IMLData.cs" />
     <Compile Include="IUXObject.cs" />
+    <Compile Include="IUXRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UXBox.cs" />
     <Compile Include="UXButton.cs" />
@@ -63,7 +65,19 @@
     <Compile Include="UXReadOnlyText.cs" />
     <Compile Include="UXTable.cs" />
     <Compile Include="UXWindow.cs" />
+    <Compile Include="Web Implementation\WebRenderer.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library\Library.csproj">
+      <Project>{368b20d8-0c17-4f3e-8c49-45c3a1115ae9}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Marshalling\Marshalling.csproj">
+      <Project>{241a5402-6749-45fd-b693-19b54b380443}</Project>
+      <Name>Marshalling</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

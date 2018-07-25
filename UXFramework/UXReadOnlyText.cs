@@ -30,5 +30,18 @@ namespace UXFramework
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the readonly text content
+        /// </summary>
+        public string Text
+        {
+            get { return this.text; }
+            set { this.text = value; }
+        }
+
+        #endregion
+
     }
 }

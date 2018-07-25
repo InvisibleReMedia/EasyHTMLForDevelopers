@@ -14,6 +14,10 @@ namespace UXFramework
     public interface IUXObject
     {
         /// <summary>
+        /// Gets a name of this ux
+        /// </summary>
+        string Name { get; set; }
+        /// <summary>
         /// Children UX
         /// </summary>
         List<IUXObject> Children { get; }

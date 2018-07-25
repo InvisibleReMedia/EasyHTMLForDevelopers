@@ -302,6 +302,7 @@ namespace Library
         public int Width
         {
             get { return this.Get(widthName, 0); }
+            set { this.Set(widthName, value); }
         }
 
         /// <summary>
@@ -310,6 +311,7 @@ namespace Library
         public int Height
         {
             get { return this.Get(heightName, 0); }
+            set { this.Set(heightName, value); }
         }
 
         /// <summary>
@@ -318,6 +320,7 @@ namespace Library
         public int CountWidth
         {
             get { return this.Get(countWidthName, 0); }
+            set { this.Set(countWidthName, value); }
         }
 
         /// <summary>
@@ -326,6 +329,7 @@ namespace Library
         public int CountHeight
         {
             get { return this.Get(countHeightName, 0); }
+            set { this.Set(countHeightName, value); }
         }
 
 

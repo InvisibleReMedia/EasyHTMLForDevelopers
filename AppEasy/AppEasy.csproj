@@ -64,7 +64,10 @@
     </Compile>
     <Compile Include="MLData.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProjectScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectProjectScreen.cs" />
+    <Compile Include="SplashScreen.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
