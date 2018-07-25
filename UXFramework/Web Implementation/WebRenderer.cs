@@ -60,21 +60,24 @@ namespace UXFramework.WebImplementation
             string previous;
             Projects.Activate(projectName, out previous);
             Page p = new Page();
-            p.Width = Convert.ToUInt32(window.GetWebBrowser().ClientSize.Width);
-            p.Height = Convert.ToUInt32(window.GetWebBrowser().ClientSize.Height);
             p.Disposition = Disposition.CENTER;
+            p.ConstraintWidth = EnumConstraint.RELATIVE;
+            p.ConstraintHeight = EnumConstraint.RELATIVE;
+            p.Width = 100;
+            p.Height = 100;
             MasterPage mp = new MasterPage();
             mp.Name = "masterPage_" + window.Name;
-            mp.ConstraintWidth = EnumConstraint.AUTO;
-            mp.ConstraintHeight = EnumConstraint.AUTO;
+            mp.Width = Convert.ToUInt32(window.GetWebBrowser().DisplayRectangle.Width - 30);
+            mp.Height = Convert.ToUInt32(window.GetWebBrowser().DisplayRectangle.Height - 30);
+            mp.ConstraintWidth = EnumConstraint.FIXED;
+            mp.ConstraintHeight = EnumConstraint.FIXED;
             mp.CountColumns = 1;
             mp.CountLines = 1;
 
             List<SizedRectangle> rects = new List<SizedRectangle>();
-            SizedRectangle sz = new SizedRectangle(0, 0, 1, 1, 0, 0);
+            SizedRectangle sz = new SizedRectangle((int)mp.Width, (int)mp.Height, 1, 1, 0, 0);
             rects.Add(sz);
             mp.MakeZones(rects);
-            mp.HorizontalZones[0].VerticalZones[0].Name = window.Name + "_verticalZone";
             this.project.MasterPages.Add(mp);
 
             p.MasterPageName = mp.Name;
