@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using UXFramework;
+using Library;
+
 
 namespace AppEasy
 {
-    public class MLData : UXFramework.IMLData
+    public class MLData : IMLData
     {
 
         /// <summary>
@@ -17,17 +20,44 @@ namespace AppEasy
         /// Export ux from data
         /// </summary>
         /// <returns>ux instance</returns>
-        public UXFramework.IUXObject Export()
+        public IUXObject Export()
         {
-            UXFramework.UXWindow window = new UXFramework.UXWindow();
-            window.Add("C'est un test.");
-            UXFramework.UXButton button = new UXFramework.UXButton();
-            window.Add(button);
-            button.SetUpdate(() => {
-                window.Add("Le texte a été modifié.");
-                window.Navigate(window.GetWebBrowser());
-            });
-            return window;
+            Project p = new Project();
+            p.CreationDate = DateTime.Now;
+            p.Title = "Ouverture fichier";
+            p.Revision = 1;
+            Project.CurrentProject = p;
+            Page p1 = new Page();
+            MasterPage mp = new MasterPage();
+            mp.Name = "mp1";
+            mp.Width = 1000;
+            mp.Height = 500;
+            mp.CountColumns = 15;
+            mp.CountLines = 20;
+            List<SizedRectangle> rects = new List<SizedRectangle>();
+            SizedRectangle sz = new SizedRectangle(5, 20, 5, 10, 5, 20);
+            rects.Add(sz);
+            sz = new SizedRectangle(5, 5, 5, 10, 5, 10);
+            rects.Add(sz);
+            sz = new SizedRectangle(5, 5, 5, 10, 10, 15);
+            rects.Add(sz);
+            sz = new SizedRectangle(5, 5, 5, 10, 15, 20);
+            rects.Add(sz);
+            sz = new SizedRectangle(5, 20, 10, 15, 5, 20);
+            rects.Add(sz);
+
+            mp.MakeZones(rects);
+
+            p1.MasterPageName = "mp1";
+            p.MasterPages.Add(mp);
+            p.Pages.Add(p1);
+
+            OutputHTML o = p1.GenerateDesign();
+            UXWindow w = new UXWindow();
+            UXReadOnlyText u = new UXReadOnlyText(o.HTML.ToString());
+            w.Add(u);
+
+            return w;
         }
     }
 }

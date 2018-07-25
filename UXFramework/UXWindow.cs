@@ -44,16 +44,11 @@ namespace UXFramework
             {
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("<!DOCTYPE html>");
-                    sw.WriteLine("<head><meta charset='UTF-8'><title>Page Web</title></head>");
-                    sw.WriteLine("<body>");
                     Write(sw);
                     foreach (IUXObject ux in this.Children)
                     {
                         ux.Write(sw);
                     }
-                    sw.WriteLine("</body>");
-                    sw.WriteLine("</html>");
                     sw.Close();
                 }
                 fs.Close();
