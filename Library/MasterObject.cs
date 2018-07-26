@@ -434,10 +434,13 @@ namespace Library
             // ranger les données dans la master page
             for (int pos_ligne = 0; pos_ligne < this.CountLines; ++pos_ligne)
             {
-                uint hSize = 0;
-                uint vSize = 0;
-                Nullable<int> minCountLines = null;
-                HorizontalZone hz = new HorizontalZone();
+                uint hSize;
+                uint vSize;
+                Nullable<int> minCountLines;
+                HorizontalZone hz;
+                hSize = 0; vSize = 0;
+                minCountLines = null;
+                hz = new HorizontalZone();
                 hz.ConstraintWidth = EnumConstraint.FIXED;
                 hz.ConstraintHeight = EnumConstraint.FIXED;
                 for (int pos_colonne = 0; pos_colonne < this.CountColumns; ++pos_colonne)
@@ -463,25 +466,27 @@ namespace Library
                         {
                             minCountLines = vz.CountLines;
                         }
-                        if (hz == null)
-                            hz = new HorizontalZone();
                         hz.VerticalZones.Add(vz);
                     }
                 }
-                if (hz != null)
+                if (minCountLines.HasValue)
+                    hz.CountLines = minCountLines.Value;
+                else
+                    hz.CountLines = 0;
+                // cette longueur et hauteur servira pour calculer le resize des zones verticales
+                hz.ConstraintWidth = EnumConstraint.AUTO;
+                hz.ConstraintHeight = EnumConstraint.AUTO;
+                if (hSize != 0)
                 {
-                    if (minCountLines.HasValue)
-                        hz.CountLines = minCountLines.Value;
-                    else
-                        hz.CountLines = 0;
                     hz.Width = hSize;
-                    hz.Height = vSize;
-                    hSize = 0; vSize = 0;
-                    // cette longueur et hauteur servira pour calculer le resize des zones verticales
                     hz.ConstraintWidth = EnumConstraint.FIXED;
-                    hz.ConstraintHeight = EnumConstraint.AUTO;
-                    this.HorizontalZones.Add(hz);
                 }
+                if (vSize != 0)
+                {
+                    hz.Width = vSize;
+                    hz.ConstraintWidth = EnumConstraint.FIXED;
+                }
+                this.HorizontalZones.Add(hz);
             }
         }
         #endregion

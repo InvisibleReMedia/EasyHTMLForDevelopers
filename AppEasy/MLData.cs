@@ -29,8 +29,10 @@ namespace AppEasy
             Project.CurrentProject = p;
             Page p1 = new Page();
             MasterPage mp = new MasterPage();
-            mp.ConstraintWidth = EnumConstraint.FORCED;
-            mp.ConstraintHeight = EnumConstraint.FORCED;
+            mp.Width = 1000;
+            mp.Height = 1000;
+            mp.ConstraintWidth = EnumConstraint.FIXED;
+            mp.ConstraintHeight = EnumConstraint.FIXED;
 
             mp.Name = "mp1";
             mp.CountColumns = 3;
@@ -62,10 +64,7 @@ namespace AppEasy
             p.MasterPages.Add(mp);
             p.Pages.Add(p1);
 
-            OutputHTML o = p1.GenerateProduction();
             UXWindow w = new UXWindow();
-            UXReadOnlyText u = new UXReadOnlyText(o.HTML.ToString());
-            w.Add(u);
 
             return w;
         }

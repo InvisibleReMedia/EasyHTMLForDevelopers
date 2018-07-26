@@ -334,5 +334,20 @@ namespace Library
 
 
         #endregion
+
+        #region Overriden Methods
+
+        /// <summary>
+        /// Gets SizedRectangle to string representation
+        /// </summary>
+        /// <returns>string representation</returns>
+        public override string ToString()
+        {
+            return this.CountWidth.ToString() + "," + this.CountHeight.ToString() + "," +
+                   this.Width.ToString() + "," + this.Height.ToString() + "," + 
+                   this.Left.ToString() + "," + this.Right.ToString() + "," + this.Top.ToString() + "," + this.Bottom.ToString();
+        }
+
+        #endregion
     }
 }

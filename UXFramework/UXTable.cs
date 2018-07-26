@@ -109,7 +109,7 @@ namespace UXFramework
             /// <param name="t">top corner index</param>
             public SizeArgs(uint columnIndex, uint lineIndex, int w, int h, int columnCount, int lineCount, int l, int t)
             {
-                this.isValid = true;
+                this.isValid = false;
                 this.columnNumber = columnIndex;
                 this.lineNumber = lineIndex;
                 this.width = w;
@@ -216,6 +216,7 @@ namespace UXFramework
                 SizedRectangle current = this.rects[index];
                 indexes[current.Top, current.Left] = current;
             }
+            this.rects.Clear();
             this.customizer = new SizeArgs[this.lines, this.columns];
             for (uint pos_line = 0; pos_line < this.lines; ++pos_line)
             {
@@ -226,13 +227,17 @@ namespace UXFramework
                     {
                         SizeArgs e = new SizeArgs(pos_column, pos_line, current.Width, current.Height, current.CountWidth, current.CountHeight, current.Left, current.Top);
                         a.Invoke(this, e);
-                        current.Width = e.width;
-                        current.Height = e.height;
-                        current.CountWidth = e.columnSize;
-                        current.CountHeight = e.lineSize;
-                        current.Left = e.left;
-                        current.Top = e.top;
-                        this.customizer[pos_line, pos_column] = e;
+                        if (e.isValid)
+                        {
+                            current.Width = e.width;
+                            current.Height = e.height;
+                            current.CountWidth = e.columnSize;
+                            current.CountHeight = e.lineSize;
+                            current.Left = e.left;
+                            current.Top = e.top;
+                            this.rects.Add(current);
+                            this.customizer[pos_line, pos_column] = e;
+                        }
                     }
                     else
                     {

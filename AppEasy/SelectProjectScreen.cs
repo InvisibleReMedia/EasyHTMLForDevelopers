@@ -18,6 +18,7 @@ namespace AppEasy
             {
                 if (e.lineNumber == 0 && e.columnNumber == 0)
                 {
+                    e.isValid = true;
                     e.width = 600;
                     e.height = 200;
                     e.left = 0;
@@ -30,6 +31,7 @@ namespace AppEasy
                 {
                     if (e.columnNumber == 0)
                     {
+                        e.isValid = true;
                         e.width = 200;
                         e.height = 600;
                         e.left = 0;
@@ -40,6 +42,7 @@ namespace AppEasy
                     }
                     else if (e.columnNumber == 1)
                     {
+                        e.isValid = true;
                         e.width = 200;
                         e.height = 600;
                         e.left = 1;
@@ -50,6 +53,7 @@ namespace AppEasy
                     }
                     else if (e.columnNumber == 2)
                     {
+                        e.isValid = true;
                         e.width = 200;
                         e.height = 600;
                         e.left = 2;
@@ -61,6 +65,7 @@ namespace AppEasy
                 }
                 else if (e.lineNumber == 2 && e.columnNumber == 0)
                 {
+                    e.isValid = true;
                     e.width = 600;
                     e.height = 200;
                     e.left = 0;

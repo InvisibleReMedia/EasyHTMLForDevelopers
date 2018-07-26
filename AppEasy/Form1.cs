@@ -19,9 +19,7 @@ namespace AppEasy
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //            SplashScreen.Splash(this.webBrowser1);
-            MLData d = new MLData();
-            d.Export().Navigate(this.webBrowser1);
+            SplashScreen.Splash(this.webBrowser1);
         }
     }
 }
