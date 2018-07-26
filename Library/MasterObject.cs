@@ -274,7 +274,7 @@ namespace Library
         /// </summary>
         public string Title
         {
-            get { return this.Get(titleName, 0); }
+            get { return this.Get(titleName, ""); }
             set { this.Set(titleName, value); }
         }
 

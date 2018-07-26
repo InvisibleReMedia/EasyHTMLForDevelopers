@@ -23,6 +23,8 @@ namespace UXFramework.WebImplementation
         /// </summary>
         private Page currentPage;
         private MasterPage currentMasterPage;
+        private string currentContainer;
+        private dynamic currentObject;
 
         #endregion
 
@@ -83,15 +85,13 @@ namespace UXFramework.WebImplementation
             p.MasterPageName = mp.Name;
             p.Name = window.FileName;
 
-            if (window.Children.Count > 1)
+            currentPage = p;
+            currentMasterPage = mp;
+            currentContainer = mp.HorizontalZones[0].VerticalZones[0].Name;
+            currentObject = currentPage;
+            foreach(IUXObject child in window.Children)
             {
-                throw new NotSupportedException("Impossible de créer une fenêtre avec plusieurs éléments");
-            }
-            else
-            {
-                currentPage = p;
-                currentMasterPage = mp;
-                RenderControl(window.Children[0]);
+                RenderControl(child);
             }
 
             using (FileStream fs = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, p.Name), FileMode.Create, FileAccess.Write, FileShare.Write))
@@ -168,9 +168,9 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXReadOnlyText text)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Name == "ReadOnlyText"));
-            obj.Container = this.currentMasterPage.HorizontalZones[0].VerticalZones[0].Name;
+            obj.Container = this.currentContainer;
             obj.HTML = text.Text;
-            this.currentPage.Objects.Add(obj);
+            this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
 
@@ -180,7 +180,42 @@ namespace UXFramework.WebImplementation
         /// <param name="table">table to render</param>
         public void RenderControl(UXTable table)
         {
+            MasterObject mo = new MasterObject();
+            mo.Name = table.Name + "_masterObject";
+            mo.Width = 100;
+            mo.Height = 100;
+            mo.ConstraintWidth = EnumConstraint.RELATIVE;
+            mo.ConstraintHeight = EnumConstraint.RELATIVE;
+            mo.CountColumns = table.ColumnCount;
+            mo.CountLines = table.LineCount;
+            // construct zones
+            mo.MakeZones(table.Rectangles);
 
+            for(uint pos_line = 0; pos_line < mo.HorizontalZones.Count; ++pos_line)
+            {
+                HorizontalZone h = mo.HorizontalZones[(int)pos_line];
+                for (uint pos_column = 0; pos_column < h.VerticalZones.Count; ++pos_column)
+                {
+                    VerticalZone v = h.VerticalZones[(int)pos_column];
+                    UXTable.SizeArgs current = table.Customization[pos_line, pos_column];
+                    if (v != null && current != null)
+                    {
+                        v.Disposition = current.disposition;
+                        v.ConstraintWidth = current.constraintWidth;
+                        v.ConstraintHeight = current.constraintHeight;
+                        v.CSS.BackgroundColor = (CSSColor)current.backgroundColor.Clone();
+                        v.CSS.ForegroundColor = (CSSColor)current.textColor.Clone();
+                        v.CSS.BorderBottomColor = v.CSS.BorderLeftColor = v.CSS.BorderRightColor = v.CSS.BorderTopColor = (CSSColor)current.borderColor.Clone();
+                        v.CSS.Border = new Rectangle(current.borderSize, current.borderSize, current.borderSize, current.borderSize);
+                    }
+                }
+            }
+            this.project.MasterObjects.Add(mo);
+
+            HTMLObject obj = new HTMLObject(mo);
+            obj.Container = this.currentContainer;
+            this.currentObject.Objects.Add(obj);
+            this.project.Instances.Add(obj);
         }
 
         /// <summary>

@@ -25,6 +25,10 @@ namespace UXFramework
         /// Column size and line size
         /// </summary>
         private uint columns, lines;
+        /// <summary>
+        /// Colorize, borderize, dispositioning
+        /// </summary>
+        private SizeArgs[,] customizer;
 
         #endregion
 
@@ -40,11 +44,11 @@ namespace UXFramework
             /// </summary>
             public bool isValid;
             /// <summary>
-            /// Column number
+            /// Column number zero-based index
             /// </summary>
             public uint columnNumber;
             /// <summary>
-            /// Line number
+            /// Line number zero-based index
             /// </summary>
             public uint lineNumber;
             /// <summary>
@@ -71,6 +75,22 @@ namespace UXFramework
             /// top corner line index
             /// </summary>
             public int top;
+            /// <summary>
+            /// Disposition
+            /// </summary>
+            public Disposition disposition;
+            /// <summary>
+            /// Constraints
+            /// </summary>
+            public EnumConstraint constraintWidth, constraintHeight;
+            /// <summary>
+            /// Colors
+            /// </summary>
+            public CSSColor backgroundColor, borderColor, textColor;
+            /// <summary>
+            /// Border size in pixels
+            /// </summary>
+            public int borderSize;
 
             #endregion
 
@@ -101,6 +121,31 @@ namespace UXFramework
             }
 
             #endregion
+
+            #region Methods
+
+            /// <summary>
+            /// Options to change (graphics attributes)
+            /// </summary>
+            /// <param name="d">disposition</param>
+            /// <param name="w">constraint on width</param>
+            /// <param name="h">constraint on height</param>
+            /// <param name="b">background color</param>
+            /// <param name="a">border color</param>
+            /// <param name="f">font color</param>
+            /// <param name="bs">border size</param>
+            public void Options(Disposition d, EnumConstraint w, EnumConstraint h, CSSColor b, CSSColor a, CSSColor f, int bs)
+            {
+                this.disposition = d;
+                this.constraintWidth = w;
+                this.constraintHeight = h;
+                this.backgroundColor = (CSSColor)b.Clone();
+                this.borderColor = (CSSColor)a.Clone();
+                this.textColor = (CSSColor)f.Clone();
+                this.borderSize = bs;
+            }
+
+            #endregion
         }
 
         #endregion
@@ -127,6 +172,30 @@ namespace UXFramework
             get { return this.rects; }
         }
 
+        /// <summary>
+        /// Gets the column count
+        /// </summary>
+        public uint ColumnCount
+        {
+            get { return this.columns; }
+        }
+
+        /// <summary>
+        /// Gets the column count
+        /// </summary>
+        public uint LineCount
+        {
+            get { return this.lines; }
+        }
+
+        /// <summary>
+        /// Customization information
+        /// </summary>
+        public SizeArgs[,] Customization
+        {
+            get { return this.customizer; }
+        }
+
         #endregion
 
         #region Methods
@@ -140,14 +209,14 @@ namespace UXFramework
         {
             this.columns = c;
             this.lines = l;
-
+            
             SizedRectangle[,] indexes = new SizedRectangle[this.lines, this.columns];
             for (int index = 0; index < this.rects.Count; ++index)
             {
                 SizedRectangle current = this.rects[index];
                 indexes[current.Top, current.Left] = current;
             }
-
+            this.customizer = new SizeArgs[this.lines, this.columns];
             for (uint pos_line = 0; pos_line < this.lines; ++pos_line)
             {
                 for(uint pos_column = 0; pos_column < this.columns; ++pos_column)
@@ -163,6 +232,7 @@ namespace UXFramework
                         current.CountHeight = e.lineSize;
                         current.Left = e.left;
                         current.Top = e.top;
+                        this.customizer[pos_line, pos_column] = e;
                     }
                     else
                     {
@@ -178,6 +248,7 @@ namespace UXFramework
                             current.Left = e.left;
                             current.Top = e.top;
                             this.rects.Add(current);
+                            this.customizer[pos_line, pos_column] = e;
                         }
                     }
                 }

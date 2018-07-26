@@ -108,7 +108,7 @@ namespace Library
             this.Height = htmlTool.Height;
             this.ConstraintWidth = htmlTool.ConstraintWidth;
             this.ConstraintHeight = htmlTool.ConstraintHeight;
-            this.Title = htmlTool.Title;
+            this.Title = ExtensionMethods.CloneThis(htmlTool.Title);
             this.HTML = htmlTool.HTML;
             this.Set(javascriptName, htmlTool.JavaScript.Clone());
             this.Set(javascriptOnloadName, htmlTool.JavaScriptOnLoad.Clone());
@@ -132,8 +132,7 @@ namespace Library
             this.Height = masterObject.Height;
             this.ConstraintWidth = masterObject.ConstraintWidth;
             this.ConstraintHeight = masterObject.ConstraintHeight;
-            this.Title = masterObject.Title;
-            this.Set(masterObjectName, this.Title);
+            this.Title = ExtensionMethods.CloneThis(masterObject.Title);
             this.Set(javascriptName, masterObject.JavaScript.Clone());
             this.Set(javascriptOnloadName, masterObject.JavaScriptOnLoad.Clone());
             this.Set(cssName, new CodeCSS(masterObject.CSS));
@@ -307,7 +306,7 @@ namespace Library
         /// </summary>
         public string Title
         {
-            get { return this.Get(titleName, 0); }
+            get { return this.Get(titleName, ""); }
             set { this.Set(titleName, value); }
         }
 

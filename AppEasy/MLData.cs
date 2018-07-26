@@ -29,22 +29,22 @@ namespace AppEasy
             Project.CurrentProject = p;
             Page p1 = new Page();
             MasterPage mp = new MasterPage();
-            mp.ConstraintWidth = EnumConstraint.AUTO;
-            mp.ConstraintHeight = EnumConstraint.AUTO;
+            mp.ConstraintWidth = EnumConstraint.FORCED;
+            mp.ConstraintHeight = EnumConstraint.FORCED;
 
             mp.Name = "mp1";
-            mp.CountColumns = 4;
-            mp.CountLines = 4;
+            mp.CountColumns = 3;
+            mp.CountLines = 3;
             List<SizedRectangle> rects = new List<SizedRectangle>();
-            SizedRectangle sz = new SizedRectangle(250, 100, 1, 4, 0, 0);
+            SizedRectangle sz = new SizedRectangle(250, 100, 1, 3, 0, 0);
             rects.Add(sz);
-            sz = new SizedRectangle(500, 100, 2, 1, 1, 0);
+            sz = new SizedRectangle(500, 100, 1, 1, 1, 0);
             rects.Add(sz);
-            sz = new SizedRectangle(500, 500, 2, 2, 1, 1);
+            sz = new SizedRectangle(500, 500, 1, 1, 1, 1);
             rects.Add(sz);
-            sz = new SizedRectangle(500, 100, 2, 1, 1, 3);
+            sz = new SizedRectangle(500, 100, 1, 1, 1, 2);
             rects.Add(sz);
-            sz = new SizedRectangle(250, 100, 1, 4, 3, 0);
+            sz = new SizedRectangle(250, 100, 1, 3, 2, 0);
             rects.Add(sz);
 
             mp.MakeZones(rects);
