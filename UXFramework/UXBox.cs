@@ -18,7 +18,6 @@ namespace UXFramework
         /// </summary>
         public UXBox()
         {
-            this.Add("<div></div>");
         }
 
         #endregion

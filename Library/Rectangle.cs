@@ -246,16 +246,8 @@ namespace Library
     [Serializable]
     public class SizedRectangle : Rectangle
     {
-        #region Private Field
 
-        /// <summary>
-        /// Index name of width value
-        /// </summary>
-        protected static readonly string countWidthName = "CountWidth";
-        /// <summary>
-        /// Index name of height value
-        /// </summary>
-        protected static readonly string countHeightName = "CountHeight";
+        #region Private Field
 
         /// <summary>
         /// Index name of width value
@@ -280,15 +272,11 @@ namespace Library
         /// </summary>
         /// <param name="width">width</param>
         /// <param name="height">height</param>
-        /// <param name="countWidth">width count</param>
-        /// <param name="countHeight">height count</param>
         /// <param name="left">left corner position</param>
         /// <param name="top">top corner position</param>
-        public SizedRectangle(int width, int height, int countWidth, int countHeight, int left, int top)
+        public SizedRectangle(int width, int height, int left, int top)
             : base(left, 0, top, 0)
         {
-            this.Set(countWidthName, countWidth);
-            this.Set(countHeightName, countHeight);
             this.Set(widthName, width);
             this.Set(heightName, height);
         }
@@ -313,6 +301,69 @@ namespace Library
             get { return this.Get(heightName, 0); }
             set { this.Set(heightName, value); }
         }
+
+        #endregion
+
+        #region Overriden Methods
+
+        /// <summary>
+        /// Gets SizedRectangle to string representation
+        /// </summary>
+        /// <returns>string representation</returns>
+        public override string ToString()
+        {
+            return this.Width.ToString() + "," + this.Height.ToString() + "," + 
+                   this.Left.ToString() + "," + this.Top.ToString();
+        }
+
+        #endregion
+
+    }
+
+    /// <summary>
+    /// An area sized Rectangle
+    /// </summary>
+    public class AreaSizedRectangle : SizedRectangle
+    {
+
+        #region Private Field
+
+        /// <summary>
+        /// Index name of width value
+        /// </summary>
+        protected static readonly string countWidthName = "CountWidth";
+        /// <summary>
+        /// Index name of height value
+        /// </summary>
+        protected static readonly string countHeightName = "CountHeight";
+
+        #endregion
+
+        #region Public Constructors
+
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
+        public AreaSizedRectangle() { }
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
+        /// <param name="countWidth">width count</param>
+        /// <param name="countHeight">height count</param>
+        /// <param name="left">left corner position</param>
+        /// <param name="top">top corner position</param>
+        public AreaSizedRectangle(int width, int height, int countWidth, int countHeight, int left, int top)
+            : base(width, height, left, top)
+        {
+            this.Set(countWidthName, countWidth);
+            this.Set(countHeightName, countHeight);
+        }
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// Gets the count width value
@@ -344,8 +395,8 @@ namespace Library
         public override string ToString()
         {
             return this.CountWidth.ToString() + "," + this.CountHeight.ToString() + "," +
-                   this.Width.ToString() + "," + this.Height.ToString() + "," + 
-                   this.Left.ToString() + "," + this.Right.ToString() + "," + this.Top.ToString() + "," + this.Bottom.ToString();
+                   this.Width.ToString() + "," + this.Height.ToString() + "," +
+                   this.Left.ToString() + "," + this.Top.ToString();
         }
 
         #endregion

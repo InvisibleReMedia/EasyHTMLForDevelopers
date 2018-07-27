@@ -334,7 +334,8 @@ namespace Library
         {
             uint newHeight = height;
             uint quotient = this.ComputeQuotientForHorizontalZone(this.countLines) + this.horizBorderHeight;
-            return newHeight - quotient;
+            newHeight -= quotient;
+            return newHeight;
         }
 
         /// <summary>
@@ -434,6 +435,8 @@ namespace Library
         {
             uint newHeight = height;
             newHeight -= this.parent.ComputeQuotientForHorizontalZone(this.countLines) + this.horizBorderHeight + this.vertBorderHeight;
+            if ((int)newHeight < 0)
+                newHeight = 0;
             return newHeight;
         }
 
@@ -446,7 +449,8 @@ namespace Library
         {
             uint newWidth = width;
             uint quotient = this.ComputeQuotientForVerticalZone() + this.vertBorderWidth;
-            return newWidth - (uint)quotient;
+            newWidth -= quotient;
+            return newWidth;
         }
 
         /// <summary>
@@ -458,7 +462,8 @@ namespace Library
         {
             uint newWidth = width;
             uint quotient = this.parent.ComputeQuotientForVerticalZone() + this.vertBorderWidth;
-            return newWidth - (uint)quotient;
+            newWidth -= quotient;
+            return newWidth;
         }
 
         /// <summary>
@@ -470,7 +475,8 @@ namespace Library
         {
             uint newHeight = height;
             uint quotient = this.parent.ComputeQuotientForHorizontalZone(this.countLines) + this.horizBorderHeight + this.vertBorderHeight;
-            return newHeight - (uint)quotient;
+            newHeight -= quotient;
+            return newHeight;
         }
 
         /// <summary>

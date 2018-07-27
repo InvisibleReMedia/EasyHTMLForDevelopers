@@ -18,17 +18,14 @@ namespace UXFramework
         #region Fields
 
         /// <summary>
-        /// Contains the list of elements table
-        /// </summary>
-        private List<SizedRectangle> rects;
-        /// <summary>
         /// Column size and line size
         /// </summary>
         private uint columns, lines;
         /// <summary>
-        /// Colorize, borderize, dispositioning
+        /// Colorize, borderize, dispositioning horizontal and vertical
         /// </summary>
-        private SizeArgs[,] customizer;
+        private SizeArgs[,] verticalCustomizer;
+        private SizeArgs[] horizontalCustomizer;
 
         #endregion
 
@@ -91,10 +88,22 @@ namespace UXFramework
             /// Border size in pixels
             /// </summary>
             public int borderSize;
+            /// <summary>
+            /// Object content to link with one part of the table
+            /// </summary>
+            public IUXObject content;
 
             #endregion
 
-            #region Constructor
+            #region Constructors
+
+            /// <summary>
+            /// Empty constructor
+            /// </summary>
+            public SizeArgs()
+            {
+                this.isValid = false;
+            }
 
             /// <summary>
             /// Default constructor
@@ -125,6 +134,37 @@ namespace UXFramework
             #region Methods
 
             /// <summary>
+            /// Make this set valid
+            /// </summary>
+            public void MakeValid()
+            {
+                this.isValid = true;
+            }
+
+            /// <summary>
+            /// Common values
+            /// </summary>
+            /// <param name="columnIndex">column index</param>
+            /// <param name="lineIndex">line index</param>
+            /// <param name="w">width in pixels</param>
+            /// <param name="h">height in pixels</param>
+            /// <param name="columnCount">column count</param>
+            /// <param name="lineCount">line count</param>
+            /// <param name="l">left corner index</param>
+            /// <param name="t">top corner index</param>
+            public void Common(uint columnIndex, uint lineIndex, int w, int h, int columnCount, int lineCount, int l, int t)
+            {
+                this.columnNumber = columnIndex;
+                this.lineNumber = lineIndex;
+                this.width = w;
+                this.height = h;
+                this.columnSize = columnCount;
+                this.lineSize = lineCount;
+                this.left = l;
+                this.top = t;
+            }
+
+            /// <summary>
             /// Options to change (graphics attributes)
             /// </summary>
             /// <param name="d">disposition</param>
@@ -134,7 +174,8 @@ namespace UXFramework
             /// <param name="a">border color</param>
             /// <param name="f">font color</param>
             /// <param name="bs">border size</param>
-            public void Options(Disposition d, EnumConstraint w, EnumConstraint h, CSSColor b, CSSColor a, CSSColor f, int bs)
+            /// <param name="obj">ux object</param>
+            public void Options(Disposition d, EnumConstraint w, EnumConstraint h, CSSColor b, CSSColor a, CSSColor f, int bs, IUXObject obj)
             {
                 this.disposition = d;
                 this.constraintWidth = w;
@@ -143,6 +184,7 @@ namespace UXFramework
                 this.borderColor = (CSSColor)a.Clone();
                 this.textColor = (CSSColor)f.Clone();
                 this.borderSize = bs;
+                this.content = obj;
             }
 
             #endregion
@@ -157,20 +199,11 @@ namespace UXFramework
         /// </summary>
         public UXTable()
         {
-            this.rects = new List<SizedRectangle>();
         }
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets the rectangle list
-        /// </summary>
-        public List<SizedRectangle> Rectangles
-        {
-            get { return this.rects; }
-        }
 
         /// <summary>
         /// Gets the column count
@@ -189,11 +222,19 @@ namespace UXFramework
         }
 
         /// <summary>
-        /// Customization information
+        /// Horizontal customization information
         /// </summary>
-        public SizeArgs[,] Customization
+        public SizeArgs[] HorizontalCustomization
         {
-            get { return this.customizer; }
+            get { return this.horizontalCustomizer; }
+        }
+
+        /// <summary>
+        /// Vertical ustomization information
+        /// </summary>
+        public SizeArgs[,] VerticalCustomization
+        {
+            get { return this.verticalCustomizer; }
         }
 
         #endregion
@@ -201,65 +242,48 @@ namespace UXFramework
         #region Methods
 
         /// <summary>
-        /// Set the size of this table
+        /// Set the horizontal of this table
+        /// </summary>
+        /// <param name="l">line size</param>
+        public void SetHorizontal(uint l, Action<object, SizeArgs> a)
+        {
+            this.lines = l;
+            this.horizontalCustomizer = new SizeArgs[this.lines];
+            for (uint pos_line = 0; pos_line < this.lines; ++pos_line)
+            {
+                SizeArgs current = new SizeArgs();
+                current.lineNumber = pos_line;
+                a.Invoke(this, current);
+                if (current.isValid)
+                    this.HorizontalCustomization[pos_line] = current;
+            }
+        }
+
+        /// <summary>
+        /// Set the vertical of this table
         /// </summary>
         /// <param name="c">column size</param>
         /// <param name="l">line size</param>
-        public void SetSize(uint c, uint l, Action<object, SizeArgs> a)
+        public void SetVertical(uint c, uint l, Action<object, SizeArgs> a)
         {
             this.columns = c;
             this.lines = l;
-            
-            SizedRectangle[,] indexes = new SizedRectangle[this.lines, this.columns];
-            for (int index = 0; index < this.rects.Count; ++index)
-            {
-                SizedRectangle current = this.rects[index];
-                indexes[current.Top, current.Left] = current;
-            }
-            this.rects.Clear();
-            this.customizer = new SizeArgs[this.lines, this.columns];
+            this.verticalCustomizer = new SizeArgs[this.lines, this.columns];
             for (uint pos_line = 0; pos_line < this.lines; ++pos_line)
             {
                 for(uint pos_column = 0; pos_column < this.columns; ++pos_column)
                 {
-                    SizedRectangle current = indexes[pos_line, pos_column];
-                    if (current != null)
-                    {
-                        SizeArgs e = new SizeArgs(pos_column, pos_line, current.Width, current.Height, current.CountWidth, current.CountHeight, current.Left, current.Top);
-                        a.Invoke(this, e);
-                        if (e.isValid)
-                        {
-                            current.Width = e.width;
-                            current.Height = e.height;
-                            current.CountWidth = e.columnSize;
-                            current.CountHeight = e.lineSize;
-                            current.Left = e.left;
-                            current.Top = e.top;
-                            this.rects.Add(current);
-                            this.customizer[pos_line, pos_column] = e;
-                        }
-                    }
-                    else
-                    {
-                        SizeArgs e = new SizeArgs(pos_column, pos_line, 0, 0, 0, 0, 0, 0);
-                        a.Invoke(this, e);
-                        if (e.isValid)
-                        {
-                            current = new SizedRectangle();
-                            current.Width = e.width;
-                            current.Height = e.height;
-                            current.CountWidth = e.columnSize;
-                            current.CountHeight = e.lineSize;
-                            current.Left = e.left;
-                            current.Top = e.top;
-                            this.rects.Add(current);
-                            this.customizer[pos_line, pos_column] = e;
-                        }
-                    }
+                    SizeArgs current = new SizeArgs();
+                    current.lineNumber = pos_line;
+                    current.columnNumber = pos_column;
+                    a.Invoke(this, current);
+                    if (current.isValid)
+                        this.VerticalCustomization[pos_line, pos_column] = current;
                 }
             }
         }
 
         #endregion
+
     }
 }

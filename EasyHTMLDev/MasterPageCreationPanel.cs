@@ -17,7 +17,7 @@ namespace EasyHTMLDev
         private bool select;
         private int startx;
         private int starty;
-        private List<Library.SizedRectangle> list = new List<Library.SizedRectangle>();
+        private List<Library.AreaSizedRectangle> list = new List<Library.AreaSizedRectangle>();
 
         public MasterPageCreationPanel()
         {
@@ -124,7 +124,7 @@ namespace EasyHTMLDev
                     }
                 }
             }
-            foreach (Library.SizedRectangle r in this.list)
+            foreach (Library.AreaSizedRectangle r in this.list)
             {
                 Rectangle rectStart = this.getRectangle(r.Top, r.Left);
                 Rectangle rectEnd = this.getRectangle(r.Bottom, r.Right);
@@ -179,7 +179,7 @@ namespace EasyHTMLDev
 
                     if (start.X >= 0 && start.X < this.mPage.CountColumns && end.X >= 0 && end.X < this.mPage.CountColumns &&
                         start.Y >= 0 && start.Y < this.mPage.CountLines && end.Y >= 0 && end.Y < this.mPage.CountLines)
-                        this.list.Add(new Library.SizedRectangle(deltax * (end.X - start.X + 1), deltay * (end.Y - start.Y + 1), start.X, end.X, start.Y, end.Y));
+                        this.list.Add(new Library.AreaSizedRectangle(deltax * (end.X - start.X + 1), deltay * (end.Y - start.Y + 1), end.X - start.X + 1, end.Y - start.Y + 1, deltax * start.X, deltay * start.Y));
 
                     for (int count_ligne = 0; count_ligne < this.mPage.CountLines; ++count_ligne)
                     {

@@ -422,72 +422,9 @@ namespace Library
         /// Construct all zones and compute total size
         /// </summary>
         /// <param name="list">list of rectangle the user supplied</param>
-        public void MakeZones(List<SizedRectangle> list)
+        public void MakeZones(List<AreaSizedRectangle> list)
         {
-            SizedRectangle[,] indexes = new SizedRectangle[this.CountLines, this.CountColumns];
-            for (int index = 0; index < list.Count; ++index)
-            {
-                SizedRectangle current = list[index];
-                indexes[current.Top, current.Left] = current;
-            }
-
-            // ranger les données dans la master page
-            for (int pos_ligne = 0; pos_ligne < this.CountLines; ++pos_ligne)
-            {
-                uint hSize;
-                uint vSize;
-                Nullable<int> minCountLines;
-                HorizontalZone hz;
-                hSize = 0; vSize = 0;
-                minCountLines = null;
-                hz = new HorizontalZone();
-                hz.ConstraintWidth = EnumConstraint.FIXED;
-                hz.ConstraintHeight = EnumConstraint.FIXED;
-                for (int pos_colonne = 0; pos_colonne < this.CountColumns; ++pos_colonne)
-                {
-                    if (indexes[pos_ligne, pos_colonne] != null)
-                    {
-                        VerticalZone vz = new VerticalZone();
-                        vz.ConstraintWidth = EnumConstraint.FIXED;
-                        vz.ConstraintHeight = EnumConstraint.FIXED;
-                        SizedRectangle sr = indexes[pos_ligne, pos_colonne];
-                        vz.CountColumns = sr.CountWidth;
-                        vz.CountLines = sr.CountHeight;
-                        if (sr.Height > 0) { vz.Height = (uint)sr.Height; if (vz.Height > vSize) vSize = vz.Height; }
-                        if (sr.Width > 0) { vz.Width = (uint)sr.Width; hSize += vz.Width; }
-                        if (minCountLines.HasValue)
-                        {
-                            if (minCountLines.Value > vz.CountLines)
-                            {
-                                minCountLines = vz.CountLines;
-                            }
-                        }
-                        else
-                        {
-                            minCountLines = vz.CountLines;
-                        }
-                        hz.VerticalZones.Add(vz);
-                    }
-                }
-                if (minCountLines.HasValue)
-                    hz.CountLines = minCountLines.Value;
-                else
-                    hz.CountLines = 0;
-                // cette longueur et hauteur servira pour calculer le resize des zones verticales
-                hz.ConstraintWidth = EnumConstraint.AUTO;
-                hz.ConstraintHeight = EnumConstraint.AUTO;
-                if (hSize != 0)
-                {
-                    hz.Width = hSize;
-                    hz.ConstraintWidth = EnumConstraint.FIXED;
-                }
-                if (vSize != 0)
-                {
-                    hz.Width = vSize;
-                    hz.ConstraintWidth = EnumConstraint.FIXED;
-                }
-                this.HorizontalZones.Add(hz);
-            }
+            MasterPage.MakeZones(this.CountColumns, this.CountLines, list, this.HorizontalZones);
         }
         #endregion
 

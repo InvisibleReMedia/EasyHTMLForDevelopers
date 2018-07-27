@@ -395,63 +395,52 @@ namespace Library
         /// Construct all zones and compute total size
         /// </summary>
         /// <param name="list">list of rectangle the user supplied</param>
-        public void MakeZones(List<SizedRectangle> list)
+        public void MakeZones(List<AreaSizedRectangle> list)
         {
-            SizedRectangle[,] indexes = new SizedRectangle[this.CountLines, this.CountColumns];
+            MasterPage.MakeZones(this.CountColumns, this.CountLines, list, this.HorizontalZones);
+        }
+
+        /// <summary>
+        /// Construct all zones and compute total size
+        /// </summary>
+        /// <param name="c">column count</param>
+        /// <param name="l">list count</param>
+        /// <param name="list">list of rectangle the user supplied</param>
+        /// <param name="hList">horizontal zones list</param>
+        public static void MakeZones(uint c, uint l, List<AreaSizedRectangle> list, List<HorizontalZone> hList)
+        {
+            AreaSizedRectangle[,] indexes = new AreaSizedRectangle[c, l];
             for (int index = 0; index < list.Count; ++index)
             {
-                SizedRectangle current = list[index];
+                AreaSizedRectangle current = list[index];
                 indexes[current.Top, current.Left] = current;
             }
 
             // ranger les données dans la master page
-            for (int pos_ligne = 0; pos_ligne < this.CountLines; ++pos_ligne)
+            for (int pos_ligne = 0; pos_ligne < l; ++pos_ligne)
             {
-                uint hSize;
-                uint vSize;
-                Nullable<int> minCountLines;
                 HorizontalZone hz;
-                hSize = 0; vSize = 0;
-                minCountLines = null;
                 hz = new HorizontalZone();
-                hz.ConstraintWidth = EnumConstraint.FIXED;
-                hz.ConstraintHeight = EnumConstraint.FIXED;
-                for (int pos_colonne = 0; pos_colonne < this.CountColumns; ++pos_colonne)
+                hz.ConstraintWidth = EnumConstraint.FORCED;
+                hz.ConstraintHeight = EnumConstraint.FORCED;
+                int countLines;
+                countLines = 0;
+                for (int pos_colonne = 0; pos_colonne < c; ++pos_colonne)
                 {
-                    if (indexes[pos_ligne, pos_colonne] != null)
+                    AreaSizedRectangle current = indexes[pos_ligne, pos_colonne];
+                    if (current != null)
                     {
+                        ++countLines;
                         VerticalZone vz = new VerticalZone();
-                        vz.ConstraintWidth = EnumConstraint.FIXED;
-                        vz.ConstraintHeight = EnumConstraint.FIXED;
-                        SizedRectangle sr = indexes[pos_ligne, pos_colonne];
-                        vz.CountColumns = sr.CountWidth;
-                        vz.CountLines = sr.CountHeight;
-                        if (sr.Height > 0) { vz.Height = (uint)sr.Height; if (vz.Height > vSize) vSize = vz.Height; }
-                        if (sr.Width > 0) { vz.Width = (uint)sr.Width; hSize += vz.Width; }
-                        if (minCountLines.HasValue)
-                        {
-                            if (minCountLines.Value > vz.CountLines)
-                            {
-                                minCountLines = vz.CountLines;
-                            }
-                        }
-                        else
-                        {
-                            minCountLines = vz.CountLines;
-                        }
+                        vz.CountLines = current.CountHeight;
+                        vz.CountColumns = current.CountWidth;
+                        vz.ConstraintWidth = EnumConstraint.FORCED;
+                        vz.ConstraintHeight = EnumConstraint.FORCED;
                         hz.VerticalZones.Add(vz);
                     }
                 }
-                if (minCountLines.HasValue)
-                    hz.CountLines = minCountLines.Value;
-                else
-                    hz.CountLines = 0;
-                hz.Width = hSize;
-                hz.Height = vSize;
-                // cette longueur et hauteur servira pour calculer le resize des zones verticales
-                hz.ConstraintWidth = EnumConstraint.FIXED;
-                hz.ConstraintHeight = EnumConstraint.FIXED;
-                this.HorizontalZones.Add(hz);
+                hz.CountLines = countLines;
+                hList.Add(hz);
             }
         }
 

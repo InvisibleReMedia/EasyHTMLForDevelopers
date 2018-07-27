@@ -190,7 +190,7 @@ namespace Library
         /// </summary>
         /// <param name="list">list of sized rectangle</param>
         /// <param name="g">granne to generate</param>
-        internal void GenerateContent(List<SizedRectangle> list, Granne g)
+        internal void GenerateContent(List<AreaSizedRectangle> list, Granne g)
         {
             if (this.Type == RefObject.MasterPage)
             {
@@ -218,7 +218,7 @@ namespace Library
         /// Generate the content
         /// </summary>
         /// <param name="list">list of sized rectangle</param>
-        internal void GenerateContent(List<SizedRectangle> list)
+        internal void GenerateContent(List<AreaSizedRectangle> list)
         {
             if (this.Type == RefObject.MasterPage)
             {

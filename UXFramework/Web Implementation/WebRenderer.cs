@@ -47,6 +47,15 @@ namespace UXFramework.WebImplementation
             tool.Name = "ReadOnlyText";
             tool.Id = "labelText";
             this.project.Tools.Add(tool);
+
+            tool = new HTMLTool();
+            tool.ConstraintHeight = EnumConstraint.AUTO;
+            tool.ConstraintWidth = EnumConstraint.AUTO;
+            tool.Path = "html";
+            tool.Name = "box";
+            tool.Id = "boxContainer";
+            tool.HTML = "<p>OK</p><p>OK</p><p>OK</p>";
+            this.project.Tools.Add(tool);
         }
 
         #endregion
@@ -62,22 +71,22 @@ namespace UXFramework.WebImplementation
             string previous;
             Projects.Activate(projectName, out previous);
             Page p = new Page();
+            p.Width = Convert.ToUInt32(window.GetWebBrowser().DisplayRectangle.Width - 40);
+            p.Height = Convert.ToUInt32(window.GetWebBrowser().DisplayRectangle.Height - 40);
             p.Disposition = Disposition.CENTER;
-            p.ConstraintWidth = EnumConstraint.RELATIVE;
-            p.ConstraintHeight = EnumConstraint.RELATIVE;
-            p.Width = 100;
-            p.Height = 100;
+            p.ConstraintWidth = EnumConstraint.FIXED;
+            p.ConstraintHeight = EnumConstraint.FIXED;
             MasterPage mp = new MasterPage();
             mp.Name = "masterPage_" + window.Name;
-            mp.Width = Convert.ToUInt32(window.GetWebBrowser().DisplayRectangle.Width - 30);
-            mp.Height = Convert.ToUInt32(window.GetWebBrowser().DisplayRectangle.Height - 30);
-            mp.ConstraintWidth = EnumConstraint.FIXED;
-            mp.ConstraintHeight = EnumConstraint.FIXED;
+            mp.Width = 100;
+            mp.Height = 100;
+            mp.ConstraintWidth = EnumConstraint.RELATIVE;
+            mp.ConstraintHeight = EnumConstraint.RELATIVE;
             mp.CountColumns = 1;
             mp.CountLines = 1;
 
-            List<SizedRectangle> rects = new List<SizedRectangle>();
-            SizedRectangle sz = new SizedRectangle((int)mp.Width, (int)mp.Height, 1, 1, 0, 0);
+            List<AreaSizedRectangle> rects = new List<AreaSizedRectangle>();
+            AreaSizedRectangle sz = new AreaSizedRectangle((int)mp.Width, (int)mp.Height, 1, 1, 0, 0);
             rects.Add(sz);
             mp.MakeZones(rects);
             this.project.MasterPages.Add(mp);
@@ -113,7 +122,10 @@ namespace UXFramework.WebImplementation
         /// <param name="box">box to render</param>
         public void RenderControl(UXBox box)
         {
-
+            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "box"));
+            obj.Container = this.currentContainer;
+            this.currentObject.Objects.Add(obj);
+            this.project.Instances.Add(obj);
         }
 
         /// <summary>
@@ -167,7 +179,7 @@ namespace UXFramework.WebImplementation
         /// <param name="text">text to render</param>
         public void RenderControl(UXReadOnlyText text)
         {
-            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Name == "ReadOnlyText"));
+            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "ReadOnlyText"));
             obj.Container = this.currentContainer;
             obj.HTML = text.Text;
             this.currentObject.Objects.Add(obj);
@@ -188,28 +200,58 @@ namespace UXFramework.WebImplementation
             mo.ConstraintHeight = EnumConstraint.RELATIVE;
             mo.CountColumns = table.ColumnCount;
             mo.CountLines = table.LineCount;
-            // construct zones
-            mo.MakeZones(table.Rectangles);
 
-            for(uint pos_line = 0; pos_line < mo.HorizontalZones.Count; ++pos_line)
+            for(uint pos_line = 0; pos_line < table.LineCount; ++pos_line)
+            {
+                UXTable.SizeArgs s = table.HorizontalCustomization[pos_line];
+                if (s!= null && s.isValid) {
+                    HorizontalZone h = new HorizontalZone();
+                    h.ConstraintWidth = s.constraintWidth;
+                    h.ConstraintHeight = s.constraintHeight;
+                    h.CountLines = s.lineSize;
+                    h.Height = Convert.ToUInt32(s.height);
+                    h.Width = Convert.ToUInt32(s.width);
+                    h.CSS.BackgroundColor = (CSSColor)s.backgroundColor.Clone();
+                    h.CSS.ForegroundColor = (CSSColor)s.textColor.Clone();
+                    h.CSS.BorderBottomColor = h.CSS.BorderLeftColor = h.CSS.BorderRightColor = h.CSS.BorderTopColor = (CSSColor)s.borderColor.Clone();
+                    h.CSS.Border = new Rectangle(s.borderSize, s.borderSize, s.borderSize, s.borderSize);
+                    mo.HorizontalZones.Add(h);
+                    for (uint pos_column = 0; pos_column < table.ColumnCount; ++pos_column)
+                    {
+                        UXTable.SizeArgs s2 = table.VerticalCustomization[pos_line, pos_column];
+                        if (s2 != null && s2.isValid)
+                        {
+                            VerticalZone v = new VerticalZone();
+                            v.Width = Convert.ToUInt32(s2.width);
+                            v.Height = Convert.ToUInt32(s2.height);
+                            v.Disposition = s2.disposition;
+                            v.ConstraintWidth = s2.constraintWidth;
+                            v.ConstraintHeight = s2.constraintHeight;
+                            v.CountLines = s2.lineSize;
+                            v.CountColumns = s2.columnSize;
+                            v.CSS.BackgroundColor = (CSSColor)s2.backgroundColor.Clone();
+                            v.CSS.ForegroundColor = (CSSColor)s2.textColor.Clone();
+                            v.CSS.BorderBottomColor = v.CSS.BorderLeftColor = v.CSS.BorderRightColor = v.CSS.BorderTopColor = (CSSColor)s2.borderColor.Clone();
+                            v.CSS.Border = new Rectangle(s2.borderSize, s2.borderSize, s2.borderSize, s2.borderSize);
+                            h.VerticalZones.Add(v);
+                        }
+                    }
+                }
+            }
+
+            for (uint pos_line = 0; pos_line < mo.HorizontalZones.Count; ++pos_line)
             {
                 HorizontalZone h = mo.HorizontalZones[(int)pos_line];
                 for (uint pos_column = 0; pos_column < h.VerticalZones.Count; ++pos_column)
                 {
                     VerticalZone v = h.VerticalZones[(int)pos_column];
-                    UXTable.SizeArgs current = table.Customization[pos_line, pos_column];
-                    if (v != null && current != null)
-                    {
-                        v.Disposition = current.disposition;
-                        v.ConstraintWidth = current.constraintWidth;
-                        v.ConstraintHeight = current.constraintHeight;
-                        v.CSS.BackgroundColor = (CSSColor)current.backgroundColor.Clone();
-                        v.CSS.ForegroundColor = (CSSColor)current.textColor.Clone();
-                        v.CSS.BorderBottomColor = v.CSS.BorderLeftColor = v.CSS.BorderRightColor = v.CSS.BorderTopColor = (CSSColor)current.borderColor.Clone();
-                        v.CSS.Border = new Rectangle(current.borderSize, current.borderSize, current.borderSize, current.borderSize);
-                    }
+                    string previousContainer = this.currentContainer;
+                    this.currentContainer = v.Name;
+                    RenderControl(table.VerticalCustomization[pos_line, pos_column].content);
+                    this.currentContainer = previousContainer;
                 }
             }
+
             this.project.MasterObjects.Add(mo);
 
             HTMLObject obj = new HTMLObject(mo);

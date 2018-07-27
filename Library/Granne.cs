@@ -231,11 +231,11 @@ namespace Library
         /// Convert granne to drawing rectangle
         /// </summary>
         /// <returns>sized rectangle</returns>
-        internal SizedRectangle ConvertToDrawingRectangle()
+        internal AreaSizedRectangle ConvertToDrawingRectangle()
         {
             int width = (int)(this.sizeX * (uint)Granne.granneX);
             int height = (int)(this.sizeY * (uint)Granne.granneY);
-            return new SizedRectangle(width, height, (int)this.indexX, (int)(this.indexX + this.sizeX), (int)this.indexY, (int)(this.indexY + this.sizeY));
+            return new AreaSizedRectangle(width, height, (int)sizeX, (int)sizeY, (int)this.indexY, (int)this.indexY);
         }
 
 

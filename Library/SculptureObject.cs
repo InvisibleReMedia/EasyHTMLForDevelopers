@@ -188,7 +188,7 @@ namespace Library
         /// <param name="tab">two dimensional tabular granne</param>
         private void FillObjects(Project proj, GeneratedSculpture gs, Granne[,] tab)
         {
-            List<SizedRectangle> list = new List<SizedRectangle>();
+            List<AreaSizedRectangle> list = new List<AreaSizedRectangle>();
             gs.RemainerModels.Clear();
             gs.Objects.Clear();
             for (int y = 0; y < tab.GetLength(1); ++y)
