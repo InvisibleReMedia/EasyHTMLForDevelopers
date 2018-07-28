@@ -66,7 +66,6 @@ namespace AppEasy
                 if (e.lineNumber == 0 && e.columnNumber == 0)
                 {
                     e.isValid = true;
-                    e.width = 600;
                     e.height = 50;
                     e.left = 0;
                     e.top = 0;
@@ -80,7 +79,6 @@ namespace AppEasy
                     if (e.columnNumber == 0)
                     {
                         e.isValid = true;
-                        e.width = 200;
                         e.height = 300;
                         e.left = 0;
                         e.top = 1;
@@ -92,19 +90,19 @@ namespace AppEasy
                     else if (e.columnNumber == 1)
                     {
                         e.isValid = true;
-                        e.width = 200;
                         e.height = 500;
                         e.left = 1;
                         e.top = 1;
                         e.columnSize = 1;
                         e.lineSize = 1;
-                        UXFramework.UXBox b = new UXFramework.UXBox();
-                        e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#D5F0F7"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, b);
+                        UXFramework.UXButton but = new UXFramework.UXButton();
+                        but.ButtonText = "Click";
+                        but.Id = "b1";
+                        e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#D5F0F7"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, but);
                     }
                     else if (e.columnNumber == 2)
                     {
                         e.isValid = true;
-                        e.width = 200;
                         e.height = 300;
                         e.left = 2;
                         e.top = 1;
@@ -117,8 +115,7 @@ namespace AppEasy
                 else if (e.lineNumber == 2 && e.columnNumber == 0)
                 {
                     e.isValid = true;
-                    e.width = 600;
-                    e.height = 20;
+                    e.height = 50;
                     e.left = 0;
                     e.top = 2;
                     e.columnSize = 3;

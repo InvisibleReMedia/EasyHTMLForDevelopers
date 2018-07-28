@@ -11,6 +11,19 @@ namespace UXFramework
     public class UXButton : UXControl
     {
 
+        #region Fields
+
+        /// <summary>
+        /// Text for button
+        /// </summary>
+        private string textButton;
+        /// <summary>
+        /// Id
+        /// </summary>
+        private string id;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -18,7 +31,39 @@ namespace UXFramework
         /// </summary>
         public UXButton()
         {
-            this.Add("<input type='button' value='OK' name='btn' id='btn1'/>");
+        }
+
+        /// <summary>
+        /// Constructor with init
+        /// <param name="id">id</param>
+        /// <param name="title">title</param>
+        /// </summary>
+        public UXButton(string id, string title)
+        {
+            this.id = id;
+            this.textButton = title;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the Id object
+        /// </summary>
+        public string Id
+        {
+            get { return this.id; }
+            set { this.id = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the button text
+        /// </summary>
+        public string ButtonText
+        {
+            get { return this.textButton; }
+            set { this.textButton = value; }
         }
 
         #endregion
@@ -31,7 +76,7 @@ namespace UXFramework
         public override void Connect()
         {
             base.Connect();
-            HtmlElement e = this.GetWebBrowser().Document.GetElementById("btn1");
+            HtmlElement e = this.GetWebBrowser().Document.GetElementById(this.id);
             if (e != null)
             {
                 e.Click += UXButton_Click;

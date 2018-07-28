@@ -52,7 +52,7 @@ namespace Library
         public object Clone()
         {
             CodeJavaScript cj = new CodeJavaScript();
-            this.Code = ExtensionMethods.CloneThis(cj.Code);
+            cj.Code = ExtensionMethods.CloneThis(this.Code);
             return cj;
         }
 

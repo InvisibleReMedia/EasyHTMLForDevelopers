@@ -195,7 +195,17 @@ namespace Library
         {
             bool notEmpty = false;
             ConstraintSize globalContainerCs = new ConstraintSize(cs.constraintWidth, (cs.width > 0) ? cs.width - 1 : 0, cs.forcedWidth, cs.constraintHeight, (cs.height > 0) ? cs.height - 1 : 0, cs.forcedHeight);
-            html.HTML.Append("<div align='left' name='globalContainer_" + moName + "' id='globalContainer_" + moId + "' " + globalContainerCs.attributeWidth + " " + globalContainerCs.attributeHeight + ">");
+
+            html.HTML.Append("<div");
+            html.HTML.Append(" style='margin-top:auto;margin-bottom:auto;margin-left:0;margin-right:auto'");
+            html.HTML.Append(" name='globalContainer_" + moName + "'");
+            html.HTML.Append(" id='globalContainer_" + moId + "'");
+            if (!String.IsNullOrEmpty(globalContainerCs.attributeWidth))
+                html.HTML.Append(" " + globalContainerCs.attributeWidth);
+            if (!String.IsNullOrEmpty(globalContainerCs.attributeHeight))
+                html.HTML.Append(" " + globalContainerCs.attributeHeight);
+            html.HTML.Append(">");
+
             foreach (HTMLObject obj in objects)
             {
                 if (obj.Container == "globalContainer")
@@ -216,7 +226,17 @@ namespace Library
         {
             bool notEmpty = false;
             ConstraintSize globalContainerCs = new ConstraintSize(cs.constraintWidth, (cs.width > 0) ? cs.width - 1 : 0, cs.forcedWidth, cs.constraintHeight, (cs.height > 0) ? cs.height - 1 : 0, cs.forcedHeight);
-            html.HTML.Append("<div align='left' name='globalContainer_" + moName + "' id='globalContainer_" + moId + "' " + globalContainerCs.attributeWidth + " " + globalContainerCs.attributeHeight + ">");
+
+            html.HTML.Append("<div");
+            html.HTML.Append(" style='margin-top:auto;margin-bottom:auto;margin-left:0;margin-right:auto'");
+            html.HTML.Append(" name='globalContainer_" + moName + "'");
+            html.HTML.Append(" id='globalContainer_" + moId + "'");
+            if (!String.IsNullOrEmpty(globalContainerCs.attributeWidth))
+                html.HTML.Append(" " + globalContainerCs.attributeWidth);
+            if (!String.IsNullOrEmpty(globalContainerCs.attributeHeight))
+                html.HTML.Append(" " + globalContainerCs.attributeHeight);
+            html.HTML.Append(">");
+
             foreach (HTMLObject obj in objects)
             {
                 if (obj.Container == "globalContainer")
@@ -307,8 +327,15 @@ namespace Library
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
 
+            html.HTML.Append("<div");
+            html.HTML.Append(" id='" + myId + "'");
+            html.HTML.Append(" name='" + master.Name + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                html.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                html.HTML.Append(" " + cs.attributeHeight);
+            html.HTML.Append(">");
 
-            html.HTML.Append("<div id='" + myId + "' name='" + master.Name + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
             foreach (HorizontalZone hz in pageConfig.zones)
             {
                 OutputHTML hzone = hz.GenerateDesignDIV(refPage, master, parent);
@@ -415,8 +442,16 @@ namespace Library
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
 
+            html.HTML.Append("<div");
+            html.HTML.Append(hasGlobalContainer ? " style='position:absolute' " : "");
+            html.HTML.Append(" id='" + myId + "'");
+            html.HTML.Append(" name='" + master.Name + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                html.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                html.HTML.Append(" " + cs.attributeHeight);
+            html.HTML.Append(">");
 
-            html.HTML.Append("<div " + (hasGlobalContainer ? "style='position:absolute' " : "") + "id='" + myId + "' name='" + master.Name + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
             foreach (HorizontalZone hz in pageConfig.zones)
             {
                 OutputHTML hzone = hz.GenerateProductionDIV(refPage, master, parent);
@@ -474,7 +509,17 @@ namespace Library
             if (hasGlobalContainer)
             {
                 StringBuilder group = new StringBuilder();
-                group.Append("<div style='position:relative' id='group_" + myId + "' name='group_" + master.Name + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+
+                group.Append("<div");
+                group.Append(" style='margin-top:auto;margin-bottom:auto;margin-left:0;margin-right:auto'");
+                group.Append(" name='" + master.Name + "'");
+                group.Append(" id='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    group.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    group.Append(" " + cs.attributeHeight);
+                group.Append(">");
+
                 group.Append(global.HTML.ToString());
                 group.Append(html.HTML.ToString());
                 group.Append("</div>");
@@ -525,7 +570,15 @@ namespace Library
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
             html.HTML.Append(master.HTMLBefore);
-            html.HTML.Append("<div id='" + myId + "' name='" + master.Name + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+
+            html.HTML.Append("<div");
+            html.HTML.Append(" id='" + myId + "'");
+            html.HTML.Append(" name='" + master.Name + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                html.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                html.HTML.Append(" " + cs.attributeHeight);
+            html.HTML.Append(">");
 
             foreach (HorizontalZone hz in pageConfig.zones)
             {
@@ -594,7 +647,18 @@ namespace Library
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
-            html.HTML.Append("<table " + Routines.SetTableDisposition(refPage.Disposition) + " " + cs.attributeWidth + " " + cs.attributeHeight + " id='globalTable' name='" + master.Name + "' border='0' cellspacing='0' cellpadding='0'>");
+
+            html.HTML.Append("<table");
+            html.HTML.Append(" " + Routines.SetTableDisposition(refPage.Disposition));
+            html.HTML.Append(" name='globalTable'");
+            html.HTML.Append(" id='" + master.Name + "'");
+            html.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                html.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                html.HTML.Append(" " + cs.attributeHeight);
+            html.HTML.Append(">");
+
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
             // recherche fin de ligne
@@ -718,6 +782,20 @@ namespace Library
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
+
+            html.HTML.Append("<table");
+            if (hasGlobalContainer)
+                html.HTML.Append(" style='position:absolute'");
+            html.HTML.Append(" " + Routines.SetTableDisposition(refPage.Disposition));
+            html.HTML.Append(" name='globalTable'");
+            html.HTML.Append(" id='" + master.Name + "'");
+            html.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                html.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                html.HTML.Append(" " + cs.attributeHeight);
+            html.HTML.Append(">");
+
             html.HTML.Append("<table " + (hasGlobalContainer ? "style='position:absolute' " : "") + Routines.SetTableDisposition(refPage.Disposition) + " " + cs.attributeWidth + " " + cs.attributeHeight + " id='globalTable' name='" + master.Name + "' border='0' cellspacing='0' cellpadding='0'>");
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
@@ -791,7 +869,17 @@ namespace Library
             if (hasGlobalContainer)
             {
                 StringBuilder group = new StringBuilder();
-                group.Append("<div style='position:relative' id='group_" + myId + "' name='group_" + master.Name + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+
+                group.Append("<div");
+                group.Append(" style='position:relative'");
+                group.Append(" name='" + master.Name + "'");
+                group.Append(" id='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    group.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    group.Append(" " + cs.attributeHeight);
+                group.Append(">");
+
                 group.Append(global.HTML.ToString());
                 group.Append(html.HTML.ToString());
                 group.Append("</div>");
@@ -843,7 +931,18 @@ namespace Library
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
 
             html.HTML.Append(master.HTMLBefore);
-            html.HTML.Append("<table " + cs.attributeWidth + " " + cs.attributeHeight + " id='" + myId + "' name='" + master.Name + "' border='0' cellspacing='0' cellpadding='0'>");
+
+            html.HTML.Append("<table");
+            html.HTML.Append(" " + Routines.SetTableDisposition(refPage.Disposition));
+            html.HTML.Append(" name='globalTable'");
+            html.HTML.Append(" id='" + master.Name + "'");
+            html.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                html.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                html.HTML.Append(" " + cs.attributeHeight);
+            html.HTML.Append(">");
+
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
             // recherche fin de ligne
@@ -933,8 +1032,18 @@ namespace Library
             outputPage.HTML.Append("</script>");
             outputPage.HTML.Append("</head>");
             outputPage.HTML.Append("<body onload='initialize();'>");
-            outputPage.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+
+            outputPage.HTML.Append("<div");
+            outputPage.HTML.Append(" id='" + myId + "'");
+            outputPage.HTML.Append(" name='" + myId + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                outputPage.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                outputPage.HTML.Append(" " + cs.attributeHeight);
+            outputPage.HTML.Append(">");
+
             outputPage.HTML.Append(html.HTML.ToString());
+
             outputPage.HTML.Append("</div>");
             outputPage.HTML.Append("</body>");
             outputPage.HTML.Append("</html>");
@@ -986,8 +1095,18 @@ namespace Library
             outputPage.HTML.Append("</script>");
             outputPage.HTML.Append("</head>");
             outputPage.HTML.Append("<body onload='initialize();'>");
-            outputPage.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+
+            outputPage.HTML.Append("<div");
+            outputPage.HTML.Append(" id='" + myId + "'");
+            outputPage.HTML.Append(" name='" + myId + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                outputPage.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                outputPage.HTML.Append(" " + cs.attributeHeight);
+            outputPage.HTML.Append(">");
+
             outputPage.HTML.Append(html.HTML.ToString());
+
             outputPage.HTML.Append("</div>");
             outputPage.HTML.Append("</body>");
             outputPage.HTML.Append("</html>");
@@ -2095,48 +2214,63 @@ namespace Library
                 css.Body.Remove("margin-left");
             if (css.Body.AllKeys.Contains("margin-right"))
                 css.Body.Remove("margin-right");
-            if (css.Body.AllKeys.Contains("vertical-align"))
-                css.Body.Remove("vertical-align");
+            if (css.Body.AllKeys.Contains("margin-top"))
+                css.Body.Remove("margin-bottom");
             switch (parent.disposition)
             {
                 case Disposition.CENTER:
-                    css.Body.Add("vertical-align", "middle");
+                    css.Body.Add("margin-top", "auto");
+                    css.Body.Add("margin-bottom", "auto");
                     css.Body.Add("margin-left", "auto");
                     css.Body.Add("margin-right", "auto");
                     break;
                 case Disposition.CENTER_BOTTOM:
-                    css.Body.Add("vertical-align", "baseline");
+                    css.Body.Add("margin-top", "auto");
+                    css.Body.Add("margin-bottom", "0px");
                     css.Body.Add("margin-left", "auto");
                     css.Body.Add("margin-right", "auto");
                     break;
                 case Disposition.CENTER_TOP:
-                    css.Body.Add("vertical-align", "text-top");
+                    css.Body.Add("margin-top", "0px");
+                    css.Body.Add("margin-bottom", "auto");
                     css.Body.Add("margin-left", "auto");
                     css.Body.Add("margin-right", "auto");
                     break;
                 case Disposition.LEFT_BOTTOM:
-                    css.Body.Add("vertical-align", "baseline");
+                    css.Body.Add("margin-top", "auto");
+                    css.Body.Add("margin-bottom", "0px");
+                    css.Body.Add("margin-left", "0px");
+                    css.Body.Add("margin-right", "auto");
                     break;
                 case Disposition.LEFT_MIDDLE:
-                    css.Body.Add("vertical-align", "middle");
+                    css.Body.Add("margin-top", "auto");
+                    css.Body.Add("margin-bottom", "auto");
+                    css.Body.Add("margin-left", "0px");
+                    css.Body.Add("margin-right", "auto");
                     break;
                 case Disposition.LEFT_TOP:
-                    css.Body.Add("vertical-align", "text-top");
+                    css.Body.Add("margin-top", "0px");
+                    css.Body.Add("margin-bottom", "auto");
+                    css.Body.Add("margin-left", "0px");
+                    css.Body.Add("margin-right", "auto");
                     break;
                 case Disposition.RIGHT_BOTTOM:
+                    css.Body.Add("margin-top", "auto");
+                    css.Body.Add("margin-bottom", "0px");
                     css.Body.Add("margin-left", "auto");
                     css.Body.Add("margin-right", "0px");
-                    css.Body.Add("vertical-align", "baseline");
                     break;
                 case Disposition.RIGHT_MIDDLE:
+                    css.Body.Add("margin-top", "auto");
+                    css.Body.Add("margin-bottom", "auto");
                     css.Body.Add("margin-left", "auto");
                     css.Body.Add("margin-right", "0px");
-                    css.Body.Add("vertical-align", "text-top");
                     break;
                 case Disposition.RIGHT_TOP:
+                    css.Body.Add("margin-top", "0px");
+                    css.Body.Add("margin-bottom", "auto");
                     css.Body.Add("margin-left", "auto");
                     css.Body.Add("margin-right", "0px");
-                    css.Body.Add("vertical-align", "text-top");
                     break;
             }
         }

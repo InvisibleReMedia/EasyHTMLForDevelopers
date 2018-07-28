@@ -325,7 +325,14 @@ namespace Library
                                                        newInfos.maximumWidth, newInfos.constraintHeight,
                                                        newInfos.precedingHeight, newInfos.maximumHeight);
 
-                output.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+                output.HTML.Append("<div");
+                output.HTML.Append(" id='" + myId + "'");
+                output.HTML.Append(" name='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    output.HTML.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    output.HTML.Append(" " + cs.attributeHeight);
+                output.HTML.Append(">");
 
                 // set CSS part
                 myCss.Ids = "#" + myId;
@@ -385,7 +392,14 @@ namespace Library
                 ParentConstraint newInfos = Routines.ComputeHorizontalZone(parentConstraint, this);
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-                output.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+                output.HTML.Append("<div");
+                output.HTML.Append(" id='" + myId + "'");
+                output.HTML.Append(" name='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    output.HTML.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    output.HTML.Append(" " + cs.attributeHeight);
+                output.HTML.Append(">");
 
                 // set CSS part
                 myCss.Ids = "#" + myId;
@@ -463,7 +477,14 @@ namespace Library
                                                        newInfos.maximumWidth, newInfos.constraintHeight,
                                                        newInfos.precedingHeight, newInfos.maximumHeight);
 
-                output.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+                output.HTML.Append("<div");
+                output.HTML.Append(" id='" + myId + "'");
+                output.HTML.Append(" name='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    output.HTML.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    output.HTML.Append(" " + cs.attributeHeight);
+                output.HTML.Append(">");
 
                 // set CSS part
                 myCss.Ids = "#" + myId;
@@ -536,7 +557,13 @@ namespace Library
                                                    newInfos.maximumWidth, newInfos.constraintHeight,
                                                    newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
+
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
 
@@ -575,7 +602,13 @@ namespace Library
                                                    newInfos.maximumWidth, newInfos.constraintHeight,
                                                    newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
+
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
 
@@ -617,7 +650,13 @@ namespace Library
                                                    newInfos.maximumWidth, newInfos.constraintHeight,
                                                    newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
+
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
 
@@ -668,7 +707,14 @@ namespace Library
                                                        newInfos.maximumWidth, newInfos.constraintHeight,
                                                        newInfos.precedingHeight, newInfos.maximumHeight);
 
-                output.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+                output.HTML.Append("<div");
+                output.HTML.Append(" id='" + myId + "'");
+                output.HTML.Append(" name='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    output.HTML.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    output.HTML.Append(" " + cs.attributeHeight);
+                output.HTML.Append(">");
 
                 // set CSS part
                 myCss.Ids = "#" + myId;
@@ -732,7 +778,14 @@ namespace Library
                                                        newInfos.maximumWidth, newInfos.constraintHeight,
                                                        newInfos.precedingHeight, newInfos.maximumHeight);
 
-                output.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+                output.HTML.Append("<div");
+                output.HTML.Append(" id='" + myId + "'");
+                output.HTML.Append(" name='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    output.HTML.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    output.HTML.Append(" " + cs.attributeHeight);
+                output.HTML.Append(">");
 
                 // set CSS part
                 myCss.Ids = "#" + myId;
@@ -802,7 +855,13 @@ namespace Library
                                                    newInfos.maximumWidth, newInfos.constraintHeight,
                                                    newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
+
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
 
@@ -844,7 +903,13 @@ namespace Library
                                                    newInfos.maximumWidth, newInfos.constraintHeight,
                                                    newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
+
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
 

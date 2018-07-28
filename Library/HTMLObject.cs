@@ -526,8 +526,18 @@ namespace Library
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
-                html.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+
+                html.HTML.Append("<div");
+                html.HTML.Append(" id='" + myId + "'");
+                html.HTML.Append(" name='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    html.HTML.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    html.HTML.Append(" " + cs.attributeHeight);
+                html.HTML.Append(">");
+
                 html.HTML.Append(this.GeneratedHTML);
+
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
                 html.AppendCSS(this.CSSAdditional);
@@ -576,8 +586,17 @@ namespace Library
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
-                html.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+                html.HTML.Append("<div");
+                html.HTML.Append(" id='" + myId + "'");
+                html.HTML.Append(" name='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    html.HTML.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    html.HTML.Append(" " + cs.attributeHeight);
+                html.HTML.Append(">");
+
                 html.HTML.Append(this.GeneratedHTML);
+
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
                 html.AppendCSS(this.CSSAdditional);
@@ -624,8 +643,17 @@ namespace Library
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
-                html.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+                html.HTML.Append("<div");
+                html.HTML.Append(" id='" + myId + "'");
+                html.HTML.Append(" name='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    html.HTML.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    html.HTML.Append(" " + cs.attributeHeight);
+                html.HTML.Append(">");
+
                 html.HTML.Append(this.GeneratedHTML);
+
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
                 html.AppendCSS(this.CSSAdditional);
@@ -701,8 +729,17 @@ namespace Library
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
-                html.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+                html.HTML.Append("<div");
+                html.HTML.Append(" id='" + myId + "'");
+                html.HTML.Append(" name='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    html.HTML.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    html.HTML.Append(" " + cs.attributeHeight);
+                html.HTML.Append(">");
+
                 html.HTML.Append(this.GeneratedHTML);
+
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
                 html.AppendCSS(this.CSSAdditional);
@@ -749,8 +786,17 @@ namespace Library
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
-                html.HTML.Append("<div id='" + myId + "' name='" + myId + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+                html.HTML.Append("<div");
+                html.HTML.Append(" id='" + myId + "'");
+                html.HTML.Append(" name='" + myId + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    html.HTML.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    html.HTML.Append(" " + cs.attributeHeight);
+                html.HTML.Append(">");
+
                 html.HTML.Append(this.GeneratedHTML);
+
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
                 html.AppendCSS(this.CSSAdditional);

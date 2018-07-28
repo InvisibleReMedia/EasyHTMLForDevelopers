@@ -339,10 +339,15 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) +
-                               "' id='" + myId + "' name='" +
-                               (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) +
-                               "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<div");
+            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             // set css part
             myCss.Ids = "#" + myId;
@@ -408,10 +413,15 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) +
-                               "' id='" + myId + "' name='" +
-                               (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) +
-                               "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<div");
+            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             // set css part
             myCss.Ids = "#" + myId;
@@ -482,9 +492,15 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) +
-                               "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) +
-                               "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<div");
+            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+            output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             // set css part
             myCss.Ids = "#" + myId;
@@ -587,10 +603,18 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td " + Routines.SetTableDisposition(this.Disposition) + " title='" +
-                               Routines.PrintTipSize(newInfos.objectName, this.Name, cs) +
-                               "' rowspan='" + this.CountLines.ToString() + "' colspan='" + this.CountColumns.ToString() + "' id='" + myId +
-                               "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<td");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "'"));
+            output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
+            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
+            output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
+            output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             // set css part
             myCss.Ids = "#" + myId;
@@ -649,10 +673,18 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td " + Routines.SetTableDisposition(this.Disposition) + " title='" +
-                               Routines.PrintTipSize(newInfos.objectName, this.Name, cs) +
-                               "' rowspan='" + this.CountLines.ToString() + "' colspan='" + this.CountColumns.ToString() + "' id='" + myId +
-                               "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<td");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "'"));
+            output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
+            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
+            output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
+            output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             // set css part
             myCss.Ids = "#" + myId;
@@ -717,10 +749,18 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td " + Routines.SetTableDisposition(this.Disposition) + " title='" +
-                               Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "' rowspan='" +
-                               this.CountLines.ToString() + "' colspan='" + this.CountColumns.ToString() + "' id='" + myId +
-                               "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<td");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "'"));
+            output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
+            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
+            output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
+            output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             // set css part
             myCss.Ids = "#" + myId;
@@ -806,8 +846,14 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) +
-                               "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<div");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             // set css part
             if (!CommonDirectories.ConfigDirectories.RemoveTables)
@@ -868,8 +914,14 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) +
-                               "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<div");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             // set css part
             myCss.Ids = "#" + myId;
@@ -953,9 +1005,17 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td " + Routines.SetTableDisposition(this.Disposition) + " rowspan='" + this.CountLines.ToString() + "' colspan='" + this.CountColumns.ToString() +
-                               "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "' " +
-                               cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<td");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "'"));
+            output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
+            output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
+            output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             // set css part
             myCss.Ids = "#" + myId;
@@ -1009,9 +1069,17 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td " + Routines.SetTableDisposition(this.Disposition) + " rowspan='" + this.CountLines.ToString() + "' colspan='" + this.CountColumns.ToString() +
-                               "' id='" + myId + "' name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "' " +
-                               cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<td");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "'"));
+            output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
+            output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
+            output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             // set css part
             myCss.Ids = "#" + myId;

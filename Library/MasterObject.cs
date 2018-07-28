@@ -491,7 +491,14 @@ namespace Library
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
-            output.HTML.Append("<div id='" + myId + "' name='" + newInfos.objectName + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<div");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + newInfos.objectName + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             List<MasterObject> list = new List<MasterObject>();
             list.Add(this);
@@ -536,7 +543,14 @@ namespace Library
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
-            output.HTML.Append("<div id='" + myId + "' name='" + newInfos.objectName + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<div");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + newInfos.objectName + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             objects.Add(this);
             foreach (HorizontalZone hz in this.HorizontalZones)
@@ -582,7 +596,14 @@ namespace Library
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
-            output.HTML.Append("<div id='" + myId + "' name='" + newInfos.objectName + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<div");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + newInfos.objectName + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             objects.Add(this);
             foreach (HorizontalZone hz in this.HorizontalZones)
@@ -655,7 +676,16 @@ namespace Library
             List<MasterObject> list = new List<MasterObject>();
             list.Add(this);
 
-            output.HTML.Append("<table " + cs.attributeWidth + " " + cs.attributeHeight + " id='" + myId + "' name='" + newInfos.objectName + "' border='0' cellspacing='0' cellpadding='0'>");
+            output.HTML.Append("<table");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + newInfos.objectName + "'");
+            output.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
+
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
             // recherche fin de ligne
@@ -714,7 +744,16 @@ namespace Library
 
             objects.Add(this);
 
-            output.HTML.Append("<table " + cs.attributeWidth + " " + cs.attributeHeight + " id='" + myId + "' name='" + newInfos.objectName + "' border='0' cellspacing='0' cellpadding='0'>");
+            output.HTML.Append("<table");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + newInfos.objectName + "'");
+            output.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
+
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
             // recherche fin de ligne
@@ -776,7 +815,16 @@ namespace Library
 
             objects.Add(this);
 
-            output.HTML.Append("<table " + cs.attributeWidth + " " + cs.attributeHeight + " id='" + myId + "' name='" + newInfos.objectName + "' border='0' cellspacing='0' cellpadding='0'>");
+            output.HTML.Append("<table");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + newInfos.objectName + "'");
+            output.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
+
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
             // recherche fin de ligne
@@ -1174,7 +1222,14 @@ namespace Library
             OutputHTML global = new OutputHTML();
             bool hasGlobalContainer = Routines.WriteProductionGlobalContainer(this.Name, this.Id, global, this.Objects, refPage, masterRefPage, list, parentConstraint, cs);
 
-            html.HTML.Append("<div id='" + myId + "' name='" + newInfos.objectName + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            output.HTML.Append("<div");
+            output.HTML.Append(" id='" + myId + "'");
+            output.HTML.Append(" name='" + newInfos.objectName + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                output.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                output.HTML.Append(" " + cs.attributeHeight);
+            output.HTML.Append(">");
 
             foreach (HorizontalZone hz in this.HorizontalZones)
             {
@@ -1189,7 +1244,17 @@ namespace Library
             if (hasGlobalContainer)
             {
                 StringBuilder group = new StringBuilder();
-                group.Append("<div style='position:relative' id='group_" + myId + "' name='group_" + this.Name + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+
+                group.Append("<div");
+                group.Append(" style='position:relative'");
+                group.Append(" id='group_" + myId + "'");
+                group.Append(" name='group_" + newInfos.objectName + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    group.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    group.Append(" " + cs.attributeHeight);
+                group.Append(">");
+
                 group.Append(global.HTML.ToString());
                 group.Append(html.HTML.ToString());
                 group.Append("</div>");
@@ -1247,7 +1312,14 @@ namespace Library
             OutputHTML global = new OutputHTML();
             bool hasGlobalContainer = Routines.WriteProductionGlobalContainer(this.Name, this.Id, global, this.Objects, refPage, masterRefPage, objects, parentConstraint, cs);
 
-            html.HTML.Append("<div id='" + myId + "' name='" + newInfos.objectName + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            html.HTML.Append("<div");
+            html.HTML.Append(" id='" + myId + "'");
+            html.HTML.Append(" name='" + newInfos.objectName + "'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                html.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                html.HTML.Append(" " + cs.attributeHeight);
+            html.HTML.Append(">");
 
             foreach (HorizontalZone hz in this.HorizontalZones)
             {
@@ -1262,7 +1334,17 @@ namespace Library
             if (hasGlobalContainer)
             {
                 StringBuilder group = new StringBuilder();
-                group.Append("<div style='position:relative' id='group_" + myId + "' name='group_" + this.Name + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+
+                group.Append("<div");
+                group.Append(" style='position:relative'");
+                group.Append(" id='group_" + myId + "'");
+                group.Append(" name='group_" + newInfos.objectName + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    group.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    group.Append(" " + cs.attributeHeight);
+                group.Append(">");
+
                 group.Append(global.HTML.ToString());
                 group.Append(html.HTML.ToString());
                 group.Append("</div>");
@@ -1331,7 +1413,15 @@ namespace Library
             OutputHTML global = new OutputHTML();
             bool hasGlobalContainer = Routines.WriteProductionGlobalContainer(this.Name, this.Id, global, this.Objects, refPage, masterRefPage, list, parentConstraint, cs);
 
-            html.HTML.Append("<table " + cs.attributeWidth + " " + cs.attributeHeight + " id='" + myId + "' name='" + newInfos.objectName + "' border='0' cellspacing='0' cellpadding='0'>");
+            html.HTML.Append("<table");
+            html.HTML.Append(" id='" + myId + "'");
+            html.HTML.Append(" name='" + newInfos.objectName + "'");
+            html.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                html.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                html.HTML.Append(" " + cs.attributeHeight);
+            html.HTML.Append(">");
 
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
@@ -1362,7 +1452,17 @@ namespace Library
             if (hasGlobalContainer)
             {
                 StringBuilder group = new StringBuilder();
-                group.Append("<div style='position:relative' id='group_" + myId + "' name='group_" + this.Name + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+
+                group.Append("<div");
+                group.Append(" style='position:relative'");
+                group.Append(" id='group_" + myId + "'");
+                group.Append(" name='group_" + newInfos.objectName + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    group.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    group.Append(" " + cs.attributeHeight);
+                group.Append(">");
+
                 group.Append(global.HTML.ToString());
                 group.Append(html.HTML.ToString());
                 group.Append("</div>");
@@ -1420,7 +1520,15 @@ namespace Library
             OutputHTML global = new OutputHTML();
             bool hasGlobalContainer = Routines.WriteProductionGlobalContainer(this.Name, this.Id, global, this.Objects, refPage, masterRefPage, objects, parentConstraint, cs);
 
-            html.HTML.Append("<table " + cs.attributeWidth + " " + cs.attributeHeight + " id='" + myId + "' name='" + newInfos.objectName + "' border='0' cellspacing='0' cellpadding='0'>");
+            html.HTML.Append("<table");
+            html.HTML.Append(" id='" + myId + "'");
+            html.HTML.Append(" name='" + newInfos.objectName + "'");
+            html.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (!String.IsNullOrEmpty(cs.attributeWidth))
+                html.HTML.Append(" " + cs.attributeWidth);
+            if (!String.IsNullOrEmpty(cs.attributeHeight))
+                html.HTML.Append(" " + cs.attributeHeight);
+            html.HTML.Append(">");
 
             objects.Add(this);
 
@@ -1453,7 +1561,17 @@ namespace Library
             if (hasGlobalContainer)
             {
                 StringBuilder group = new StringBuilder();
-                group.Append("<div style='position:relative' id='group_" + myId + "' name='group_" + this.Name + "' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+
+                group.Append("<div");
+                group.Append(" style='position:relative'");
+                group.Append(" id='group_" + myId + "'");
+                group.Append(" name='group_" + newInfos.objectName + "'");
+                if (!String.IsNullOrEmpty(cs.attributeWidth))
+                    group.Append(" " + cs.attributeWidth);
+                if (!String.IsNullOrEmpty(cs.attributeHeight))
+                    group.Append(" " + cs.attributeHeight);
+                group.Append(">");
+
                 group.Append(global.HTML.ToString());
                 group.Append(html.HTML.ToString());
                 group.Append("</div>");

@@ -54,7 +54,38 @@ namespace UXFramework.WebImplementation
             tool.Path = "html";
             tool.Name = "box";
             tool.Id = "boxContainer";
-            tool.HTML = "<p>OK</p><p>OK</p><p>OK</p>";
+            this.project.Tools.Add(tool);
+
+            tool = new HTMLTool();
+            tool.Path = "html";
+            tool.Name = "button";
+            tool.Id = "buttonObject";
+
+            CodeCSS outerDiv = new CodeCSS(".outerDiv");
+            outerDiv.Discret("margin-top", "auto");
+            outerDiv.Discret("margin-bottom", "auto");
+            outerDiv.Discret("margin-left", "auto");
+            outerDiv.Discret("margin-right", "auto");
+            outerDiv.Discret("width", "150px");
+            outerDiv.Discret("height", "30px");
+            outerDiv.Discret("padding", "5px");
+            outerDiv.Discret("background-color", "#EFFAFC");
+            outerDiv.Discret("border", "3px solid #3F48CC");
+            outerDiv.Discret("border-radius", "25px");
+            outerDiv.Discret("vertical-align", "middle");
+            outerDiv.Discret("cursor", "pointer");
+            tool.CSSAdditional.Add(outerDiv);
+            CodeCSS innerDiv = new CodeCSS(".innerDiv");
+            innerDiv.Discret("width", "auto");
+            innerDiv.Discret("height", "auto");
+            innerDiv.Discret("padding", "5px");
+            innerDiv.Discret("font-size", "11pt");
+            innerDiv.Discret("background-color", "#FDFEFE");
+            innerDiv.Discret("border", "1px solid white");
+            innerDiv.Discret("text-align", "center");
+            tool.CSSAdditional.Add(innerDiv);
+            tool.JavaScript.Code = "function onRoll(obj) { obj.oldColor = obj.backgroundColor; obj.backgroundColor = '#3F48CC'; } function unRoll(obj) { obj.backgroundColor = obj.oldColor; }";
+            tool.HTML = "<table cellspacing='0' cellpadding='0' width='100%' height='100%'><tr><td><div id='{0}' class='outerDiv'><div class='innerDiv' onmouseenter='javascript:onRoll(this);' onmouseleave='javascript:unRoll(this);'>{1}</div></div></td></tr></table>";
             this.project.Tools.Add(tool);
         }
 
@@ -134,7 +165,11 @@ namespace UXFramework.WebImplementation
         /// <param name="button">button to render</param>
         public void RenderControl(UXButton button)
         {
-
+            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "button"));
+            obj.Container = this.currentContainer;
+            obj.HTML = String.Format(obj.HTML, button.Id, button.ButtonText);
+            this.currentObject.Objects.Add(obj);
+            this.project.Instances.Add(obj);
         }
 
         /// <summary>
