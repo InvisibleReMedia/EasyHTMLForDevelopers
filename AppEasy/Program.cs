@@ -16,6 +16,7 @@ namespace AppEasy
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            CommonDirectories.ConfigDirectories.CreateMyDocuments();
             Application.Run(new Form1());
         }
     }

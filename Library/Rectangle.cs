@@ -323,6 +323,7 @@ namespace Library
     /// <summary>
     /// An area sized Rectangle
     /// </summary>
+    [Serializable]
     public class AreaSizedRectangle : SizedRectangle
     {
 

@@ -11,6 +11,7 @@ namespace Library
     /// Defines an existing file into a project
     /// the source file resides into the project's build directory
     /// </summary>
+    [Serializable]
     public class File : Marshalling.PersistentDataObject
     {
 
