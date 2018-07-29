@@ -58,9 +58,8 @@ namespace UXFramework.WebImplementation
 
             tool = new HTMLTool();
             tool.Path = "html";
-            tool.Name = "button";
-            tool.Id = "buttonObject";
-
+            tool.Name = "default";
+            tool.Id = "defaultCode";
             CodeCSS outerDiv = new CodeCSS(".outerDiv");
             outerDiv.Discret("margin-top", "auto");
             outerDiv.Discret("margin-bottom", "auto");
@@ -84,8 +83,16 @@ namespace UXFramework.WebImplementation
             innerDiv.Discret("border", "1px solid white");
             innerDiv.Discret("text-align", "center");
             tool.CSSAdditional.Add(innerDiv);
-            tool.JavaScript.Code = "function onRoll(obj) { obj.oldColor = obj.backgroundColor; obj.backgroundColor = '#3F48CC'; } function unRoll(obj) { obj.backgroundColor = obj.oldColor; }";
-            tool.HTML = "<table cellspacing='0' cellpadding='0' width='100%' height='100%'><tr><td><div id='{0}' class='outerDiv'><div class='innerDiv' onmouseenter='javascript:onRoll(this);' onmouseleave='javascript:unRoll(this);'>{1}</div></div></td></tr></table>";
+            tool.JavaScript.Code = "function onRoll(obj) {  obj.oldBackgroundColor = obj.style.backgroundColor; obj.oldTextColor = obj.style.color; obj.style.backgroundColor = '#3F48CC'; obj.style.color = 'white'; } function unRoll(obj) { if (obj.oldBorderColor != undefined) { obj.style.borderColor = obj.oldBorderColor; obj.oldBorderColor = null; } obj.style.backgroundColor = obj.oldBackgroundColor; obj.style.color = obj.oldTextColor; }";
+            tool.JavaScript.Code += "function onClickDown(obj) { obj.oldBorderColor = obj.style.borderColor; obj.style.borderColor = 'black'; } function onClickUp(obj) { if (obj.oldBorderColor != undefined) { obj.style.borderColor = obj.oldBorderColor; obj.oldBorderColor = null; }  }";
+            tool.HTML = "";
+            this.project.Tools.Add(tool);
+
+            tool = new HTMLTool();
+            tool.Path = "html";
+            tool.Name = "button";
+            tool.Id = "buttonObject";
+            tool.HTML = "<table cellspacing='0' cellpadding='0' width='100%' height='100%'><tr><td><div onselectstart='javascript:return false;' id='{0}' class='outerDiv'><div class='innerDiv' onmousedown='javascript:onClickDown(this);' onmouseup='javascript:onClickUp(this);' onmouseover='javascript:onRoll(this);' onmouseout='javascript:unRoll(this);'>{1}</div></div></td></tr></table>";
             this.project.Tools.Add(tool);
         }
 
@@ -115,6 +122,12 @@ namespace UXFramework.WebImplementation
             mp.ConstraintHeight = EnumConstraint.RELATIVE;
             mp.CountColumns = 1;
             mp.CountLines = 1;
+
+            HTMLTool def = this.project.Tools.Find(x => x.Path == "html" && x.Name == "default");
+            HTMLObject obj = new HTMLObject(def);
+            obj.Container = "globalContainer";
+            mp.Objects.Add(obj);
+            this.project.Instances.Add(obj);
 
             List<AreaSizedRectangle> rects = new List<AreaSizedRectangle>();
             AreaSizedRectangle sz = new AreaSizedRectangle((int)mp.Width, (int)mp.Height, 1, 1, 0, 0);

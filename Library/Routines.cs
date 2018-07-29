@@ -197,7 +197,7 @@ namespace Library
             ConstraintSize globalContainerCs = new ConstraintSize(cs.constraintWidth, (cs.width > 0) ? cs.width - 1 : 0, cs.forcedWidth, cs.constraintHeight, (cs.height > 0) ? cs.height - 1 : 0, cs.forcedHeight);
 
             html.HTML.Append("<div");
-            html.HTML.Append(" style='margin-top:auto;margin-bottom:auto;margin-left:0;margin-right:auto'");
+            html.HTML.Append(" style='position:absolute'");
             html.HTML.Append(" name='globalContainer_" + moName + "'");
             html.HTML.Append(" id='globalContainer_" + moId + "'");
             if (!String.IsNullOrEmpty(globalContainerCs.attributeWidth))
@@ -317,11 +317,13 @@ namespace Library
 
             OutputHTML global = new OutputHTML();
             if (pageConfig.includeContainer)
+            {
                 Routines.WriteGlobalContainer(global, pageConfig.subObjects, refPage, master, parent);
+                html.CSS.Append(global.CSS.ToString());
+                html.JavaScript.Append(global.JavaScript.ToString());
+                html.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
+            }
 
-            html.CSS.Append(global.CSS.ToString());
-            html.JavaScript.Append(global.JavaScript.ToString());
-            html.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
             html.CSS.Append(body.GenerateCSS(true, true, true));
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
@@ -392,7 +394,8 @@ namespace Library
             outputPage.HTML.Append("</script>");
             outputPage.HTML.Append("</head>");
             outputPage.HTML.Append("<body onload='initialize();'>");
-            outputPage.HTML.Append(global.HTML.ToString());
+            if (pageConfig.includeContainer)
+                outputPage.HTML.Append(global.HTML.ToString());
             Routines.SetDIVDisposition(outputPage.HTML, refPage.Disposition, html.HTML);
             outputPage.HTML.Append("<div id='callback' style='display:none'></div>");
             outputPage.HTML.Append("</body>");
@@ -432,18 +435,22 @@ namespace Library
             OutputHTML global = new OutputHTML();
             bool hasGlobalContainer = false;
             if (pageConfig.includeContainer)
+            {
                 hasGlobalContainer = Routines.WriteProductionGlobalContainer(refPage.Name, myId, global, pageConfig.subObjects, refPage, master, parent, cs);
+                if (hasGlobalContainer)
+                {
+                    html.CSS.Append(global.CSS.ToString());
+                    html.JavaScript.Append(global.JavaScript.ToString());
+                    html.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
+                }
+            }
 
-            html.CSS.Append(global.CSS.ToString());
-            html.JavaScript.Append(global.JavaScript.ToString());
-            html.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
             html.CSS.Append(body.GenerateCSS(true, true, true));
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
 
             html.HTML.Append("<div");
-            html.HTML.Append(hasGlobalContainer ? " style='position:absolute' " : "");
             html.HTML.Append(" id='" + myId + "'");
             html.HTML.Append(" name='" + master.Name + "'");
             if (!String.IsNullOrEmpty(cs.attributeWidth))
@@ -508,27 +515,9 @@ namespace Library
             outputPage.HTML.Append("<body onload='initialize();'>");
             if (hasGlobalContainer)
             {
-                StringBuilder group = new StringBuilder();
-
-                group.Append("<div");
-                group.Append(" style='margin-top:auto;margin-bottom:auto;margin-left:0;margin-right:auto'");
-                group.Append(" name='" + master.Name + "'");
-                group.Append(" id='" + myId + "'");
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    group.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    group.Append(" " + cs.attributeHeight);
-                group.Append(">");
-
-                group.Append(global.HTML.ToString());
-                group.Append(html.HTML.ToString());
-                group.Append("</div>");
-                Routines.SetDIVDisposition(outputPage.HTML, refPage.Disposition, group);
+                outputPage.HTML.Append(global.HTML.ToString());
             }
-            else
-            {
-                Routines.SetDIVDisposition(outputPage.HTML, refPage.Disposition, html.HTML);
-            }
+            Routines.SetDIVDisposition(outputPage.HTML, refPage.Disposition, html.HTML);
             outputPage.HTML.Append("</body>");
             outputPage.HTML.Append("</html>");
             return outputPage;
@@ -562,8 +551,12 @@ namespace Library
 
             List<MasterObject> list = new List<MasterObject>();
             list.Add(master);
+            OutputHTML global =new OutputHTML();
             if (pageConfig.includeContainer) {
-                Routines.WriteGlobalContainer(html, pageConfig.subObjects, refPage, list, parent);
+                Routines.WriteGlobalContainer(global, pageConfig.subObjects, refPage, list, parent);
+                html.CSS.Append(global.CSS.ToString());
+                html.JavaScript.Append(global.JavaScript.ToString());
+                html.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
             }
 
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
@@ -609,6 +602,8 @@ namespace Library
             outputPage.HTML.Append("</script>");
             outputPage.HTML.Append("</head>");
             outputPage.HTML.Append("<body onload='initialize();' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            if (pageConfig.includeContainer)
+                outputPage.HTML.Append(global.HTML.ToString());
             outputPage.HTML.Append(html.HTML.ToString());
             outputPage.HTML.Append("<div id='callback' style='display:none'></div>");
             outputPage.HTML.Append("</body>");
@@ -641,8 +636,14 @@ namespace Library
             // prepare parent
             ParentConstraint parent = new ParentConstraint("", cs.width, cs.height, cs.constraintWidth, cs.constraintHeight, master.Width, master.Height, bc);
 
+            OutputHTML global = new OutputHTML();
             if (pageConfig.includeContainer)
-                Routines.WriteGlobalContainer(html, pageConfig.subObjects, refPage, master, parent);
+            {
+                Routines.WriteGlobalContainer(global, pageConfig.subObjects, refPage, master, parent);
+                html.CSS.Append(global.CSS.ToString());
+                html.JavaScript.Append(global.JavaScript.ToString());
+                html.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
+            }
 
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
@@ -731,6 +732,8 @@ namespace Library
             outputPage.HTML.Append("</script>");
             outputPage.HTML.Append("</head>");
             outputPage.HTML.Append("<body onload='initialize();' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            if (pageConfig.includeContainer)
+                outputPage.HTML.Append(global.HTML.ToString());
             outputPage.HTML.Append(html.HTML.ToString());
             outputPage.HTML.Append("<div id='callback' style='display:none'></div>");
             outputPage.HTML.Append("</body>");
@@ -773,19 +776,22 @@ namespace Library
             OutputHTML global = new OutputHTML();
             bool hasGlobalContainer = false;
             if (pageConfig.includeContainer)
+            {
                 hasGlobalContainer = Routines.WriteProductionGlobalContainer(refPage.Name, myId, global, pageConfig.subObjects, refPage, master, parent, cs);
+                if (hasGlobalContainer)
+                {
+                    html.CSS.Append(global.CSS.ToString());
+                    html.JavaScript.Append(global.JavaScript.ToString());
+                    html.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
+                }
+            }
 
-            html.CSS.Append(global.CSS.ToString());
-            html.JavaScript.Append(global.JavaScript.ToString());
-            html.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
             html.CSS.Append(body.GenerateCSS(true, true, true));
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
 
             html.HTML.Append("<table");
-            if (hasGlobalContainer)
-                html.HTML.Append(" style='position:absolute'");
             html.HTML.Append(" " + Routines.SetTableDisposition(refPage.Disposition));
             html.HTML.Append(" name='globalTable'");
             html.HTML.Append(" id='" + master.Name + "'");
@@ -796,7 +802,6 @@ namespace Library
                 html.HTML.Append(" " + cs.attributeHeight);
             html.HTML.Append(">");
 
-            html.HTML.Append("<table " + (hasGlobalContainer ? "style='position:absolute' " : "") + Routines.SetTableDisposition(refPage.Disposition) + " " + cs.attributeWidth + " " + cs.attributeHeight + " id='globalTable' name='" + master.Name + "' border='0' cellspacing='0' cellpadding='0'>");
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
             // recherche fin de ligne
@@ -867,28 +872,9 @@ namespace Library
             outputPage.HTML.Append("</head>");
             outputPage.HTML.Append("<body onload='initialize();' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
             if (hasGlobalContainer)
-            {
-                StringBuilder group = new StringBuilder();
+                outputPage.HTML.Append(global.HTML.ToString());
+            Routines.SetDIVDisposition(outputPage.HTML, refPage.Disposition, html.HTML);
 
-                group.Append("<div");
-                group.Append(" style='position:relative'");
-                group.Append(" name='" + master.Name + "'");
-                group.Append(" id='" + myId + "'");
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    group.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    group.Append(" " + cs.attributeHeight);
-                group.Append(">");
-
-                group.Append(global.HTML.ToString());
-                group.Append(html.HTML.ToString());
-                group.Append("</div>");
-                Routines.SetDIVDisposition(outputPage.HTML, refPage.Disposition, group);
-            }
-            else
-            {
-                Routines.SetDIVDisposition(outputPage.HTML, refPage.Disposition, html.HTML);
-            }
             outputPage.HTML.Append("</body>");
             outputPage.HTML.Append("</html>");
             return outputPage;
@@ -923,8 +909,14 @@ namespace Library
             List<MasterObject> list = new List<MasterObject>();
             list.Add(master);
 
+            OutputHTML global = new OutputHTML();
             if (pageConfig.includeContainer)
-                Routines.WriteGlobalContainer(html, pageConfig.subObjects, refPage, list, computed);
+            {
+                Routines.WriteGlobalContainer(global, pageConfig.subObjects, refPage, list, computed);
+                html.CSS.Append(global.CSS.ToString());
+                html.JavaScript.Append(global.JavaScript.ToString());
+                html.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
+            }
 
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
@@ -988,6 +980,8 @@ namespace Library
             outputPage.HTML.Append("</script>");
             outputPage.HTML.Append("</head>");
             outputPage.HTML.Append("<body onload='initialize();' " + cs.attributeWidth + " " + cs.attributeHeight + ">");
+            if (pageConfig.includeContainer)
+                outputPage.HTML.Append(global.HTML.ToString());
             outputPage.HTML.Append(html.HTML.ToString());
             outputPage.HTML.Append("<div id='callback' style='display:none'></div>");
             outputPage.HTML.Append("</body>");

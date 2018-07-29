@@ -1776,14 +1776,14 @@
             <param name="list">list of horizontal zone to consider</param>
             <param name="outputList">list of HTMLObject obtained</param>
         </member>
-        <member name="M:Library.GeneratedSculpture.GenerateContent(System.Collections.Generic.List{Library.SizedRectangle},Library.Granne)">
+        <member name="M:Library.GeneratedSculpture.GenerateContent(System.Collections.Generic.List{Library.AreaSizedRectangle},Library.Granne)">
             <summary>
             Generate content
             </summary>
             <param name="list">list of sized rectangle</param>
             <param name="g">granne to generate</param>
         </member>
-        <member name="M:Library.GeneratedSculpture.GenerateContent(System.Collections.Generic.List{Library.SizedRectangle})">
+        <member name="M:Library.GeneratedSculpture.GenerateContent(System.Collections.Generic.List{Library.AreaSizedRectangle})">
             <summary>
             Generate the content
             </summary>
@@ -3551,7 +3551,7 @@
             <param name="found">container result</param>
             <returns>true if the container has found</returns>
         </member>
-        <member name="M:Library.MasterObject.MakeZones(System.Collections.Generic.List{Library.SizedRectangle})">
+        <member name="M:Library.MasterObject.MakeZones(System.Collections.Generic.List{Library.AreaSizedRectangle})">
             <summary>
             Construct all zones and compute total size
             </summary>
@@ -4066,11 +4066,20 @@
             <param name="found">container result</param>
             <returns>true if the container has found</returns>
         </member>
-        <member name="M:Library.MasterPage.MakeZones(System.Collections.Generic.List{Library.SizedRectangle})">
+        <member name="M:Library.MasterPage.MakeZones(System.Collections.Generic.List{Library.AreaSizedRectangle})">
             <summary>
             Construct all zones and compute total size
             </summary>
             <param name="list">list of rectangle the user supplied</param>
+        </member>
+        <member name="M:Library.MasterPage.MakeZones(System.UInt32,System.UInt32,System.Collections.Generic.List{Library.AreaSizedRectangle},System.Collections.Generic.List{Library.HorizontalZone})">
+            <summary>
+            Construct all zones and compute total size
+            </summary>
+            <param name="c">column count</param>
+            <param name="l">list count</param>
+            <param name="list">list of rectangle the user supplied</param>
+            <param name="hList">horizontal zones list</param>
         </member>
         <member name="M:Library.MasterPage.GenerateDesignDIV">
             <summary>
@@ -5404,6 +5413,52 @@
             Gets the element title
             </summary>
         </member>
+        <member name="T:Library.Projects">
+            <summary>
+            Handle multiple Projects
+            </summary>
+        </member>
+        <member name="F:Library.Projects.projects">
+            <summary>
+            Dictionary of projects
+            </summary>
+        </member>
+        <member name="M:Library.Projects.Add(System.String,Library.Project)">
+            <summary>
+            Add a new project
+            </summary>
+            <param name="name">project title</param>
+            <param name="p">project object</param>
+        </member>
+        <member name="M:Library.Projects.Remove(System.String)">
+            <summary>
+            Suppress a project from list
+            </summary>
+            <param name="name">project name</param>
+        </member>
+        <member name="M:Library.Projects.Activate(System.String,System.String@)">
+            <summary>
+            Activates project and holds previous one
+            </summary>
+            <param name="name">project name</param>
+            <param name="previous">previous project</param>
+            <returns>true if ok</returns>
+        </member>
+        <member name="M:Library.Projects.Reactivate(System.String)">
+            <summary>
+            Reactivates project
+            </summary>
+            <param name="name">project name</param>
+            <returns>true if ok</returns>
+        </member>
+        <member name="M:Library.Projects.TrySelect(System.String,Library.Project@)">
+            <summary>
+            Try to select an existing project
+            </summary>
+            <param name="name">project name</param>
+            <param name="p">project handler</param>
+            <returns>true if handled</returns>
+        </member>
         <member name="T:Library.Rectangle">
             <summary>
             Class for defining a rectangle
@@ -5538,16 +5593,20 @@
             Empty constructor
             </summary>
         </member>
-        <member name="M:Library.SizedRectangle.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+        <member name="M:Library.SizedRectangle.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Default constructor
             </summary>
             <param name="width">width</param>
             <param name="height">height</param>
             <param name="left">left corner position</param>
-            <param name="right">right corner position</param>
             <param name="top">top corner position</param>
-            <param name="bottom">bottom corner position</param>
+        </member>
+        <member name="M:Library.SizedRectangle.ToString">
+            <summary>
+            Gets SizedRectangle to string representation
+            </summary>
+            <returns>string representation</returns>
         </member>
         <member name="P:Library.SizedRectangle.Width">
             <summary>
@@ -5557,6 +5616,53 @@
         <member name="P:Library.SizedRectangle.Height">
             <summary>
             Gets the height value
+            </summary>
+        </member>
+        <member name="T:Library.AreaSizedRectangle">
+            <summary>
+            An area sized Rectangle
+            </summary>
+        </member>
+        <member name="F:Library.AreaSizedRectangle.countWidthName">
+            <summary>
+            Index name of width value
+            </summary>
+        </member>
+        <member name="F:Library.AreaSizedRectangle.countHeightName">
+            <summary>
+            Index name of height value
+            </summary>
+        </member>
+        <member name="M:Library.AreaSizedRectangle.#ctor">
+            <summary>
+            Empty constructor
+            </summary>
+        </member>
+        <member name="M:Library.AreaSizedRectangle.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="width">width</param>
+            <param name="height">height</param>
+            <param name="countWidth">width count</param>
+            <param name="countHeight">height count</param>
+            <param name="left">left corner position</param>
+            <param name="top">top corner position</param>
+        </member>
+        <member name="M:Library.AreaSizedRectangle.ToString">
+            <summary>
+            Gets SizedRectangle to string representation
+            </summary>
+            <returns>string representation</returns>
+        </member>
+        <member name="P:Library.AreaSizedRectangle.CountWidth">
+            <summary>
+            Gets the count width value
+            </summary>
+        </member>
+        <member name="P:Library.AreaSizedRectangle.CountHeight">
+            <summary>
+            Gets the count height value
             </summary>
         </member>
         <member name="T:Library.RefObject">

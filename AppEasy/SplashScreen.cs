@@ -16,7 +16,7 @@ namespace AppEasy
             UXFramework.UXWindow win = new UXFramework.UXWindow();
             browser = web;
             win.Name = "splash";
-            UXFramework.UXReadOnlyText text = new UXFramework.UXReadOnlyText("Ceci est un texte.");
+            UXFramework.UXReadOnlyText text = new UXFramework.UXReadOnlyText("Easy HTML For Developers");
             win.Children.Add(text);
             win.Navigate(web);
 
