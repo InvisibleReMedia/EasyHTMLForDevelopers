@@ -21,7 +21,7 @@ namespace AppEasy
             win.Navigate(web);
 
             t = new Timer();
-            t.Interval = 10000;
+            t.Interval = 3000;
             t.Tick += T_Tick;
             t.Start();
         }

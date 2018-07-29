@@ -71,7 +71,7 @@ namespace AppEasy
                     e.top = 0;
                     e.columnSize = 3;
                     e.lineSize = 1;
-                    UXFramework.UXBox b = new UXFramework.UXBox();
+                    UXFramework.UXClickableText b = new UXFramework.UXClickableText("bonjour!");
                     e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#2BAED0"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, b);
                 }
                 else if (e.lineNumber == 1)
@@ -98,6 +98,9 @@ namespace AppEasy
                         UXFramework.UXButton but = new UXFramework.UXButton();
                         but.ButtonText = "Click";
                         but.Id = "b1";
+                        but.RollBackColor = "#35F4FD";
+                        but.RollColor = "white";
+                        but.ClickBorderColor = "black";
                         e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#D5F0F7"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, but);
                     }
                     else if (e.columnNumber == 2)
@@ -108,8 +111,8 @@ namespace AppEasy
                         e.top = 1;
                         e.columnSize = 1;
                         e.lineSize = 1;
-                        UXFramework.UXBox b = new UXFramework.UXBox();
-                        e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#99D9EA"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, b);
+                        UXFramework.UXImage image = new UXFramework.UXImage("im1", "capture8.png");
+                        e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#99D9EA"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, image);
                     }
                 }
                 else if (e.lineNumber == 2 && e.columnNumber == 0)

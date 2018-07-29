@@ -58,10 +58,13 @@
     <Compile Include="UXBox.cs" />
     <Compile Include="UXButton.cs" />
     <Compile Include="UXCheck.cs" />
+    <Compile Include="UXClickableImage.cs" />
+    <Compile Include="UXClickableText.cs" />
     <Compile Include="UXCombo.cs" />
     <Compile Include="UXControl.cs" />
     <Compile Include="UXEditableText.cs" />
     <Compile Include="UXFrame.cs" />
+    <Compile Include="UXImage.cs" />
     <Compile Include="UXReadOnlyText.cs" />
     <Compile Include="UXTable.cs" />
     <Compile Include="UXWindow.cs" />

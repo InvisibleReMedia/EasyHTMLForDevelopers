@@ -32,6 +32,8 @@ namespace UXFramework.WebImplementation
 
         public WebRenderer()
         {
+            StringBuilder sb = new StringBuilder();
+
             this.project = new Project();
             Projects.Add(projectName, this.project);
             this.project.CreationDate = DateTime.Now;
@@ -83,8 +85,21 @@ namespace UXFramework.WebImplementation
             innerDiv.Discret("border", "1px solid white");
             innerDiv.Discret("text-align", "center");
             tool.CSSAdditional.Add(innerDiv);
-            tool.JavaScript.Code = "function onRoll(obj) {  obj.oldBackgroundColor = obj.style.backgroundColor; obj.oldTextColor = obj.style.color; obj.style.backgroundColor = '#3F48CC'; obj.style.color = 'white'; } function unRoll(obj) { if (obj.oldBorderColor != undefined) { obj.style.borderColor = obj.oldBorderColor; obj.oldBorderColor = null; } obj.style.backgroundColor = obj.oldBackgroundColor; obj.style.color = obj.oldTextColor; }";
-            tool.JavaScript.Code += "function onClickDown(obj) { obj.oldBorderColor = obj.style.borderColor; obj.style.borderColor = 'black'; } function onClickUp(obj) { if (obj.oldBorderColor != undefined) { obj.style.borderColor = obj.oldBorderColor; obj.oldBorderColor = null; }  }";
+            sb = new StringBuilder();
+            sb.Append("function onRoll(obj) {  obj.oldBackgroundColor = obj.style.backgroundColor; ");
+            sb.Append("obj.oldTextColor = obj.style.color; obj.style.backgroundColor = obj.rollBackColor; obj.style.color = obj.rollColor; }  ");
+            sb.Append("function unRoll(obj) { if (obj.oldBorderColor != undefined) { obj.style.borderColor = obj.oldBorderColor; ");
+            sb.Append("obj.oldBorderColor = null; } obj.style.backgroundColor = obj.oldBackgroundColor; ");
+            sb.Append("obj.style.color = obj.oldTextColor; }   ");
+            sb.Append("function onClickDown(obj) { obj.oldBorderColor = obj.style.borderColor; obj.style.borderColor = obj.clickBorderColor; }  ");
+            sb.Append("function onClickUp(obj) { if (obj.oldBorderColor != undefined) { obj.style.borderColor = obj.oldBorderColor; ");
+            sb.Append("obj.oldBorderColor = null; }  }");
+
+            sb.Append("function onImageRoll(obj) { if (obj.rollSrc != undefined) { obj.saveSrc = obj.src; obj.src = obj.rollSrc; } else { onRoll(obj); } }");
+            sb.Append("  function unImageRoll(obj) { if (obj.rollSrc != undefined) { obj.src = obj.saveSrc; } else { unRoll(obj); } }");
+            sb.Append("function onImageClickDown(obj) { if (obj.clickSrc != undefined) { obj.saveSrc = obj.src; obj.src = obj.clickSrc; } else { onClickDown(obj); } }  ");
+            sb.Append("function onImageClickUp(obj) { if (obj.clickSrc != undefined) { obj.src = obj.saveSrc; } else { onClickUp(obj); } }  ");
+            tool.JavaScript.Code = sb.ToString();
             tool.HTML = "";
             this.project.Tools.Add(tool);
 
@@ -92,8 +107,48 @@ namespace UXFramework.WebImplementation
             tool.Path = "html";
             tool.Name = "button";
             tool.Id = "buttonObject";
-            tool.HTML = "<table cellspacing='0' cellpadding='0' width='100%' height='100%'><tr><td><div onselectstart='javascript:return false;' id='{0}' class='outerDiv'><div class='innerDiv' onmousedown='javascript:onClickDown(this);' onmouseup='javascript:onClickUp(this);' onmouseover='javascript:onRoll(this);' onmouseout='javascript:unRoll(this);'>{1}</div></div></td></tr></table>";
+            sb = new StringBuilder();
+            sb.Append("<table cellspacing='0' cellpadding='0' width='100%' height='100%'>");
+            sb.Append("<tr><td><div onselectstart='javascript:return false;' id='{0}' class='outerDiv'>");
+            sb.Append("<div class='innerDiv' rollBackColor='{2}' rollColor='{3}' clickBorderColor='{4}' onmousedown='javascript:onClickDown(this);' onmouseup='javascript:onClickUp(this);' ");
+            sb.Append("onmouseover='javascript:onRoll(this);' onmouseout='javascript:unRoll(this);'>{1}</div></div></td></tr></table>");
+            tool.HTML = sb.ToString();
             this.project.Tools.Add(tool);
+
+            tool = new HTMLTool();
+            tool.Path = "html";
+            tool.Name = "link";
+            tool.Id = "clickableObject";
+            sb = new StringBuilder();
+            sb.Append("<table cellspacing='0' cellpadding='0' width='100%' height='100%'>");
+            sb.Append("<tr><td><div onselectstart='javascript:return false;' id='{0}'>");
+            sb.Append("<a href='javascript:void(0);' ondragstart='javascript:return false;'>{1}</a></div></td></tr></table>");
+            tool.HTML = sb.ToString();
+            this.project.Tools.Add(tool);
+
+            tool = new HTMLTool();
+            tool.Path = "html";
+            tool.Name = "image";
+            tool.Id = "imageObject";
+            sb = new StringBuilder();
+            sb.Append("<table cellspacing='0' cellpadding='0' width='100%' height='100%'>");
+            sb.Append("<tr><td><div onselectstart='javascript:return false;' id='{0}'>");
+            sb.Append("<img src='{1}' ondragstart='javascript:return false;'/></div></td></tr></table>");
+            tool.HTML = sb.ToString();
+            this.project.Tools.Add(tool);
+
+            tool = new HTMLTool();
+            tool.Path = "html";
+            tool.Name = "clickableImage";
+            tool.Id = "clickableImageObject";
+            sb = new StringBuilder();
+            sb.Append("<table cellspacing='0' cellpadding='0' width='100%' height='100%'>");
+            sb.Append("<tr><td><div onselectstart='javascript:return false;' id='{0}'>");
+            sb.Append("<img src='{1}' clickSrc='{5}' rollSrc='{6}' rollBackColor='{2}' rollColor='{3}' clickBorderColor='{4}' onmousedown='javascript:onImageClickDown(this);' onmouseup='javascript:onImageClickUp(this);' ");
+            sb.Append("onmouseover='javascript:onImageRoll(this);' onmouseout='javascript:unImageRoll(this);' ondragstart='javascript:return false;'/></div></td></tr></table>");
+            tool.HTML = sb.ToString();
+            this.project.Tools.Add(tool);
+
         }
 
         #endregion
@@ -180,7 +235,46 @@ namespace UXFramework.WebImplementation
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "button"));
             obj.Container = this.currentContainer;
-            obj.HTML = String.Format(obj.HTML, button.Id, button.ButtonText);
+            obj.HTML = String.Format(obj.HTML, button.Id, button.ButtonText, button.RollBackColor, button.RollColor, button.ClickBorderColor);
+            this.currentObject.Objects.Add(obj);
+            this.project.Instances.Add(obj);
+        }
+
+        /// <summary>
+        /// Render a clickable text
+        /// </summary>
+        /// <param name="clickText">clickable text</param>
+        public void RenderControl(UXClickableText clickText)
+        {
+            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "link"));
+            obj.Container = this.currentContainer;
+            obj.HTML = String.Format(obj.HTML, clickText.Id, clickText.Text);
+            this.currentObject.Objects.Add(obj);
+            this.project.Instances.Add(obj);
+        }
+
+        /// <summary>
+        /// Render an image
+        /// </summary>
+        /// <param name="image">image</param>
+        public void RenderControl(UXImage image)
+        {
+            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "image"));
+            obj.Container = this.currentContainer;
+            obj.HTML = String.Format(obj.HTML, image.Id, image.ImageFile);
+            this.currentObject.Objects.Add(obj);
+            this.project.Instances.Add(obj);
+        }
+
+        /// <summary>
+        /// Render an image
+        /// </summary>
+        /// <param name="image">image</param>
+        public void RenderControl(UXClickableImage image)
+        {
+            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "image"));
+            obj.Container = this.currentContainer;
+            obj.HTML = String.Format(obj.HTML, image.Id, image.ImageFile, image.RollBackColor, image.RollColor, image.ClickBorderColor, image.RollImageFile, image.ClickImageFile);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -319,6 +413,9 @@ namespace UXFramework.WebImplementation
             else if (obj is UXCheck) RenderControl(obj as UXCheck);
             else if (obj is UXCombo) RenderControl(obj as UXCombo);
             else if (obj is UXEditableText) RenderControl(obj as UXEditableText);
+            else if (obj is UXClickableText) RenderControl(obj as UXClickableText);
+            else if (obj is UXImage) RenderControl(obj as UXImage);
+            else if (obj is UXClickableImage) RenderControl(obj as UXClickableImage);
             else if (obj is UXFrame) RenderControl(obj as UXFrame);
             else if (obj is UXReadOnlyText) RenderControl(obj as UXReadOnlyText);
             else if (obj is UXTable) RenderControl(obj as UXTable);

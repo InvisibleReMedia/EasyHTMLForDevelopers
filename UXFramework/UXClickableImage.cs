@@ -1,27 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace UXFramework
 {
-    public class UXButton : UXControl
+    /// <summary>
+    /// Image clickable
+    /// </summary>
+    public class UXClickableImage : UXControl
     {
-
         #region Fields
 
         /// <summary>
-        /// Text for button
+        /// File of image
         /// </summary>
-        private string textButton;
+        private string imageFile;
         /// <summary>
         /// Id
         /// </summary>
         private string id;
-
+        /// <summary>
+        /// When roll over
+        /// </summary>
+        private string rollImageFile;
+        /// <summary>
+        /// When click
+        /// </summary>
+        private string clickImageFile;
         /// <summary>
         /// Colors for buttons
         /// </summary>
@@ -31,29 +37,30 @@ namespace UXFramework
 
         #endregion
 
-        #region Constructors
+        #region Constructor
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public UXButton()
-        {
-        }
-
-        /// <summary>
-        /// Constructor with init
-        /// <param name="id">id</param>
-        /// <param name="title">title</param>
-        /// </summary>
-        public UXButton(string id, string title)
+        /// <param name="fileName">image file</param>
+        public UXClickableImage(string id, string fileName)
         {
             this.id = id;
-            this.textButton = title;
+            this.imageFile = fileName;
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets or sets the image file
+        /// </summary>
+        public string ImageFile
+        {
+            get { return this.imageFile; }
+            set { this.imageFile = value; }
+        }
 
         /// <summary>
         /// Gets or sets the Id object
@@ -62,15 +69,6 @@ namespace UXFramework
         {
             get { return this.id; }
             set { this.id = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the button text
-        /// </summary>
-        public string ButtonText
-        {
-            get { return this.textButton; }
-            set { this.textButton = value; }
         }
 
         /// <summary>
@@ -100,32 +98,22 @@ namespace UXFramework
             set { this.clickBorderColor = value; }
         }
 
-        #endregion
-
-        #region Overriden Methods
-
         /// <summary>
-        /// Connect for interoperability C#/Web
+        /// Gets or sets the roll image file
         /// </summary>
-        public override void Connect()
+        public string RollImageFile
         {
-            base.Connect();
-            HtmlElement e = this.GetWebBrowser().Document.GetElementById(this.id);
-            if (e != null)
-            {
-                e.Click += UXButton_Click;
-            }
-
+            get { return this.rollImageFile; }
+            set { this.rollImageFile = value; }
         }
 
         /// <summary>
-        /// Delegate to click
+        /// Gets or sets the click image file
         /// </summary>
-        /// <param name="sender">html element</param>
-        /// <param name="e">args</param>
-        private void UXButton_Click(object sender, HtmlElementEventArgs e)
+        public string ClickImageFile
         {
-            this.UpdateOne();
+            get { return this.clickImageFile; }
+            set { this.clickImageFile = value; }
         }
 
         #endregion
