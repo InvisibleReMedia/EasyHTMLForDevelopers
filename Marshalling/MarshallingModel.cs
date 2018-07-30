@@ -353,12 +353,12 @@ namespace Marshalling
                     MarshallingRegexValue r = new MarshallingRegexValue(kv.Key, kv.Value, "^.*$");
                     values.Add(r);
                 }
-                else if (kv.Value is long)
+                else if (kv.Value is long || kv.Value is int || kv.Value is uint)
                 {
                     MarshallingIntValue i = new MarshallingIntValue(kv.Key, kv.Value);
                     values.Add(i);
                 }
-                else if (kv.Value is double)
+                else if (kv.Value is double || kv.Value is float)
                 {
                     MarshallingDoubleValue d = new MarshallingDoubleValue(kv.Key, kv.Value);
                     values.Add(d);
@@ -610,7 +610,7 @@ namespace Marshalling
             {
                 if (index < this.Count)
                 {
-                    return this.Values.ElementAt(index);
+                    return this.List.ElementAt(index);
                 }
                 else
                 {
@@ -621,11 +621,7 @@ namespace Marshalling
             {
                 if (index < this.Count)
                 {
-                    IMarshalling[] arr = new IMarshalling[this.Count];
-                    this.List.CopyTo(arr);
-                    // replace value at the given index
-                    arr[index] = value;
-                    this.Set(valueName, arr.ToList());
+                    this.List[index] = value;
                 }
                 else
                 {

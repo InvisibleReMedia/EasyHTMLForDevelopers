@@ -96,16 +96,27 @@ namespace AppEasy
                         UXFramework.UXViewDataTable view = new UXFramework.UXViewDataTable("projectList");
                         view.Bind((x) =>
                         {
-
                             string folder = CommonDirectories.ConfigDirectories.GetDocumentsFolder();
                             DirectoryInfo di = new DirectoryInfo(folder);
                             int index = 0;
+                            Marshalling.PersistentDataObject obj;
+                            for (index = 1; index <= 10; ++index)
+                            {
+                                FileInfo newFile = new FileInfo(Path.Combine(di.FullName, "project" + index.ToString() + ".bin"));
+                                if (!Library.Project.Load(newFile, out obj))
+                                {
+                                    Library.Project p = new Library.Project();
+                                    p.CreationDate = DateTime.Now;
+                                    p.Title = "Project " + index.ToString();
+                                    p.Revision = 1;
+                                    Library.Project.Save(p, newFile.DirectoryName, newFile.Name);
+                                }
+                            }
+                            index = 0;
                             foreach (FileInfo fi in di.GetFiles("*.bin"))
                             {
-                                Marshalling.PersistentDataObject obj;
                                 if (Library.Project.Load(fi, out obj))
                                 {
-
                                     Library.Project p = (Library.Project)obj;
 
                                     if (p != null)

@@ -211,6 +211,7 @@ namespace UXFramework
         public uint ColumnCount
         {
             get { return this.columns; }
+            set { this.columns = value; this.verticalCustomizer = new SizeArgs[this.lines, this.columns]; }
         }
 
         /// <summary>
@@ -219,6 +220,7 @@ namespace UXFramework
         public uint LineCount
         {
             get { return this.lines; }
+            set { this.lines = value; this.horizontalCustomizer = new SizeArgs[this.lines]; }
         }
 
         /// <summary>

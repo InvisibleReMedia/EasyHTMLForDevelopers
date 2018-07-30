@@ -316,6 +316,15 @@ namespace UXFramework.WebImplementation
         }
 
         /// <summary>
+        /// Render a data table view
+        /// </summary>
+        /// <param name="frame">view to render</param>
+        public void RenderControl(UXViewDataTable data)
+        {
+            RenderControl(data as UXTable);
+        }
+
+        /// <summary>
         /// Render a label
         /// </summary>
         /// <param name="text">text to render</param>
@@ -418,6 +427,7 @@ namespace UXFramework.WebImplementation
             else if (obj is UXClickableImage) RenderControl(obj as UXClickableImage);
             else if (obj is UXFrame) RenderControl(obj as UXFrame);
             else if (obj is UXReadOnlyText) RenderControl(obj as UXReadOnlyText);
+            else if (obj is UXViewDataTable) RenderControl(obj as UXViewDataTable);
             else if (obj is UXTable) RenderControl(obj as UXTable);
             else if (obj is UXWindow) RenderControl(obj as UXWindow);
         }
