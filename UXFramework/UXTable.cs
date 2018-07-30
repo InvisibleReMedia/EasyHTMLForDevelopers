@@ -89,6 +89,10 @@ namespace UXFramework
             /// </summary>
             public int borderSize;
             /// <summary>
+            /// Padding size in pixels
+            /// </summary>
+            public int paddingSize;
+            /// <summary>
             /// Object content to link with one part of the table
             /// </summary>
             public IUXObject content;
@@ -174,8 +178,9 @@ namespace UXFramework
             /// <param name="a">border color</param>
             /// <param name="f">font color</param>
             /// <param name="bs">border size</param>
+            /// <param name="ps">padding size</param>
             /// <param name="obj">ux object</param>
-            public void Options(Disposition d, EnumConstraint w, EnumConstraint h, CSSColor b, CSSColor a, CSSColor f, int bs, IUXObject obj)
+            public void Options(Disposition d, EnumConstraint w, EnumConstraint h, CSSColor b, CSSColor a, CSSColor f, int bs, int ps, IUXObject obj)
             {
                 this.disposition = d;
                 this.constraintWidth = w;
@@ -184,6 +189,7 @@ namespace UXFramework
                 this.borderColor = (CSSColor)a.Clone();
                 this.textColor = (CSSColor)f.Clone();
                 this.borderSize = bs;
+                this.paddingSize = ps;
                 this.content = obj;
             }
 

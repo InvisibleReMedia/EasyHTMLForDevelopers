@@ -46,8 +46,18 @@ namespace UXFramework.WebImplementation
             tool.ConstraintHeight = EnumConstraint.AUTO;
             tool.ConstraintWidth = EnumConstraint.AUTO;
             tool.Path = "html";
-            tool.Name = "ReadOnlyText";
+            tool.Name = "readOnlyText";
             tool.Id = "labelText";
+            tool.HTML = "<div style='cursor:default' onselectstart='javascript:return false;' ondragstart='javascript:return false;'>{0}</div>";
+            this.project.Tools.Add(tool);
+
+            tool = new HTMLTool();
+            tool.ConstraintHeight = EnumConstraint.AUTO;
+            tool.ConstraintWidth = EnumConstraint.AUTO;
+            tool.Path = "html";
+            tool.Name = "selectableText";
+            tool.Id = "labelSelectableText";
+            tool.HTML = "<div id='{0}' onmouseover='javascript:RaiseArrow(this);' indexValue='{1}' style='cursor:default' onselectstart='javascript:return false;' ondragstart='javascript:return false;'>{2}</div>";
             this.project.Tools.Add(tool);
 
             tool = new HTMLTool();
@@ -86,14 +96,15 @@ namespace UXFramework.WebImplementation
             innerDiv.Discret("text-align", "center");
             tool.CSSAdditional.Add(innerDiv);
             sb = new StringBuilder();
-            sb.Append("function onRoll(obj) {  obj.oldBackgroundColor = obj.style.backgroundColor; ");
+            sb.Append("var currentIndex; function onRoll(obj) {  obj.oldBackgroundColor = obj.style.backgroundColor; ");
             sb.Append("obj.oldTextColor = obj.style.color; obj.style.backgroundColor = obj.rollBackColor; obj.style.color = obj.rollColor; }  ");
             sb.Append("function unRoll(obj) { if (obj.oldBorderColor != undefined) { obj.style.borderColor = obj.oldBorderColor; ");
             sb.Append("obj.oldBorderColor = null; } obj.style.backgroundColor = obj.oldBackgroundColor; ");
             sb.Append("obj.style.color = obj.oldTextColor; }   ");
             sb.Append("function onClickDown(obj) { obj.oldBorderColor = obj.style.borderColor; obj.style.borderColor = obj.clickBorderColor; }  ");
             sb.Append("function onClickUp(obj) { if (obj.oldBorderColor != undefined) { obj.style.borderColor = obj.oldBorderColor; ");
-            sb.Append("obj.oldBorderColor = null; }  }");
+            sb.Append("obj.oldBorderColor = null; }  }  ");
+            sb.Append("function RaiseArrow(obj) { var img; if (currentIndex) {  img = document.getElementById('imgLeft_' + currentIndex); if (img) { img.src='left.png' }; img = document.getElementById('imgRight_' + currentIndex); if (img) { img.src='right.png' }; };  img = document.getElementById('imgLeft_' + obj.indexValue); if (img) { img.src='left_on.png' }; img = document.getElementById('imgRight_' + obj.indexValue); if (img) { img.src='right_on.png' }; currentIndex = obj.indexValue; }");
 
             sb.Append("function onImageRoll(obj) { if (obj.rollSrc != undefined) { obj.saveSrc = obj.src; obj.src = obj.rollSrc; } else { onRoll(obj); } }");
             sb.Append("  function unImageRoll(obj) { if (obj.rollSrc != undefined) { obj.src = obj.saveSrc; } else { unRoll(obj); } }");
@@ -132,8 +143,8 @@ namespace UXFramework.WebImplementation
             tool.Id = "imageObject";
             sb = new StringBuilder();
             sb.Append("<table cellspacing='0' cellpadding='0' width='100%' height='100%'>");
-            sb.Append("<tr><td><div onselectstart='javascript:return false;' id='{0}'>");
-            sb.Append("<img src='{1}' ondragstart='javascript:return false;'/></div></td></tr></table>");
+            sb.Append("<tr><td><div onselectstart='javascript:return false;'>");
+            sb.Append("<img src='{1}' width='{2}px' height='{3}px' id='{0}' ondragstart='javascript:return false;'/></div></td></tr></table>");
             tool.HTML = sb.ToString();
             this.project.Tools.Add(tool);
 
@@ -166,7 +177,7 @@ namespace UXFramework.WebImplementation
             Page p = new Page();
             p.Width = Convert.ToUInt32(window.GetWebBrowser().DisplayRectangle.Width - 40);
             p.Height = Convert.ToUInt32(window.GetWebBrowser().DisplayRectangle.Height - 40);
-            p.Disposition = Disposition.CENTER;
+            p.Disposition = window.Disposition;
             p.ConstraintWidth = EnumConstraint.FIXED;
             p.ConstraintHeight = EnumConstraint.FIXED;
             MasterPage mp = new MasterPage();
@@ -197,7 +208,7 @@ namespace UXFramework.WebImplementation
             currentMasterPage = mp;
             currentContainer = mp.HorizontalZones[0].VerticalZones[0].Name;
             currentObject = currentPage;
-            foreach(IUXObject child in window.Children)
+            foreach (IUXObject child in window.Children)
             {
                 RenderControl(child);
             }
@@ -254,6 +265,19 @@ namespace UXFramework.WebImplementation
         }
 
         /// <summary>
+        /// Render a clickable text
+        /// </summary>
+        /// <param name="selectableText">selectable text</param>
+        public void RenderControl(UXSelectableText selectableText)
+        {
+            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "selectableText"));
+            obj.Container = this.currentContainer;
+            obj.HTML = String.Format(obj.HTML, selectableText.Id, selectableText.RefIndex, selectableText.Text);
+            this.currentObject.Objects.Add(obj);
+            this.project.Instances.Add(obj);
+        }
+
+        /// <summary>
         /// Render an image
         /// </summary>
         /// <param name="image">image</param>
@@ -261,7 +285,7 @@ namespace UXFramework.WebImplementation
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "image"));
             obj.Container = this.currentContainer;
-            obj.HTML = String.Format(obj.HTML, image.Id, image.ImageFile);
+            obj.HTML = String.Format(obj.HTML, image.Id, image.ImageFile, image.Size.Width, image.Size.Height);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -330,9 +354,9 @@ namespace UXFramework.WebImplementation
         /// <param name="text">text to render</param>
         public void RenderControl(UXReadOnlyText text)
         {
-            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "ReadOnlyText"));
+            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "readOnlyText"));
             obj.Container = this.currentContainer;
-            obj.HTML = text.Text;
+            obj.HTML = String.Format(obj.HTML, text.Text);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -366,6 +390,7 @@ namespace UXFramework.WebImplementation
                     h.CSS.ForegroundColor = (CSSColor)s.textColor.Clone();
                     h.CSS.BorderBottomColor = h.CSS.BorderLeftColor = h.CSS.BorderRightColor = h.CSS.BorderTopColor = (CSSColor)s.borderColor.Clone();
                     h.CSS.Border = new Rectangle(s.borderSize, s.borderSize, s.borderSize, s.borderSize);
+                    h.CSS.Padding = new Rectangle(s.paddingSize, s.paddingSize, s.paddingSize, s.paddingSize);
                     mo.HorizontalZones.Add(h);
                     for (uint pos_column = 0; pos_column < table.ColumnCount; ++pos_column)
                     {
@@ -384,6 +409,7 @@ namespace UXFramework.WebImplementation
                             v.CSS.ForegroundColor = (CSSColor)s2.textColor.Clone();
                             v.CSS.BorderBottomColor = v.CSS.BorderLeftColor = v.CSS.BorderRightColor = v.CSS.BorderTopColor = (CSSColor)s2.borderColor.Clone();
                             v.CSS.Border = new Rectangle(s2.borderSize, s2.borderSize, s2.borderSize, s2.borderSize);
+                            v.CSS.Padding = new Rectangle(s2.paddingSize, s2.paddingSize, s2.paddingSize, s2.paddingSize);
                             h.VerticalZones.Add(v);
                         }
                     }
@@ -398,7 +424,11 @@ namespace UXFramework.WebImplementation
                     VerticalZone v = h.VerticalZones[(int)pos_column];
                     string previousContainer = this.currentContainer;
                     this.currentContainer = v.Name;
-                    RenderControl(table.VerticalCustomization[pos_line, pos_column].content);
+                    if (table.VerticalCustomization[pos_line, pos_column].content != null)
+                    {
+                        table.Add(table.VerticalCustomization[pos_line, pos_column].content);
+                        RenderControl(table.VerticalCustomization[pos_line, pos_column].content);
+                    }
                     this.currentContainer = previousContainer;
                 }
             }
@@ -422,9 +452,10 @@ namespace UXFramework.WebImplementation
             else if (obj is UXCheck) RenderControl(obj as UXCheck);
             else if (obj is UXCombo) RenderControl(obj as UXCombo);
             else if (obj is UXEditableText) RenderControl(obj as UXEditableText);
+            else if (obj is UXSelectableText) RenderControl(obj as UXSelectableText);
             else if (obj is UXClickableText) RenderControl(obj as UXClickableText);
-            else if (obj is UXImage) RenderControl(obj as UXImage);
             else if (obj is UXClickableImage) RenderControl(obj as UXClickableImage);
+            else if (obj is UXImage) RenderControl(obj as UXImage);
             else if (obj is UXFrame) RenderControl(obj as UXFrame);
             else if (obj is UXReadOnlyText) RenderControl(obj as UXReadOnlyText);
             else if (obj is UXViewDataTable) RenderControl(obj as UXViewDataTable);

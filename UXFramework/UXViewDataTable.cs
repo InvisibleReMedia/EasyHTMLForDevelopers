@@ -16,7 +16,7 @@ namespace UXFramework
         /// <summary>
         /// Data list
         /// </summary>
-        private Marshalling.MarshallingList list;
+        protected Marshalling.MarshallingList list;
         /// <summary>
         /// Id
         /// </summary>
@@ -44,7 +44,7 @@ namespace UXFramework
         /// Bind sequence
         /// </summary>
         /// <param name="a">specific bind function</param>
-        public void Bind(Action<Marshalling.MarshallingList> a)
+        public virtual void Bind(Action<Marshalling.MarshallingList> a)
         {
             a(list);
 
@@ -52,19 +52,28 @@ namespace UXFramework
             uint count = Convert.ToUInt32(this.list.Count);
             if (count > 0)
             {
-                this.LineCount = count;
+                /// add list element count + one header
+                this.LineCount = count + 1;
                 this.ColumnCount = Convert.ToUInt32((this.list[0] as Marshalling.MarshallingHash).HashKeys.Count());
-                // construire le header
-                Marshalling.MarshallingHash h = this.list[0] as Marshalling.MarshallingHash;
+
+                for (int index = 0; index < this.LineCount; ++index)
+                {
+                    SizeArgs s = new SizeArgs(0, (uint)index, 0, 50, 1, 1, 0, index);
+                    s.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#99D9EA"), new Library.CSSColor("#47D9EA"), new Library.CSSColor("black"), 1, 5, null);
+                    s.isValid = true;
+                    this.HorizontalCustomization[index] = s;
+                }
 
                 int headerIndex = 0;
-                foreach(string key in h.HashKeys)
+                // construire le header
+                Marshalling.MarshallingHash h = this.list[0] as Marshalling.MarshallingHash;
+                foreach (string key in h.HashKeys)
                 {
-                    SizeArgs s = new SizeArgs((uint)headerIndex, 0, 60, 20, 1, 1, headerIndex, 0);
-                    UXReadOnlyText t = new UXReadOnlyText(h[key].Name);
-                    s.Options(Library.Disposition.CENTER, Library.EnumConstraint.FIXED, Library.EnumConstraint.FIXED, new Library.CSSColor("white"), new Library.CSSColor("black"), new Library.CSSColor("black"), 2, t);
+                    SizeArgs s = new SizeArgs((uint)headerIndex, 0, 100, 0, 1, 1, headerIndex, 0);
+                    UXReadOnlyText t = new UXReadOnlyText(h[key].Name.ToString());
+                    s.Options(Library.Disposition.CENTER, Library.EnumConstraint.FIXED, Library.EnumConstraint.AUTO, new Library.CSSColor("#10F0D2"), new Library.CSSColor("#47D9EA"), new Library.CSSColor("black"), 2, 3, t);
                     s.isValid = true;
-                    this.HorizontalCustomization[headerIndex] = s;
+                    this.VerticalCustomization[0, headerIndex] = s;
                     ++headerIndex;
                 }
                 for (int index = 0; index < count; ++index)
@@ -74,11 +83,11 @@ namespace UXFramework
                     headerIndex = 0;
                     foreach (string key in h.HashKeys)
                     {
-                        SizeArgs s = new SizeArgs((uint)headerIndex, (uint)(index + 1), 60, 20, 1, 1, headerIndex, 0);
+                        SizeArgs s = new SizeArgs((uint)headerIndex, (uint)(index + 1), 100, 0, 1, 1, headerIndex, index + 1);
                         UXReadOnlyText t = new UXReadOnlyText(h[key].Value.ToString());
-                        s.Options(Library.Disposition.CENTER, Library.EnumConstraint.FIXED, Library.EnumConstraint.FIXED, new Library.CSSColor("white"), new Library.CSSColor("black"), new Library.CSSColor("black"), 2, t);
+                        s.Options(Library.Disposition.CENTER, Library.EnumConstraint.FIXED, Library.EnumConstraint.AUTO, new Library.CSSColor("#F9F0D2"), new Library.CSSColor("#47D9EA"), new Library.CSSColor("black"), 2, 3, t);
                         s.isValid = true;
-                        this.VerticalCustomization[index, headerIndex] = s;
+                        this.VerticalCustomization[index + 1, headerIndex] = s;
                         ++headerIndex;
                     }
                 }

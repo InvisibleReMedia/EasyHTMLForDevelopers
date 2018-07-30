@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -21,6 +22,10 @@ namespace UXFramework
         /// Id
         /// </summary>
         private string id;
+        /// <summary>
+        /// Size of this image
+        /// </summary>
+        private Size size;
 
         #endregion
 
@@ -57,6 +62,15 @@ namespace UXFramework
         {
             get { return this.id; }
             set { this.id = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the size of this image
+        /// </summary>
+        public Size Size
+        {
+            get { return this.size; }
+            set { this.size = value; }
         }
 
         #endregion

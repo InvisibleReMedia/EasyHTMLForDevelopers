@@ -117,6 +117,19 @@ namespace UXFramework
         }
 
         /// <summary>
+        /// Recursive connect function call
+        /// </summary>
+        /// <param name="ux">ux</param>
+        protected void RecursiveConnect(IUXObject ux)
+        {
+            ux.Connect();
+            foreach (IUXObject child in ux.Children)
+            {
+                RecursiveConnect(child);
+            }
+        }
+
+        /// <summary>
         /// Connect for interoperability C#/Web
         /// </summary>
         public virtual void Connect()

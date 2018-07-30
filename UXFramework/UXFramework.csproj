@@ -66,8 +66,10 @@
     <Compile Include="UXFrame.cs" />
     <Compile Include="UXImage.cs" />
     <Compile Include="UXReadOnlyText.cs" />
+    <Compile Include="UXSelectableText.cs" />
     <Compile Include="UXTable.cs" />
     <Compile Include="UXViewDataTable.cs" />
+    <Compile Include="UXViewSelectableDataTable.cs" />
     <Compile Include="UXWindow.cs" />
     <Compile Include="Web Implementation\WebRenderer.cs" />
   </ItemGroup>

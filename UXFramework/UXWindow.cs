@@ -17,6 +17,10 @@ namespace UXFramework
         /// Weak reference of the current browser
         /// </summary>
         private WeakReference webReference;
+        /// <summary>
+        /// Disposition window
+        /// </summary>
+        private Library.Disposition disp;
 
         #endregion
 
@@ -28,6 +32,7 @@ namespace UXFramework
         public UXWindow()
         {
             this.Parent = null;
+            this.disp = Library.Disposition.CENTER;
         }
 
         #endregion
@@ -40,6 +45,15 @@ namespace UXFramework
         public string FileName
         {
             get { return this.Name + ".html"; }
+        }
+
+        /// <summary>
+        /// Gets or sets the disposition page
+        /// </summary>
+        public Library.Disposition Disposition
+        {
+            get { return this.disp; }
+            set { this.disp = value; }
         }
 
         #endregion
@@ -66,11 +80,7 @@ namespace UXFramework
         private void WWW_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             WebBrowser www = (WebBrowser)sender;
-            Connect();
-            foreach (IUXObject ux in this.Children)
-            {
-                ux.Connect();
-            }
+            RecursiveConnect(this);
             www.DocumentCompleted -= WWW_DocumentCompleted;
         }
 

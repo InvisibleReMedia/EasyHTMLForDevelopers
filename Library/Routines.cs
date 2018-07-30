@@ -2210,6 +2210,7 @@ namespace Library
                 css.Body.Remove("margin-right");
             if (css.Body.AllKeys.Contains("margin-top"))
                 css.Body.Remove("margin-bottom");
+            css.Margin = new Rectangle(0, 0, 0, 0);
             switch (parent.disposition)
             {
                 case Disposition.CENTER:
@@ -2220,51 +2221,39 @@ namespace Library
                     break;
                 case Disposition.CENTER_BOTTOM:
                     css.Body.Add("margin-top", "auto");
-                    css.Body.Add("margin-bottom", "0px");
                     css.Body.Add("margin-left", "auto");
                     css.Body.Add("margin-right", "auto");
                     break;
                 case Disposition.CENTER_TOP:
-                    css.Body.Add("margin-top", "0px");
                     css.Body.Add("margin-bottom", "auto");
                     css.Body.Add("margin-left", "auto");
                     css.Body.Add("margin-right", "auto");
                     break;
                 case Disposition.LEFT_BOTTOM:
                     css.Body.Add("margin-top", "auto");
-                    css.Body.Add("margin-bottom", "0px");
-                    css.Body.Add("margin-left", "0px");
                     css.Body.Add("margin-right", "auto");
                     break;
                 case Disposition.LEFT_MIDDLE:
                     css.Body.Add("margin-top", "auto");
                     css.Body.Add("margin-bottom", "auto");
-                    css.Body.Add("margin-left", "0px");
                     css.Body.Add("margin-right", "auto");
                     break;
                 case Disposition.LEFT_TOP:
-                    css.Body.Add("margin-top", "0px");
                     css.Body.Add("margin-bottom", "auto");
-                    css.Body.Add("margin-left", "0px");
                     css.Body.Add("margin-right", "auto");
                     break;
                 case Disposition.RIGHT_BOTTOM:
                     css.Body.Add("margin-top", "auto");
-                    css.Body.Add("margin-bottom", "0px");
                     css.Body.Add("margin-left", "auto");
-                    css.Body.Add("margin-right", "0px");
                     break;
                 case Disposition.RIGHT_MIDDLE:
                     css.Body.Add("margin-top", "auto");
                     css.Body.Add("margin-bottom", "auto");
                     css.Body.Add("margin-left", "auto");
-                    css.Body.Add("margin-right", "0px");
                     break;
                 case Disposition.RIGHT_TOP:
-                    css.Body.Add("margin-top", "0px");
                     css.Body.Add("margin-bottom", "auto");
                     css.Body.Add("margin-left", "auto");
-                    css.Body.Add("margin-right", "0px");
                     break;
             }
         }

@@ -22,6 +22,7 @@ namespace AppEasy
         {
             UXFramework.UXWindow win = new UXFramework.UXWindow();
             win.Name = "winOpen";
+            win.Disposition = Library.Disposition.CENTER_TOP;
             UXFramework.UXTable t = new UXFramework.UXTable();
             t.Name = "table1";
 
@@ -35,17 +36,16 @@ namespace AppEasy
                     e.top = 0;
                     e.columnSize = 3;
                     e.lineSize = 1;
-                    e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.AUTO, new Library.CSSColor("#2BAED0"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, null);
+                    e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.AUTO, new Library.CSSColor("#2BAED0"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, 3, null);
                 }
                 else if (e.lineNumber == 1)
                 {
                     e.isValid = true;
-                    e.height = 100;
                     e.left = 0;
                     e.top = 1;
                     e.columnSize = 1;
                     e.lineSize = 1;
-                    e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.AUTO, new Library.CSSColor("#99D9EA"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, null);
+                    e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.AUTO, new Library.CSSColor("#99D9EA"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, 3, null);
                 }
                 else if (e.lineNumber == 2)
                 {
@@ -55,7 +55,7 @@ namespace AppEasy
                     e.top = 2;
                     e.columnSize = 3;
                     e.lineSize = 1;
-                    e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#EDF9FC"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, null);
+                    e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#EDF9FC"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, 3, null);
                 }
             });
 
@@ -69,21 +69,85 @@ namespace AppEasy
                     e.top = 0;
                     e.columnSize = 3;
                     e.lineSize = 1;
-                    UXFramework.UXClickableText b = new UXFramework.UXClickableText("bonjour!");
-                    e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#2BAED0"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, b);
+                    UXFramework.UXTable reg = new UXFramework.UXTable();
+                    reg.Name = "buttonRegion";
+                    reg.SetHorizontal(1, (obj, m) =>
+                    {
+                        m.isValid = true;
+                        m.left = 0;
+                        m.top = 0;
+                        m.columnSize = 4;
+                        m.lineSize = 1;
+                        m.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.AUTO, new Library.CSSColor("transparent"), new Library.CSSColor("white"), new Library.CSSColor("black"), 2, 3, null);
+                    });
+                    reg.SetVertical(4, 1, (obj, m) =>
+                    {
+                        if (m.columnNumber == 0)
+                        {
+                            m.isValid = true;
+                            m.left = 0;
+                            m.top = 0;
+                            m.columnSize = 1;
+                            m.lineSize = 1;
+                            UXFramework.UXButton bNew = new UXFramework.UXButton("buttonNew", "New");
+                            bNew.RollBackColor = "purple";
+                            bNew.RollColor = "white";
+                            bNew.ClickBorderColor = "black";
+                            m.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.AUTO, new Library.CSSColor("transparent"), new Library.CSSColor("white"), new Library.CSSColor("black"), 0, 0, bNew);
+                        }
+                        else if (m.columnNumber == 1)
+                        {
+                            m.isValid = true;
+                            m.left = 1;
+                            m.top = 0;
+                            m.columnSize = 1;
+                            m.lineSize = 1;
+                            UXFramework.UXButton bOpen = new UXFramework.UXButton("buttonOpen", "Open");
+                            bOpen.RollBackColor = "purple";
+                            bOpen.RollColor = "white";
+                            bOpen.ClickBorderColor = "black";
+                            m.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.AUTO, new Library.CSSColor("transparent"), new Library.CSSColor("white"), new Library.CSSColor("black"), 0, 0, bOpen);
+                        }
+                        else if (m.columnNumber == 2)
+                        {
+                            m.isValid = true;
+                            m.left = 2;
+                            m.top = 0;
+                            m.columnSize = 1;
+                            m.lineSize = 1;
+                            UXFramework.UXButton bDel = new UXFramework.UXButton("buttonDel", "Delete");
+                            bDel.RollBackColor = "purple";
+                            bDel.RollColor = "white";
+                            bDel.ClickBorderColor = "black";
+                            m.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.AUTO, new Library.CSSColor("transparent"), new Library.CSSColor("white"), new Library.CSSColor("black"), 0, 0, bDel);
+                        }
+                        else if (m.columnNumber == 3)
+                        {
+                            m.isValid = true;
+                            m.left = 3;
+                            m.top = 0;
+                            m.columnSize = 1;
+                            m.lineSize = 1;
+                            UXFramework.UXButton bQuickView = new UXFramework.UXButton("buttonQView", "Quick view");
+                            bQuickView.RollBackColor = "purple";
+                            bQuickView.RollColor = "white";
+                            bQuickView.ClickBorderColor = "black";
+                            m.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.AUTO, new Library.CSSColor("transparent"), new Library.CSSColor("white"), new Library.CSSColor("black"), 0, 0, bQuickView);
+                        }
+                    });
+                    e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#2BAED0"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, 3, reg);
                 }
                 else if (e.lineNumber == 1)
                 {
                     if (e.columnNumber == 0)
                     {
                         e.isValid = true;
-                        e.height = 300;
                         e.left = 0;
                         e.top = 1;
                         e.columnSize = 1;
                         e.lineSize = 1;
                         UXFramework.UXBox b = new UXFramework.UXBox();
-                        e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#99D9EA"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, b);
+                        e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.AUTO, new Library.CSSColor("#99D9EA"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, 3, b);
                     }
                     else if (e.columnNumber == 1)
                     {
@@ -93,7 +157,7 @@ namespace AppEasy
                         e.top = 1;
                         e.columnSize = 1;
                         e.lineSize = 1;
-                        UXFramework.UXViewDataTable view = new UXFramework.UXViewDataTable("projectList");
+                        UXFramework.UXViewSelectableDataTable view = new UXFramework.UXViewSelectableDataTable("projectList");
                         view.Bind((x) =>
                         {
                             string folder = CommonDirectories.ConfigDirectories.GetDocumentsFolder();
@@ -141,18 +205,17 @@ namespace AppEasy
                             }
 
                         });
-                        e.Options(Library.Disposition.CENTER, Library.EnumConstraint.FIXED, Library.EnumConstraint.AUTO, new Library.CSSColor("#47D9EA"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, view);
+                        e.Options(Library.Disposition.CENTER_TOP, Library.EnumConstraint.FIXED, Library.EnumConstraint.AUTO, new Library.CSSColor("#47D9EA"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, 3, view);
                     }
                     else if (e.columnNumber == 2)
                     {
                         e.isValid = true;
-                        e.height = 300;
                         e.left = 2;
                         e.top = 1;
                         e.columnSize = 1;
                         e.lineSize = 1;
                         UXFramework.UXBox b = new UXFramework.UXBox();
-                        e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#99D9EA"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, b);
+                        e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.AUTO, new Library.CSSColor("#99D9EA"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, 3, b);
                     }
                 }
                 else if (e.lineNumber == 2 && e.columnNumber == 0)
@@ -163,8 +226,8 @@ namespace AppEasy
                     e.top = 2;
                     e.columnSize = 3;
                     e.lineSize = 1;
-                    UXFramework.UXReadOnlyText b = new UXFramework.UXReadOnlyText("Business Forward Technology @copyright 2018 - Contact us :business.forward.technology@gmail.com");
-                    e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#2BAED0"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, b);
+                    UXFramework.UXReadOnlyText b = new UXFramework.UXReadOnlyText("Business Forward Technology copyright @ 2018 - Contact us : business.forward.technology@gmail.com");
+                    e.Options(Library.Disposition.CENTER, Library.EnumConstraint.AUTO, Library.EnumConstraint.FIXED, new Library.CSSColor("#2BAED0"), new Library.CSSColor("white"), new Library.CSSColor("black"), 3, 3, b);
                 }
             });
             win.Add(t);
