@@ -11,7 +11,7 @@ namespace UXFramework
     /// </summary>
     public class UXViewSelectableDataTable : UXViewDataTable
     {
-         #region Constructor
+        #region Constructor
 
         /// <summary>
         /// Default constructor

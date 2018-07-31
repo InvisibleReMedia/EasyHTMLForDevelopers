@@ -105,6 +105,7 @@ namespace UXFramework.WebImplementation
             sb.Append("function onClickUp(obj) { if (obj.oldBorderColor != undefined) { obj.style.borderColor = obj.oldBorderColor; ");
             sb.Append("obj.oldBorderColor = null; }  }  ");
             sb.Append("function RaiseArrow(obj) { var img; if (currentIndex) {  img = document.getElementById('imgLeft_' + currentIndex); if (img) { img.src='left.png' }; img = document.getElementById('imgRight_' + currentIndex); if (img) { img.src='right.png' }; };  img = document.getElementById('imgLeft_' + obj.indexValue); if (img) { img.src='left_on.png' }; img = document.getElementById('imgRight_' + obj.indexValue); if (img) { img.src='right_on.png' }; currentIndex = obj.indexValue; }");
+            sb.Append("function LeaveArrow() { if (currentIndex) {  img = document.getElementById('imgLeft_' + currentIndex); if (img) { img.src='left.png' }; img = document.getElementById('imgRight_' + currentIndex); if (img) { img.src='right.png' }; }; currentIndex = null; }");
 
             sb.Append("function onImageRoll(obj) { if (obj.rollSrc != undefined) { obj.saveSrc = obj.src; obj.src = obj.rollSrc; } else { onRoll(obj); } }");
             sb.Append("  function unImageRoll(obj) { if (obj.rollSrc != undefined) { obj.src = obj.saveSrc; } else { unRoll(obj); } }");
@@ -340,15 +341,6 @@ namespace UXFramework.WebImplementation
         }
 
         /// <summary>
-        /// Render a data table view
-        /// </summary>
-        /// <param name="frame">view to render</param>
-        public void RenderControl(UXViewDataTable data)
-        {
-            RenderControl(data as UXTable);
-        }
-
-        /// <summary>
         /// Render a label
         /// </summary>
         /// <param name="text">text to render</param>
@@ -359,6 +351,62 @@ namespace UXFramework.WebImplementation
             obj.HTML = String.Format(obj.HTML, text.Text);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
+        }
+
+        /// <summary>
+        /// Render a selectable table
+        /// </summary>
+        /// <param name="data"></param>
+        public void RenderControl(UXViewSelectableDataTable data)
+        {
+            MasterObject mo = new MasterObject();
+            mo.Name = data.Name + "_outer_masterObject";
+            mo.Width = 100;
+            mo.Height = 100;
+            mo.ConstraintWidth = EnumConstraint.RELATIVE;
+            mo.ConstraintHeight = EnumConstraint.RELATIVE;
+            mo.CountColumns = 1;
+            mo.CountLines = 1;
+            mo.HTMLBefore = "<div id='" + mo.Name + "_in' onmouseout='javascript:LeaveArrow();'>";
+            mo.HTMLAfter = "</div>";
+
+            HorizontalZone h = new HorizontalZone();
+            h.ConstraintWidth = EnumConstraint.RELATIVE;
+            h.ConstraintHeight = EnumConstraint.RELATIVE;
+            h.Width = 100;
+            h.Height = 100;
+            h.CountLines = 1;
+            mo.HorizontalZones.Add(h);
+
+            VerticalZone v = new VerticalZone();
+            v.Width = 100;
+            v.Height = 100;
+            v.Disposition = Disposition.CENTER;
+            v.ConstraintWidth = EnumConstraint.RELATIVE;
+            v.ConstraintHeight = EnumConstraint.RELATIVE;
+            v.CountLines = 1;
+            v.CountColumns = 1;
+            h.VerticalZones.Add(v);
+
+            this.project.MasterObjects.Add(mo);
+
+            HTMLObject obj = new HTMLObject(mo);
+            obj.Container = this.currentContainer;
+            this.currentObject.Objects.Add(obj);
+            this.project.Instances.Add(obj);
+
+            currentContainer = mo.HorizontalZones[0].VerticalZones[0].Name;
+            RenderControl(data as UXViewDataTable);
+
+        }
+
+        /// <summary>
+        /// Render a data table view
+        /// </summary>
+        /// <param name="data">view to render</param>
+        public void RenderControl(UXViewDataTable data)
+        {
+            RenderControl(data as UXTable);
         }
 
         /// <summary>
@@ -458,6 +506,7 @@ namespace UXFramework.WebImplementation
             else if (obj is UXImage) RenderControl(obj as UXImage);
             else if (obj is UXFrame) RenderControl(obj as UXFrame);
             else if (obj is UXReadOnlyText) RenderControl(obj as UXReadOnlyText);
+            else if (obj is UXViewSelectableDataTable) RenderControl(obj as UXViewSelectableDataTable);
             else if (obj is UXViewDataTable) RenderControl(obj as UXViewDataTable);
             else if (obj is UXTable) RenderControl(obj as UXTable);
             else if (obj is UXWindow) RenderControl(obj as UXWindow);
