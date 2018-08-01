@@ -32,6 +32,16 @@ namespace UXFramework
         /// <param name="check">checkbox to render</param>
         void RenderControl(UXCheck check);
         /// <summary>
+        /// Render a clickable image
+        /// </summary>
+        /// <param name="image">clickable image</param>
+        void RenderControl(UXClickableImage image);
+        /// <summary>
+        /// Render a clickable text
+        /// </summary>
+        /// <param name="image">clickable text</param>
+        void RenderControl(UXClickableText image);
+        /// <summary>
         /// Render a drop-down list
         /// </summary>
         /// <param name="combo">drop-down list</param>
@@ -47,6 +57,11 @@ namespace UXFramework
         /// <param name="frame">frame to render</param>
         void RenderControl(UXFrame frame);
         /// <summary>
+        /// Render an image
+        /// </summary>
+        /// <param name="frame">image to render</param>
+        void RenderControl(UXImage image);
+        /// <summary>
         /// Render a label
         /// </summary>
         /// <param name="text">text to render</param>
@@ -56,6 +71,16 @@ namespace UXFramework
         /// </summary>
         /// <param name="table">table to render</param>
         void RenderControl(UXTable table);
+        /// <summary>
+        /// Render a data table view
+        /// </summary>
+        /// <param name="view">view to render</param>
+        void RenderControl(UXViewDataTable view);
+        /// <summary>
+        /// Render a selectable data table view
+        /// </summary>
+        /// <param name="view">view to render</param>
+        void RenderControl(UXViewSelectableDataTable view);
         /// <summary>
         /// Render object
         /// </summary>

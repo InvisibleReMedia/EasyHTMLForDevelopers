@@ -71,6 +71,10 @@ namespace Library
         /// </summary>
         protected static readonly string HTMLContentName = "htmlContent";
         /// <summary>
+        /// Index name for events
+        /// </summary>
+        protected static readonly string eventsName = "events";
+        /// <summary>
         /// Index name for javascript code
         /// </summary>
         protected static readonly string javascriptName = "javascript";
@@ -110,6 +114,7 @@ namespace Library
             this.ConstraintHeight = htmlTool.ConstraintHeight;
             this.Title = ExtensionMethods.CloneThis(htmlTool.Title);
             this.HTML = htmlTool.HTML;
+            this.Set(eventsName, htmlTool.Events.Clone());
             this.Set(javascriptName, htmlTool.JavaScript.Clone());
             this.Set(javascriptOnloadName, htmlTool.JavaScriptOnLoad.Clone());
             this.Set(cssName, new CodeCSS(htmlTool.CSS));
@@ -133,6 +138,7 @@ namespace Library
             this.ConstraintWidth = masterObject.ConstraintWidth;
             this.ConstraintHeight = masterObject.ConstraintHeight;
             this.Title = ExtensionMethods.CloneThis(masterObject.Title);
+            this.Set(eventsName, masterObject.Events.Clone());
             this.Set(javascriptName, masterObject.JavaScript.Clone());
             this.Set(javascriptOnloadName, masterObject.JavaScriptOnLoad.Clone());
             this.Set(cssName, new CodeCSS(masterObject.CSS));
@@ -169,6 +175,7 @@ namespace Library
             this.Title = ExtensionMethods.CloneThis(obj.Title);
             this.Container = ExtensionMethods.CloneThis(obj.Container);
             this.HTML = ExtensionMethods.CloneThis(obj.HTML);
+            this.Set(eventsName, obj.Events.Clone());
             this.Set(javascriptName, obj.JavaScript.Clone());
             this.Set(javascriptOnloadName, obj.JavaScriptOnLoad.Clone());
             this.Set(cssName, obj.CSS.Clone());
@@ -343,6 +350,14 @@ namespace Library
         public string GeneratedHTML
         {
             get { return Project.CurrentProject.Configuration.Replace(this.HTML); }
+        }
+
+        /// <summary>
+        /// Gets events
+        /// </summary>
+        public Events Events
+        {
+            get { return this.Get(eventsName, new Events()); }
         }
 
         /// <summary>
@@ -534,6 +549,8 @@ namespace Library
                     html.HTML.Append(" " + cs.attributeWidth);
                 if (!String.IsNullOrEmpty(cs.attributeHeight))
                     html.HTML.Append(" " + cs.attributeHeight);
+                if (this.Events.Count > 0)
+                    html.HTML.Append(" " + this.Events.ToHTMLString());
                 html.HTML.Append(">");
 
                 html.HTML.Append(this.GeneratedHTML);
@@ -593,6 +610,8 @@ namespace Library
                     html.HTML.Append(" " + cs.attributeWidth);
                 if (!String.IsNullOrEmpty(cs.attributeHeight))
                     html.HTML.Append(" " + cs.attributeHeight);
+                if (this.Events.Count > 0)
+                    html.HTML.Append(" " + this.Events.ToHTMLString());
                 html.HTML.Append(">");
 
                 html.HTML.Append(this.GeneratedHTML);
@@ -646,6 +665,8 @@ namespace Library
                 html.HTML.Append("<div");
                 html.HTML.Append(" id='" + myId + "'");
                 html.HTML.Append(" name='" + myId + "'");
+                if (this.Events.Count > 0)
+                    html.HTML.Append(" " + this.Events.ToHTMLString());
                 if (!String.IsNullOrEmpty(cs.attributeWidth))
                     html.HTML.Append(" " + cs.attributeWidth);
                 if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -732,6 +753,8 @@ namespace Library
                 html.HTML.Append("<div");
                 html.HTML.Append(" id='" + myId + "'");
                 html.HTML.Append(" name='" + myId + "'");
+                if (this.Events.Count > 0)
+                    html.HTML.Append(" " + this.Events.ToHTMLString());
                 if (!String.IsNullOrEmpty(cs.attributeWidth))
                     html.HTML.Append(" " + cs.attributeWidth);
                 if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -789,6 +812,8 @@ namespace Library
                 html.HTML.Append("<div");
                 html.HTML.Append(" id='" + myId + "'");
                 html.HTML.Append(" name='" + myId + "'");
+                if (this.Events.Count > 0)
+                    html.HTML.Append(" " + this.Events.ToHTMLString());
                 if (!String.IsNullOrEmpty(cs.attributeWidth))
                     html.HTML.Append(" " + cs.attributeWidth);
                 if (!String.IsNullOrEmpty(cs.attributeHeight))

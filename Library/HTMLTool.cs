@@ -54,6 +54,10 @@ namespace Library
         /// </summary>
         protected static readonly string HTMLContentName = "htmlContent";
         /// <summary>
+        /// Index name for events
+        /// </summary>
+        protected static readonly string eventsName = "events";
+        /// <summary>
         /// Index name for javascript code
         /// </summary>
         protected static readonly string javascriptName = "javascript";
@@ -211,6 +215,14 @@ namespace Library
         public string GeneratedHTML
         {
             get { return Project.CurrentProject.Configuration.Replace(this.HTML); }
+        }
+
+        /// <summary>
+        /// Gets events
+        /// </summary>
+        public Events Events
+        {
+            get { return this.Get(eventsName, new Events()); }
         }
 
         /// <summary>
@@ -393,6 +405,7 @@ namespace Library
             tool.Title = ExtensionMethods.CloneThis(this.Title);
             tool.Path = ExtensionMethods.CloneThis(this.Path);
             tool.HTML = ExtensionMethods.CloneThis(this.HTML);
+            tool.Set(eventsName, this.Events.Clone());
             tool.Set(javascriptName, this.JavaScript.Clone());
             tool.Set(javascriptOnloadName, this.JavaScriptOnLoad.Clone());
             tool.Set(cssName, new CodeCSS(this.CSS));

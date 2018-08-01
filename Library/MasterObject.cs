@@ -60,6 +60,10 @@ namespace Library
         /// </summary>
         protected static readonly string heightName = "height";
         /// <summary>
+        /// Index name for events
+        /// </summary>
+        protected static readonly string eventsName = "events";
+        /// <summary>
         /// Index name for javascript code
         /// </summary>
         protected static readonly string javascriptName = "javascript";
@@ -133,6 +137,7 @@ namespace Library
             {
                 this.HorizontalZones.Add(hz.Clone() as HorizontalZone);
             }
+            this.Set(eventsName, refObj.Events.Clone());
             this.Set(javascriptName, refObj.JavaScript.Clone());
             this.Set(javascriptOnloadName, refObj.JavaScriptOnLoad.Clone());
             this.CSS = refObj.CSS.Clone() as CodeCSS;
@@ -313,6 +318,14 @@ namespace Library
         }
 
         /// <summary>
+        /// Gets events
+        /// </summary>
+        public Events Events
+        {
+            get { return this.Get(eventsName, new Events()); }
+        }
+
+        /// <summary>
         /// Gets or sets the javascript code
         /// </summary>
         public CodeJavaScript JavaScript
@@ -457,6 +470,7 @@ namespace Library
             config.width = this.Width;
             config.height = this.Height;
             config.cssPart = this.CSS;
+            config.events = this.Events;
             config.javascriptPart = this.JavaScript;
             config.onload = this.JavaScriptOnLoad;
             config.zones = this.HorizontalZones;
@@ -494,6 +508,8 @@ namespace Library
             output.HTML.Append("<div");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + newInfos.objectName + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -546,6 +562,8 @@ namespace Library
             output.HTML.Append("<div");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + newInfos.objectName + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -599,6 +617,8 @@ namespace Library
             output.HTML.Append("<div");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + newInfos.objectName + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -637,6 +657,7 @@ namespace Library
             config.width = this.Width;
             config.height = this.Height;
             config.cssPart = this.CSS;
+            config.events = this.Events;
             config.javascriptPart = this.JavaScript;
             config.onload = this.JavaScriptOnLoad;
             config.zones = this.HorizontalZones;
@@ -680,6 +701,8 @@ namespace Library
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + newInfos.objectName + "'");
             output.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -748,6 +771,8 @@ namespace Library
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + newInfos.objectName + "'");
             output.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -819,6 +844,8 @@ namespace Library
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + newInfos.objectName + "'");
             output.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -1225,6 +1252,8 @@ namespace Library
             output.HTML.Append("<div");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + newInfos.objectName + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -1315,6 +1344,8 @@ namespace Library
             html.HTML.Append("<div");
             html.HTML.Append(" id='" + myId + "'");
             html.HTML.Append(" name='" + newInfos.objectName + "'");
+            if (this.Events.Count > 0)
+                html.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 html.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -1417,6 +1448,8 @@ namespace Library
             html.HTML.Append(" id='" + myId + "'");
             html.HTML.Append(" name='" + newInfos.objectName + "'");
             html.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (this.Events.Count > 0)
+                html.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 html.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -1524,6 +1557,8 @@ namespace Library
             html.HTML.Append(" id='" + myId + "'");
             html.HTML.Append(" name='" + newInfos.objectName + "'");
             html.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
+            if (this.Events.Count > 0)
+                html.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 html.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))

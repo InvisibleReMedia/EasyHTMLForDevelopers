@@ -31,6 +31,10 @@ namespace Library
         /// </summary>
         public CodeCSS cssPart;
         /// <summary>
+        /// Evenements
+        /// </summary>
+        public Events events;
+        /// <summary>
         /// Javascript code
         /// </summary>
         public CodeJavaScript javascriptPart;

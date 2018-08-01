@@ -53,6 +53,10 @@ namespace Library
         /// </summary>
         protected static readonly string heightName = "height";
         /// <summary>
+        /// Index name for events
+        /// </summary>
+        protected static readonly string eventsName = "events";
+        /// <summary>
         /// Index name for javascript code
         /// </summary>
         protected static readonly string javascriptName = "javascript";
@@ -100,6 +104,7 @@ namespace Library
             this.Width = vz.Width;
             this.Height = vz.Height;
             this.CountLines = vz.CountLines;
+            this.Set(eventsName, this.Events.Clone());
             this.Set(javascriptName, vz.JavaScript.Clone());
             this.Set(javascriptOnloadName, vz.JavaScriptOnLoad.Clone());
             this.Set(cssName, vz.CSS.Clone());
@@ -231,6 +236,14 @@ namespace Library
         }
 
         /// <summary>
+        /// Gets events
+        /// </summary>
+        public Events Events
+        {
+            get { return this.Get(eventsName, new Events()); }
+        }
+
+        /// <summary>
         /// Gets the javascript code
         /// </summary>
         public CodeJavaScript JavaScript
@@ -343,6 +356,8 @@ namespace Library
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -417,6 +432,8 @@ namespace Library
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -496,6 +513,8 @@ namespace Library
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -610,6 +629,8 @@ namespace Library
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
             output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -680,6 +701,8 @@ namespace Library
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
             output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -756,6 +779,8 @@ namespace Library
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
             output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -849,6 +874,8 @@ namespace Library
             output.HTML.Append("<div");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -917,6 +944,8 @@ namespace Library
             output.HTML.Append("<div");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -1011,6 +1040,8 @@ namespace Library
             output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
             output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
@@ -1075,6 +1106,8 @@ namespace Library
             output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
             output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))

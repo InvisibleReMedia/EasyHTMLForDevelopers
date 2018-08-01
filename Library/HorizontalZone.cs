@@ -47,6 +47,10 @@ namespace Library
         /// </summary>
         protected static readonly string verticalZoneName = "verticalZone";
         /// <summary>
+        /// Index name for events
+        /// </summary>
+        protected static readonly string eventsName = "events";
+        /// <summary>
         /// Index name for javascript code
         /// </summary>
         protected static readonly string javascriptName = "javascript";
@@ -96,6 +100,7 @@ namespace Library
             {
                 this.VerticalZones.Add(vz.Clone() as VerticalZone);
             }
+            this.Set(eventsName, hz.Events.Clone());
             this.Set(javascriptName, hz.JavaScript.Clone());
             this.Set(javascriptOnloadName, hz.JavaScriptOnLoad.Clone());
             this.Set(cssName, hz.CSS.Clone());
@@ -208,6 +213,14 @@ namespace Library
         {
             get { return this.Get(automaticNameName); }
             set { this.Set(automaticNameName, value); }
+        }
+
+        /// <summary>
+        /// Gets events
+        /// </summary>
+        public Events Events
+        {
+            get { return this.Get(eventsName, new Events()); }
         }
 
         /// <summary>
@@ -332,6 +345,8 @@ namespace Library
                     output.HTML.Append(" " + cs.attributeWidth);
                 if (!String.IsNullOrEmpty(cs.attributeHeight))
                     output.HTML.Append(" " + cs.attributeHeight);
+                if (this.Events.Count > 0)
+                    output.HTML.Append(" " + this.Events.ToHTMLString());
                 output.HTML.Append(">");
 
                 // set CSS part
@@ -399,6 +414,8 @@ namespace Library
                     output.HTML.Append(" " + cs.attributeWidth);
                 if (!String.IsNullOrEmpty(cs.attributeHeight))
                     output.HTML.Append(" " + cs.attributeHeight);
+                if (this.Events.Count > 0)
+                    output.HTML.Append(" " + this.Events.ToHTMLString());
                 output.HTML.Append(">");
 
                 // set CSS part
@@ -484,6 +501,8 @@ namespace Library
                     output.HTML.Append(" " + cs.attributeWidth);
                 if (!String.IsNullOrEmpty(cs.attributeHeight))
                     output.HTML.Append(" " + cs.attributeHeight);
+                if (this.Events.Count > 0)
+                    output.HTML.Append(" " + this.Events.ToHTMLString());
                 output.HTML.Append(">");
 
                 // set CSS part
@@ -562,6 +581,8 @@ namespace Library
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
                 output.HTML.Append(" " + cs.attributeHeight);
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             output.HTML.Append(">");
 
             myCss.Ids = "#" + myId;
@@ -607,6 +628,8 @@ namespace Library
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
                 output.HTML.Append(" " + cs.attributeHeight);
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             output.HTML.Append(">");
 
             myCss.Ids = "#" + myId;
@@ -655,6 +678,8 @@ namespace Library
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
                 output.HTML.Append(" " + cs.attributeHeight);
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             output.HTML.Append(">");
 
             myCss.Ids = "#" + myId;
@@ -714,6 +739,8 @@ namespace Library
                     output.HTML.Append(" " + cs.attributeWidth);
                 if (!String.IsNullOrEmpty(cs.attributeHeight))
                     output.HTML.Append(" " + cs.attributeHeight);
+                if (this.Events.Count > 0)
+                    output.HTML.Append(" " + this.Events.ToHTMLString());
                 output.HTML.Append(">");
 
                 // set CSS part
@@ -785,6 +812,8 @@ namespace Library
                     output.HTML.Append(" " + cs.attributeWidth);
                 if (!String.IsNullOrEmpty(cs.attributeHeight))
                     output.HTML.Append(" " + cs.attributeHeight);
+                if (this.Events.Count > 0)
+                    output.HTML.Append(" " + this.Events.ToHTMLString());
                 output.HTML.Append(">");
 
                 // set CSS part
@@ -860,6 +889,8 @@ namespace Library
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
                 output.HTML.Append(" " + cs.attributeHeight);
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             output.HTML.Append(">");
 
             myCss.Ids = "#" + myId;
@@ -908,6 +939,8 @@ namespace Library
                 output.HTML.Append(" " + cs.attributeWidth);
             if (!String.IsNullOrEmpty(cs.attributeHeight))
                 output.HTML.Append(" " + cs.attributeHeight);
+            if (this.Events.Count > 0)
+                output.HTML.Append(" " + this.Events.ToHTMLString());
             output.HTML.Append(">");
 
             myCss.Ids = "#" + myId;

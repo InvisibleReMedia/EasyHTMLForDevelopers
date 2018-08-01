@@ -84,12 +84,14 @@
     <Compile Include="DesignPage.cs" />
     <Compile Include="Disposition.cs" />
     <Compile Include="EnumConstraint.cs" />
+    <Compile Include="Events.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="File.cs" />
     <Compile Include="GeneratedSculpture.cs" />
     <Compile Include="Granne.cs" />
     <Compile Include="Hexadecimal.cs" />
     <Compile Include="HorizontalZone.cs" />
+    <Compile Include="HTMLEvent.cs" />
     <Compile Include="HTMLObject.cs" />
     <Compile Include="HTMLTool.cs" />
     <Compile Include="IContainer.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="IGenerateDesignTable.cs" />
     <Compile Include="IGenerateDesignDIV.cs" />
     <Compile Include="ImportType.cs" />
+    <Compile Include="INotify.cs" />
     <Compile Include="IProjectElement.cs" />
     <Compile Include="MasterObject.cs" />
     <Compile Include="MasterPage.cs" />

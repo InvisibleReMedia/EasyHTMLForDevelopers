@@ -75,6 +75,10 @@ namespace Library
         /// </summary>
         protected static readonly string horizontalZoneListName = "horizontalZones";
         /// <summary>
+        /// Index name for events
+        /// </summary>
+        protected static readonly string eventsName = "events";
+        /// <summary>
         /// Index name for javascript code
         /// </summary>
         protected static readonly string javascriptName = "javascript";
@@ -129,6 +133,7 @@ namespace Library
             {
                 this.HorizontalZones.Add(hz.Clone() as HorizontalZone);
             }
+            this.Set(eventsName, refObj.Events.Clone());
             this.Set(javascriptName, refObj.JavaScript.Clone());
             this.Set(javascriptOnloadName, refObj.JavaScriptOnLoad.Clone());
             this.Set(cssName, refObj.CSS.Clone());
@@ -295,6 +300,14 @@ namespace Library
         public List<HorizontalZone> HorizontalZones
         {
             get { return this.Get(horizontalZoneListName, new List<HorizontalZone>()); }
+        }
+
+        /// <summary>
+        /// Gets events
+        /// </summary>
+        public Events Events
+        {
+            get { return this.Get(eventsName, new Events()); }
         }
 
         /// <summary>
@@ -477,6 +490,7 @@ namespace Library
             config.cssPart = this.CSS;
             config.cssOnFile = this.IsCSSOnFile;
             config.cssFile = this.CSSFileName;
+            config.events = this.Events;
             config.javascriptPart = this.JavaScript;
             config.javascriptOnFile = this.IsJavaScriptOnFile;
             config.javascriptFile = this.JavaScriptFileName;
@@ -551,6 +565,7 @@ namespace Library
             config.cssPart = this.CSS;
             config.cssOnFile = this.IsCSSOnFile;
             config.cssFile = this.CSSFileName;
+            config.events = this.Events;
             config.javascriptPart = this.JavaScript;
             config.javascriptOnFile = this.IsJavaScriptOnFile;
             config.javascriptFile = this.JavaScriptFileName;
@@ -798,6 +813,7 @@ namespace Library
                 config.cssPart = cssThumbnail;
                 config.cssOnFile = false;
                 config.cssFile = "";
+                config.events = this.Events;
                 config.javascriptPart = this.JavaScript;
                 config.javascriptOnFile = false;
                 config.javascriptFile = "";
@@ -836,6 +852,7 @@ namespace Library
                 config.cssPart = cssThumbnail;
                 config.cssOnFile = false;
                 config.cssFile = "";
+                config.events = this.Events;
                 config.javascriptPart = this.JavaScript;
                 config.javascriptOnFile = false;
                 config.javascriptFile = "";
@@ -955,6 +972,7 @@ namespace Library
             config.cssPart = this.CSS;
             config.cssOnFile = this.IsCSSOnFile;
             config.cssFile = this.CSSFileName;
+            config.events = this.Events;
             config.javascriptPart = this.JavaScript;
             config.javascriptOnFile = this.IsJavaScriptOnFile;
             config.javascriptFile = this.JavaScriptFileName;
@@ -1016,6 +1034,7 @@ namespace Library
             config.cssPart = this.CSS;
             config.cssOnFile = this.IsCSSOnFile;
             config.cssFile = this.CSSFileName;
+            config.events = this.Events;
             config.javascriptPart = this.JavaScript;
             config.javascriptOnFile = this.IsJavaScriptOnFile;
             config.javascriptFile = this.JavaScriptFileName;
