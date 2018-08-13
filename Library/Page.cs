@@ -55,6 +55,10 @@ namespace Library
         /// Index name for the hosted folder
         /// </summary>
         protected static readonly string folderObjectName = "folder";
+        /// <summary>
+        /// Index name for events
+        /// </summary>
+        protected static readonly string eventsName = "events";
 
         [NonSerialized]
         private OutputHTML specificOutput;
@@ -69,6 +73,7 @@ namespace Library
         public Page()
         {
             this.Set(folderObjectName, null);
+            this.Set(eventsName, new Events());
         }
 
         /// <summary>
@@ -84,6 +89,7 @@ namespace Library
             this.MasterPageName = ExtensionMethods.CloneThis(refp.MasterPageName);
             this.Width = refp.Width;
             this.Height = refp.Height;
+            this.Set(eventsName, refp.Events.Clone());
             foreach (HTMLObject obj in refp.Objects)
             {
                 this.Objects.Add(obj.Clone() as HTMLObject);
@@ -211,6 +217,17 @@ namespace Library
         public string ElementTitle
         {
             get { return this.Name; }
+        }
+
+        /// <summary>
+        /// Gets events
+        /// </summary>
+        public Events Events
+        {
+            get
+            {
+                return this.Get(eventsName, new Events());
+            }
         }
 
         #endregion

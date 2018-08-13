@@ -1526,6 +1526,11 @@
             Code CSS
             </summary>
         </member>
+        <member name="F:Library.DesignPage.events">
+            <summary>
+            Evenements
+            </summary>
+        </member>
         <member name="F:Library.DesignPage.javascriptPart">
             <summary>
             Javascript code
@@ -1645,6 +1650,79 @@
             <summary>
             force child box setted
             </summary>
+        </member>
+        <member name="T:Library.Events">
+            <summary>
+            Event list
+            </summary>
+        </member>
+        <member name="F:Library.Events.notificationListName">
+            <summary>
+            Index name for notificationList
+            </summary>
+        </member>
+        <member name="M:Library.Events.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Library.Events.Add(Library.INotify)">
+            <summary>
+            Add a new event
+            </summary>
+            <param name="n">event</param>
+        </member>
+        <member name="M:Library.Events.Remove(Library.INotify)">
+            <summary>
+            Remove un element
+            </summary>
+            <param name="n"></param>
+        </member>
+        <member name="M:Library.Events.ToHTMLString">
+            <summary>
+            To HTML String
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:Library.Events.ToServerString">
+            <summary>
+            To server String
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:Library.Events.ToString">
+            <summary>
+            Convert html events to string
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="M:Library.Events.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Library.Events.List">
+            <summary>
+            List of events
+            </summary>
+        </member>
+        <member name="P:Library.Events.Count">
+            <summary>
+            Gets the count of this list events
+            </summary>
+        </member>
+        <member name="P:Library.Events.Items">
+            <summary>
+            Gets the events
+            </summary>
+        </member>
+        <member name="P:Library.Events.Item(System.String)">
+            <summary>
+            Gets or sets the event
+            </summary>
+            <param name="evName">event name</param>
+            <returns></returns>
         </member>
         <member name="T:Library.ExtensionMethods">
             <summary>
@@ -2372,6 +2450,11 @@
             Index name for vertical areas
             </summary>
         </member>
+        <member name="F:Library.HorizontalZone.eventsName">
+            <summary>
+            Index name for events
+            </summary>
+        </member>
         <member name="F:Library.HorizontalZone.javascriptName">
             <summary>
             Index name for javascript code
@@ -2626,6 +2709,11 @@
             Gets or sets the automatic name
             </summary>
         </member>
+        <member name="P:Library.HorizontalZone.Events">
+            <summary>
+            Gets events
+            </summary>
+        </member>
         <member name="P:Library.HorizontalZone.JavaScript">
             <summary>
             Gets or sets the javascript code
@@ -2654,6 +2742,61 @@
         <member name="P:Library.HorizontalZone.Stringified">
             <summary>
             Gets the stringified horizontal area
+            </summary>
+        </member>
+        <member name="T:Library.HTMLEvent">
+            <summary>
+            HTML Event relation
+            </summary>
+        </member>
+        <member name="T:Library.INotify">
+            <summary>
+            Interface for notification
+            </summary>
+        </member>
+        <member name="F:Library.HTMLEvent.eventNameName">
+            <summary>
+            Id for Event name
+            </summary>
+        </member>
+        <member name="F:Library.HTMLEvent.funcImpl">
+            <summary>
+            raise list
+            </summary>
+        </member>
+        <member name="M:Library.HTMLEvent.#ctor(System.String)">
+            <summary>
+            Default constructor
+            </summary>
+            <param name="eventName">event name</param>
+        </member>
+        <member name="M:Library.HTMLEvent.Catch(System.Object,System.EventArgs)">
+            <summary>
+            Catch events
+            </summary>
+            <param name="sender">sender</param>
+            <param name="e">args</param>
+            <returns>code</returns>
+        </member>
+        <member name="M:Library.HTMLEvent.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>cloned object</returns>
+        </member>
+        <member name="P:Library.HTMLEvent.IsServerSide">
+            <summary>
+            Gets if this event is server side
+            </summary>
+        </member>
+        <member name="P:Library.HTMLEvent.NotificationName">
+            <summary>
+            Gets or sets the notification name
+            </summary>
+        </member>
+        <member name="P:Library.HTMLEvent.Raise">
+            <summary>
+            Gets the list of actions
             </summary>
         </member>
         <member name="T:Library.HTMLObject">
@@ -2837,6 +2980,11 @@
         <member name="F:Library.HTMLObject.HTMLContentName">
             <summary>
             Index name for HTML content
+            </summary>
+        </member>
+        <member name="F:Library.HTMLObject.eventsName">
+            <summary>
+            Index name for events
             </summary>
         </member>
         <member name="F:Library.HTMLObject.javascriptName">
@@ -3094,6 +3242,11 @@
             Gets the final HTML content after translation of any configuration key
             </summary>
         </member>
+        <member name="P:Library.HTMLObject.Events">
+            <summary>
+            Gets events
+            </summary>
+        </member>
         <member name="P:Library.HTMLObject.JavaScript">
             <summary>
             Gets the JavaScript code
@@ -3192,6 +3345,11 @@
         <member name="F:Library.HTMLTool.HTMLContentName">
             <summary>
             Index name for HTML content
+            </summary>
+        </member>
+        <member name="F:Library.HTMLTool.eventsName">
+            <summary>
+            Index name for events
             </summary>
         </member>
         <member name="F:Library.HTMLTool.javascriptName">
@@ -3363,6 +3521,11 @@
             Gets the final HTML content after translation of any configuration key
             </summary>
         </member>
+        <member name="P:Library.HTMLTool.Events">
+            <summary>
+            Gets events
+            </summary>
+        </member>
         <member name="P:Library.HTMLTool.JavaScript">
             <summary>
             Gets the JavaScript code
@@ -3492,6 +3655,11 @@
         <member name="F:Library.MasterObject.heightName">
             <summary>
             Index name for height value
+            </summary>
+        </member>
+        <member name="F:Library.MasterObject.eventsName">
+            <summary>
+            Index name for events
             </summary>
         </member>
         <member name="F:Library.MasterObject.javascriptName">
@@ -3902,6 +4070,11 @@
             Gets the horizontal areas
             </summary>
         </member>
+        <member name="P:Library.MasterObject.Events">
+            <summary>
+            Gets events
+            </summary>
+        </member>
         <member name="P:Library.MasterObject.JavaScript">
             <summary>
             Gets or sets the javascript code
@@ -4022,6 +4195,11 @@
         <member name="F:Library.MasterPage.horizontalZoneListName">
             <summary>
             Index name for horizontal areas
+            </summary>
+        </member>
+        <member name="F:Library.MasterPage.eventsName">
+            <summary>
+            Index name for events
             </summary>
         </member>
         <member name="F:Library.MasterPage.javascriptName">
@@ -4451,6 +4629,11 @@
         <member name="P:Library.MasterPage.HorizontalZones">
             <summary>
             Gets horizontal areas
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.Events">
+            <summary>
+            Gets events
             </summary>
         </member>
         <member name="P:Library.MasterPage.JavaScript">
@@ -6599,6 +6782,11 @@
             Index name for height value
             </summary>
         </member>
+        <member name="F:Library.VerticalZone.eventsName">
+            <summary>
+            Index name for events
+            </summary>
+        </member>
         <member name="F:Library.VerticalZone.javascriptName">
             <summary>
             Index name for javascript code
@@ -6867,6 +7055,11 @@
         <member name="P:Library.VerticalZone.CSS">
             <summary>
             Gets the css code
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.Events">
+            <summary>
+            Gets events
             </summary>
         </member>
         <member name="P:Library.VerticalZone.JavaScript">
