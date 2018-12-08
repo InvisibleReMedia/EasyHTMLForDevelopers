@@ -27,6 +27,10 @@ namespace UXFramework
         /// </summary>
         private List<IUXObject> children;
         /// <summary>
+        /// Beam UX-Plateform
+        /// </summary>
+        private BeamConnections.InteractiveBeam beam;
+        /// <summary>
         /// delegate to update ux
         /// </summary>
         private Action update;
@@ -46,6 +50,10 @@ namespace UXFramework
         {
             this.children = new List<IUXObject>();
             this.htmlSrc = new StringBuilder();
+            this.beam = new BeamConnections.InteractiveBeam();
+
+            this.beam.SetPropertyValue("Background", BeamConnections.Beam.Register("Background", this, "transparent"));
+            this.beam.SetPropertyValue("Foreground", BeamConnections.Beam.Register("Foreground", this, "black"));
         }
 
         #endregion
@@ -82,6 +90,14 @@ namespace UXFramework
             {
                 this.parent = value;
             }
+        }
+
+        /// <summary>
+        /// Gets the interactive beam
+        /// </summary>
+        public BeamConnections.InteractiveBeam Beam
+        {
+            get { return this.beam; }
         }
 
         #endregion

@@ -26,6 +26,10 @@ namespace UXFramework
         /// </summary>
         IUXObject Parent { get; set; }
         /// <summary>
+        /// Beam UX-Plateform
+        /// </summary>
+        BeamConnections.InteractiveBeam Beam { get; }
+        /// <summary>
         /// Add a new string into HTML destination stream
         /// </summary>
         /// <param name="s">text</param>

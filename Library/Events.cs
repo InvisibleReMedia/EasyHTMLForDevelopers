@@ -127,7 +127,7 @@ namespace Library
                 if (!f.IsServerSide)
                 {
                     if (!String.IsNullOrEmpty(output)) output += " ";
-                    output += f.NotificationName + ":'" + f.Catch(this, new EventArgs()).Replace("\\", "\\\\").Replace("'", "\'") + "'";
+                    output += f.NotificationName + "='javascript:" + f.Catch(this, new EventArgs()).Replace("\\", "\\\\").Replace("'", "\'") + ";'";
                 }
             }
             return output;

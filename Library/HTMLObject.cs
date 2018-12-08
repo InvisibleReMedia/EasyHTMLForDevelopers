@@ -260,7 +260,7 @@ namespace Library
         /// </summary>
         public uint Width
         {
-            get { return this.Get(widthName, 0); }
+            get { return (uint)this.Get(widthName, 0); }
             set { this.Set(widthName, value); }
         }
 
@@ -278,7 +278,7 @@ namespace Library
         /// </summary>
         public uint Height
         {
-            get { return this.Get(heightName, 0); }
+            get { return (uint)this.Get(heightName, 0); }
             set { this.Set(heightName, value); }
         }
 
