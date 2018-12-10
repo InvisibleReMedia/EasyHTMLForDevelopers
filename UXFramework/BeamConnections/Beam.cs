@@ -15,10 +15,6 @@ namespace UXFramework.BeamConnections
         #region Fields
 
         /// <summary>
-        /// Name of this beam
-        /// </summary>
-        private string name;
-        /// <summary>
         /// Property name
         /// </summary>
         private string propName;
@@ -30,19 +26,14 @@ namespace UXFramework.BeamConnections
         /// Source object
         /// </summary>
         private IUXObject source;
+        /// <summary>
+        /// Event
+        /// </summary>
+        private event EventHandler raiseCode;
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Name of this beam
-        /// </summary>
-        public string Name
-        {
-            get { return this.name; }
-            set { this.name = value; }
-        }
 
         /// <summary>
         /// Name of this property
@@ -58,6 +49,21 @@ namespace UXFramework.BeamConnections
         public IUXObject Source
         {
             get { return this.source; }
+        }
+
+        /// <summary>
+        /// Add or remove event
+        /// </summary>
+        public event EventHandler RaiseCode
+        {
+            add
+            {
+                this.raiseCode += value;
+            }
+            remove
+            {
+                this.raiseCode -= value;
+            }
         }
 
         #endregion
@@ -87,11 +93,11 @@ namespace UXFramework.BeamConnections
         /// </summary>
         /// <param name="name">name of this beam</param>
         /// <param name="source">source object</param>
-        /// <param name="pn">property name</param>
         /// <param name="defaultValue">default value</param>
         public static Beam Register(string name, IUXObject source, dynamic defaultValue) {
 
             Beam b = new Beam();
+            b.propName = name;
             b.source = source;
             b.WriteProperty(defaultValue);
             return b;

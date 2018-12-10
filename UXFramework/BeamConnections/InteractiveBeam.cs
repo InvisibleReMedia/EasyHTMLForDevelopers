@@ -9,8 +9,18 @@ namespace UXFramework.BeamConnections
     /// Class to implements an interactive beam
     /// between renderer and ux
     /// </summary>
-    public class InteractiveBeam : Marshalling.PersistentDataObject, IBeamConnection
+    public class InteractiveBeam : UXControl, IBeamConnection
     {
+
+        #region Constructor
+
+        public InteractiveBeam(IUXObject x)
+        {
+            this.SetPropertyValue("Background", BeamConnections.Beam.Register("Background", x, VisualIdentity.Current.BackgroundColor));
+            this.SetPropertyValue("Foreground", BeamConnections.Beam.Register("Foreground", x, VisualIdentity.Current.ForegroundColor));
+        }
+
+        #endregion
 
         /// <summary>
         /// Gets a property value of this beam
@@ -19,7 +29,7 @@ namespace UXFramework.BeamConnections
         /// <returns>beam</returns>
         public Beam GetPropertyValue(string name)
         {
-            return this.Get(name, string.Empty);
+            return this.Get(name, new Beam());
         }
 
         /// <summary>
@@ -31,7 +41,7 @@ namespace UXFramework.BeamConnections
         {
             List<Beam> list = new List<Beam>();
             foreach(string s in names) {
-                list.Add(this.Get(s, string.Empty));
+                list.Add(this.Get(s, new Beam()));
             }
             return list.ToArray();
         }

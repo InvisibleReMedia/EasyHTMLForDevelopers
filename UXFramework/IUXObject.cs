@@ -47,7 +47,8 @@ namespace UXFramework
         /// <summary>
         /// Connect for interoperability C#/Web
         /// </summary>
-        void Connect();
+        /// <param name="web">web browser</param>
+        void Connect(WebBrowser web);
         /// <summary>
         /// Navigate function (main function)
         /// </summary>

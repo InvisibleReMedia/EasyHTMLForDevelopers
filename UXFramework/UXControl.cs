@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace UXFramework
 {
-    public class UXControl : IUXObject
+    public class UXControl : Marshalling.PersistentDataObject, IUXObject, Marshalling.IMarshalling
     {
 
         #region Fields
@@ -17,27 +17,27 @@ namespace UXFramework
         /// <summary>
         /// Name
         /// </summary>
-        private string name;
+        public static readonly string nameName = "name";
         /// <summary>
         /// Parent object
         /// </summary>
-        private IUXObject parent;
+        public static readonly string parentName = "parent";
         /// <summary>
         /// Inner controls
         /// </summary>
-        private List<IUXObject> children;
+        public static readonly string childrenName = "children";
         /// <summary>
         /// Beam UX-Plateform
         /// </summary>
-        private BeamConnections.InteractiveBeam beam;
+        public static readonly string beamName = "beam";
         /// <summary>
         /// delegate to update ux
         /// </summary>
-        private Action update;
+        private static readonly string actionName = "action";
         /// <summary>
         /// HTML source
         /// </summary>
-        protected StringBuilder htmlSrc;
+        public static readonly string htmlSourceName = "html";
 
         #endregion
 
@@ -48,12 +48,8 @@ namespace UXFramework
         /// </summary>
         public UXControl()
         {
-            this.children = new List<IUXObject>();
-            this.htmlSrc = new StringBuilder();
-            this.beam = new BeamConnections.InteractiveBeam();
-
-            this.beam.SetPropertyValue("Background", BeamConnections.Beam.Register("Background", this, "transparent"));
-            this.beam.SetPropertyValue("Foreground", BeamConnections.Beam.Register("Foreground", this, "black"));
+            this.Set(childrenName, new List<IUXObject>());
+            this.Set(htmlSourceName, new StringBuilder());
         }
 
         #endregion
@@ -65,8 +61,23 @@ namespace UXFramework
         /// </summary>
         public string Name
         {
-            get { return this.name; }
-            set { this.name = value; }
+            get { return this.Get(nameName, string.Empty); }
+            set { this.Set(nameName, value); }
+        }
+
+        /// <summary>
+        /// Gets the value of this control
+        /// </summary>
+        public dynamic Value
+        {
+            get
+            {
+                return this;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
@@ -74,7 +85,7 @@ namespace UXFramework
         /// </summary>
         public List<IUXObject> Children
         {
-            get { return this.children; }
+            get { return this.Get(childrenName); }
         }
 
         /// <summary>
@@ -84,11 +95,11 @@ namespace UXFramework
         {
             get
             {
-                return this.parent;
+                return this.Get(parentName);
             }
             set
             {
-                this.parent = value;
+                this.Set(parentName, value);
             }
         }
 
@@ -97,7 +108,15 @@ namespace UXFramework
         /// </summary>
         public BeamConnections.InteractiveBeam Beam
         {
-            get { return this.beam; }
+            get { return this.Get(beamName, new BeamConnections.InteractiveBeam(this)); }
+        }
+
+        /// <summary>
+        /// Gets the html source
+        /// </summary>
+        public StringBuilder HtmlSource
+        {
+            get { return this.Get(htmlSourceName); }
         }
 
         #endregion
@@ -110,7 +129,7 @@ namespace UXFramework
         /// <param name="s">text</param>
         public void Add(string s)
         {
-            this.htmlSrc.Append(s);
+            this.HtmlSource.Append(s);
         }
 
         /// <summary>
@@ -120,7 +139,7 @@ namespace UXFramework
         public void Add(IUXObject obj)
         {
             obj.Parent = this;
-            this.children.Add(obj);
+            this.Children.Add(obj);
         }
 
         /// <summary>
@@ -129,26 +148,28 @@ namespace UXFramework
         /// <param name="sw">stream</param>
         public virtual void Write(StreamWriter sw)
         {
-            sw.Write(this.htmlSrc.ToString());
+            sw.Write(this.HtmlSource.ToString());
         }
 
         /// <summary>
         /// Recursive connect function call
         /// </summary>
         /// <param name="ux">ux</param>
-        protected void RecursiveConnect(IUXObject ux)
+        /// <param name="web">web browser</param>
+        protected void RecursiveConnect(IUXObject ux, WebBrowser web)
         {
-            ux.Connect();
+            ux.Connect(web);
             foreach (IUXObject child in ux.Children)
             {
-                RecursiveConnect(child);
+                RecursiveConnect(child, web);
             }
         }
 
         /// <summary>
         /// Connect for interoperability C#/Web
         /// </summary>
-        public virtual void Connect()
+        /// <param name="web">web browser</param>
+        public virtual void Connect(WebBrowser web)
         {
         }
 
@@ -165,8 +186,8 @@ namespace UXFramework
         /// </summary>
         public virtual void UpdateOne()
         {
-            if (this.update != null)
-                this.update.Invoke();
+            if (this.Exists(actionName) && this.Get(actionName) != null)
+                this.Get(actionName).Invoke();
         }
 
         /// <summary>
@@ -175,7 +196,7 @@ namespace UXFramework
         public virtual void UpdateChildren()
         {
             this.UpdateOne();
-            foreach (IUXObject ux in this.children)
+            foreach (IUXObject ux in this.Children)
             {
                 ux.UpdateChildren();
             }
@@ -185,14 +206,12 @@ namespace UXFramework
         /// Get the top-most window ux
         /// </summary>
         /// <returns>ux window</returns>
-        public IUXObject GetUXWindow()
+        public virtual IUXObject GetUXWindow()
         {
-            IUXObject current = this;
-            while (current.Parent != null && !(current is UXWindow))
-            {
-                current = current.Parent;
-            }
-            return current;
+            if (Parent != null)
+                return Parent.GetUXWindow();
+            else
+                throw new NullReferenceException("parent vide");
         }
 
         /// <summary>
@@ -211,7 +230,7 @@ namespace UXFramework
         /// <param name="a">action</param>
         public void SetUpdate(Action a)
         {
-            this.update = a;
+            this.Set(actionName, a);
         }
 
         #endregion

@@ -402,11 +402,11 @@ namespace Library
                     if (!String.IsNullOrEmpty(this.BackgroundImageURL))
                         if (!this.IsBodyKey("background-image")) { data += "background-image:url('" + this.BackgroundImageURL + "');" + Environment.NewLine; }
                     if (!this.BackgroundColor.IsEmpty)
-                        if (!this.IsBodyKey("background-color")) 
+                        if (!this.IsBodyKey("background-color"))
                             if (this.BackgroundColor.Color.A != 255)
                                 data += "background-color:rgba(" + this.BackgroundColor.Color.R.ToString() + "," + this.BackgroundColor.Color.G.ToString() + "," + this.BackgroundColor.Color.B.ToString() + "," + (this.BackgroundColor.Color.A / 255.0).ToString() + ");" + Environment.NewLine;
                             else
-                            data += "background-color:rgb(" + this.BackgroundColor.Color.R.ToString() + "," + this.BackgroundColor.Color.G.ToString() + "," + this.BackgroundColor.Color.B.ToString() + ");" + Environment.NewLine;
+                                data += "background-color:rgb(" + this.BackgroundColor.Color.R.ToString() + "," + this.BackgroundColor.Color.G.ToString() + "," + this.BackgroundColor.Color.B.ToString() + ");" + Environment.NewLine;
                     if (!this.BorderLeftColor.IsEmpty)
                         if (!this.IsBodyKey("border-left-color"))
                             if (this.BorderLeftColor.Color.A != 255)

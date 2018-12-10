@@ -76,7 +76,7 @@ namespace Library
         {
             get
             {
-                return this.Get(colorName) == null;
+                return !this.Exists(colorName);
             }
         }
 

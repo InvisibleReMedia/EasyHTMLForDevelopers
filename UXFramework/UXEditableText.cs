@@ -34,10 +34,11 @@ namespace UXFramework
         /// <summary>
         /// Connect for interoperability C#/Web
         /// </summary>
-        public override void Connect()
+        /// <param name="web">web browser</param>
+        public override void Connect(WebBrowser web)
         {
-            base.Connect();
-            HtmlElement e = this.GetWebBrowser().Document.GetElementById("txt1");
+            base.Connect(web);
+            HtmlElement e = web.Document.GetElementById("txt1");
             if (e != null)
             {
                 e.LostFocus += UXEditableText_LostFocus;

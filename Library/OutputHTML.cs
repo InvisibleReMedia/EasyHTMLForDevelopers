@@ -67,7 +67,7 @@ namespace Library
         /// <param name="cssAdditional">css to add</param>
         public void AppendCSS(List<CodeCSS> cssAdditional)
         {
-            cssAdditional.ForEach(a => { this.CSS.Append(a.GenerateCSS(false, true, true) + Environment.NewLine); });
+            cssAdditional.ForEach(a => { this.CSS.Append(a.GenerateCSS(true, true, true) + Environment.NewLine); });
         }
 
         #endregion

@@ -66,7 +66,7 @@ namespace UXFramework
             {
                 this.list.Add(kv.Key, kv.Value);
             }
-            this.htmlSrc.Clear();
+            this.HtmlSource.Clear();
             this.Add("<select id='cmb1'>");
             foreach (string key in this.list.Keys)
             {
@@ -82,10 +82,10 @@ namespace UXFramework
         /// <summary>
         /// Connect for interoperability C#/Web
         /// </summary>
-        public override void Connect()
+        public override void Connect(WebBrowser web)
         {
-            base.Connect();
-            HtmlElement e = this.GetWebBrowser().Document.GetElementById("cmb1");
+            base.Connect(web);
+            HtmlElement e = web.Document.GetElementById("cmb1");
             if (e != null)
             {
                 e.Click += UXCombo_Click;

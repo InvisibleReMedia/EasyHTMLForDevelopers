@@ -107,10 +107,11 @@ namespace UXFramework
         /// <summary>
         /// Connect for interoperability C#/Web
         /// </summary>
-        public override void Connect()
+        /// <param name="web">web browser</param>
+        public override void Connect(WebBrowser web)
         {
-            base.Connect();
-            HtmlElement e = this.GetWebBrowser().Document.GetElementById(this.id);
+            base.Connect(web);
+            HtmlElement e = web.Document.GetElementById(this.id);
             if (e != null)
             {
                 e.Click += UXButton_Click;

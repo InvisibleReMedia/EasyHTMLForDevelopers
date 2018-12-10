@@ -18,14 +18,13 @@ namespace UXFramework
         #region Fields
 
         /// <summary>
-        /// Column size and line size
+        /// Column size
         /// </summary>
-        private uint columns, lines;
+        protected static readonly string columnSizeName = "columns";
         /// <summary>
-        /// Colorize, borderize, dispositioning horizontal and vertical
+        /// Line size
         /// </summary>
-        private SizeArgs[,] verticalCustomizer;
-        private SizeArgs[] horizontalCustomizer;
+        protected static readonly string lineSizeName = "lines";
 
         #endregion
 
@@ -203,8 +202,14 @@ namespace UXFramework
         /// <summary>
         /// Default constructor
         /// </summary>
-        public UXTable()
+        /// <param name="columnCount">column count</param>
+        /// <param name="lineCount">line count</param>
+        /// <param name="id">id</param>
+        public UXTable(uint columnCount, uint lineCount, string id)
         {
+            this.Set(columnSizeName, columnCount);
+            this.Set(lineSizeName, lineCount);
+            this.Name = id;
         }
 
         #endregion
@@ -216,8 +221,8 @@ namespace UXFramework
         /// </summary>
         public uint ColumnCount
         {
-            get { return this.columns; }
-            set { this.columns = value; this.verticalCustomizer = new SizeArgs[this.lines, this.columns]; }
+            get { return this.Get(columnSizeName, 0); }
+            set { this.Set(columnSizeName, value); }
         }
 
         /// <summary>
@@ -225,24 +230,8 @@ namespace UXFramework
         /// </summary>
         public uint LineCount
         {
-            get { return this.lines; }
-            set { this.lines = value; this.horizontalCustomizer = new SizeArgs[this.lines]; }
-        }
-
-        /// <summary>
-        /// Horizontal customization information
-        /// </summary>
-        public SizeArgs[] HorizontalCustomization
-        {
-            get { return this.horizontalCustomizer; }
-        }
-
-        /// <summary>
-        /// Vertical ustomization information
-        /// </summary>
-        public SizeArgs[,] VerticalCustomization
-        {
-            get { return this.verticalCustomizer; }
+            get { return this.Get(lineSizeName, 0); }
+            set { this.Set(lineSizeName, value); }
         }
 
         #endregion
@@ -250,43 +239,41 @@ namespace UXFramework
         #region Methods
 
         /// <summary>
-        /// Set the horizontal of this table
+        /// Bind sequence
         /// </summary>
-        /// <param name="l">line size</param>
-        public void SetHorizontal(uint l, Action<object, SizeArgs> a)
+        /// <param name="a">specific bind function</param>
+        public virtual void Bind(Marshalling.IMarshalling m)
         {
-            this.lines = l;
-            this.horizontalCustomizer = new SizeArgs[this.lines];
-            for (uint pos_line = 0; pos_line < this.lines; ++pos_line)
+            if (m is Marshalling.MarshallingList)
             {
-                SizeArgs current = new SizeArgs();
-                current.lineNumber = pos_line;
-                a.Invoke(this, current);
-                if (current.isValid)
-                    this.HorizontalCustomization[pos_line] = current;
-            }
-        }
-
-        /// <summary>
-        /// Set the vertical of this table
-        /// </summary>
-        /// <param name="c">column size</param>
-        /// <param name="l">line size</param>
-        public void SetVertical(uint c, uint l, Action<object, SizeArgs> a)
-        {
-            this.columns = c;
-            this.lines = l;
-            this.verticalCustomizer = new SizeArgs[this.lines, this.columns];
-            for (uint pos_line = 0; pos_line < this.lines; ++pos_line)
-            {
-                for(uint pos_column = 0; pos_column < this.columns; ++pos_column)
+                Marshalling.MarshallingList list = m as Marshalling.MarshallingList;
+                // construction de la table
+                uint count = Convert.ToUInt32(list.Count);
+                if (count > 0)
                 {
-                    SizeArgs current = new SizeArgs();
-                    current.lineNumber = pos_line;
-                    current.columnNumber = pos_column;
-                    a.Invoke(this, current);
-                    if (current.isValid)
-                        this.VerticalCustomization[pos_line, pos_column] = current;
+                    for (int index = 0; index < count; ++index)
+                    {
+                        // construction d'une nouvelle ligne
+                        UXRow row = new UXRow((uint)index, this.ColumnCount);
+                        row.Bind(list[index]);
+                        this.Children.Add(row);
+                    }
+                }
+            }
+            else if (m is Marshalling.MarshallingHash)
+            {
+                Marshalling.MarshallingHash hash = m as Marshalling.MarshallingHash;
+                // construction de la table
+                uint count = Convert.ToUInt32(hash.HashKeys.Count());
+                if (count > 0)
+                {
+                    for (int index = 0; index < count; ++index)
+                    {
+                        // construction d'une nouvelle ligne
+                        UXRow row = new UXRow((uint)index, this.ColumnCount);
+                        row.Bind(hash[hash.HashKeys.ElementAt(index)]);
+                        this.Children.Add(row);
+                    }
                 }
             }
         }

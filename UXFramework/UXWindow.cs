@@ -80,7 +80,7 @@ namespace UXFramework
         private void WWW_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             WebBrowser www = (WebBrowser)sender;
-            RecursiveConnect(this);
+            RecursiveConnect(this,www);
             www.DocumentCompleted -= WWW_DocumentCompleted;
         }
 
@@ -98,6 +98,15 @@ namespace UXFramework
             {
                 throw new NullReferenceException("WebBrowser lost!");
             }
+        }
+
+        /// <summary>
+        /// Get the top-most window ux
+        /// </summary>
+        /// <returns>ux window</returns>
+        public override IUXObject GetUXWindow()
+        {
+            return this;
         }
 
         #endregion

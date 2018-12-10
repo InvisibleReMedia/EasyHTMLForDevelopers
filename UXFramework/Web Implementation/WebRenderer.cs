@@ -25,6 +25,7 @@ namespace UXFramework.WebImplementation
         private MasterPage currentMasterPage;
         private string currentContainer;
         private dynamic currentObject;
+        private MasterObject currentMasterObject;
 
         #endregion
 
@@ -96,12 +97,20 @@ namespace UXFramework.WebImplementation
             innerDiv.Discret("text-align", "center");
             tool.CSSAdditional.Add(innerDiv);
             CodeCSS lineUp = new CodeCSS(".lineUp");
-            lineUp.Discret("background-color", "blue");
-            lineUp.Discret("color", "white");
+            lineUp.Discret("width", "auto");
+            lineUp.Discret("height", "auto");
+            lineUp.Discret("padding", "5px");
+            lineUp.Discret("font-size", "11pt");
+            lineUp.Discret("background-color", "#0000FF");
+            lineUp.Discret("color", "#FFFFFF");
             tool.CSSAdditional.Add(lineUp);
             CodeCSS lineDown = new CodeCSS(".lineDown");
-            lineDown.Discret("background-color", "gray");
-            lineDown.Discret("color", "black");
+            lineDown.Discret("width", "auto");
+            lineDown.Discret("height", "auto");
+            lineDown.Discret("padding", "5px");
+            lineDown.Discret("font-size", "11pt");
+            lineDown.Discret("background-color", "#222222");
+            lineDown.Discret("color", "#000000");
             tool.CSSAdditional.Add(lineDown);
             sb = new StringBuilder();
             sb.Append("var currentIndex; function onRoll(obj) {  obj.oldBackgroundColor = obj.style.backgroundColor; ");
@@ -121,8 +130,9 @@ namespace UXFramework.WebImplementation
             sb.Append("  function unImageRoll(obj) { if (obj.rollSrc != undefined) { obj.src = obj.saveSrc; } else { unRoll(obj); } }");
             sb.Append("function onImageClickDown(obj) { if (obj.clickSrc != undefined) { obj.saveSrc = obj.src; obj.src = obj.clickSrc; } else { onClickDown(obj); } }  ");
             sb.Append("function onImageClickUp(obj) { if (obj.clickSrc != undefined) { obj.src = obj.saveSrc; } else { onClickUp(obj); } }  ");
+            sb.Append("function serverSideCall(notif, data) { var p = document.getElementById('serverSideHandler'); p.notif = notif; p.data = data; p.click(); }");
             tool.JavaScript.Code = sb.ToString();
-            tool.HTML = "";
+            tool.HTML = "<div id='serverSideHandler' style='display:none'></div>";
             this.project.Tools.Add(tool);
 
             tool = new HTMLTool();
@@ -472,72 +482,17 @@ namespace UXFramework.WebImplementation
             mo.CountColumns = table.ColumnCount;
             mo.CountLines = table.LineCount;
 
-            for(uint pos_line = 0; pos_line < table.LineCount; ++pos_line)
+            MasterObject previousMasterObject = currentMasterObject;
+            this.currentMasterObject = mo;
+            dynamic previousObject = this.currentObject;
+            this.currentObject = mo;
+            for (int pos_line = 0; pos_line < table.LineCount; ++pos_line)
             {
-                UXTable.SizeArgs s = table.HorizontalCustomization[pos_line];
-                if (s!= null && s.isValid) {
-                    HorizontalZone h = new HorizontalZone();
-                    h.ConstraintWidth = s.constraintWidth;
-                    h.ConstraintHeight = s.constraintHeight;
-                    h.CountLines = s.lineSize;
-                    h.Height = Convert.ToUInt32(s.height);
-                    h.Width = Convert.ToUInt32(s.width);
-                    this.RenderCSSProperties(h.CSS, table.Beam);
-                    h.CSS.BorderBottomColor = h.CSS.BorderLeftColor = h.CSS.BorderRightColor = h.CSS.BorderTopColor = (CSSColor)s.borderColor.Clone();
-                    h.CSS.Border = new Rectangle(s.borderSize, s.borderSize, s.borderSize, s.borderSize);
-                    h.CSS.Padding = new Rectangle(s.paddingSize, s.paddingSize, s.paddingSize, s.paddingSize);
-                    HTMLEvent evMouseEnter = new HTMLEvent("onmouseover");
-                    evMouseEnter.Raise.Add((o, e) =>
-                    {
-                        return "onSelectLine(this)";
-                    });
-                    h.Events.Add(evMouseEnter);
-                    HTMLEvent evMouseLeave = new HTMLEvent("onmouseout");
-                    evMouseLeave.Raise.Add((o, e) =>
-                    {
-                        return "onUnselectLine(this)";
-                    });
-                    h.Events.Add(evMouseLeave);
-                    mo.HorizontalZones.Add(h);
-                    for (uint pos_column = 0; pos_column < table.ColumnCount; ++pos_column)
-                    {
-                        UXTable.SizeArgs s2 = table.VerticalCustomization[pos_line, pos_column];
-                        if (s2 != null && s2.isValid)
-                        {
-                            VerticalZone v = new VerticalZone();
-                            v.Width = Convert.ToUInt32(s2.width);
-                            v.Height = Convert.ToUInt32(s2.height);
-                            v.Disposition = s2.disposition;
-                            v.ConstraintWidth = s2.constraintWidth;
-                            v.ConstraintHeight = s2.constraintHeight;
-                            v.CountLines = s2.lineSize;
-                            v.CountColumns = s2.columnSize;
-                            this.RenderCSSProperties(v.CSS, table.Beam);
-                            v.CSS.BorderBottomColor = v.CSS.BorderLeftColor = v.CSS.BorderRightColor = v.CSS.BorderTopColor = (CSSColor)s2.borderColor.Clone();
-                            v.CSS.Border = new Rectangle(s2.borderSize, s2.borderSize, s2.borderSize, s2.borderSize);
-                            v.CSS.Padding = new Rectangle(s2.paddingSize, s2.paddingSize, s2.paddingSize, s2.paddingSize);
-                            h.VerticalZones.Add(v);
-                        }
-                    }
-                }
+                if (table.Children[pos_line] != null)
+                    RenderControl(table.Children[pos_line]);
             }
-
-            for (uint pos_line = 0; pos_line < mo.HorizontalZones.Count; ++pos_line)
-            {
-                HorizontalZone h = mo.HorizontalZones[(int)pos_line];
-                for (uint pos_column = 0; pos_column < h.VerticalZones.Count; ++pos_column)
-                {
-                    VerticalZone v = h.VerticalZones[(int)pos_column];
-                    string previousContainer = this.currentContainer;
-                    this.currentContainer = v.Name;
-                    if (table.VerticalCustomization[pos_line, pos_column].content != null)
-                    {
-                        table.Add(table.VerticalCustomization[pos_line, pos_column].content);
-                        RenderControl(table.VerticalCustomization[pos_line, pos_column].content);
-                    }
-                    this.currentContainer = previousContainer;
-                }
-            }
+            this.currentObject = previousObject;
+            this.currentMasterObject = previousMasterObject;
 
             this.project.MasterObjects.Add(mo);
 
@@ -545,6 +500,69 @@ namespace UXFramework.WebImplementation
             obj.Container = this.currentContainer;
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
+        }
+
+        /// <summary>
+        /// Render a single row of a table
+        /// </summary>
+        /// <param name="row">row to render</param>
+        public void RenderControl(UXRow row)
+        {
+            HorizontalZone h = new HorizontalZone();
+            h.ConstraintWidth = EnumConstraint.AUTO;
+            h.ConstraintHeight = EnumConstraint.FIXED;
+            h.CountLines = 1;
+            h.Height = 30;
+            h.Width = 50;
+            this.RenderCSSProperties(h.CSS, row.Beam);
+            this.currentObject.HorizontalZones.Add(h);
+            dynamic previousObject = this.currentObject;
+            for (int pos_column = 0; pos_column < row.ColumnCount; ++pos_column)
+            {
+                this.currentObject = h;
+                if (row.Children[pos_column] != null)
+                    RenderControl(row.Children[pos_column]);
+            }
+            this.currentObject = previousObject;
+        }
+
+        /// <summary>
+        /// Render a single cell of a table
+        /// </summary>
+        /// <param name="cell">cell to render</param>
+        public void RenderControl(UXCell cell)
+        {
+            VerticalZone v = new VerticalZone();
+            v.Disposition = Disposition.CENTER;
+            v.ConstraintWidth = EnumConstraint.AUTO;
+            v.ConstraintHeight = EnumConstraint.AUTO;
+            v.CountLines = 1;
+            v.CountColumns = 1;
+            this.RenderCSSProperties(v.CSS, cell.Beam);
+            this.currentObject.VerticalZones.Add(v);
+
+            string previousContainer = this.currentContainer;
+            dynamic previousObject = this.currentObject;
+            this.currentContainer = v.Name;
+            this.currentObject = this.currentMasterObject;
+            foreach (IUXObject obj in cell.Children)
+            {
+                RenderControl(obj);
+            }
+            this.currentContainer = previousContainer;
+            this.currentObject = previousObject;
+        }
+
+        public void RenderControl(BeamConnections.InteractiveBeam beam)
+        {
+            if (beam.Exists("clickEvent"))
+            {
+                BeamConnections.Beam b = beam.GetPropertyValue("clickEvent"); 
+                HTMLEvent e = new HTMLEvent("onclick");
+                e.NotificationName = "click";
+                e.Raise.Add((sender, a) => { return "alert('ok');"; });
+                this.currentObject.Events.Add(e);
+            }
         }
 
         /// <summary>
@@ -567,7 +585,10 @@ namespace UXFramework.WebImplementation
             else if (obj is UXViewSelectableDataTable) RenderControl(obj as UXViewSelectableDataTable);
             else if (obj is UXViewDataTable) RenderControl(obj as UXViewDataTable);
             else if (obj is UXTable) RenderControl(obj as UXTable);
+            else if (obj is UXRow) RenderControl(obj as UXRow);
+            else if (obj is UXCell) RenderControl(obj as UXCell);
             else if (obj is UXWindow) RenderControl(obj as UXWindow);
+            else if (obj is BeamConnections.InteractiveBeam) RenderControl(obj as BeamConnections.InteractiveBeam);
         }
 
         #endregion

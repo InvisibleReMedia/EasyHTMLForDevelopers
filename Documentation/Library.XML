@@ -2754,6 +2754,29 @@
             Interface for notification
             </summary>
         </member>
+        <member name="M:Library.INotify.Catch(System.Object,System.EventArgs)">
+            <summary>
+            Handle event
+            </summary>
+            <param name="sender">source</param>
+            <param name="e">arguments</param>
+            <returns>code to insert</returns>
+        </member>
+        <member name="P:Library.INotify.NotificationName">
+            <summary>
+            Notification name
+            </summary>
+        </member>
+        <member name="P:Library.INotify.IsServerSide">
+            <summary>
+            True if server side event
+            </summary>
+        </member>
+        <member name="P:Library.INotify.Raise">
+            <summary>
+            Raise event
+            </summary>
+        </member>
         <member name="F:Library.HTMLEvent.eventNameName">
             <summary>
             Id for Event name

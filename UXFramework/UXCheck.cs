@@ -28,9 +28,10 @@ namespace UXFramework
         /// <summary>
         /// Connect for interoperability C#/Web
         /// </summary>
-        public override void Connect()
+        /// <param name="web">web browser</param>
+        public override void Connect(WebBrowser web)
         {
-            base.Connect();
+            base.Connect(web);
             HtmlElement e = this.GetWebBrowser().Document.GetElementById("chk1");
             if (e != null)
             {
