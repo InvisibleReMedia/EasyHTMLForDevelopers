@@ -68,20 +68,15 @@ namespace UXFramework
         {
             webReference = new WeakReference(www);
             renderer.RenderControl(this);
-            www.DocumentCompleted += WWW_DocumentCompleted;
+            www.DocumentCompleted += www_DocumentCompleted;
             www.Navigate(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this.FileName));
         }
 
-        /// <summary>
-        /// Event for document completed
-        /// </summary>
-        /// <param name="sender">source</param>
-        /// <param name="e">args</param>
-        private void WWW_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        void www_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            WebBrowser www = (WebBrowser)sender;
-            RecursiveConnect(this,www);
-            www.DocumentCompleted -= WWW_DocumentCompleted;
+            WebBrowser web = (WebBrowser)sender;
+            RecursiveConnect(this, web);
+            web.DocumentCompleted -= www_DocumentCompleted;
         }
 
         /// <summary>

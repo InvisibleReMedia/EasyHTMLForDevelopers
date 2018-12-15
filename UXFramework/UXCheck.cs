@@ -11,6 +11,19 @@ namespace UXFramework
     public class UXCheck : UXControl
     {
 
+        #region Fields
+
+        /// <summary>
+        /// Text
+        /// </summary>
+        public static readonly string textName = "text";
+        /// <summary>
+        /// Id
+        /// </summary>
+        public static readonly string idName = "id";
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -19,6 +32,28 @@ namespace UXFramework
         public UXCheck()
         {
             this.Add("<input type='checkbox' value='OK' name='chk' id='chk1'/>");
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the text content
+        /// </summary>
+        public string Text
+        {
+            get { return this.Get(textName, string.Empty); }
+            set { this.Set(textName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the id object
+        /// </summary>
+        public string Id
+        {
+            get { return this.Get(idName, string.Empty); }
+            set { this.Set(idName, value); }
         }
 
         #endregion
@@ -32,7 +67,7 @@ namespace UXFramework
         public override void Connect(WebBrowser web)
         {
             base.Connect(web);
-            HtmlElement e = this.GetWebBrowser().Document.GetElementById("chk1");
+            HtmlElement e = this.GetWebBrowser().Document.GetElementById(this.Id);
             if (e != null)
             {
                 e.Click += UXCheck_Click;

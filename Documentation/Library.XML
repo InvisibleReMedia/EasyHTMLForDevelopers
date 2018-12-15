@@ -5089,7 +5089,7 @@
         </member>
         <member name="F:Library.Project.CSSUrlName">
             <summary>
-            Name of the translation label for css list url
+            Name of the translation label for javascript list url
             viewed into the tree of project elements
             </summary>
         </member>
@@ -5197,6 +5197,11 @@
             </summary>
         </member>
         <member name="F:Library.Project.javascriptUrlListName">
+            <summary>
+            Index name for list of javascript urls
+            </summary>
+        </member>
+        <member name="F:Library.Project.cssUrlListName">
             <summary>
             Index name for list of javascript urls
             </summary>
@@ -5488,6 +5493,11 @@
             </summary>
         </member>
         <member name="P:Library.Project.JavascriptUrls">
+            <summary>
+            Gets the list of urls of javascript
+            </summary>
+        </member>
+        <member name="P:Library.Project.CSSUrls">
             <summary>
             Gets the list of urls of javascript
             </summary>

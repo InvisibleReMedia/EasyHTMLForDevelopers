@@ -42,6 +42,11 @@ namespace UXFramework.WebImplementation
             this.project.Revision = 1;
 
             Projects.TrySelect(projectName, out this.project);
+
+            // add css link
+            this.project.JavascriptUrls.Add("jquery-ui.1.12/external/jquery/jquery.js");
+            this.project.JavascriptUrls.Add("jquery-ui.1.12/jquery-ui.js");            
+
             // creating all master-objects and tools
             HTMLTool tool = new HTMLTool();
             tool.ConstraintHeight = EnumConstraint.AUTO;
@@ -132,7 +137,7 @@ namespace UXFramework.WebImplementation
             sb.Append("function onImageClickUp(obj) { if (obj.clickSrc != undefined) { obj.src = obj.saveSrc; } else { onClickUp(obj); } }  ");
             sb.Append("function serverSideCall(notif, data) { var p = document.getElementById('serverSideHandler'); p.notif = notif; p.data = data; p.click(); }");
             tool.JavaScript.Code = sb.ToString();
-            tool.HTML = "<div id='serverSideHandler' style='display:none'></div>";
+            tool.HTML = @"<div id='serverSideHandler' style='display:none'></div>";
             this.project.Tools.Add(tool);
 
             tool = new HTMLTool();
@@ -140,10 +145,8 @@ namespace UXFramework.WebImplementation
             tool.Name = "button";
             tool.Id = "buttonObject";
             sb = new StringBuilder();
-            sb.Append("<table cellspacing='0' cellpadding='0' width='100%' height='100%'>");
-            sb.Append("<tr><td><div onselectstart='javascript:return false;' id='{0}' class='outerDiv'>");
-            sb.Append("<div class='innerDiv' rollBackColor='{2}' rollColor='{3}' clickBorderColor='{4}' onmousedown='javascript:onClickDown(this);' onmouseup='javascript:onClickUp(this);' ");
-            sb.Append("onmouseover='javascript:onRoll(this);' onmouseout='javascript:unRoll(this);'>{1}</div></div></td></tr></table>");
+            sb.Append("<table cellspacing='0' cellpadding='0' width='100%' height='100%' style='border:1px solid red'>");
+            sb.Append("<tr><td><md-button id='{0}' class='md-raised'>{1}</md-button></td></tr></table>");
             tool.HTML = sb.ToString();
             this.project.Tools.Add(tool);
 
@@ -223,9 +226,9 @@ namespace UXFramework.WebImplementation
             string previous;
             Projects.Activate(projectName, out previous);
             Page p = new Page();
-            p.Width = Convert.ToUInt32(window.GetWebBrowser().DisplayRectangle.Width - 40);
-            p.Height = Convert.ToUInt32(window.GetWebBrowser().DisplayRectangle.Height - 40);
-            p.Disposition = window.Disposition;
+            p.Width = 1330;
+            p.Height = 670;
+            p.Disposition = Disposition.CENTER;
             p.ConstraintWidth = EnumConstraint.FIXED;
             p.ConstraintHeight = EnumConstraint.FIXED;
             MasterPage mp = new MasterPage();
@@ -236,7 +239,10 @@ namespace UXFramework.WebImplementation
             mp.ConstraintHeight = EnumConstraint.RELATIVE;
             mp.CountColumns = 1;
             mp.CountLines = 1;
+            mp.Meta = "<meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no'/>";
             this.RenderCSSProperties(mp.CSS, window.Beam);
+            mp.CSS.Body.Add("ng-app", "YourApp");
+
 
             HTMLTool def = this.project.Tools.Find(x => x.Path == "html" && x.Name == "default");
             HTMLObject obj = new HTMLObject(def);
@@ -245,7 +251,7 @@ namespace UXFramework.WebImplementation
             this.project.Instances.Add(obj);
 
             List<AreaSizedRectangle> rects = new List<AreaSizedRectangle>();
-            AreaSizedRectangle sz = new AreaSizedRectangle((int)mp.Width, (int)mp.Height, 1, 1, 0, 0);
+            AreaSizedRectangle sz = new AreaSizedRectangle(0, 0, 1, 1, 0, 0);
             rects.Add(sz);
             mp.MakeZones(rects);
             this.project.MasterPages.Add(mp);
@@ -297,8 +303,8 @@ namespace UXFramework.WebImplementation
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "button"));
             obj.Container = this.currentContainer;
-            obj.HTML = String.Format(obj.HTML, button.Id, button.ButtonText, button.RollBackColor, button.RollColor, button.ClickBorderColor);
-            this.RenderCSSProperties(obj.CSS, button.Beam);
+            obj.HTML = String.Format(obj.HTML, button.Id, button.ButtonText);
+            obj.JavaScriptOnLoad.Code = String.Format(obj.JavaScriptOnLoad.Code, button.Id);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }

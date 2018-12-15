@@ -58,6 +58,9 @@
         #endregion
 
         private System.Windows.Forms.WebBrowser webBrowser1;
+
+
+
     }
 }
 

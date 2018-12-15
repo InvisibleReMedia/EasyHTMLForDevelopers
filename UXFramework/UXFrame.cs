@@ -34,7 +34,7 @@ namespace UXFramework
             this.Add("function updateFrm1(s) {  var x = document.getElementById('frm1'); x.InnerHTML = s; }");
             this.Add("//]]>" + Environment.NewLine);
             this.Add("</script>");
-            this.GetWebBrowser().Document.InvokeScript("updateFrm1", new object[] { this.frameSrc });
+            //this.GetWebBrowser().Document.InvokeScript("updateFrm1", new object[] { this.frameSrc });
         }
 
         #endregion
@@ -56,7 +56,7 @@ namespace UXFramework
 
         public override void UpdateOne()
         {
-            this.GetWebBrowser().Document.InvokeScript("updateFrm1", new object[] { this.frameSrc });
+            //this.GetWebBrowser().Document.InvokeScript("updateFrm1", new object[] { this.frameSrc });
         }
 
         #endregion

@@ -1,0 +1,10 @@
+﻿Sait faire :
+	- le clic sur un bouton est envoyé dans le code C# grace à SetUpdate(Action<>). L'implémentation exploite la fonction virtuelle Connect() pour connecter
+	  le bouton en ajoutant un handler sur un bouton HTML (via AddHandler en C#). Créer une fonction Disconnect() car le handler reste après le rechargement d'une page, ce qui entraine deux clics.
+	  L'opération Disconnect() est un événement sur le unload.
+
+A faire :
+	- Les propriétés qui sont dans InteractiveBeam doivent être associées avec une séquence de traduction des propriétés vers le web. Les propriétés sont celles que je
+	  défini dans InteractiveBeam (des valeurs par défaut sont issues de VisualIdentity - la charte graphique).
+	- Lorsque je veux associer un événement dans une balise, je crée un Beam dans InteractiveBeam; il est peut être mieux de considérer non pas un Beam mais une autre
+	  classe suppléante pour gérer un événement. Mais, UX étant indépendant du Web, l'ajout d'interaction est réalisée par l'appel d'une fonction.

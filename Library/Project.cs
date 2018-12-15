@@ -40,7 +40,7 @@ namespace Library
         /// </summary>
         public static readonly string JavaScriptUrlName = "JavaScriptURLs";
         /// <summary>
-        /// Name of the translation label for css list url
+        /// Name of the translation label for javascript list url
         /// viewed into the tree of project elements
         /// </summary>
         public static readonly string CSSUrlName = "CSSURLs";
@@ -137,6 +137,10 @@ namespace Library
         /// Index name for list of javascript urls
         /// </summary>
         protected static readonly string javascriptUrlListName = "javascriptUrlList";
+        /// <summary>
+        /// Index name for list of javascript urls
+        /// </summary>
+        protected static readonly string cssUrlListName = "cssUrlList";
         /// <summary>
         /// Index name for master page list
         /// </summary>
@@ -279,6 +283,14 @@ namespace Library
         public List<string> JavascriptUrls
         {
             get { return this.Get(javascriptUrlListName, new List<string>()); }
+        }
+
+        /// <summary>
+        /// Gets the list of urls of javascript
+        /// </summary>
+        public List<string> CSSUrls
+        {
+            get { return this.Get(cssUrlListName, new List<string>()); }
         }
 
         /// <summary>

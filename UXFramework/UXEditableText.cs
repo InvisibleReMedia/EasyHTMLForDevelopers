@@ -13,7 +13,14 @@ namespace UXFramework
 
         #region Fields
 
-        private string text;
+        /// <summary>
+        /// Text
+        /// </summary>
+        public static readonly string textName = "text";
+        /// <summary>
+        /// Id
+        /// </summary>
+        public static readonly string idName = "id";
 
         #endregion
 
@@ -24,7 +31,28 @@ namespace UXFramework
         /// </summary>
         public UXEditableText()
         {
-            this.Add("<textarea id='txt1'></textarea>");
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the text content
+        /// </summary>
+        public string Text
+        {
+            get { return this.Get(textName, string.Empty); }
+            set { this.Set(textName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the id object
+        /// </summary>
+        public string Id
+        {
+            get { return this.Get(idName, string.Empty); }
+            set { this.Set(idName, value); }
         }
 
         #endregion
@@ -38,7 +66,7 @@ namespace UXFramework
         public override void Connect(WebBrowser web)
         {
             base.Connect(web);
-            HtmlElement e = web.Document.GetElementById("txt1");
+            HtmlElement e = web.Document.GetElementById(this.Id);
             if (e != null)
             {
                 e.LostFocus += UXEditableText_LostFocus;
@@ -53,7 +81,7 @@ namespace UXFramework
         /// <param name="e">args</param>
         private void UXEditableText_LostFocus(object sender, HtmlElementEventArgs e)
         {
-            this.text = ((HtmlElement)sender).InnerText;
+            this.Text = ((HtmlElement)sender).InnerText;
             this.UpdateOne();
         }
 

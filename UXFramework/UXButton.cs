@@ -16,18 +16,18 @@ namespace UXFramework
         /// <summary>
         /// Text for button
         /// </summary>
-        private string textButton;
+        public static readonly string textButtonName = "textButton";
         /// <summary>
         /// Id
         /// </summary>
-        private string id;
+        public static readonly string idName = "idButton";
 
         /// <summary>
         /// Colors for buttons
         /// </summary>
-        private string rollBackColor;
-        private string rollColor;
-        private string clickBorderColor;
+        public static readonly string rollBackColorName = "rollBackColor";
+        public static readonly string rollColorName = "rollColor";
+        public static readonly string clickBorderColorName = "clickBorderColorName";
 
         #endregion
 
@@ -47,8 +47,8 @@ namespace UXFramework
         /// </summary>
         public UXButton(string id, string title)
         {
-            this.id = id;
-            this.textButton = title;
+            this.Id = id;
+            this.ButtonText = title;
         }
 
         #endregion
@@ -60,8 +60,8 @@ namespace UXFramework
         /// </summary>
         public string Id
         {
-            get { return this.id; }
-            set { this.id = value; }
+            get { return this.Get(idName, "id"); }
+            set { this.Set(idName, value); }
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace UXFramework
         /// </summary>
         public string ButtonText
         {
-            get { return this.textButton; }
-            set { this.textButton = value; }
+            get { return this.Get(textButtonName, "Button"); }
+            set { this.Set(textButtonName, value); }
         }
 
         /// <summary>
@@ -78,8 +78,8 @@ namespace UXFramework
         /// </summary>
         public string RollBackColor
         {
-            get { return this.rollBackColor; }
-            set { this.rollBackColor = value; }
+            get { return this.Get(rollBackColorName, "Gray3"); }
+            set { this.Set(rollBackColorName, value); }
         }
 
         /// <summary>
@@ -87,8 +87,8 @@ namespace UXFramework
         /// </summary>
         public string RollColor
         {
-            get { return this.rollColor; }
-            set { this.rollColor = value; }
+            get { return this.Get(rollColorName, "Gray4"); }
+            set { this.Set(rollColorName, value); }
         }
 
         /// <summary>
@@ -96,8 +96,8 @@ namespace UXFramework
         /// </summary>
         public string ClickBorderColor
         {
-            get { return this.clickBorderColor; }
-            set { this.clickBorderColor = value; }
+            get { return this.Get(clickBorderColorName, "Gray1"); }
+            set { this.Set(clickBorderColorName, value); }
         }
 
         #endregion
@@ -111,7 +111,7 @@ namespace UXFramework
         public override void Connect(WebBrowser web)
         {
             base.Connect(web);
-            HtmlElement e = web.Document.GetElementById(this.id);
+            HtmlElement e = web.Document.GetElementById(this.Id);
             if (e != null)
             {
                 e.Click += UXButton_Click;

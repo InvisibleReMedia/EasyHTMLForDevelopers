@@ -295,7 +295,7 @@ namespace Library
             // create specific output page
             refPage.SpecificOutput = new OutputHTML();
             OutputHTML outputPage = new OutputHTML();
-            outputPage.HTML.Append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html>");
+            outputPage.HTML.Append("<!doctype html><html lang='fr'>");
             outputPage.HTML.Append("<head>");
             outputPage.HTML.Append("<base href='" + ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title) + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
@@ -366,6 +366,10 @@ namespace Library
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");
             }
+            foreach (string url in Project.CurrentProject.CSSUrls)
+            {
+                outputPage.HTML.Append("<link href='" + url + "' rel='stylesheet'>");
+            }
             outputPage.HTML.Append("<script language='javascript' type='text/javascript'>");
             outputPage.HTML.Append("function callback(obj) {");
             outputPage.HTML.Append("var call = document.getElementById('callback'); if (obj.parentNode.name) { call.container = obj.parentNode.name; } else { call.container = obj.parentNode.parentNode.parentNode.parentNode.parentNode.name; } call.click();");
@@ -412,7 +416,7 @@ namespace Library
             // create specific output page
             refPage.SpecificOutput = new OutputHTML();
             OutputHTML outputPage = new OutputHTML();
-            outputPage.HTML.Append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html>");
+            outputPage.HTML.Append("<!doctype html><html lang='fr'>");
             outputPage.HTML.Append("<head>");
             outputPage.HTML.Append("<base href='" + Project.CurrentProject.Configuration.Replace("#(BASE_HREF)") + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
@@ -488,6 +492,10 @@ namespace Library
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");
             }
+            foreach (string url in Project.CurrentProject.CSSUrls)
+            {
+                outputPage.HTML.Append("<link href='" + url + "' rel='stylesheet'>");
+            }
             outputPage.HTML.Append("<script language='javascript' type='text/javascript'>");
             outputPage.HTML.Append("function initialize() {" + Environment.NewLine);
             outputPage.HTML.Append(html.JavaScriptOnLoad.ToString());
@@ -529,7 +537,7 @@ namespace Library
             string myId = "master" + Project.IncrementedTraceCounter.ToString();
             CodeCSS myCss = new CodeCSS(pageConfig.cssPart);
             OutputHTML outputPage = new OutputHTML();
-            outputPage.HTML.Append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html>");
+            outputPage.HTML.Append("<!doctype html><html lang='fr'>");
             outputPage.HTML.Append("<head>");
             outputPage.HTML.Append("<base href='" + ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title) + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
@@ -591,6 +599,10 @@ namespace Library
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");
             }
+            foreach (string url in Project.CurrentProject.CSSUrls)
+            {
+                outputPage.HTML.Append("<link href='" + url + "' rel='stylesheet'>");
+            }
             outputPage.HTML.Append("<script language='javascript' type='text/javascript'>");
             outputPage.HTML.Append("function callback(obj) {");
             outputPage.HTML.Append("var call = document.getElementById('callback'); if (obj.parentNode.name) { call.container = obj.parentNode.name; } else { call.container = obj.parentNode.parentNode.parentNode.parentNode.parentNode.name; } call.click();");
@@ -619,7 +631,7 @@ namespace Library
             // create specific output page
             refPage.SpecificOutput = new OutputHTML();
             OutputHTML outputPage = new OutputHTML();
-            outputPage.HTML.Append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html>");
+            outputPage.HTML.Append("<!doctype html><html lang='fr'>");
             outputPage.HTML.Append("<head>");
             outputPage.HTML.Append("<base href='" + ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title) + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
@@ -704,6 +716,10 @@ namespace Library
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");
             }
+            foreach (string url in Project.CurrentProject.CSSUrls)
+            {
+                outputPage.HTML.Append("<link href='" + url + "' rel='stylesheet'>");
+            }
             outputPage.HTML.Append("<script language='JavaScript' type='text/javascript'>");
             outputPage.HTML.Append("function callback(obj) {");
             outputPage.HTML.Append("var call = document.getElementById('callback'); if (obj.parentNode.name) { call.container = obj.parentNode.name; } else { call.container = obj.parentNode.parentNode.parentNode.parentNode.parentNode.name; } call.click();");
@@ -750,7 +766,7 @@ namespace Library
             // create specific output page
             refPage.SpecificOutput = new OutputHTML();
             OutputHTML outputPage = new OutputHTML();
-            outputPage.HTML.Append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html>");
+            outputPage.HTML.Append("<!doctype html><html lang='fr'>");
             outputPage.HTML.Append("<head>");
             outputPage.HTML.Append("<base href='" + Project.CurrentProject.Configuration.Replace("#(BASE_HREF)") + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
@@ -846,6 +862,10 @@ namespace Library
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");
             }
+            foreach (string url in Project.CurrentProject.CSSUrls)
+            {
+                outputPage.HTML.Append("<link href='" + url + "' rel='stylesheet'>");
+            }
             outputPage.HTML.Append("<script language='JavaScript' type='text/javascript'>");
             outputPage.HTML.Append("function initialize() {" + Environment.NewLine);
             outputPage.HTML.Append(html.JavaScriptOnLoad.ToString());
@@ -886,7 +906,7 @@ namespace Library
             string myId = "master" + Project.IncrementedTraceCounter.ToString();
             CodeCSS myCss = new CodeCSS(pageConfig.cssPart);
             OutputHTML outputPage = new OutputHTML();
-            outputPage.HTML.Append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html>");
+            outputPage.HTML.Append("<!doctype html><html lang='fr'>");
             outputPage.HTML.Append("<head>");
             outputPage.HTML.Append("<base href='" + ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title) + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
@@ -969,6 +989,10 @@ namespace Library
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");
             }
+            foreach (string url in Project.CurrentProject.CSSUrls)
+            {
+                outputPage.HTML.Append("<link href='" + url + "' rel='stylesheet'>");
+            }
             outputPage.HTML.Append("<script language='JavaScript' type='text/javascript'>");
             outputPage.HTML.Append("function callback(obj) {");
             outputPage.HTML.Append("var call = document.getElementById('callback'); if (obj.parentNode.name) { call.container = obj.parentNode.name; } else { call.container = obj.parentNode.parentNode.parentNode.parentNode.parentNode.name; } call.click();");
@@ -995,7 +1019,7 @@ namespace Library
             string myId = "tool" + Project.IncrementedTraceCounter.ToString();
             CodeCSS myCss = new CodeCSS(tool.CSS);
             OutputHTML outputPage = new OutputHTML();
-            outputPage.HTML.Append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html>");
+            outputPage.HTML.Append("<!doctype html><html lang='fr'>");
             outputPage.HTML.Append("<head>");
             outputPage.HTML.Append("<base href='" + ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title) + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
@@ -1017,6 +1041,10 @@ namespace Library
             foreach (string url in Project.CurrentProject.JavascriptUrls)
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");
+            }
+            foreach (string url in Project.CurrentProject.CSSUrls)
+            {
+                outputPage.HTML.Append("<link href='" + url + "' rel='stylesheet'>");
             }
             outputPage.HTML.Append("<script language='JavaScript' type='text/javascript'>");
             outputPage.HTML.Append("function initialize() {" + Environment.NewLine);
@@ -1050,7 +1078,7 @@ namespace Library
             string myId = "obj" + Project.IncrementedTraceCounter.ToString();
             CodeCSS myCss = new CodeCSS(obj.CSS);
             OutputHTML outputPage = new OutputHTML();
-            outputPage.HTML.Append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html>");
+            outputPage.HTML.Append("<!doctype html><html lang='fr'>");
             outputPage.HTML.Append("<head>");
             outputPage.HTML.Append("<base href='" + ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title) + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
@@ -1080,6 +1108,10 @@ namespace Library
             foreach (string url in Project.CurrentProject.JavascriptUrls)
             {
                 outputPage.HTML.Append("<script language='JavaScript' type='text/javascript' src='" + url + "'></script>");
+            }
+            foreach (string url in Project.CurrentProject.CSSUrls)
+            {
+                outputPage.HTML.Append("<link href='" + url + "' rel='stylesheet'>");
             }
             outputPage.HTML.Append("<script language='JavaScript' type='text/javascript'>");
             outputPage.HTML.Append("function initialize() {" + Environment.NewLine);

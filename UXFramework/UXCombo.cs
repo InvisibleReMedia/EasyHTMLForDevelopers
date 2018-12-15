@@ -18,6 +18,14 @@ namespace UXFramework
         /// Collection of name/value
         /// </summary>
         private NameValueCollection list;
+        /// <summary>
+        /// Text
+        /// </summary>
+        public static readonly string textName = "text";
+        /// <summary>
+        /// Id
+        /// </summary>
+        public static readonly string idName = "id";
 
         #endregion
 
@@ -40,6 +48,28 @@ namespace UXFramework
                 this.Add("<option value='" + key + "'>" + this.list[key] + "</option>");
             }
             this.Add("</select>");
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the text content
+        /// </summary>
+        public string Text
+        {
+            get { return this.Get(textName, string.Empty); }
+            set { this.Set(textName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the id object
+        /// </summary>
+        public string Id
+        {
+            get { return this.Get(idName, string.Empty); }
+            set { this.Set(idName, value); }
         }
 
         #endregion
@@ -85,7 +115,7 @@ namespace UXFramework
         public override void Connect(WebBrowser web)
         {
             base.Connect(web);
-            HtmlElement e = web.Document.GetElementById("cmb1");
+            HtmlElement e = web.Document.GetElementById(this.Id);
             if (e != null)
             {
                 e.Click += UXCombo_Click;

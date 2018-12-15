@@ -64,7 +64,7 @@ namespace UXFramework.BeamConnections
         /// </summary>
         public string BackgroundColor
         {
-            get { return this.Get(BackgroundColorName, "green"); }
+            get { return this.Get(BackgroundColorName, "transparent"); }
             set { this.Set(BackgroundColorName, value); }
         }
 

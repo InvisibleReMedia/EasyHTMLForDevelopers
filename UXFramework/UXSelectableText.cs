@@ -57,13 +57,12 @@ namespace UXFramework
 
         #endregion
 
-
         #region Overriden Methods
 
         public override void Connect(WebBrowser web)
         {
             base.Connect(web);
-            HtmlElement e = web.Document.GetElementById(this.id);
+            HtmlElement e = web.Document.GetElementById(this.Id);
             if (e != null)
             {
                 e.MouseEnter += UXSelectableText_MouseEnter;
