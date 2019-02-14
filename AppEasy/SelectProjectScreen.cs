@@ -38,7 +38,7 @@ namespace AppEasy
                 bNew.ClickBorderColor = "black";
                 bNew.SetUpdate(new Action(() =>
                 {
-                    MessageBox.Show("ok");
+                    ViewProject(web, new Library.Project());
                 }));
                 buttons[0] = bNew;
 
@@ -46,6 +46,10 @@ namespace AppEasy
                 bOpen.RollBackColor = "purple";
                 bOpen.RollColor = "white";
                 bOpen.ClickBorderColor = "black";
+                bOpen.SetUpdate(new Action(() =>
+                {
+                    ViewProject(web, new Library.Project());
+                }));
                 buttons[1] = bOpen;
 
                 UXFramework.UXButton bDel = new UXFramework.UXButton("buttonDel", "Delete");
@@ -69,7 +73,7 @@ namespace AppEasy
 
             lines[0] = tbt;
 
-            UXFramework.UXViewDataTable view = new UXFramework.UXViewDataTable(8, 10, "projectList");
+            UXFramework.UXViewSelectableDataTable view = new UXFramework.UXViewSelectableDataTable(8, 10, "projectList");
 
             Marshalling.MarshallingList x = new Marshalling.MarshallingList("projectList");
             {
@@ -77,7 +81,7 @@ namespace AppEasy
                 DirectoryInfo di = new DirectoryInfo(folder);
                 int index = 0;
                 Marshalling.PersistentDataObject obj;
-                for (index = 1; index <= 10; ++index)
+                for (index = 1; index <= 30; ++index)
                 {
                     FileInfo newFile = new FileInfo(Path.Combine(di.FullName, "project" + index.ToString() + ".bin"));
                     if (!Library.Project.Load(newFile, out obj))
@@ -128,6 +132,40 @@ namespace AppEasy
             t.Bind(lines);
 
             win.Add(t);
+            win.Navigate(web);
+        }
+
+        private static Marshalling.MarshallingList DisplayTree(Library.Project p, Library.Node<string, Library.Accessor> t)
+        {
+            Marshalling.MarshallingList lines = new Marshalling.MarshallingList("lines");
+
+            int index = 0;
+            foreach (Library.Node<string, Library.Accessor> r in t.SubNodes)
+            {
+                Marshalling.MarshallingHash h = new Marshalling.MarshallingHash("hash", new List<Marshalling.IMarshalling>() { new Marshalling.MarshallingRegexValue(t.NodeValue + "-v", r.NodeValue, "^*$"), DisplayTree(p, r) });
+                lines[index++] = h;
+            }
+            foreach (Library.Leaf<Library.Accessor> r in t.Elements)
+            {
+                Marshalling.MarshallingHash h = new Marshalling.MarshallingHash("hash", new List<Marshalling.IMarshalling>() { new Marshalling.MarshallingRegexValue(t.NodeValue + "-v" + index.ToString(), r.Object.ToString(), "^*$") });
+                lines[index++] = h;
+            }
+            return lines;
+        }
+
+        public static void ViewProject(WebBrowser web, Library.Project p)
+        {
+
+            UXFramework.UXWindow win = new UXFramework.UXWindow();
+            win.Name = "viewProject";
+            win.Disposition = Library.Disposition.CENTER_TOP;
+
+            Marshalling.MarshallingList x = DisplayTree(p, p.Hierarchy);
+
+            UXFramework.UXTree view = new UXFramework.UXTree("idt");
+
+            view.Bind(x);
+            win.Add(view);
             win.Navigate(web);
         }
 

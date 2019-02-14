@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using TomB.Util.JSON;
 
 namespace UXFramework.BeamConnections
 {
@@ -101,6 +102,19 @@ namespace UXFramework.BeamConnections
             b.source = source;
             b.WriteProperty(defaultValue);
             return b;
+        }
+
+        /// <summary>
+        /// Compose data to JSON data
+        /// </summary>
+        /// <returns></returns>
+        public IJSONItem ToJSON(IJSONDocument doc)
+        {
+            string output = string.Empty;
+            IJSONItemObject o = doc.CreateItemObject();
+            o.Add("handler", handler.ToString());
+            o.Add("propertyName", propName);
+            return o;
         }
 
         #endregion

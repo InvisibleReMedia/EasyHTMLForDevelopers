@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Library;
 using System.IO;
+using UXFramework.BeamConnections;
 
 namespace UXFramework.WebImplementation
 {
@@ -43,9 +44,9 @@ namespace UXFramework.WebImplementation
 
             Projects.TrySelect(projectName, out this.project);
 
-            // add css link
+            // add js link
             this.project.JavascriptUrls.Add("jquery-ui.1.12/external/jquery/jquery.js");
-            this.project.JavascriptUrls.Add("jquery-ui.1.12/jquery-ui.js");            
+            this.project.JavascriptUrls.Add("jquery-ui.1.12/jquery-ui.js");
 
             // creating all master-objects and tools
             HTMLTool tool = new HTMLTool();
@@ -72,6 +73,17 @@ namespace UXFramework.WebImplementation
             tool.Path = "html";
             tool.Name = "box";
             tool.Id = "boxContainer";
+            this.project.Tools.Add(tool);
+
+            tool = new HTMLTool();
+            tool.ConstraintHeight = EnumConstraint.AUTO;
+            tool.ConstraintWidth = EnumConstraint.AUTO;
+            tool.Path = "html";
+            tool.Name = "li";
+            tool.Id = "liContainer";
+            sb = new StringBuilder();
+            sb.Append("<li><span itemName='{1}' style='display:inline' onclick='javascript:onTreeItemChanged(this);'>- </span>{0}</li>");
+            tool.HTML = sb.ToString();
             this.project.Tools.Add(tool);
 
             tool = new HTMLTool();
@@ -136,6 +148,7 @@ namespace UXFramework.WebImplementation
             sb.Append("function onImageClickDown(obj) { if (obj.clickSrc != undefined) { obj.saveSrc = obj.src; obj.src = obj.clickSrc; } else { onClickDown(obj); } }  ");
             sb.Append("function onImageClickUp(obj) { if (obj.clickSrc != undefined) { obj.src = obj.saveSrc; } else { onClickUp(obj); } }  ");
             sb.Append("function serverSideCall(notif, data) { var p = document.getElementById('serverSideHandler'); p.notif = notif; p.data = data; p.click(); }");
+            sb.Append("function onTreeItemChanged(obj) { if (obj.innerText == '+') { obj.innerText = '- '; var i = document.getElementById(obj.itemName); i.style.display='block';} else { obj.innerText = '+'; var i = document.getElementById(obj.itemName); i.style.display='none';}  }");
             tool.JavaScript.Code = sb.ToString();
             tool.HTML = @"<div id='serverSideHandler' style='display:none'></div>";
             this.project.Tools.Add(tool);
@@ -146,7 +159,7 @@ namespace UXFramework.WebImplementation
             tool.Id = "buttonObject";
             sb = new StringBuilder();
             sb.Append("<table cellspacing='0' cellpadding='0' width='100%' height='100%' style='border:1px solid red'>");
-            sb.Append("<tr><td><md-button id='{0}' class='md-raised'>{1}</md-button></td></tr></table>");
+            sb.Append("<tr><td><button id='{0}' class='md-raised'>{1}</button></td></tr></table>");
             tool.HTML = sb.ToString();
             this.project.Tools.Add(tool);
 
@@ -197,8 +210,10 @@ namespace UXFramework.WebImplementation
         /// <param name="ib">ux properties</param>
         private void RenderCSSProperties(CodeCSS c, BeamConnections.InteractiveBeam ib)
         {
-            c.BackgroundColor = new CSSColor(ib.GetPropertyValue("Background").ReadProperty().ToString());
-            c.ForegroundColor = new CSSColor(ib.GetPropertyValue("Foreground").ReadProperty().ToString());
+            foreach (Beam b in ib.GetAllProperties())
+            {
+                c.Body.Add(b.PropertyName, b.ReadProperty().ToString());
+            }
         }
 
         /// <summary>
@@ -226,7 +241,7 @@ namespace UXFramework.WebImplementation
             string previous;
             Projects.Activate(projectName, out previous);
             Page p = new Page();
-            p.Width = 1330;
+            p.Width = 1320;
             p.Height = 670;
             p.Disposition = Disposition.CENTER;
             p.ConstraintWidth = EnumConstraint.FIXED;
@@ -240,8 +255,7 @@ namespace UXFramework.WebImplementation
             mp.CountColumns = 1;
             mp.CountLines = 1;
             mp.Meta = "<meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no'/>";
-            this.RenderCSSProperties(mp.CSS, window.Beam);
-            mp.CSS.Body.Add("ng-app", "YourApp");
+            this.RenderCSSProperties(mp.CSS, window.Beams);
 
 
             HTMLTool def = this.project.Tools.Find(x => x.Path == "html" && x.Name == "default");
@@ -290,7 +304,7 @@ namespace UXFramework.WebImplementation
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "box"));
             obj.Container = this.currentContainer;
-            this.RenderCSSProperties(obj.CSS, box.Beam);
+            this.RenderCSSProperties(obj.CSS, box.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -318,7 +332,7 @@ namespace UXFramework.WebImplementation
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "link"));
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, clickText.Id, clickText.Text);
-            this.RenderCSSProperties(obj.CSS, clickText.Beam);
+            this.RenderCSSProperties(obj.CSS, clickText.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -332,7 +346,7 @@ namespace UXFramework.WebImplementation
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "selectableText"));
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, selectableText.Id, selectableText.RefIndex, selectableText.Text);
-            this.RenderCSSProperties(obj.CSS, selectableText.Beam);
+            this.RenderCSSProperties(obj.CSS, selectableText.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -346,7 +360,7 @@ namespace UXFramework.WebImplementation
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "image"));
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, image.Id, image.ImageFile, image.Size.Width, image.Size.Height);
-            this.RenderCSSProperties(obj.CSS, image.Beam);
+            this.RenderCSSProperties(obj.CSS, image.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -360,7 +374,7 @@ namespace UXFramework.WebImplementation
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "image"));
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, image.Id, image.ImageFile, image.RollBackColor, image.RollColor, image.ClickBorderColor, image.RollImageFile, image.ClickImageFile);
-            this.RenderCSSProperties(obj.CSS, image.Beam);
+            this.RenderCSSProperties(obj.CSS, image.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -410,9 +424,73 @@ namespace UXFramework.WebImplementation
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "readOnlyText"));
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, text.Text);
-            this.RenderCSSProperties(obj.CSS, text.Beam);
+            this.RenderCSSProperties(obj.CSS, text.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
+        }
+
+        public void RenderControl(UXTree t)
+        {
+            MasterObject mo = new MasterObject();
+            mo.Name = t.Name + "_outer_masterObject";
+            mo.Width = 100;
+            mo.Height = 100;
+            mo.ConstraintWidth = EnumConstraint.RELATIVE;
+            mo.ConstraintHeight = EnumConstraint.RELATIVE;
+            mo.CountColumns = 1;
+            mo.CountLines = 1;
+            mo.HTMLBefore = "<div id='" + mo.Name + "_in' onmouseout='javascript:LeaveArrow();'>";
+            mo.HTMLAfter = "</div>";
+
+            int index = 0;
+            string previousContainer = this.currentContainer;
+            mo.HTMLBefore = "<ul style='list-item-style:none' id='" + t.Name + "'>";
+            mo.HTMLAfter = "</ul>";
+            foreach (IUXObject o in t.Children)
+            {
+                HorizontalZone h = new HorizontalZone();
+                h.ConstraintWidth = EnumConstraint.RELATIVE;
+                h.ConstraintHeight = EnumConstraint.RELATIVE;
+                h.Width = 100;
+                h.Height = 100;
+                h.CountLines = 1;
+                this.RenderCSSProperties(h.CSS, t.Beams);
+                mo.HorizontalZones.Add(h);
+
+                VerticalZone v = new VerticalZone();
+                v.Width = 100;
+                v.Height = 100;
+                v.Disposition = Disposition.LEFT_TOP;
+                v.ConstraintWidth = EnumConstraint.RELATIVE;
+                v.ConstraintHeight = EnumConstraint.RELATIVE;
+                v.CountLines = 1;
+                v.CountColumns = 1;
+                this.RenderCSSProperties(v.CSS, t.Beams);
+                h.VerticalZones.Add(v);
+                this.currentContainer = mo.HorizontalZones[index++].VerticalZones[0].Name;
+                RenderControl(o);
+
+            }
+
+            this.project.MasterObjects.Add(mo);
+
+            this.currentContainer = previousContainer;
+            HTMLObject obj = new HTMLObject(mo);
+            obj.Container = this.currentContainer;
+            this.currentObject.Objects.Add(obj);
+            this.project.Instances.Add(obj);
+
+        }
+
+        public void RenderControl(UXTreeItem item)
+        {
+            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "li"));
+            obj.Container = this.currentContainer;
+            obj.HTML = String.Format(obj.HTML, item.Text, item.Name);
+            this.RenderCSSProperties(obj.CSS, item.Beams);
+            this.currentObject.Objects.Add(obj);
+            this.project.Instances.Add(obj);
+            RenderControl(item.SubItems);
         }
 
         /// <summary>
@@ -438,7 +516,7 @@ namespace UXFramework.WebImplementation
             h.Width = 100;
             h.Height = 100;
             h.CountLines = 1;
-            this.RenderCSSProperties(h.CSS, data.Beam);
+            this.RenderCSSProperties(h.CSS, data.Beams);
             mo.HorizontalZones.Add(h);
 
             VerticalZone v = new VerticalZone();
@@ -449,7 +527,7 @@ namespace UXFramework.WebImplementation
             v.ConstraintHeight = EnumConstraint.RELATIVE;
             v.CountLines = 1;
             v.CountColumns = 1;
-            this.RenderCSSProperties(v.CSS, data.Beam);
+            this.RenderCSSProperties(v.CSS, data.Beams);
             h.VerticalZones.Add(v);
 
             this.project.MasterObjects.Add(mo);
@@ -520,7 +598,7 @@ namespace UXFramework.WebImplementation
             h.CountLines = 1;
             h.Height = 30;
             h.Width = 50;
-            this.RenderCSSProperties(h.CSS, row.Beam);
+            this.RenderCSSProperties(h.CSS, row.Beams);
             this.currentObject.HorizontalZones.Add(h);
             dynamic previousObject = this.currentObject;
             for (int pos_column = 0; pos_column < row.ColumnCount; ++pos_column)
@@ -544,7 +622,7 @@ namespace UXFramework.WebImplementation
             v.ConstraintHeight = EnumConstraint.AUTO;
             v.CountLines = 1;
             v.CountColumns = 1;
-            this.RenderCSSProperties(v.CSS, cell.Beam);
+            this.RenderCSSProperties(v.CSS, cell.Beams);
             this.currentObject.VerticalZones.Add(v);
 
             string previousContainer = this.currentContainer;
@@ -594,6 +672,8 @@ namespace UXFramework.WebImplementation
             else if (obj is UXRow) RenderControl(obj as UXRow);
             else if (obj is UXCell) RenderControl(obj as UXCell);
             else if (obj is UXWindow) RenderControl(obj as UXWindow);
+            else if (obj is UXTree) RenderControl(obj as UXTree);
+            else if (obj is UXTreeItem) RenderControl(obj as UXTreeItem);
             else if (obj is BeamConnections.InteractiveBeam) RenderControl(obj as BeamConnections.InteractiveBeam);
         }
 

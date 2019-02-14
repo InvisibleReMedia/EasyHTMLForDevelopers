@@ -15,25 +15,32 @@ namespace UXFramework
         /// <summary>
         /// File of image
         /// </summary>
-        private string imageFile;
+        public static readonly string imageName = "image";
         /// <summary>
         /// Id
         /// </summary>
-        private string id;
+        public static readonly string idName = "id";
         /// <summary>
         /// When roll over
         /// </summary>
-        private string rollImageFile;
+        public static readonly string rollOverName = "rollover";
         /// <summary>
         /// When click
         /// </summary>
-        private string clickImageFile;
+        public static readonly string clickName = "click";
         /// <summary>
-        /// Colors for buttons
+        /// roll over button
         /// </summary>
-        private string rollBackColor;
-        private string rollColor;
-        private string clickBorderColor;
+        public static readonly string rollBackColorName = "rollbackColor";
+        /// <summary>
+        /// Roll color
+        /// </summary>
+        public static readonly string rollColorName = "rollColor";
+        /// <summary>
+        /// Click color
+        /// </summary>
+        public static readonly string clickBorderColorName = "clickColor";
+
 
         #endregion
 
@@ -45,8 +52,8 @@ namespace UXFramework
         /// <param name="fileName">image file</param>
         public UXClickableImage(string id, string fileName)
         {
-            this.id = id;
-            this.imageFile = fileName;
+            this.Set(idName, id);
+            this.Set(imageName, fileName);
         }
 
         #endregion
@@ -58,8 +65,8 @@ namespace UXFramework
         /// </summary>
         public string ImageFile
         {
-            get { return this.imageFile; }
-            set { this.imageFile = value; }
+            get { return this.Get(imageName); }
+            set { this.Set(imageName, value); }
         }
 
         /// <summary>
@@ -67,8 +74,8 @@ namespace UXFramework
         /// </summary>
         public string Id
         {
-            get { return this.id; }
-            set { this.id = value; }
+            get { return this.Get(idName); }
+            set { this.Set(idName, value); }
         }
 
         /// <summary>
@@ -76,8 +83,8 @@ namespace UXFramework
         /// </summary>
         public string RollBackColor
         {
-            get { return this.rollBackColor; }
-            set { this.rollBackColor = value; }
+            get { return this.Get(rollBackColorName); }
+            set { this.Set(rollBackColorName, value); }
         }
 
         /// <summary>
@@ -85,8 +92,8 @@ namespace UXFramework
         /// </summary>
         public string RollColor
         {
-            get { return this.rollColor; }
-            set { this.rollColor = value; }
+            get { return this.Get(rollColorName); }
+            set { this.Set(rollColorName, value); }
         }
 
         /// <summary>
@@ -94,8 +101,8 @@ namespace UXFramework
         /// </summary>
         public string ClickBorderColor
         {
-            get { return this.clickBorderColor; }
-            set { this.clickBorderColor = value; }
+            get { return this.Get(clickBorderColorName); }
+            set { this.Set(clickBorderColorName, value); }
         }
 
         /// <summary>
@@ -103,8 +110,8 @@ namespace UXFramework
         /// </summary>
         public string RollImageFile
         {
-            get { return this.rollImageFile; }
-            set { this.rollImageFile = value; }
+            get { return this.Get(rollOverName); }
+            set { this.Set(rollOverName, value); }
         }
 
         /// <summary>
@@ -112,8 +119,8 @@ namespace UXFramework
         /// </summary>
         public string ClickImageFile
         {
-            get { return this.clickImageFile; }
-            set { this.clickImageFile = value; }
+            get { return this.Get(clickName); }
+            set { this.Set(clickName, value); }
         }
 
         #endregion

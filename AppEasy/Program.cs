@@ -19,5 +19,6 @@ namespace AppEasy
             CommonDirectories.ConfigDirectories.CreateMyDocuments();
             Application.Run(new Form1());
         }
+
     }
 }

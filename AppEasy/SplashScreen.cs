@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using UXFramework.BeamConnections;
 
 namespace AppEasy
 {
@@ -14,6 +15,9 @@ namespace AppEasy
         public static void Splash(WebBrowser web)
         {
             UXFramework.UXWindow win = new UXFramework.UXWindow();
+            win.Beams.SetPropertyValue("Background", UXFramework.BeamConnections.Beam.Register("background-color", win, BrandIdentity.Current.Colors["fond_page"]));
+            win.Beams.SetPropertyValue("Width", UXFramework.BeamConnections.Beam.Register("width", win, BrandIdentity.Current.Sizes["taille_page"].Width));
+            win.Beams.SetPropertyValue("Height", UXFramework.BeamConnections.Beam.Register("height", win, BrandIdentity.Current.Sizes["taille_page"].Height));
             browser = web;
             win.Name = "splash";
             UXFramework.UXReadOnlyText text = new UXFramework.UXReadOnlyText("Easy HTML For Developers");

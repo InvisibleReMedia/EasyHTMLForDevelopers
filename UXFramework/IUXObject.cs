@@ -28,7 +28,7 @@ namespace UXFramework
         /// <summary>
         /// Beam UX-Plateform
         /// </summary>
-        BeamConnections.InteractiveBeam Beam { get; }
+        BeamConnections.InteractiveBeam Beams { get; }
         /// <summary>
         /// Add a new string into HTML destination stream
         /// </summary>
@@ -49,6 +49,11 @@ namespace UXFramework
         /// </summary>
         /// <param name="web">web browser</param>
         void Connect(WebBrowser web);
+        /// <summary>
+        /// Connect for interoperability C#/Web
+        /// </summary>
+        /// <param name="web">web browser</param>
+        void Disconnect(WebBrowser web);
         /// <summary>
         /// Navigate function (main function)
         /// </summary>

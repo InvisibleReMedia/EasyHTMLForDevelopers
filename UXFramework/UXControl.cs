@@ -106,7 +106,7 @@ namespace UXFramework
         /// <summary>
         /// Gets the interactive beam
         /// </summary>
-        public BeamConnections.InteractiveBeam Beam
+        public BeamConnections.InteractiveBeam Beams
         {
             get { return this.Get(beamName, new BeamConnections.InteractiveBeam(this)); }
         }
@@ -166,10 +166,32 @@ namespace UXFramework
         }
 
         /// <summary>
+        /// Recursive disconnect function call
+        /// </summary>
+        /// <param name="ux">ux</param>
+        /// <param name="web">web browser</param>
+        protected void RecursiveDisconnect(IUXObject ux, WebBrowser web)
+        {
+            ux.Disconnect(web);
+            foreach (IUXObject child in ux.Children)
+            {
+                RecursiveDisconnect(child, web);
+            }
+        }
+
+        /// <summary>
         /// Connect for interoperability C#/Web
         /// </summary>
         /// <param name="web">web browser</param>
         public virtual void Connect(WebBrowser web)
+        {
+        }
+
+        /// <summary>
+        /// Disconnect for interoperability C#/Web
+        /// </summary>
+        /// <param name="web">web browser</param>
+        public virtual void Disconnect(WebBrowser web)
         {
         }
 

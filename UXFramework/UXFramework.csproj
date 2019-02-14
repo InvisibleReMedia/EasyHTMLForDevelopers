@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UXFramework</RootNamespace>
     <AssemblyName>UXFramework</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,16 +32,22 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Debug\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Release\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JSONNetLib">
+      <HintPath>..\packages\JSONNetLib.1.0.1\lib\net462\JSONNetLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -53,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeamConnections\Beam.cs" />
+    <Compile Include="BeamConnections\BrandIdentity.cs" />
     <Compile Include="BeamConnections\IBeamConnection.cs" />
     <Compile Include="BeamConnections\VisualIdentity.cs" />
     <Compile Include="IMLData.cs" />
@@ -75,6 +84,8 @@
     <Compile Include="UXRow.cs" />
     <Compile Include="UXSelectableText.cs" />
     <Compile Include="UXTable.cs" />
+    <Compile Include="UXTree.cs" />
+    <Compile Include="UXTreeItem.cs" />
     <Compile Include="UXViewDataTable.cs" />
     <Compile Include="UXViewSelectableDataTable.cs" />
     <Compile Include="UXWindow.cs" />

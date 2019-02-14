@@ -2,25 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace UXFramework
 {
     /// <summary>
-    /// UX with a clickable text
+    /// An item in a tree
     /// </summary>
-    public class UXClickableText : UXControl
+    public class UXTreeItem : UXControl
     {
-
         #region Fields
 
-        /// <summary>
-        /// Text to print
-        /// </summary>
-        public static readonly string textName = "text";
-        /// <summary>
-        /// Id
-        /// </summary>
-        public static readonly string idName = "id";
+        private string text;
+        private UXTree subItems;
 
         #endregion
 
@@ -30,9 +24,13 @@ namespace UXFramework
         /// Default constructor
         /// </summary>
         /// <param name="t">static text</param>
-        public UXClickableText(string t)
+        public UXTreeItem(string t, Marshalling.MarshallingList subItems)
         {
-            this.Set(textName, t);
+            this.text = t;
+            this.Add(this.text);
+            this.subItems = new UXTree(t);
+            this.subItems.Bind(subItems);
+            this.Name = this.subItems.Name;
         }
 
         #endregion
@@ -44,20 +42,22 @@ namespace UXFramework
         /// </summary>
         public string Text
         {
-            get { return this.Get(textName); }
-            set { this.Set(textName, value); }
+            get { return this.text; }
+            set { this.text = value; }
         }
 
         /// <summary>
-        /// Gets or sets the Id object
+        /// Gets sub items
         /// </summary>
-        public string Id
+        public UXTree SubItems
         {
-            get { return this.Get(idName); }
-            set { this.Set(idName, value); }
+            get
+            {
+                return this.subItems;
+            }
         }
 
         #endregion
-
+    
     }
 }

@@ -120,6 +120,20 @@ namespace UXFramework
         }
 
         /// <summary>
+        /// Disconnect for interoperability C#/Web
+        /// </summary>
+        /// <param name="web">web browser</param>
+        public override void Disconnect(WebBrowser web)
+        {
+            base.Disconnect(web);
+            HtmlElement e = web.Document.GetElementById(this.Id);
+            if (e != null)
+            {
+                e.Click -= UXButton_Click;
+            }
+        }
+
+        /// <summary>
         /// Delegate to click
         /// </summary>
         /// <param name="sender">html element</param>

@@ -624,7 +624,7 @@ namespace Library
 
             output.HTML.Append("<td");
             output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "'"));
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName) + "'");
             output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
@@ -696,7 +696,7 @@ namespace Library
 
             output.HTML.Append("<td");
             output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "'"));
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName) + "'");
             output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
@@ -774,7 +774,7 @@ namespace Library
 
             output.HTML.Append("<td");
             output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "'"));
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName) + "'");
             output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
@@ -1036,7 +1036,7 @@ namespace Library
 
             output.HTML.Append("<td");
             output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "'"));
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName) + "'");
             output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
             output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
@@ -1102,7 +1102,7 @@ namespace Library
 
             output.HTML.Append("<td");
             output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "'"));
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName) + "'");
             output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
             output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");

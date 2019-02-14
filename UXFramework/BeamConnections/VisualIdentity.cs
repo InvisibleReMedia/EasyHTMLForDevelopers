@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -18,12 +19,43 @@ namespace UXFramework.BeamConnections
 
         #region Fields
 
+        /// <summary>
+        /// Couleur du bord
+        /// </summary>
         public static readonly string BorderColorName = "borderColor";
+        /// <summary>
+        /// Couleur du fond
+        /// </summary>
         public static readonly string BackgroundColorName = "backColor";
+        /// <summary>
+        /// Couleur du texte
+        /// </summary>
         public static readonly string ForegroundColorName = "foreColor";
-        public static readonly string InBorderColorName = "inBorderColor";
+        /// <summary>
+        /// Font
+        /// </summary>
         public static readonly string FontName = "font";
+        /// <summary>
+        /// Font size
+        /// </summary>
         public static readonly string FontSizeName = "fontSize";
+        /// <summary>
+        /// border size
+        /// </summary>
+        public static readonly string BorderSizeName = "borderSize";
+        /// <summary>
+        /// margin size
+        /// </summary>
+        public static readonly string MarginSizeName = "marginSize";
+        /// <summary>
+        /// padding size
+        /// </summary>
+        public static readonly string PaddingSizeName = "paddingSize";
+        /// <summary>
+        /// selection color
+        /// </summary>
+        public static readonly string SelectionColorName = "selectionColor";
+
 
         private static VisualIdentity visual = new VisualIdentity();
 
@@ -78,12 +110,12 @@ namespace UXFramework.BeamConnections
         }
 
         /// <summary>
-        /// Gets or set the in border color
+        /// Gets or set the foreground color
         /// </summary>
-        public string InBorderColor
+        public string SelectionColor
         {
-            get { return this.Get(InBorderColor, "blue"); }
-            set { this.Set(InBorderColor, value); }
+            get { return this.Get(SelectionColorName, "blue"); }
+            set { this.Set(SelectionColorName, value); }
         }
 
         /// <summary>
@@ -102,6 +134,33 @@ namespace UXFramework.BeamConnections
         {
             get { return this.Get(FontSizeName, "12pt"); }
             set { this.Set(FontSizeName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the border size
+        /// </summary>
+        public Size BorderSize
+        {
+            get { return this.Get(BorderSizeName, new Size(5,5)); }
+            set { this.Set(BorderSizeName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the margin size
+        /// </summary>
+        public Size MarginSize
+        {
+            get { return this.Get(MarginSizeName, new Size(10,10)); }
+            set { this.Set(MarginSizeName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the margin size
+        /// </summary>
+        public Size PaddingSize
+        {
+            get { return this.Get(PaddingSizeName, new Size(2,2)); }
+            set { this.Set(PaddingSizeName, value); }
         }
 
         #endregion

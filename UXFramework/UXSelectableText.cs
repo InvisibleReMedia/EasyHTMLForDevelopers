@@ -59,6 +59,9 @@ namespace UXFramework
 
         #region Overriden Methods
 
+        /// <summary>
+        /// Connect for interoperability C#/Web
+        /// </summary>
         public override void Connect(WebBrowser web)
         {
             base.Connect(web);
@@ -67,6 +70,20 @@ namespace UXFramework
             {
                 e.MouseEnter += UXSelectableText_MouseEnter;
             }
+        }
+
+        /// <summary>
+        /// Disconnect for interoperability C#/Web
+        /// </summary>
+        public override void Disconnect(WebBrowser web)
+        {
+            base.Disconnect(web);
+            HtmlElement e = web.Document.GetElementById(this.Id);
+            if (e != null)
+            {
+                e.Click -= UXSelectableText_MouseEnter;
+            }
+
         }
 
         /// <summary>

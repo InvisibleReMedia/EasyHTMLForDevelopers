@@ -77,6 +77,11 @@ namespace UXFramework
             WebBrowser web = (WebBrowser)sender;
             RecursiveConnect(this, web);
             web.DocumentCompleted -= www_DocumentCompleted;
+            EventHandler s = new EventHandler((o, g) =>
+            {
+                RecursiveDisconnect(this, web);
+            });
+            web.Document.Body.AttachEventHandler("unload", s);
         }
 
         /// <summary>

@@ -56,6 +56,11 @@ namespace UXFramework.BeamConnections
         /// <param name="target">target renderer</param>
         void UpdateTarget(IUXRenderer target);
 
+        /// <summary>
+        /// Converts data into JSON for computer graphics
+        /// </summary>
+        void ToJSON();
+
         event EventHandler ToSource;
         event EventHandler ToTarget;
     }
