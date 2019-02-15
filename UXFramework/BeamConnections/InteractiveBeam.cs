@@ -39,7 +39,7 @@ namespace UXFramework.BeamConnections
         /// <returns>beam</returns>
         public Beam GetPropertyValue(string name)
         {
-            return this.Get(name, new Beam());
+            return this.Get(name, Beam.Register(name, this, null));
         }
 
         /// <summary>
@@ -90,6 +90,10 @@ namespace UXFramework.BeamConnections
         /// <returns>true if succeedeed</returns>
         public void SetPropertyValues(KeyValuePair<string, Beam>[] dict)
         {
+            foreach (KeyValuePair<string, Beam> kv in dict)
+            {
+                this.SetPropertyValue(kv.Key, kv.Value);
+            }
         }
 
         /// <summary>

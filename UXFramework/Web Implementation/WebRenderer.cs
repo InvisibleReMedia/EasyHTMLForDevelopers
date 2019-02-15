@@ -210,10 +210,10 @@ namespace UXFramework.WebImplementation
         /// <param name="ib">ux properties</param>
         private void RenderCSSProperties(CodeCSS c, BeamConnections.InteractiveBeam ib)
         {
-            foreach (Beam b in ib.GetAllProperties())
-            {
-                c.Body.Add(b.PropertyName, b.ReadProperty().ToString());
-            }
+            //foreach (Beam b in ib.GetAllProperties())
+            //{
+            //    c.Body.Add(b.PropertyName, b.ReadProperty().ToString());
+            //}
         }
 
         /// <summary>
@@ -241,8 +241,8 @@ namespace UXFramework.WebImplementation
             string previous;
             Projects.Activate(projectName, out previous);
             Page p = new Page();
-            p.Width = 1320;
-            p.Height = 670;
+            p.Width = (window.Width.HasValue) ? window.Width.Value : 1320;
+            p.Height = (window.Height.HasValue) ? window.Height.Value : 700;
             p.Disposition = Disposition.CENTER;
             p.ConstraintWidth = EnumConstraint.FIXED;
             p.ConstraintHeight = EnumConstraint.FIXED;
@@ -254,6 +254,11 @@ namespace UXFramework.WebImplementation
             mp.ConstraintHeight = EnumConstraint.RELATIVE;
             mp.CountColumns = 1;
             mp.CountLines = 1;
+            mp.CSS.BackgroundColor = new CSSColor((!String.IsNullOrEmpty(window.BackgroundColor)) ? window.BackgroundColor : "Transparent");
+            mp.CSS.ForegroundColor = new CSSColor((!String.IsNullOrEmpty(window.ForegroundColor)) ? window.ForegroundColor : "Black");
+            mp.CSS.Body.Add("border", (!String.IsNullOrEmpty(window.Border)) ? window.Border : "0px solid black");
+            mp.CSS.Body.Add("margin", (!String.IsNullOrEmpty(window.Margin)) ? window.Margin : "0,0,0,0");
+            mp.CSS.Body.Add("padding", (!String.IsNullOrEmpty(window.Padding)) ? window.Padding : "0,0,0,0");
             mp.Meta = "<meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no'/>";
             this.RenderCSSProperties(mp.CSS, window.Beams);
 

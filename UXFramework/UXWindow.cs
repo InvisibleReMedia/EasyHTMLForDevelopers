@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UXFramework.BeamConnections;
 
 namespace UXFramework
 {
@@ -107,6 +108,33 @@ namespace UXFramework
         public override IUXObject GetUXWindow()
         {
             return this;
+        }
+
+        /// <summary>
+        /// Constructs UX by marshalling information
+        /// </summary>
+        /// <param name="m">element for construction</param>
+        /// <param name="ui">ui properties</param>
+        public override void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui)
+        {
+            base.Construct(m, ui);
+        }
+
+        #endregion
+
+        #region Static Methods
+
+        /// <summary>
+        /// Create an UX by marshalling information
+        /// </summary>
+        /// <param name="name">window name</param>
+        /// <param name="hash">properties to adjust UX</param>
+        /// <returns>UXWindow</returns>
+        public static UXWindow CreateUXWindow(string name, Marshalling.MarshallingList childs, Marshalling.MarshallingList uiChilds)
+        {
+            UXWindow win = new UXWindow();
+            CreateUXControl(win, childs, uiChilds);
+            return win;
         }
 
         #endregion

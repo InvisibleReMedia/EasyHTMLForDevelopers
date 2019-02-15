@@ -14,14 +14,37 @@ namespace AppEasy
 
         public static void Splash(WebBrowser web)
         {
-            UXFramework.UXWindow win = new UXFramework.UXWindow();
-            win.Beams.SetPropertyValue("Background", UXFramework.BeamConnections.Beam.Register("background-color", win, BrandIdentity.Current.Colors["fond_page"]));
-            win.Beams.SetPropertyValue("Width", UXFramework.BeamConnections.Beam.Register("width", win, BrandIdentity.Current.Sizes["taille_page"].Width));
-            win.Beams.SetPropertyValue("Height", UXFramework.BeamConnections.Beam.Register("height", win, BrandIdentity.Current.Sizes["taille_page"].Height));
+
+            Marshalling.IMarshalling ui = Marshalling.MarshallingHash.CreateMarshalling("0", () =>
+            {
+                return new List<KeyValuePair<string, dynamic>>() {
+                    new KeyValuePair<string, dynamic>("Width", 1320),
+                    new KeyValuePair<string, dynamic>("Height", 700),
+                    new KeyValuePair<string, dynamic>("BackColor", "#FF0000"),
+                    new KeyValuePair<string, dynamic>("ForeColor", "White")
+                }.AsEnumerable();
+            });
+            Marshalling.IMarshalling uiChilds = Marshalling.MarshallingList.CreateMarshalling("uiChilds", () =>
+            {
+                return new List<Marshalling.IMarshalling>() { ui };
+            });
+
+
+            Marshalling.IMarshalling hash = Marshalling.MarshallingHash.CreateMarshalling("0", () =>
+            {
+                return new List<KeyValuePair<string, dynamic>>()
+                {
+                    new KeyValuePair<string, dynamic>("type", "UXReadOnlyText"),
+                    new KeyValuePair<string, dynamic>("name", "splash"),
+                    new KeyValuePair<string, dynamic>("Text", "Easy HTML For Developers")
+                }.AsEnumerable();
+            });
+            Marshalling.IMarshalling childs = Marshalling.MarshallingList.CreateMarshalling("childs", () =>
+            {
+                return new List<Marshalling.IMarshalling>() { hash };
+            });
+            UXFramework.UXWindow win = UXFramework.UXWindow.CreateUXWindow("splash", childs as Marshalling.MarshallingList, uiChilds as Marshalling.MarshallingList);
             browser = web;
-            win.Name = "splash";
-            UXFramework.UXReadOnlyText text = new UXFramework.UXReadOnlyText("Easy HTML For Developers");
-            win.Add(text);
             win.Navigate(web);
 
             t = new Timer();

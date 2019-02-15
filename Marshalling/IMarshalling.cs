@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Marshalling
 {
-    public interface IMarshalling
+    public interface IMarshalling : ICloneable
     {
-        string Name { get; }
+        string Name { get; set; }
         dynamic Value { get; set; }
     }
 }

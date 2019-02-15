@@ -83,5 +83,11 @@ namespace UXFramework
         /// </summary>
         /// <param name="a">action</param>
         void SetUpdate(Action a);
+        /// <summary>
+        /// Constructs UX by marshalling information
+        /// </summary>
+        /// <param name="m">element for construction</param>
+        /// <param name="ui">ui properties</param>
+        void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui);
     }
 }

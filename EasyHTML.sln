@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppEasy", "AppEasy\AppEasy.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UXFramework", "UXFramework\UXFramework.csproj", "{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Electron4", "Electron4\Electron4.csproj", "{8DBDC9CB-5181-48FC-A3CA-F959089D914F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{97F476EB-7387-4A55-B3F1-BFC83730A19C}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
@@ -94,12 +92,6 @@ Global
 		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Release|x64.ActiveCfg = Release|Any CPU
-		{8DBDC9CB-5181-48FC-A3CA-F959089D914F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DBDC9CB-5181-48FC-A3CA-F959089D914F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DBDC9CB-5181-48FC-A3CA-F959089D914F}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8DBDC9CB-5181-48FC-A3CA-F959089D914F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DBDC9CB-5181-48FC-A3CA-F959089D914F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DBDC9CB-5181-48FC-A3CA-F959089D914F}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

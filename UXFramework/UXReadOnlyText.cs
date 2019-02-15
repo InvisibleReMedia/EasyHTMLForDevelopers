@@ -44,5 +44,18 @@ namespace UXFramework
 
         #endregion
 
+        #region Static Methods
+
+        public static void CreateUXReadOnlyText(UXControl parent, Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
+        {
+            UXReadOnlyText ux = new UXReadOnlyText(data["Text"].Value);
+            ux.Construct(data, ui);
+            if (data["childs"].Value is Marshalling.MarshallingList)
+                CreateUXControl(ux, data["childs"].Value, ui[data["name"].Value]);
+            parent.Add(ux);
+        }
+
+        #endregion
+
     }
 }
