@@ -1,0 +1,76 @@
+﻿La construction d'une page est réalisée par le transport de deux objets Marshalling.IMarshalling.
+
+Le premier objet sert à transporter les données à afficher à l'écran et le second objet sert à la forme des données.
+
+Le premier objet est un objet de données (textes, images, blocs) et le second objet est un objet de propriétés graphiques (couleur, taille, effets visuels).
+
+
+Pour chaque UX, il faut un certain nombre d'éléments présents dans l'objet de données et dans l'objet graphique.
+
+1) L'objet graphique
+
+Il doit contenir les éléments suivants:
+
+	- Id : nom unique pour l'objet de la page
+	- Width : entier
+	- Height : entier
+	- BackColor : #FFFFFF ou nom de la couleur
+	- ForeColor : #FFFFFF ou nom de la couleur
+	- Border : 1px solid black
+	- Margin : 0,0,0,0
+	- Padding : 0,0,0,0
+
+Si c'est un bouton, ou un texte, il doit contenir les éléments supplémentaires suivants
+
+	- RollBackColor : couleur de fond lorsque la souris passe dessus
+	- RollColor : couleur de texte lorsque la souris passe dessus
+	- ClickBorderColor : couleur du bord au moment du click
+
+
+S'il y a une image, les éléments supplémentaires sont
+
+	- ImageFile : nom de fichier de l'image
+	- ClickImageFile : nom de fichier de l'image au moment du clic
+	- RollImageFile : nom de fichier de l'image lorsque la souris passe dessus
+
+Si c'est un texte, les éléments supplémentaires sont
+
+	- ClickText : texte à afficher au moment du clic
+	- RollText : texte à afficher lorsque la souris passe dessus
+
+
+
+2) L'objet de données
+
+	La donnée importante est "Text" qui contient une chaîne de caractère à afficher.
+
+	Voici chaque élément nécessaire pour chaque objet UX
+
+	UXCheck : Checked, booléen
+
+	UXTable, UXViewDataTable, UXViewSelectableDataTable : "Table" doit contenir la structure de la table.
+
+		La table doit contenir en supplément :
+				- LineCount : nombre de lignes
+				- ColumnCount : nombre de colonnes
+				- Rows : un MarshallingList contenant les lignes
+
+	UXRow
+	
+		Les éléments suivants doivent être présents :
+				- RowIndex : numéro de ligne
+				- ColumnCount : nombre de colonnes utilisées
+				- Cells : un MarshallingList contenant les colonnes
+
+	UXCell
+	
+		Les éléments suivants doivent être présents :
+
+				- RowIndex
+				- CellIndex
+				- Cell : peut être un simple texte ou être un UX
+
+
+
+
+Une classe statique "Creation" permet de créer toutes les UX possibles.

@@ -236,49 +236,26 @@ namespace UXFramework
 
         #endregion
 
-        #region Methods
+        #region Static Methods
 
         /// <summary>
-        /// Bind sequence
+        /// Create table
         /// </summary>
-        /// <param name="a">specific bind function</param>
-        public virtual void Bind(Marshalling.IMarshalling m)
+        /// <param name="parent">parent ui</param>
+        /// <param name="data">data to show</param>
+        /// <param name="ui">ui properties</param>
+        public static UXTable CreateUXTable(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            if (m is Marshalling.MarshallingList)
+            UXTable ux = new UXTable(data["ColumnCount"].Value, data["LineCount"].Value, data["Id"].Value);
+            ux.Construct(data, ui[data["Id"].Value].Value);
+            Marshalling.MarshallingList rows = data["Childs"].Value;
+            foreach (IUXObject obj in rows.Values)
             {
-                Marshalling.MarshallingList list = m as Marshalling.MarshallingList;
-                // construction de la table
-                uint count = Convert.ToUInt32(list.Count);
-                if (count > 0)
-                {
-                    for (int index = 0; index < count; ++index)
-                    {
-                        // construction d'une nouvelle ligne
-                        UXRow row = new UXRow((uint)index, this.ColumnCount);
-                        row.Bind(list[index]);
-                        this.Children.Add(row);
-                    }
-                }
+                ux.Add(obj);
             }
-            else if (m is Marshalling.MarshallingHash)
-            {
-                Marshalling.MarshallingHash hash = m as Marshalling.MarshallingHash;
-                // construction de la table
-                uint count = Convert.ToUInt32(hash.HashKeys.Count());
-                if (count > 0)
-                {
-                    for (int index = 0; index < count; ++index)
-                    {
-                        // construction d'une nouvelle ligne
-                        UXRow row = new UXRow((uint)index, this.ColumnCount);
-                        row.Bind(hash[hash.HashKeys.ElementAt(index)]);
-                        this.Children.Add(row);
-                    }
-                }
-            }
+            return ux;
         }
 
         #endregion
-
     }
 }

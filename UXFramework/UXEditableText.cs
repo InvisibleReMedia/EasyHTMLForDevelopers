@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UXFramework.BeamConnections;
 
 namespace UXFramework
 {
@@ -29,8 +30,10 @@ namespace UXFramework
         /// <summary>
         /// Default constructor
         /// </summary>
-        public UXEditableText()
+        public UXEditableText(string id, string t)
         {
+            this.Set(idName, id);
+            this.Set(textName, t);
         }
 
         #endregion
@@ -97,6 +100,44 @@ namespace UXFramework
         {
             this.Text = ((HtmlElement)sender).InnerText;
             this.UpdateOne();
+        }
+
+        /// <summary>
+        /// Constructs ui properties
+        /// </summary>
+        /// <param name="m">data</param>
+        /// <param name="ui">ui properties</param>
+        public override void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui)
+        {
+            base.Construct(m, ui);
+            Marshalling.MarshallingHash hash = ui as Marshalling.MarshallingHash;
+            // couleurs
+            string rollBackColor, rollColor, clickBorderColor;
+            rollBackColor = hash["RollBackColor"].Value;
+            rollColor = hash["RollColor"].Value;
+            clickBorderColor = hash["ClickBorderColor"].Value;
+            // enregistrement des elements
+            this.Beams.SetPropertyValues(new List<KeyValuePair<string, Beam>> {
+                new KeyValuePair<string, Beam>("RollBackColor", Beam.Register("rollBackColor", this, rollBackColor)),
+                new KeyValuePair<string, Beam>("RollColor", Beam.Register("rollColor", this, rollColor)),
+                new KeyValuePair<string, Beam>("ClickBorderColor", Beam.Register("clickBorderColor", this, clickBorderColor))
+            }.ToArray());
+        }
+
+        #endregion
+
+        #region Static Methods
+
+        /// <summary>
+        /// Create editable text
+        /// </summary>
+        /// <param name="data">data to show</param>
+        /// <param name="ui">ui properties</param>
+        public static UXEditableText CreateUXEditableText(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
+        {
+            UXEditableText ux = new UXEditableText(data["Id"].Value, data["Text"].Value);
+            ux.Construct(data, ui);
+            return ux;
         }
 
         #endregion

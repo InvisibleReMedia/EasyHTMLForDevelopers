@@ -57,5 +57,21 @@ namespace UXFramework
         }
 
         #endregion
+
+        #region Static Methods
+
+        /// <summary>
+        /// Create editable text
+        /// </summary>
+        /// <param name="data">data to show</param>
+        /// <param name="ui">ui properties</param>
+        public static UXTree CreateUXTree(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
+        {
+            UXTree ux = new UXTree(data["id"].Value);
+            ux.Construct(data, ui);
+            return ux;
+        }
+
+        #endregion
     }
 }

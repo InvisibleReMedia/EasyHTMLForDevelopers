@@ -91,5 +91,21 @@ namespace UXFramework
 
         #endregion
 
+        #region Static Methods
+
+        /// <summary>
+        /// Create ckeck box
+        /// </summary>
+        /// <param name="data">data to show</param>
+        /// <param name="ui">ui properties</param>
+        public static UXCheck CreateUXCheck(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
+        {
+            UXCheck ux = new UXCheck();
+            ux.Construct(data, ui);
+            return ux;
+        }
+
+        #endregion
+
     }
 }

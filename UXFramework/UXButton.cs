@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UXFramework.BeamConnections;
 
 namespace UXFramework
 {
@@ -143,7 +144,40 @@ namespace UXFramework
             this.UpdateOne();
         }
 
+        public override void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui)
+        {
+            base.Construct(m, ui);
+            Marshalling.MarshallingHash hash = ui as Marshalling.MarshallingHash;
+            // couleurs
+            string rollBackColor, rollColor, clickBorderColor;
+            rollBackColor = hash["RollBackColor"].Value;
+            rollColor = hash["RollColor"].Value;
+            clickBorderColor = hash["ClickBorderColor"].Value;
+            // enregistrement des elements
+            this.Beams.SetPropertyValues(new List<KeyValuePair<string, Beam>> {
+                new KeyValuePair<string, Beam>("RollBackColor", Beam.Register("rollBackColor", this, rollBackColor)),
+                new KeyValuePair<string, Beam>("RollColor", Beam.Register("rollColor", this, rollColor)),
+                new KeyValuePair<string, Beam>("ClickBorderColor", Beam.Register("clickBorderColor", this, clickBorderColor))
+            }.ToArray());
+        }
+        
         #endregion
 
+        #region Static Methods
+
+        /// <summary>
+        /// Create a box
+        /// </summary>
+        /// <param name="data">data to show</param>
+        /// <param name="ui">ui properties</param>
+        public static UXButton CreateUXButton(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
+        {
+            UXButton button = new UXButton(data["Id"].Value, data["Text"].Value);
+            button.Construct(data, ui);
+            return button;
+        }
+
+
+        #endregion
     }
 }

@@ -69,7 +69,7 @@ namespace AppEasy
             Marshalling.MarshallingList btnLine = new Marshalling.MarshallingList("btn-line");
             btnLine[0] = buttons;
 
-            tbt.Bind(btnLine);
+            //tbt.Bind(btnLine);
 
             lines[0] = tbt;
 
@@ -122,14 +122,14 @@ namespace AppEasy
                 }
             }
 
-            view.Bind(x);
+            //view.Bind(x);
 
             lines[1] = view;
 
             UXFramework.UXReadOnlyText b = new UXFramework.UXReadOnlyText("Business Forward Technology copyright @ 2018 - Contact us : business.forward.technology@gmail.com");
             lines[2] = b;
 
-            t.Bind(lines);
+            //t.Bind(lines);
 
             win.Add(t);
             win.Navigate(web);

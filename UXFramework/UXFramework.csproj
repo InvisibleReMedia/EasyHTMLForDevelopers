@@ -64,6 +64,7 @@
     <Compile Include="BeamConnections\BrandIdentity.cs" />
     <Compile Include="BeamConnections\IBeamConnection.cs" />
     <Compile Include="BeamConnections\VisualIdentity.cs" />
+    <Compile Include="Creation.cs" />
     <Compile Include="IMLData.cs" />
     <Compile Include="BeamConnections\InteractiveBeam.cs" />
     <Compile Include="IUXObject.cs" />
@@ -103,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="events.txt" />
+    <Content Include="mode-emploi.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

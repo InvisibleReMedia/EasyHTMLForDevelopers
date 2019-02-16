@@ -75,5 +75,20 @@ namespace UXFramework
 
         #endregion
 
+        #region Static Methods
+
+        /// <summary>
+        /// Create editable text
+        /// </summary>
+        /// <param name="data">data to show</param>
+        /// <param name="ui">ui properties</param>
+        public static UXImage CreateUXImage(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
+        {
+            UXImage ux = new UXImage(data["Id"].Value, ui["ImageFile"].Value);
+            ux.Construct(data, ui);
+            return ux;
+        }
+
+        #endregion
     }
 }

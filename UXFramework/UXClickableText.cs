@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UXFramework.BeamConnections;
 
 namespace UXFramework
 {
@@ -29,8 +30,9 @@ namespace UXFramework
         /// <summary>
         /// Default constructor
         /// </summary>
+        /// <param name="id">id</param>
         /// <param name="t">static text</param>
-        public UXClickableText(string t)
+        public UXClickableText(string id, string t)
         {
             this.Set(textName, t);
         }
@@ -59,5 +61,47 @@ namespace UXFramework
 
         #endregion
 
+        #region Methods
+
+        public override void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui)
+        {
+            base.Construct(m, ui);
+            Marshalling.MarshallingHash hash = ui as Marshalling.MarshallingHash;
+            // couleurs
+            string rollBackColor, rollColor, clickBorderColor;
+            rollBackColor = hash["RollBackColor"].Value;
+            rollColor = hash["RollColor"].Value;
+            clickBorderColor = hash["ClickBorderColor"].Value;
+            string clickText, rollText;
+            clickText = (m as Marshalling.MarshallingHash)["ClickText"].Value;
+            rollText = (m as Marshalling.MarshallingHash)["RollText"].Value;
+            // enregistrement des elements
+            this.Beams.SetPropertyValues(new List<KeyValuePair<string, Beam>> {
+                new KeyValuePair<string, Beam>("RollBackColor", Beam.Register("rollBackColor", this, rollBackColor)),
+                new KeyValuePair<string, Beam>("RollColor", Beam.Register("rollColor", this, rollColor)),
+                new KeyValuePair<string, Beam>("ClickBorderColor", Beam.Register("clickBorderColor", this, clickBorderColor)),
+                new KeyValuePair<string, Beam>("ClickText", Beam.Register("clickText", this, clickText)),
+                new KeyValuePair<string, Beam>("RollText", Beam.Register("rollText", this, rollText))
+            }.ToArray());
+        }
+
+        #endregion
+
+        #region Static Methods
+
+        /// <summary>
+        /// Create clickable text
+        /// </summary>
+        /// <param name="data">data to show</param>
+        /// <param name="ui">ui properties</param>
+        public static UXClickableText CreateUXClickableText(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
+        {
+            UXClickableText ux = new UXClickableText(data["Id"].Value, data["Text"].Value);
+            ux.Construct(data, ui);
+            return ux;
+        }
+
+        #endregion
+    
     }
 }

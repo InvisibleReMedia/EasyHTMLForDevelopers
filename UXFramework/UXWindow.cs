@@ -130,10 +130,10 @@ namespace UXFramework
         /// <param name="name">window name</param>
         /// <param name="hash">properties to adjust UX</param>
         /// <returns>UXWindow</returns>
-        public static UXWindow CreateUXWindow(string name, Marshalling.MarshallingList childs, Marshalling.MarshallingList uiChilds)
+        public static UXWindow CreateUXWindow(string name, Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
             UXWindow win = new UXWindow();
-            CreateUXControl(win, childs, uiChilds);
+            win.Construct(data, ui);
             return win;
         }
 

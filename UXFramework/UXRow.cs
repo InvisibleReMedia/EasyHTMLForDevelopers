@@ -30,7 +30,7 @@ namespace UXFramework
         /// <summary>
         /// Default constructor
         /// </summary>
-        public UXRow(uint rowIndex, uint columnCount)
+        public UXRow(uint rowIndex, uint columnCount, string id)
         {
             this.Set(rowIndexName, rowIndex);
             this.Set(columnCountName, columnCount);
@@ -60,65 +60,24 @@ namespace UXFramework
 
         #endregion
 
-        #region Methods
+        #region Static Methods
 
         /// <summary>
-        /// Bind sequence
+        /// Create UXRow
         /// </summary>
-        /// <param name="p">marshalling object</param>
-        public virtual void Bind(Marshalling.IMarshalling p)
+        /// <param name="data">data hash</param>
+        /// <param name="ui">ui properties</param>
+        /// <returns>row</returns>
+        public static UXRow CreateUXRow(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            // construction de la ligne
-            uint columnIndex = 0;
-            if (p is Marshalling.MarshallingHash)
+            UXRow row = new UXRow(data["RowIndex"].Value, data["ColumnCount"].Value, data["Id"].Value);
+            row.Construct(data, ui[data["Id"].Value]);
+            Marshalling.MarshallingList cells = data["Childs"].Value;
+            foreach (IUXObject obj in cells.Values)
             {
-                Marshalling.MarshallingHash hash = p as Marshalling.MarshallingHash;
-                foreach (Marshalling.IMarshalling m in hash.Values)
-                {
-                    // construction d'une nouvelle case
-                    UXCell cell = new UXCell(RowIndex, columnIndex);
-                    this.Children.Add(cell);
-                    if (m is IUXObject)
-                    {
-                        cell.Children.Add(m as IUXObject);
-                    }
-                    else
-                    {
-                        UXReadOnlyText t = new UXReadOnlyText(m.Value.ToString());
-                        cell.Children.Add(t);
-                    }
-                    ++columnIndex;
-                }
+                row.Add(obj);
             }
-            else if (p is Marshalling.MarshallingList)
-            {
-                Marshalling.MarshallingList list = p as Marshalling.MarshallingList;
-                for (int index = 0; index < list.Count; ++index)
-                {
-                    // construction d'une nouvelle case
-                    UXCell cell = new UXCell(RowIndex, columnIndex);
-                    this.Children.Add(cell);
-                    Marshalling.IMarshalling m = list[index];
-                    if (m is IUXObject)
-                    {
-                        cell.Children.Add(m as IUXObject);
-                    }
-                    else
-                    {
-                        UXReadOnlyText t = new UXReadOnlyText(m.Value.ToString());
-                        cell.Children.Add(t);
-                    }
-                    ++columnIndex;
-
-                }
-            }
-            else if (p is IUXObject)
-            {
-                // construction d'une nouvelle case
-                UXCell cell = new UXCell(RowIndex, 0);
-                this.Children.Add(cell);
-                cell.Children.Add(p as IUXObject);
-            }
+            return row;
         }
 
         #endregion

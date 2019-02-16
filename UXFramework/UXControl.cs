@@ -452,7 +452,7 @@ namespace UXFramework
 
         #region Static Methods
 
-        public static void CreateUXControl(UXControl parent, Marshalling.MarshallingList childs, Marshalling.MarshallingList uiChilds)
+        public static void CreateUXControls(Marshalling.MarshallingList childs, Marshalling.MarshallingList uiChilds)
         {
             int index = 0;
             foreach (Marshalling.MarshallingHash h in childs.Values)
@@ -462,7 +462,16 @@ namespace UXFramework
                 switch (typeName)
                 {
                     case "UXReadOnlyText":
-                        UXReadOnlyText.CreateUXReadOnlyText(parent, h, uiChilds.Values.ElementAt(index) as Marshalling.MarshallingHash);
+                        UXReadOnlyText.CreateUXReadOnlyText(h, uiChilds.Values.ElementAt(index) as Marshalling.MarshallingHash);
+                        break;
+                    case "UXClickableText":
+                        UXClickableText.CreateUXClickableText(h, uiChilds.Values.ElementAt(index) as Marshalling.MarshallingHash);
+                        break;
+                    case "UXSelectableText":
+                        UXSelectableText.CreateUXSelectableText(h, uiChilds.Values.ElementAt(index) as Marshalling.MarshallingHash);
+                        break;
+                    case "UXEditableText":
+                        UXEditableText.CreateUXEditableText(h, uiChilds.Values.ElementAt(index) as Marshalling.MarshallingHash);
                         break;
                 }
                 ++index;

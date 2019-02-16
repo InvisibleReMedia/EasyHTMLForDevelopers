@@ -630,6 +630,31 @@ namespace Marshalling
             return new MarshallingHash(this.Name, list);
         }
 
+        /// <summary>
+        /// Add a new element into hash
+        /// </summary>
+        /// <param name="e">new element</param>
+        public void Add(IMarshalling e)
+        {
+            if (!this.Hash.Exists(u => u.Name == e.Name))
+            {
+                this.Hash.Add(e);
+            }
+            else
+            {
+                List<IMarshalling> newList = this.Hash.Except(this.Values.Where(x => x.Name == e.Name)).ToList();
+                newList.Add(e);
+                this.Set(valueName, newList);
+            }
+        }
+
+        public void Add(IEnumerable<IMarshalling> e)
+        {
+            foreach (IMarshalling m in e)
+            {
+                this.Add(m);
+            }
+        }
         #endregion
 
         #region Static Methods
@@ -652,7 +677,7 @@ namespace Marshalling
         /// </summary>
         /// <param name="f">function to enter data</param>
         /// <returns>marshalling</returns>
-        public static IMarshalling CreateMarshalling(string name, Func<IEnumerable<KeyValuePair<string, dynamic>>> f)
+        public static Marshalling.MarshallingHash CreateMarshalling(string name, Func<IEnumerable<KeyValuePair<string, dynamic>>> f)
         {
             return new MarshallingHash(name, CreateMarshalling(f));
         }

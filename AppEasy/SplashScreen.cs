@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using UXFramework;
 using UXFramework.BeamConnections;
 
 namespace AppEasy
@@ -14,36 +15,27 @@ namespace AppEasy
 
         public static void Splash(WebBrowser web)
         {
-
-            Marshalling.IMarshalling ui = Marshalling.MarshallingHash.CreateMarshalling("0", () =>
+            UXReadOnlyText u = Creation.NewUXReadOnlyText("text1", "Easy WEB For Developers", new Dictionary<string, dynamic>()
             {
-                return new List<KeyValuePair<string, dynamic>>() {
-                    new KeyValuePair<string, dynamic>("Width", 1320),
-                    new KeyValuePair<string, dynamic>("Height", 700),
-                    new KeyValuePair<string, dynamic>("BackColor", "#FF0000"),
-                    new KeyValuePair<string, dynamic>("ForeColor", "White")
-                }.AsEnumerable();
-            });
-            Marshalling.IMarshalling uiChilds = Marshalling.MarshallingList.CreateMarshalling("uiChilds", () =>
-            {
-                return new List<Marshalling.IMarshalling>() { ui };
+                { "Width", 100 },
+                { "Height", 20 },
+                { "BackColor", "White" },
+                { "ForeColor", "Black" },
+                { "Border", "1px solid blue" },
+                { "Margin", "0,0,0,0"  },
+                { "Padding", "0,0,0,0" }
             });
 
-
-            Marshalling.IMarshalling hash = Marshalling.MarshallingHash.CreateMarshalling("0", () =>
+            UXWindow win = Creation.NewUXWindow("splash", "Easy WEB for Developers", new Dictionary<string, dynamic>()
             {
-                return new List<KeyValuePair<string, dynamic>>()
-                {
-                    new KeyValuePair<string, dynamic>("type", "UXReadOnlyText"),
-                    new KeyValuePair<string, dynamic>("name", "splash"),
-                    new KeyValuePair<string, dynamic>("Text", "Easy HTML For Developers")
-                }.AsEnumerable();
-            });
-            Marshalling.IMarshalling childs = Marshalling.MarshallingList.CreateMarshalling("childs", () =>
-            {
-                return new List<Marshalling.IMarshalling>() { hash };
-            });
-            UXFramework.UXWindow win = UXFramework.UXWindow.CreateUXWindow("splash", childs as Marshalling.MarshallingList, uiChilds as Marshalling.MarshallingList);
+                { "Width", 1320 },
+                { "Height", 700 },
+                { "BackColor", "White" },
+                { "ForeColor", "Black" },
+                { "Border", "" },
+                { "Margin", "5,5,5,5"  },
+                { "Padding", "2,2,2,2" }
+            }, u);
             browser = web;
             win.Navigate(web);
 
