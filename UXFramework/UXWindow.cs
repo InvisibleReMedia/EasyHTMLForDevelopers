@@ -110,16 +110,6 @@ namespace UXFramework
             return this;
         }
 
-        /// <summary>
-        /// Constructs UX by marshalling information
-        /// </summary>
-        /// <param name="m">element for construction</param>
-        /// <param name="ui">ui properties</param>
-        public override void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui)
-        {
-            base.Construct(m, ui);
-        }
-
         #endregion
 
         #region Static Methods

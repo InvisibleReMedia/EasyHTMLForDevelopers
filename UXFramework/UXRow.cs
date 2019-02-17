@@ -30,7 +30,7 @@ namespace UXFramework
         /// <summary>
         /// Default constructor
         /// </summary>
-        public UXRow(uint rowIndex, uint columnCount, string id)
+        public UXRow(int rowIndex, int columnCount, string id)
         {
             this.Set(rowIndexName, rowIndex);
             this.Set(columnCountName, columnCount);
@@ -43,7 +43,7 @@ namespace UXFramework
         /// <summary>
         /// Gets or sets the row index
         /// </summary>
-        public uint RowIndex
+        public int RowIndex
         {
             get { return this.Get(rowIndexName, 0); }
             set { this.Set(rowIndexName, value);  }
@@ -52,7 +52,7 @@ namespace UXFramework
         /// <summary>
         /// Gets the column count
         /// </summary>
-        public uint ColumnCount
+        public int ColumnCount
         {
             get { return this.Get(columnCountName, 0); }
             set { this.Set(columnCountName, value); }
@@ -71,11 +71,11 @@ namespace UXFramework
         public static UXRow CreateUXRow(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
             UXRow row = new UXRow(data["RowIndex"].Value, data["ColumnCount"].Value, data["Id"].Value);
-            row.Construct(data, ui[data["Id"].Value]);
-            Marshalling.MarshallingList cells = data["Childs"].Value;
-            foreach (IUXObject obj in cells.Values)
+            row.Construct(data, ui);
+            Marshalling.MarshallingList cells = data["Childs"] as Marshalling.MarshallingList;
+            foreach (Marshalling.MarshallingObjectValue obj in cells.Values)
             {
-                row.Add(obj);
+                row.Add(obj.Value);
             }
             return row;
         }

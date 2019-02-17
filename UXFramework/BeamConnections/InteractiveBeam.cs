@@ -17,17 +17,6 @@ namespace UXFramework.BeamConnections
 
         public InteractiveBeam(IUXObject x)
         {
-            this.SetPropertyValue("Background", BeamConnections.Beam.Register("background-color", x, VisualIdentity.Current.BackgroundColor));
-            this.SetPropertyValue("Foreground", BeamConnections.Beam.Register("color", x, VisualIdentity.Current.ForegroundColor));
-            this.SetPropertyValue("BorderColor", BeamConnections.Beam.Register("border-color", x, VisualIdentity.Current.BorderColor));
-            this.SetPropertyValue("FontName", BeamConnections.Beam.Register("font-family", x, VisualIdentity.Current.Font));
-            this.SetPropertyValue("FontSize", BeamConnections.Beam.Register("font-size", x, VisualIdentity.Current.FontSize));
-            this.SetPropertyValue("BorderWidth", BeamConnections.Beam.Register("border-width", x, VisualIdentity.Current.BorderSize.Width));
-            this.SetPropertyValue("BorderHeight", BeamConnections.Beam.Register("border-height", x, VisualIdentity.Current.BorderSize.Height));
-            this.SetPropertyValue("MarginWidth", BeamConnections.Beam.Register("margin-width", x, VisualIdentity.Current.MarginSize.Width));
-            this.SetPropertyValue("MarginHeight", BeamConnections.Beam.Register("margin-height", x, VisualIdentity.Current.MarginSize.Height));
-            this.SetPropertyValue("PaddingWidth", BeamConnections.Beam.Register("padding-width", x, VisualIdentity.Current.PaddingSize.Width));
-            this.SetPropertyValue("PaddingHeight", BeamConnections.Beam.Register("padding-height", x, VisualIdentity.Current.PaddingSize.Height));
         }
 
         #endregion

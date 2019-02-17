@@ -130,25 +130,11 @@ namespace UXFramework
 
         public override void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui)
         {
-            base.Construct(m, ui);
             Marshalling.MarshallingHash hash = ui as Marshalling.MarshallingHash;
-            // couleurs
-            string rollBackColor, rollColor, clickBorderColor;
-            rollBackColor = hash["RollBackColor"].Value;
-            rollColor = hash["RollColor"].Value;
-            clickBorderColor = hash["ClickBorderColor"].Value;
-            string imageFile, clickImageFile, rollImageFile;
-            imageFile = hash["ImageFile"].Value;
-            clickImageFile = hash["ClickImageFile"].Value;
-            rollImageFile = hash["RollImageFile"].Value;
+            ImageProperties ip = hash["properties"].Value;
             // enregistrement des elements
             this.Beams.SetPropertyValues(new List<KeyValuePair<string, Beam>> {
-                new KeyValuePair<string, Beam>("RollBackColor", Beam.Register("rollBackColor", this, rollBackColor)),
-                new KeyValuePair<string, Beam>("RollColor", Beam.Register("rollColor", this, rollColor)),
-                new KeyValuePair<string, Beam>("ClickBorderColor", Beam.Register("clickBorderColor", this, clickBorderColor)),
-                new KeyValuePair<string, Beam>("ImageFile", Beam.Register("imageFile", this, imageFile)),
-                new KeyValuePair<string, Beam>("ClickImageFile", Beam.Register("clickImageFile", this, clickImageFile)),
-                new KeyValuePair<string, Beam>("RollImageFile", Beam.Register("rollImageFile", this, rollImageFile))
+                new KeyValuePair<string, Beam>("properties", Beam.Register("properties", this, ip))
             }.ToArray());
         }
 

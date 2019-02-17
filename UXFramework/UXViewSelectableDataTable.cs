@@ -20,7 +20,7 @@ namespace UXFramework
         /// <param name="columnSize">column size</param>
         /// <param name="lineSize">line size</param>
         /// <param name="id">id</param>
-        public UXViewSelectableDataTable(uint columnSize, uint lineSize, string id) : base(columnSize, lineSize, id)
+        public UXViewSelectableDataTable(int columnSize, int lineSize, string id) : base(columnSize, lineSize, id)
         {
         }
 

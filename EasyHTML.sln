@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{97F476
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarshallingTest", "MarshallingTest\MarshallingTest.csproj", "{BFA7CB27-DC19-405E-966F-182C1661E178}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,12 @@ Global
 		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E70650F2-CBEA-4C24-A8D7-34D4D1A44FEE}.Release|x64.ActiveCfg = Release|Any CPU
+		{BFA7CB27-DC19-405E-966F-182C1661E178}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFA7CB27-DC19-405E-966F-182C1661E178}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFA7CB27-DC19-405E-966F-182C1661E178}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BFA7CB27-DC19-405E-966F-182C1661E178}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFA7CB27-DC19-405E-966F-182C1661E178}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFA7CB27-DC19-405E-966F-182C1661E178}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,27 +15,14 @@ namespace AppEasy
 
         public static void Splash(WebBrowser web)
         {
-            UXReadOnlyText u = Creation.NewUXReadOnlyText("text1", "Easy WEB For Developers", new Dictionary<string, dynamic>()
-            {
-                { "Width", 100 },
-                { "Height", 20 },
-                { "BackColor", "White" },
-                { "ForeColor", "Black" },
-                { "Border", "1px solid blue" },
-                { "Margin", "0,0,0,0"  },
-                { "Padding", "0,0,0,0" }
-            });
+            UXTable table = ProjectViewer.CreateProjectTableHeaders();
 
-            UXWindow win = Creation.NewUXWindow("splash", "Easy WEB for Developers", new Dictionary<string, dynamic>()
-            {
-                { "Width", 1320 },
-                { "Height", 700 },
-                { "BackColor", "White" },
-                { "ForeColor", "Black" },
-                { "Border", "" },
-                { "Margin", "5,5,5,5"  },
-                { "Padding", "2,2,2,2" }
-            }, u);
+            CommonProperties cp = new CommonProperties();
+            cp.Width = 1320;
+            cp.Height = 700;
+            cp.BackColor = "White";
+            cp.ForeColor = "Black";
+            UXWindow win = Creation.NewUXWindow("splash", "Easy WEB for Developers", cp, table);
             browser = web;
             win.Navigate(web);
 

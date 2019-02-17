@@ -60,125 +60,11 @@ namespace UXFramework
         /// <summary>
         /// Gets the Width size
         /// </summary>
-        public uint? Width
+        public dynamic Properties
         {
             get
             {
-                dynamic d = this.Beams.GetPropertyValue("Width").ReadProperty();
-                if (d != null)
-                {
-                    return d;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the Height size
-        /// </summary>
-        public uint? Height
-        {
-            get
-            {
-                dynamic d = this.Beams.GetPropertyValue("Height").ReadProperty();
-                if (d != null)
-                {
-                    return d;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the background color
-        /// </summary>
-        public string BackgroundColor
-        {
-            get
-            {
-                dynamic d = this.Beams.GetPropertyValue("BackColor").ReadProperty();
-                if (d != null)
-                {
-                    return d;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the fore color
-        /// </summary>
-        public string ForegroundColor
-        {
-            get
-            {
-                dynamic d = this.Beams.GetPropertyValue("ForeColor").ReadProperty();
-                if (d != null)
-                {
-                    return d;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the border color
-        /// </summary>
-        public string Border
-        {
-            get
-            {
-                dynamic d = this.Beams.GetPropertyValue("Border").ReadProperty();
-                if (d != null)
-                {
-                    return d;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the margin size
-        /// </summary>
-        public string Margin
-        {
-            get
-            {
-                dynamic d = this.Beams.GetPropertyValue("Margin").ReadProperty();
-                if (d != null)
-                {
-                    return d;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the padding size
-        /// </summary>
-        public string Padding
-        {
-            get
-            {
-                dynamic d = this.Beams.GetPropertyValue("Padding").ReadProperty();
+                dynamic d = this.Beams.GetPropertyValue("properties").ReadProperty();
                 if (d != null)
                 {
                     return d;
@@ -413,7 +299,6 @@ namespace UXFramework
             return c;
         }
 
-
         /// <summary>
         /// Constructs UX by marshalling information
         /// </summary>
@@ -422,29 +307,10 @@ namespace UXFramework
         public virtual void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui)
         {
             Marshalling.MarshallingHash hash = ui as Marshalling.MarshallingHash;
-            // taille de la fenêtre
-            uint width, height;
-            width = Convert.ToUInt32(hash["Width"].Value);
-            height = Convert.ToUInt32(hash["Height"].Value);
-            // couleurs
-            string backColor, foreColor;
-            backColor = hash["BackColor"].Value;
-            foreColor = hash["ForeColor"].Value;
-            // bords, marge, intervalle (format l,r,t,b)
-            string border, marge, interval;
-            border = hash["Border"].Value;
-            marge = hash["Margin"].Value;
-            interval = hash["Padding"].Value;
-
+            CommonProperties cp = hash["properties"].Value;
             // enregistrement des elements
             this.Beams.SetPropertyValues(new List<KeyValuePair<string, Beam>> {
-                new KeyValuePair<string, Beam>("Width", Beam.Register("width", this, width)),
-                new KeyValuePair<string, Beam>("Height", Beam.Register("height", this, height)),
-                new KeyValuePair<string, Beam>("BackColor", Beam.Register("background-color", this, backColor)),
-                new KeyValuePair<string, Beam>("ForeColor", Beam.Register("color", this, foreColor)),
-                new KeyValuePair<string, Beam>("Border", Beam.Register("border", this, border)),
-                new KeyValuePair<string, Beam>("Margin", Beam.Register("margin", this, marge)),
-                new KeyValuePair<string, Beam>("Padding", Beam.Register("padding", this, interval))
+                new KeyValuePair<string, Beam>("properties", Beam.Register("properties", this, cp))
             }.ToArray());
         }
 

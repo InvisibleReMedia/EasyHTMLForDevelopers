@@ -241,8 +241,8 @@ namespace UXFramework.WebImplementation
             string previous;
             Projects.Activate(projectName, out previous);
             Page p = new Page();
-            p.Width = (window.Width.HasValue) ? window.Width.Value : 1320;
-            p.Height = (window.Height.HasValue) ? window.Height.Value : 700;
+            p.Width = (window.Properties.Width.HasValue) ? window.Properties.Width.Value : 1320;
+            p.Height = (window.Properties.Height.HasValue) ? window.Properties.Height.Value : 700;
             p.Disposition = Disposition.CENTER;
             p.ConstraintWidth = EnumConstraint.FIXED;
             p.ConstraintHeight = EnumConstraint.FIXED;
@@ -254,11 +254,11 @@ namespace UXFramework.WebImplementation
             mp.ConstraintHeight = EnumConstraint.RELATIVE;
             mp.CountColumns = 1;
             mp.CountLines = 1;
-            mp.CSS.BackgroundColor = new CSSColor((!String.IsNullOrEmpty(window.BackgroundColor)) ? window.BackgroundColor : "Transparent");
-            mp.CSS.ForegroundColor = new CSSColor((!String.IsNullOrEmpty(window.ForegroundColor)) ? window.ForegroundColor : "Black");
-            mp.CSS.Body.Add("border", (!String.IsNullOrEmpty(window.Border)) ? window.Border : "0px solid black");
-            mp.CSS.Body.Add("margin", (!String.IsNullOrEmpty(window.Margin)) ? window.Margin : "0,0,0,0");
-            mp.CSS.Body.Add("padding", (!String.IsNullOrEmpty(window.Padding)) ? window.Padding : "0,0,0,0");
+            mp.CSS.BackgroundColor = new CSSColor((!String.IsNullOrEmpty(window.Properties.BackColor)) ? window.Properties.BackColor : "Transparent");
+            mp.CSS.ForegroundColor = new CSSColor((!String.IsNullOrEmpty(window.Properties.ForeColor)) ? window.Properties.ForeColor : "Black");
+            mp.CSS.Body.Add("border", (!String.IsNullOrEmpty(window.Properties.Border)) ? window.Properties.Border : "0px solid black");
+            mp.CSS.Body.Add("margin", (!String.IsNullOrEmpty(window.Properties.Margin)) ? window.Properties.Margin : "0,0,0,0");
+            mp.CSS.Body.Add("padding", (!String.IsNullOrEmpty(window.Properties.Padding)) ? window.Properties.Padding : "0,0,0,0");
             mp.Meta = "<meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no'/>";
             this.RenderCSSProperties(mp.CSS, window.Beams);
 
@@ -568,8 +568,8 @@ namespace UXFramework.WebImplementation
             mo.Height = 100;
             mo.ConstraintWidth = EnumConstraint.RELATIVE;
             mo.ConstraintHeight = EnumConstraint.RELATIVE;
-            mo.CountColumns = table.ColumnCount;
-            mo.CountLines = table.LineCount;
+            mo.CountColumns = Convert.ToUInt32(table.ColumnCount);
+            mo.CountLines = Convert.ToUInt32(table.LineCount);
 
             MasterObject previousMasterObject = currentMasterObject;
             this.currentMasterObject = mo;

@@ -64,12 +64,15 @@
     <Compile Include="BeamConnections\BrandIdentity.cs" />
     <Compile Include="BeamConnections\IBeamConnection.cs" />
     <Compile Include="BeamConnections\VisualIdentity.cs" />
+    <Compile Include="CommonProperties.cs" />
     <Compile Include="Creation.cs" />
+    <Compile Include="ImageProperties.cs" />
     <Compile Include="IMLData.cs" />
     <Compile Include="BeamConnections\InteractiveBeam.cs" />
     <Compile Include="IUXObject.cs" />
     <Compile Include="IUXRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextProperties.cs" />
     <Compile Include="UXBox.cs" />
     <Compile Include="UXButton.cs" />
     <Compile Include="UXCell.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.RegularExpressions;
 
 
 namespace Marshalling
@@ -99,6 +100,173 @@ namespace Marshalling
         public void Remove(string name)
         {
             this.Data.Remove(name);
+        }
+
+        /// <summary>
+        /// Converts all to string
+        /// </summary>
+        /// <returns>string tabular</returns>
+        public virtual IEnumerable<string> ToTabularString(uint depth)
+        {
+            foreach (string key in this.dict.Keys)
+            {
+                var content = this.dict[key];
+                if (content != null)
+                {
+                    if (content is IMarshalling)
+                    {
+                        foreach (string s in content.ToTabularString(depth + 1))
+                        {
+                            string tabs = "\t";
+                            yield return tabs + s.Trim('\r', '\n') + Environment.NewLine;
+                        }
+                    }
+                    else
+                    {
+                        yield return key + ":" + content.ToString() + Environment.NewLine;
+                    }
+                }
+                else
+                {
+                    depth = 0;
+                    yield return key + ":" + "null" + Environment.NewLine;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Converts all to string
+        /// </summary>
+        /// <returns>string</returns>
+        public override string ToString()
+        {
+            string output = string.Empty;
+            uint d;
+            foreach (string s in this.ToTabularString(0))
+            {
+                output += s.Trim('\n', '\r') + Environment.NewLine;
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Copy this into a new object
+        /// </summary>
+        /// <param name="t">destination</param>
+        /// <returns></returns>
+        public T Copy<T>() where T : PersistentDataObject, new()
+        {
+            T x = new T();
+            foreach (string s in this.Keys)
+            {
+                x.Set(s, this.Data[s]);
+            }
+            return x;
+        }
+
+        /// <summary>
+        /// Copy this into a new object
+        /// </summary>
+        /// <param name="t">destination</param>
+        /// <returns></returns>
+        public T Copy<T>(params string[] names) where T : PersistentDataObject, new()
+        {
+            T x = new T();
+            foreach (string s in names)
+            {
+                if (this.Exists(s))
+                    x.Set(s, this.Data[s]);
+            }
+            return x;
+        }
+
+        /// <summary>
+        /// Copy this into an existing object
+        /// </summary>
+        /// <typeparam name="T">a PersistentDataObject</typeparam>
+        /// <param name="obj">object</param>
+        public void Copy<T>(T obj) where T : PersistentDataObject
+        {
+            foreach (string s in this.Keys)
+            {
+                obj.Set(s, this.Data[s]);
+            }
+        }
+
+        /// <summary>
+        /// Copy this into an existing object
+        /// </summary>
+        /// <typeparam name="T">a PersistentDataObject</typeparam>
+        /// <param name="obj">object</param>
+        /// <param name="names">name list</param>
+        public void Copy<T>(T obj, params string[] names) where T : PersistentDataObject
+        {
+            foreach (string s in names)
+            {
+                if (this.Exists(s))
+                    obj.Set(s, this.Data[s]);
+            }
+        }
+
+        /// <summary>
+        /// Creates all keys that does not exists into obj
+        /// </summary>
+        /// <typeparam name="T">a PersistentDataObject</typeparam>
+        /// <param name="obj">existing object</param>
+        /// <param name="f">mapping function</param>
+        public void Mapping<T>(T obj, Func<string, string> f) where T : PersistentDataObject
+        {
+            foreach (string s in this.Keys)
+            {
+                if (!obj.Exists(f(s)))
+                    obj.Set(f(s), this.Data[s]);
+            }
+        }
+
+        /// <summary>
+        /// Creates selected keys that does not exists into obj
+        /// </summary>
+        /// <typeparam name="T">a PersistentDataObject</typeparam>
+        /// <param name="obj">existing object</param>
+        /// <param name="f">mapping fonctions</param>
+        /// <param name="names">name list</param>
+        public void Mapping<T>(T obj, Func<string, string> f, params string[] names) where T : PersistentDataObject
+        {
+            foreach (string s in names)
+            {
+                if (!obj.Exists(f(s)) && this.Exists(s))
+                    obj.Set(f(s), this.Data[s]);
+            }
+        }
+
+        /// <summary>
+        /// Format with replacement content
+        /// </summary>
+        /// <param name="input">input string</param>
+        /// <returns></returns>
+        public string Format(string input)
+        {
+            string output = string.Empty;
+            Regex r = new Regex(@"%([a-zA-Z_0-9]+)|([^%]*)", RegexOptions.Multiline);
+            foreach (Match m in r.Matches(input))
+            {
+                if (m.Groups[1].Success)
+                {
+                    if (this.Exists(m.Groups[1].Value))
+                    {
+                        output += this.Get(m.Groups[1].Value).Value;
+                    }
+                    else
+                    {
+                        return string.Empty;
+                    }
+                }
+                else if (m.Groups[2].Success)
+                {
+                    output += m.Groups[2].Value;
+                }
+            }
+            return output;
         }
 
         /// <summary>

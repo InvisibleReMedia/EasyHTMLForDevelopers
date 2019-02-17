@@ -20,7 +20,7 @@ namespace UXFramework
 
         #region Default Constructor
 
-        public UXCell(uint rowIndex, uint cellIndex, string id)
+        public UXCell(int rowIndex, int cellIndex, string id)
         {
             this.Set(rowIndexName, rowIndex);
             this.Set(cellIndexName, cellIndex);
@@ -62,11 +62,11 @@ namespace UXFramework
         /// <returns>row</returns>
         public static UXCell CreateUXCell(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXCell cell = new UXCell(data["RowIndex"].Value, data["CellIndex"].Value, data["Id"].Value);
-            cell.Construct(data, ui[data["Id"].Value]);
+            UXCell cell = new UXCell(Convert.ToInt32(data["RowIndex"].Value), Convert.ToInt32(data["CellIndex"].Value), data["Id"].Value);
+            cell.Construct(data, ui);
             if (data["Content"].Value is IUXObject)
             {
-                IUXObject obj = ui["Content"].Value;
+                IUXObject obj = data["Content"].Value;
                 cell.Add(obj);
             }
             return cell;

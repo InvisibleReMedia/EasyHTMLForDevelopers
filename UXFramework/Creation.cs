@@ -21,20 +21,13 @@ namespace UXFramework
         /// <param name="margin">margin</param>
         /// <param name="padding">padding</param>
         /// <returns>hash</returns>
-        public static Marshalling.MarshallingHash NewCommonUXProps(string id, int width, int height, string backColor, string foreColor,
-                                                                string border, string margin, string padding)
+        public static Marshalling.MarshallingHash NewCommonUXProps(string id, CommonProperties cp)
         {
 
             return Marshalling.MarshallingHash.CreateMarshalling(id, () =>
             {
                 return new List<KeyValuePair<string, dynamic>>() {
-                    new KeyValuePair<string, dynamic>("Width", width),
-                    new KeyValuePair<string, dynamic>("Height", height),
-                    new KeyValuePair<string, dynamic>("BackColor", backColor),
-                    new KeyValuePair<string, dynamic>("ForeColor", foreColor),
-                    new KeyValuePair<string, dynamic>("Border", border),
-                    new KeyValuePair<string, dynamic>("Margin", margin),
-                    new KeyValuePair<string, dynamic>("Padding", padding)
+                    new KeyValuePair<string, dynamic>("properties", cp)
                 }.AsEnumerable();
             });
         }
@@ -54,25 +47,13 @@ namespace UXFramework
         /// <param name="rollColor">roll color</param>
         /// <param name="clickBorderColor">click border color</param>
         /// <returns></returns>
-        public static Marshalling.MarshallingHash NewTextUXProps(string id, int width, int height, string backColor, string foreColor,
-                                                                 string border, string margin, string padding, string rollBackColor,
-                                                                 string rollColor, string clickBorderColor)
+        public static Marshalling.MarshallingHash NewTextUXProps(string id, TextProperties tp)
         {
 
             return Marshalling.MarshallingHash.CreateMarshalling(id, () =>
             {
                 return new List<KeyValuePair<string, dynamic>>() {
-                    new KeyValuePair<string, dynamic>("Width", width),
-                    new KeyValuePair<string, dynamic>("Height", height),
-                    new KeyValuePair<string, dynamic>("BackColor", backColor),
-                    new KeyValuePair<string, dynamic>("ForeColor", foreColor),
-                    new KeyValuePair<string, dynamic>("Border", border),
-                    new KeyValuePair<string, dynamic>("Margin", margin),
-                    new KeyValuePair<string, dynamic>("Padding", padding),
-                    new KeyValuePair<string, dynamic>("RollBackColor", rollBackColor),
-                    new KeyValuePair<string, dynamic>("RollColor", rollColor),
-                    new KeyValuePair<string, dynamic>("ClickBorderColor", clickBorderColor)
-
+                    new KeyValuePair<string, dynamic>("properties", tp)
                 }.AsEnumerable();
             });
         }
@@ -84,9 +65,9 @@ namespace UXFramework
         /// <param name="text">text</param>
         /// <param name="uiProps">ui properties</param>
         /// <returns>new UX</returns>
-        public static UXReadOnlyText NewUXReadOnlyText(string id, string text, Dictionary<string, dynamic> uiProps)
+        public static UXReadOnlyText NewUXReadOnlyText(string id, string text, CommonProperties cp)
         {
-            Marshalling.IMarshalling data = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
+            Marshalling.MarshallingHash data = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
             {
                 return new List<KeyValuePair<string, dynamic>>() {
                     new KeyValuePair<string, dynamic>("Id", id),
@@ -94,10 +75,9 @@ namespace UXFramework
                 }.AsEnumerable();
             });
 
-            Marshalling.IMarshalling ui = NewCommonUXProps(id, uiProps["Width"], uiProps["Height"], uiProps["BackColor"],
-                                                           uiProps["ForeColor"], uiProps["Border"], uiProps["Margin"], uiProps["Padding"]);
+            Marshalling.MarshallingHash ui = NewCommonUXProps(id, cp);
 
-            return UXReadOnlyText.CreateUXReadOnlyText(data as Marshalling.MarshallingHash, ui as Marshalling.MarshallingHash);
+            return UXReadOnlyText.CreateUXReadOnlyText(data, ui);
         }
 
         /// <summary>
@@ -110,24 +90,22 @@ namespace UXFramework
         /// <param name="uiProps">ui properties</param>
         /// <param name="parent">parent UX</param>
         /// <returns>new UX</returns>
-        public static UXClickableText NewUXClickableText(string id, string text, string rollText, string clickText, Dictionary<string, dynamic> uiProps)
+        public static UXClickableText NewUXClickableText(string id, string text, string rollText, string clickText, TextProperties tp)
         {
-            Marshalling.IMarshalling data = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
+            tp.InitialText = text;
+            tp.RollText = rollText;
+            tp.ClickText = clickText;
+            Marshalling.MarshallingHash data = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
             {
                 return new List<KeyValuePair<string, dynamic>>() {
                     new KeyValuePair<string, dynamic>("Id", id),
-                    new KeyValuePair<string, dynamic>("Text", text),
-                    new KeyValuePair<string, dynamic>("ClickText", clickText),
-                    new KeyValuePair<string, dynamic>("RollText", rollText)
+                    new KeyValuePair<string, dynamic>("Text", text)
                 }.AsEnumerable();
             });
 
-            Marshalling.IMarshalling ui = NewTextUXProps(id, uiProps["Width"], uiProps["Height"],
-                                                         uiProps["BackColor"], uiProps["ForeColor"],
-                                                         uiProps["Border"], uiProps["Margin"], uiProps["Padding"],
-                                                         uiProps["RollBackColor"], uiProps["RollColor"], uiProps["ClickBorderColor"]);
+            Marshalling.MarshallingHash ui = NewTextUXProps(id, tp);
 
-            return UXClickableText.CreateUXClickableText(data as Marshalling.MarshallingHash, ui as Marshalling.MarshallingHash);
+            return UXClickableText.CreateUXClickableText(data, ui);
         }
 
         /// <summary>
@@ -140,24 +118,22 @@ namespace UXFramework
         /// <param name="uiProps">ui properties</param>
         /// <param name="parent">parent UX</param>
         /// <returns>new UX</returns>
-        public static UXEditableText NewUXEditableText(string id, string text, string rollText, string clickText, Dictionary<string, dynamic> uiProps)
+        public static UXEditableText NewUXEditableText(string id, string text, string rollText, string clickText, TextProperties tp)
         {
-            Marshalling.IMarshalling data = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
+            tp.InitialText = text;
+            tp.RollText = rollText;
+            tp.ClickText = clickText;
+            Marshalling.MarshallingHash data = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
             {
                 return new List<KeyValuePair<string, dynamic>>() {
                     new KeyValuePair<string, dynamic>("Id", id),
-                    new KeyValuePair<string, dynamic>("Text", text),
-                    new KeyValuePair<string, dynamic>("ClickText", clickText),
-                    new KeyValuePair<string, dynamic>("RollText", rollText)
+                    new KeyValuePair<string, dynamic>("Text", text)
                 }.AsEnumerable();
             });
 
-            Marshalling.IMarshalling ui = NewTextUXProps(id, uiProps["Width"], uiProps["Height"],
-                                                         uiProps["BackColor"], uiProps["ForeColor"],
-                                                         uiProps["Border"], uiProps["Margin"], uiProps["Padding"],
-                                                         uiProps["RollBackColor"], uiProps["RollColor"], uiProps["ClickBorderColor"]);
+            Marshalling.MarshallingHash ui = NewTextUXProps(id, tp);
 
-            return UXEditableText.CreateUXEditableText(data as Marshalling.MarshallingHash, ui as Marshalling.MarshallingHash);
+            return UXEditableText.CreateUXEditableText(data, ui);
         }
 
         /// <summary>
@@ -170,9 +146,9 @@ namespace UXFramework
         /// <param name="uiProps">ui properties</param>
         /// <param name="parent">parent UX</param>
         /// <returns>new UX</returns>
-        public static UXEditableText NewUXSelectableText(string id, string text, uint refIndex, Dictionary<string, dynamic> uiProps)
+        public static UXEditableText NewUXSelectableText(string id, string text, uint refIndex, TextProperties tp)
         {
-            Marshalling.IMarshalling data = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
+            Marshalling.MarshallingHash data = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
             {
                 return new List<KeyValuePair<string, dynamic>>() {
                     new KeyValuePair<string, dynamic>("Id", id),
@@ -181,15 +157,12 @@ namespace UXFramework
                 }.AsEnumerable();
             });
 
-            Marshalling.IMarshalling ui = NewTextUXProps(id, uiProps["Width"], uiProps["Height"],
-                                                         uiProps["BackColor"], uiProps["ForeColor"],
-                                                         uiProps["Border"], uiProps["Margin"], uiProps["Padding"],
-                                                         uiProps["RollBackColor"], uiProps["RollColor"], uiProps["ClickBorderColor"]);
+            Marshalling.MarshallingHash ui = NewTextUXProps(id, tp);
 
-            return UXEditableText.CreateUXEditableText(data as Marshalling.MarshallingHash, ui as Marshalling.MarshallingHash);
+            return UXEditableText.CreateUXEditableText(data, ui);
         }
 
-        public static UXTable NewUXTable(string id, uint lineCount, uint columnCount, Dictionary<string, dynamic> uiProps, IEnumerable<IUXObject> obj)
+        public static UXTable NewUXTable(string id, uint lineCount, uint columnCount, CommonProperties cp, IEnumerable<IUXObject> obj)
         {
             Marshalling.MarshallingHash hash = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
             {
@@ -201,14 +174,13 @@ namespace UXFramework
                 }.AsEnumerable();
             });
 
-            Marshalling.MarshallingHash ui = NewCommonUXProps(id, uiProps["Width"], uiProps["Height"], uiProps["BackColor"],
-                                                           uiProps["ForeColor"], uiProps["Border"], uiProps["Margin"], uiProps["Padding"]);
+            Marshalling.MarshallingHash ui = NewCommonUXProps(id, cp);
 
             return UXTable.CreateUXTable(hash, ui);
 
         }
 
-        public static UXRow CreateRow(string id, uint rowIndex, uint columnCount, Dictionary<string, dynamic> uiProps, IEnumerable<IUXObject> obj)
+        public static UXRow CreateRow(string id, uint rowIndex, uint columnCount, CommonProperties cp, IEnumerable<IUXObject> obj)
         {
             Marshalling.MarshallingHash hash = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
             {
@@ -220,32 +192,30 @@ namespace UXFramework
                 }.AsEnumerable();
             });
 
-            Marshalling.MarshallingHash ui = NewCommonUXProps(id, uiProps["Width"], uiProps["Height"], uiProps["BackColor"],
-                                                           uiProps["ForeColor"], uiProps["Border"], uiProps["Margin"], uiProps["Padding"]);
+            Marshalling.MarshallingHash ui = NewCommonUXProps(id, cp);
 
             return UXRow.CreateUXRow(hash, ui);
         }
 
-        public static UXCell CreateCell(string id, uint rowIndex, uint colIndex, Dictionary<string, dynamic> uiProps, IUXObject obj)
+        public static UXCell CreateCell(string id, int rowIndex, int colIndex, CommonProperties cp, IUXObject obj)
         {
             Marshalling.MarshallingHash hash = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
             {
                 return new List<KeyValuePair<string, dynamic>>() {
                     new KeyValuePair<string, dynamic>("Id", id),
                     new KeyValuePair<string, dynamic>("RowIndex", rowIndex),
-                    new KeyValuePair<string, dynamic>("ColIndex", colIndex),
+                    new KeyValuePair<string, dynamic>("CellIndex", colIndex),
                     new KeyValuePair<string, dynamic>("Content", obj)
                 }.AsEnumerable();
             });
 
-            Marshalling.MarshallingHash ui = NewCommonUXProps(id, uiProps["Width"], uiProps["Height"], uiProps["BackColor"],
-                                                           uiProps["ForeColor"], uiProps["Border"], uiProps["Margin"], uiProps["Padding"]);
+            Marshalling.MarshallingHash ui = NewCommonUXProps(id, cp);
 
             return UXCell.CreateUXCell(hash, ui);
 
         }
 
-        public static UXWindow NewUXWindow(string id, string title, Dictionary<string, dynamic> uiProps, IUXObject obj) {
+        public static UXWindow NewUXWindow(string id, string title, CommonProperties cp, IUXObject obj) {
 
             Marshalling.MarshallingHash hash = Marshalling.MarshallingHash.CreateMarshalling(id, () =>
             {
@@ -254,8 +224,7 @@ namespace UXFramework
                 }.AsEnumerable();
             });
 
-            Marshalling.MarshallingHash ui = NewCommonUXProps(id, uiProps["Width"], uiProps["Height"], uiProps["BackColor"],
-                                                              uiProps["ForeColor"], uiProps["Border"], uiProps["Margin"], uiProps["Padding"]);
+            Marshalling.MarshallingHash ui = NewCommonUXProps(id, cp);
 
             UXWindow win = UXWindow.CreateUXWindow(id, hash, ui);
             win.Add(obj);

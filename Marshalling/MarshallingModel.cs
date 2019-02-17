@@ -137,18 +137,24 @@ namespace Marshalling
             }
             else if (kv.Value is long || kv.Value is int || kv.Value is uint)
             {
-                return new MarshallingIntValue(kv.Key, kv.Value);
+                return new MarshallingIntValue(kv.Key, Convert.ToInt32(kv.Value));
             }
             else if (kv.Value is double || kv.Value is float)
             {
                 return new MarshallingDoubleValue(kv.Key, kv.Value);
             }
-            else if (kv.Value is IMarshalling)
+            else if (kv.Value is IEnumerable<dynamic>)
             {
-                return kv.Value.Clone();
+                return new MarshallingList(kv.Key, kv.Value as IEnumerable<dynamic>);
+            }
+            else if (kv.Value is IDictionary<string, dynamic>)
+            {
+                return new MarshallingHash(kv.Key, kv.Value as IDictionary<string, dynamic>);
             }
             else
-                throw new NotSupportedException(String.Format("Le type '{0}' n'est pas pris en charge", kv.Value.GetType().Name));
+            {
+                return new MarshallingObjectValue(kv.Key, kv.Value);
+            }
         }
 
         #endregion
@@ -220,7 +226,6 @@ namespace Marshalling
         {
             return new MarshallingRegexValue(this.Name, this.Value, this.RegexPattern);
         }
-
 
         #endregion
 
@@ -351,7 +356,7 @@ namespace Marshalling
         /// </summary>
         /// <param name="name">name of value</param>
         /// <param name="value">value in int</param>
-        public MarshallingIntValue(string name, long value)
+        public MarshallingIntValue(string name, int value)
             : base(name, value)
         {
         }
@@ -367,8 +372,8 @@ namespace Marshalling
         /// <returns>true if valid</returns>
         protected override bool IsValid(dynamic value)
         {
-            long val;
-            return Int64.TryParse(value.ToString(), out val);
+            int val;
+            return Int32.TryParse(value.ToString(), out val);
         }
 
         /// <summary>
@@ -432,6 +437,52 @@ namespace Marshalling
     }
 
     /// <summary>
+    /// Class to marshall object
+    /// </summary>
+    public class MarshallingObjectValue : MarshallingValue, IMarshalling
+    {
+
+        #region Constructor
+
+        /// <summary>
+        /// Constructor for an object
+        /// validation : always
+        /// </summary>
+        /// <param name="name">name of value</param>
+        /// <param name="value">value in object</param>
+        public MarshallingObjectValue(string name, object value)
+            : base(name, value)
+        {
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Validation test
+        /// </summary>
+        /// <param name="value">value to test</param>
+        /// <returns>true if valid</returns>
+        protected override bool IsValid(dynamic value)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Clone this
+        /// </summary>
+        /// <returns>new object</returns>
+        public new object Clone()
+        {
+            return new MarshallingObjectValue(this.Name, this.Value);
+        }
+
+        #endregion
+
+    }
+
+    /// <summary>
     /// Class to marshall hash list
     /// </summary>
     public class MarshallingHash : PersistentDataObject, IMarshalling
@@ -443,10 +494,6 @@ namespace Marshalling
         /// Index name for name
         /// </summary>
         protected static readonly string nameName = "name";
-        /// <summary>
-        /// Index name for value
-        /// </summary>
-        protected static readonly string valueName = "value";
 
         #endregion
 
@@ -459,7 +506,6 @@ namespace Marshalling
         public MarshallingHash(string name)
         {
             this.Set(nameName, name);
-            this.Set(valueName, new List<IMarshalling>());
         }
 
         /// <summary>
@@ -467,10 +513,9 @@ namespace Marshalling
         /// </summary>
         /// <param name="name">name of value</param>
         /// <param name="elements">elements list</param>
-        public MarshallingHash(string name, IEnumerable<IMarshalling> elements)
+        public MarshallingHash(string name, IEnumerable<IMarshalling> elements) :
+                this(name, elements.ToDictionary(x => x.Name, x => x.Value))
         {
-            this.Set(nameName, name);
-            this.Set(valueName, elements.ToDictionary(x=>x.Name));
         }
 
         /// <summary>
@@ -481,35 +526,44 @@ namespace Marshalling
         public MarshallingHash(string name, IDictionary<string, dynamic> keyValues)
         {
             this.Set(nameName, name);
-            List<IMarshalling> values = new List<IMarshalling>();
             foreach (KeyValuePair<string, dynamic> kv in keyValues)
             {
                 if (kv.Value is bool)
                 {
                     MarshallingBoolValue b = new MarshallingBoolValue(kv.Key, kv.Value);
-                    values.Add(b);
+                    this.Set(kv.Key, b);
                 }
                 else if (kv.Value is string)
                 {
                     MarshallingRegexValue r = new MarshallingRegexValue(kv.Key, kv.Value, "^.*$");
-                    values.Add(r);
+                    this.Set(kv.Key, r);
                 }
                 else if (kv.Value is long || kv.Value is int || kv.Value is uint)
                 {
-                    MarshallingIntValue i = new MarshallingIntValue(kv.Key, kv.Value);
-                    values.Add(i);
+                    MarshallingIntValue i = new MarshallingIntValue(kv.Key, Convert.ToInt32(kv.Value));
+                    this.Set(kv.Key, i);
                 }
                 else if (kv.Value is double || kv.Value is float)
                 {
                     MarshallingDoubleValue d = new MarshallingDoubleValue(kv.Key, kv.Value);
-                    values.Add(d);
+                    this.Set(kv.Key, d);
                 }
-                else if (kv.Value is IMarshalling)
+                else if (kv.Value is IEnumerable<dynamic>)
                 {
-                    values.Add(kv.Value);
+                    MarshallingList ml = new MarshallingList(kv.Key, kv.Value as IEnumerable<dynamic>);
+                    this.Set(kv.Key, ml);
+                }
+                else if (kv.Value is IDictionary<string, dynamic>)
+                {
+                    MarshallingHash mh = new MarshallingHash(kv.Key, kv.Value as IDictionary<string, dynamic>);
+                    this.Set(kv.Key, mh);
+                }
+                else
+                {
+                    MarshallingObjectValue o = new MarshallingObjectValue(kv.Key, kv.Value);
+                    this.Set(kv.Key, o);
                 }
             }
-            this.Set(valueName, values.ToDictionary(x=>x.Name));
         }
         
         #endregion
@@ -538,10 +592,11 @@ namespace Marshalling
         {
             get
             {
-                return this.Get(valueName);
+                throw new NotSupportedException();
             }
             set
             {
+                throw new NotSupportedException();
             }
         }
 
@@ -552,18 +607,18 @@ namespace Marshalling
         {
             get
             {
-                return this.Value.Values;
+                return (from x in this.Data where x.Key != nameName select x.Value as IMarshalling);
             }
         }
 
         /// <summary>
-        /// Gets the hash
+        /// Gets count
         /// </summary>
-        protected List<IMarshalling> Hash
+        public int Count
         {
             get
             {
-                return this.Get(valueName);
+                return this.Data.Count() - 1;
             }
         }
 
@@ -588,27 +643,18 @@ namespace Marshalling
         {
             get
             {
-                if (this.HashKeys.Contains(key))
+                if (this.Exists(key))
                 {
-                    return this.Values.Single(x => x.Name == key);
+                    return this.Get(key);
                 }
                 else
                 {
-                    return new MarshallingRegexValue(key, "", "^.*$");
+                    throw new ArgumentException(String.Format("Key '{0}' not found", key));
                 }
             }
             set
             {
-                if (this.HashKeys.Contains(key))
-                {
-                    List<IMarshalling> newList = this.Hash.Except(this.Values.Where(x => x.Name == key)).ToList();
-                    newList.Add(value);
-                    this.Set(valueName, newList);
-                }
-                else
-                {
-                    this.Hash.Add(value);
-                }
+                this.Set(key, value);
             }
         }
 
@@ -636,16 +682,7 @@ namespace Marshalling
         /// <param name="e">new element</param>
         public void Add(IMarshalling e)
         {
-            if (!this.Hash.Exists(u => u.Name == e.Name))
-            {
-                this.Hash.Add(e);
-            }
-            else
-            {
-                List<IMarshalling> newList = this.Hash.Except(this.Values.Where(x => x.Name == e.Name)).ToList();
-                newList.Add(e);
-                this.Set(valueName, newList);
-            }
+            this.Set(e.Name, e);
         }
 
         public void Add(IEnumerable<IMarshalling> e)
@@ -655,31 +692,19 @@ namespace Marshalling
                 this.Add(m);
             }
         }
+
         #endregion
 
         #region Static Methods
-
-        /// <summary>
-        /// Constructs an iterator to create a hash marshalling
-        /// </summary>
-        /// <param name="f">function to select each element</param>
-        /// <returns>enumeration of marshalling object</returns>
-        private static IEnumerable<IMarshalling> CreateMarshalling(Func<IEnumerable<KeyValuePair<string, dynamic>>> f)
-        {
-            foreach (KeyValuePair<string, dynamic> s in f())
-            {
-                yield return MarshallingValue.CreateMarshalling(() => { return s; });
-            }
-        }
 
         /// <summary>
         /// Create marshalling
         /// </summary>
         /// <param name="f">function to enter data</param>
         /// <returns>marshalling</returns>
-        public static Marshalling.MarshallingHash CreateMarshalling(string name, Func<IEnumerable<KeyValuePair<string, dynamic>>> f)
+        public static Marshalling.MarshallingHash CreateMarshalling(string name, Func<IDictionary<string, dynamic>> f)
         {
-            return new MarshallingHash(name, CreateMarshalling(f));
+            return new MarshallingHash(name, f());
         }
 
         #endregion
@@ -698,10 +723,6 @@ namespace Marshalling
         /// Index name for name
         /// </summary>
         protected static readonly string nameName = "name";
-        /// <summary>
-        /// Index name for value
-        /// </summary>
-        protected static readonly string valueName = "value";
 
         #endregion
 
@@ -715,18 +736,6 @@ namespace Marshalling
         public MarshallingList(string name)
         {
             this.Set(nameName, name);
-            this.Set(valueName, new List<IMarshalling>());
-        }
-
-        /// <summary>
-        /// Constructor for a list
-        /// </summary>
-        /// <param name="name">name of value</param>
-        /// <param name="elements">elements list</param>
-        public MarshallingList(string name, IEnumerable<IMarshalling> elements)
-        {
-            this.Set(nameName, name);
-            this.Set(valueName, elements.ToList());
         }
 
         /// <summary>
@@ -737,36 +746,45 @@ namespace Marshalling
         public MarshallingList(string name, IEnumerable<dynamic> keyValues)
         {
             this.Set(nameName, name);
-            List<IMarshalling> values = new List<IMarshalling>();
             for(int index = 0; index < keyValues.Count(); ++index)
             {
                 dynamic element = keyValues.ElementAt(index);
                 if (element is bool)
                 {
                     MarshallingBoolValue b = new MarshallingBoolValue(index.ToString(), element);
-                    values.Add(b);
+                    this.Set(index.ToString(), b);
                 }
                 else if (element is string)
                 {
                     MarshallingRegexValue r = new MarshallingRegexValue(index.ToString(), element, "^.*$");
-                    values.Add(r);
+                    this.Set(index.ToString(), r);
                 }
-                else if (element is long)
+                else if (element is long || element is int || element is uint)
                 {
-                    MarshallingIntValue i = new MarshallingIntValue(index.ToString(), element);
-                    values.Add(i);
+                    MarshallingIntValue i = new MarshallingIntValue(index.ToString(), Convert.ToInt32(element));
+                    this.Set(index.ToString(), i);
                 }
                 else if (element is double)
                 {
                     MarshallingDoubleValue d = new MarshallingDoubleValue(index.ToString(), element);
-                    values.Add(d);
+                    this.Set(index.ToString(), d);
                 }
-                else if (element is IMarshalling)
+                else if (element is IEnumerable<dynamic>)
                 {
-                    values.Add(element);
+                    MarshallingList ml = new MarshallingList(index.ToString(), element as IEnumerable<dynamic>);
+                    this.Set(index.ToString(), ml);
+                }
+                else if (element is IDictionary<string, dynamic>)
+                {
+                    MarshallingHash mh = new MarshallingHash(index.ToString(), element as IDictionary<string, dynamic>);
+                    this.Set(index.ToString(), mh);
+                }
+                else
+                {
+                    MarshallingObjectValue o = new MarshallingObjectValue(index.ToString(), element);
+                    this.Set(index.ToString(), o);
                 }
             }
-            this.Set(valueName, values);
         }
 
         #endregion
@@ -795,10 +813,11 @@ namespace Marshalling
         {
             get
             {
-                return this.Get(valueName);
+                throw new NotSupportedException();
             }
             set
             {
+                throw new NotSupportedException();
             }
         }
 
@@ -809,18 +828,7 @@ namespace Marshalling
         {
             get
             {
-                return this.Value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the hash
-        /// </summary>
-        protected List<IMarshalling> List
-        {
-            get
-            {
-                return this.Get(valueName);
+                return (from x in this.Data where x.Key != nameName select x.Value as IMarshalling);
             }
         }
 
@@ -831,7 +839,7 @@ namespace Marshalling
         {
             get
             {
-                return this.List.Count;
+                return this.Data.Count() - 1;
             }
         }
 
@@ -847,22 +855,22 @@ namespace Marshalling
             {
                 if (index < this.Count)
                 {
-                    return this.List.ElementAt(index);
+                    return this.Values.First(x => x.Name == index.ToString());
                 }
                 else
                 {
-                    return new MarshallingRegexValue(index.ToString(), "", "^.*$");
+                    throw new ArgumentException(String.Format("Index '{0}' not found", index));
                 }
             }
             set
             {
                 if (index < this.Count)
                 {
-                    this.List[index] = value;
+                    this.Set(index.ToString(), value);
                 }
                 else
                 {
-                    this.List.Add(value);
+                    this.Set(this.Count.ToString(), value);
                 }
             }
         }
@@ -890,276 +898,13 @@ namespace Marshalling
         #region Static Methods
 
         /// <summary>
-        /// Constructs an iterator to create a hash marshalling
-        /// </summary>
-        /// <param name="f">function to select each element</param>
-        /// <returns>enumeration of marshalling object</returns>
-        private static IEnumerable<IMarshalling> CreateMarshalling(Func<IEnumerable<dynamic>> f)
-        {
-            int index = 0;
-            foreach (dynamic s in f())
-            {
-                yield return MarshallingValue.CreateMarshalling(() => { return new KeyValuePair<string,dynamic>(index.ToString(), s); });
-                ++index;
-            }
-        }
-
-        /// <summary>
         /// Create marshalling
         /// </summary>
         /// <param name="f">function to enter data</param>
         /// <returns>marshalling</returns>
         public static IMarshalling CreateMarshalling(string name, Func<IEnumerable<dynamic>> f)
         {
-            return new MarshallingList(name, CreateMarshalling(f));
-        }
-
-        #endregion
-
-    }
-
-    /// <summary>
-    /// Class to marshall hash list
-    /// </summary>
-    public class MarshallingTree : PersistentDataObject, IMarshalling
-    {
-
-        #region Fields
-
-        /// <summary>
-        /// Index name for name
-        /// </summary>
-        protected static readonly string nameName = "name";
-        /// <summary>
-        /// Index name for value
-        /// </summary>
-        protected static readonly string valueName = "value";
-        /// <summary>
-        /// Index name for expand switch
-        /// </summary>
-        protected static readonly string expandSwitchName = "expand";
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Constructor for an empty list
-        /// </summary>
-        /// <param name="name">name of value</param>
-        /// <param name="elements">elements list</param>
-        public MarshallingTree(string name)
-        {
-            this.Set(nameName, name);
-            this.Set(expandSwitchName, false);
-            this.Set(valueName, new List<IMarshalling>());
-        }
-
-        /// <summary>
-        /// Constructor for a list
-        /// </summary>
-        /// <param name="name">name of value</param>
-        /// <param name="elements">elements list</param>
-        public MarshallingTree(string name, IEnumerable<IMarshalling> elements)
-        {
-            this.Set(nameName, name);
-            this.Set(expandSwitchName, false);
-            this.Set(valueName, elements.ToList());
-        }
-
-        /// <summary>
-        /// Constructs for a tree
-        /// </summary>
-        /// <param name="name">name of all values</param>
-        /// <param name="keyValues">values</param>
-        public MarshallingTree(string name, IEnumerable<dynamic> keyValues)
-        {
-            this.Set(nameName, name);
-            this.Set(expandSwitchName, false);
-            List<IMarshalling> values = new List<IMarshalling>();
-            for (int index = 0; index < keyValues.Count(); ++index)
-            {
-                dynamic element = keyValues.ElementAt(index);
-                if (element is bool)
-                {
-                    MarshallingBoolValue b = new MarshallingBoolValue(index.ToString(), element);
-                    values.Add(b);
-                }
-                else if (element is string)
-                {
-                    MarshallingRegexValue r = new MarshallingRegexValue(index.ToString(), element, "^.*$");
-                    values.Add(r);
-                }
-                else if (element is long)
-                {
-                    MarshallingIntValue i = new MarshallingIntValue(index.ToString(), element);
-                    values.Add(i);
-                }
-                else if (element is double)
-                {
-                    MarshallingDoubleValue d = new MarshallingDoubleValue(index.ToString(), element);
-                    values.Add(d);
-                }
-                else if (element is IMarshalling)
-                {
-                    values.Add(element);
-                }
-            }
-            this.Set(valueName, values);
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the name of this value
-        /// </summary>
-        public string Name
-        {
-            get
-            {
-                return this.Get(nameName);
-            }
-            set
-            {
-                this.Set(nameName, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the value
-        /// </summary>
-        public dynamic Value
-        {
-            get
-            {
-                return this.Get(valueName);
-            }
-            set
-            {
-            }
-        }
-
-        /// <summary>
-        /// Gets all values
-        /// </summary>
-        public IEnumerable<IMarshalling> Values
-        {
-            get
-            {
-                return this.Value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the expand switch
-        /// </summary>
-        public bool IsExpand
-        {
-            get { return this.Get(expandSwitchName, false); }
-            set { this.Set(expandSwitchName, true); }
-        }
-
-        /// <summary>
-        /// Gets the hash
-        /// </summary>
-        protected List<IMarshalling> List
-        {
-            get
-            {
-                return this.Get(valueName);
-            }
-        }
-
-        /// <summary>
-        /// Gets count
-        /// </summary>
-        public int Count
-        {
-            get
-            {
-                return this.List.Count;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value from hash
-        /// given the name
-        /// </summary>
-        /// <param name="index">index position</param>
-        /// <returns>object</returns>
-        public IMarshalling this[int index]
-        {
-            get
-            {
-                if (index < this.Count)
-                {
-                    return this.List.ElementAt(index);
-                }
-                else
-                {
-                    return new MarshallingRegexValue(index.ToString(), "", "^.*$");
-                }
-            }
-            set
-            {
-                if (index < this.Count)
-                {
-                    this.List[index] = value;
-                }
-                else
-                {
-                    this.List.Add(value);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Clone this
-        /// </summary>
-        /// <returns>new object</returns>
-        public object Clone()
-        {
-            List<IMarshalling> list = new List<IMarshalling>();
-            foreach (IMarshalling a in this.Values)
-            {
-                list.Add(a.Clone() as IMarshalling);
-            }
-            return new MarshallingTree(this.Name, list);
-        }
-
-        #endregion
-
-        #region Static Methods
-
-        /// <summary>
-        /// Constructs an iterator to create a hash marshalling
-        /// </summary>
-        /// <param name="f">function to select each element</param>
-        /// <returns>enumeration of marshalling object</returns>
-        private static IEnumerable<IMarshalling> CreateMarshalling(Func<IEnumerable<dynamic>> f)
-        {
-            int index = 0;
-            foreach (dynamic s in f())
-            {
-                yield return MarshallingValue.CreateMarshalling(() => { return new KeyValuePair<string, dynamic>(index.ToString(), s); });
-                ++index;
-            }
-        }
-
-        /// <summary>
-        /// Create marshalling
-        /// </summary>
-        /// <param name="f">function to enter data</param>
-        /// <returns>marshalling</returns>
-        public static IMarshalling CreateMarshalling(string name, Func<IEnumerable<dynamic>> f)
-        {
-            return new MarshallingTree(name, CreateMarshalling(f));
+            return new MarshallingList(name, f());
         }
 
         #endregion

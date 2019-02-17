@@ -205,7 +205,7 @@ namespace UXFramework
         /// <param name="columnCount">column count</param>
         /// <param name="lineCount">line count</param>
         /// <param name="id">id</param>
-        public UXTable(uint columnCount, uint lineCount, string id)
+        public UXTable(int columnCount, int lineCount, string id)
         {
             this.Set(columnSizeName, columnCount);
             this.Set(lineSizeName, lineCount);
@@ -219,7 +219,7 @@ namespace UXFramework
         /// <summary>
         /// Gets the column count
         /// </summary>
-        public uint ColumnCount
+        public int ColumnCount
         {
             get { return this.Get(columnSizeName, 0); }
             set { this.Set(columnSizeName, value); }
@@ -228,7 +228,7 @@ namespace UXFramework
         /// <summary>
         /// Gets the column count
         /// </summary>
-        public uint LineCount
+        public int LineCount
         {
             get { return this.Get(lineSizeName, 0); }
             set { this.Set(lineSizeName, value); }
@@ -247,11 +247,11 @@ namespace UXFramework
         public static UXTable CreateUXTable(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
             UXTable ux = new UXTable(data["ColumnCount"].Value, data["LineCount"].Value, data["Id"].Value);
-            ux.Construct(data, ui[data["Id"].Value].Value);
-            Marshalling.MarshallingList rows = data["Childs"].Value;
-            foreach (IUXObject obj in rows.Values)
+            ux.Construct(data, ui);
+            Marshalling.MarshallingList rows = data["Childs"] as Marshalling.MarshallingList;
+            foreach (Marshalling.MarshallingObjectValue obj in rows.Values)
             {
-                ux.Add(obj);
+                ux.Add(obj.Value);
             }
             return ux;
         }
