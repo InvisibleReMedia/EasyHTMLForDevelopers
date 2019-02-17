@@ -15,4 +15,14 @@ namespace MarshallingTest
             this.Set("c", 0);
         }
     }
+
+    public class Data2 : Marshalling.PersistentDataObject
+    {
+
+        public Data2()
+        {
+            this.Set("x", 1);
+            this.Set("y", 2);
+        }
+    }
 }

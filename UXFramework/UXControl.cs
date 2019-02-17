@@ -9,36 +9,12 @@ using UXFramework.BeamConnections;
 
 namespace UXFramework
 {
-    public class UXControl : Marshalling.PersistentDataObject, IUXObject, Marshalling.IMarshalling
+    public class UXControl : Marshalling.MarshallingHash, IUXObject
     {
 
         #region Fields
 
         protected static IUXRenderer renderer = new WebImplementation.WebRenderer();
-        /// <summary>
-        /// Name
-        /// </summary>
-        public static readonly string nameName = "name";
-        /// <summary>
-        /// Parent object
-        /// </summary>
-        public static readonly string parentName = "parent";
-        /// <summary>
-        /// Inner controls
-        /// </summary>
-        public static readonly string childrenName = "children";
-        /// <summary>
-        /// Beam UX-Plateform
-        /// </summary>
-        public static readonly string beamName = "beam";
-        /// <summary>
-        /// delegate to update ux
-        /// </summary>
-        private static readonly string actionName = "action";
-        /// <summary>
-        /// HTML source
-        /// </summary>
-        public static readonly string htmlSourceName = "html";
 
         #endregion
 
@@ -48,95 +24,8 @@ namespace UXFramework
         /// Default constructor
         /// </summary>
         public UXControl()
+            : base("UXControl")
         {
-            this.Set(childrenName, new List<IUXObject>());
-            this.Set(htmlSourceName, new StringBuilder());
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the Width size
-        /// </summary>
-        public dynamic Properties
-        {
-            get
-            {
-                dynamic d = this.Beams.GetPropertyValue("properties").ReadProperty();
-                if (d != null)
-                {
-                    return d;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a name of this ux
-        /// </summary>
-        public string Name
-        {
-            get { return this.Get(nameName, string.Empty); }
-            set { this.Set(nameName, value); }
-        }
-
-        /// <summary>
-        /// Gets the value of this control
-        /// </summary>
-        public dynamic Value
-        {
-            get
-            {
-                return this;
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// Children UX
-        /// </summary>
-        public List<IUXObject> Children
-        {
-            get { return this.Get(childrenName); }
-        }
-
-        /// <summary>
-        /// Parent UX
-        /// </summary>
-        public IUXObject Parent
-        {
-            get
-            {
-                return this.Get(parentName);
-            }
-            set
-            {
-                this.Set(parentName, value);
-            }
-        }
-
-        /// <summary>
-        /// Gets the interactive beam
-        /// </summary>
-        public BeamConnections.InteractiveBeam Beams
-        {
-            get { return this.Get(beamName, new BeamConnections.InteractiveBeam(this)); }
-        }
-
-        /// <summary>
-        /// Gets the html source
-        /// </summary>
-        public StringBuilder HtmlSource
-        {
-            get { return this.Get(htmlSourceName); }
         }
 
         #endregion
@@ -144,31 +33,30 @@ namespace UXFramework
         #region Methods
 
         /// <summary>
-        /// Add a new string into HTML destination stream
+        /// Gets all property names
         /// </summary>
-        /// <param name="s">text</param>
-        public void Add(string s)
+        /// <returns>properties</returns>
+        public override string[] GetProperties()
         {
-            this.HtmlSource.Append(s);
+            return new string[] { "name", "children", "action", "parent", "beams" };
         }
 
         /// <summary>
-        /// Add a new control in children list
+        /// Bind function
         /// </summary>
-        /// <param name="obj">ux object</param>
+        /// <param name="m">input</param>
+        public override void Bind(Marshalling.IMarshalling m)
+        {
+            m.Copy(false, this);
+        }
+
+        /// <summary>
+        /// Add a child UX
+        /// </summary>
+        /// <param name="obj">child UX</param>
         public void Add(IUXObject obj)
         {
-            obj.Parent = this;
-            this.Children.Add(obj);
-        }
-
-        /// <summary>
-        /// Write default text into the stream
-        /// </summary>
-        /// <param name="sw">stream</param>
-        public virtual void Write(StreamWriter sw)
-        {
-            sw.Write(this.HtmlSource.ToString());
+            ((Marshalling.MarshallingList)this.GetProperty("children")).Add(obj);
         }
 
         /// <summary>
@@ -179,7 +67,7 @@ namespace UXFramework
         protected void RecursiveConnect(IUXObject ux, WebBrowser web)
         {
             ux.Connect(web);
-            foreach (IUXObject child in ux.Children)
+            foreach (IUXObject child in ux.GetProperty("children"))
             {
                 RecursiveConnect(child, web);
             }
@@ -193,7 +81,7 @@ namespace UXFramework
         protected void RecursiveDisconnect(IUXObject ux, WebBrowser web)
         {
             ux.Disconnect(web);
-            foreach (IUXObject child in ux.Children)
+            foreach (IUXObject child in ux.GetProperty("children"))
             {
                 RecursiveDisconnect(child, web);
             }
@@ -228,8 +116,8 @@ namespace UXFramework
         /// </summary>
         public virtual void UpdateOne()
         {
-            if (this.Exists(actionName) && this.Get(actionName) != null)
-                this.Get(actionName).Invoke();
+            if (this.Exists("action") && this.Get("action") != null)
+                this.Get("action").Invoke();
         }
 
         /// <summary>
@@ -238,7 +126,7 @@ namespace UXFramework
         public virtual void UpdateChildren()
         {
             this.UpdateOne();
-            foreach (IUXObject ux in this.Children)
+            foreach (IUXObject ux in this.GetProperty("children"))
             {
                 ux.UpdateChildren();
             }
@@ -250,8 +138,9 @@ namespace UXFramework
         /// <returns>ux window</returns>
         public virtual IUXObject GetUXWindow()
         {
-            if (Parent != null)
-                return Parent.GetUXWindow();
+            IUXObject prop = this.GetProperty("parent") as IUXObject;
+            if (prop != null)
+                return prop.GetUXWindow();
             else
                 throw new NullReferenceException("parent vide");
         }
@@ -272,7 +161,7 @@ namespace UXFramework
         /// <param name="a">action</param>
         public void SetUpdate(Action a)
         {
-            this.Set(actionName, a);
+            this.Set("action", a);
         }
 
         /// <summary>
@@ -284,14 +173,14 @@ namespace UXFramework
             UXControl c = new UXControl();
             foreach (KeyValuePair<string, dynamic> x in this.Data)
             {
-                if (x.Key == childrenName)
+                if (x.Key == "children")
                 {
                     List<IUXObject> objects = new List<IUXObject>();
-                    foreach (Marshalling.IMarshalling a in x.Value)
+                    foreach (IUXObject a in x.Value)
                     {
                         objects.Add(a.Clone() as IUXObject);
                     }
-                    c.Set(childrenName, objects);
+                    c.Set("children", new Marshalling.MarshallingHash("children", objects));
                 }
                 else
                     c.Set(x.Key, x.Value);
@@ -309,7 +198,7 @@ namespace UXFramework
             Marshalling.MarshallingHash hash = ui as Marshalling.MarshallingHash;
             CommonProperties cp = hash["properties"].Value;
             // enregistrement des elements
-            this.Beams.SetPropertyValues(new List<KeyValuePair<string, Beam>> {
+            this.Get("beams").SetPropertyValues(new List<KeyValuePair<string, Beam>> {
                 new KeyValuePair<string, Beam>("properties", Beam.Register("properties", this, cp))
             }.ToArray());
         }

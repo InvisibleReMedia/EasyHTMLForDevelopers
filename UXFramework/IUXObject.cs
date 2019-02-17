@@ -11,39 +11,17 @@ namespace UXFramework
     /// <summary>
     /// UX Object interface
     /// </summary>
-    public interface IUXObject
+    public interface IUXObject : Marshalling.IMarshalling
     {
         /// <summary>
         /// Gets a name of this ux
         /// </summary>
         string Name { get; set; }
         /// <summary>
-        /// Children UX
-        /// </summary>
-        List<IUXObject> Children { get; }
-        /// <summary>
-        /// Parent UX
-        /// </summary>
-        IUXObject Parent { get; set; }
-        /// <summary>
-        /// Beam UX-Plateform
-        /// </summary>
-        BeamConnections.InteractiveBeam Beams { get; }
-        /// <summary>
-        /// Add a new string into HTML destination stream
-        /// </summary>
-        /// <param name="s">text</param>
-        void Add(string s);
-        /// <summary>
         /// Add a new control in children list
         /// </summary>
         /// <param name="obj">ux object</param>
         void Add(IUXObject obj);
-        /// <summary>
-        /// Write default text into the stream
-        /// </summary>
-        /// <param name="sw">stream</param>
-        void Write(StreamWriter sw);
         /// <summary>
         /// Connect for interoperability C#/Web
         /// </summary>

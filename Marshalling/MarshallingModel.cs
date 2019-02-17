@@ -95,9 +95,58 @@ namespace Marshalling
             }
         }
 
+        /// <summary>
+        /// Gets or sets the value
+        /// </summary>
+        public IEnumerable<IMarshalling> Values
+        {
+            get
+            {
+                throw new NotSupportedException();
+            }
+        }
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Gets an enumerator
+        /// </summary>
+        /// <returns>enumerator</returns>
+        public IEnumerator<IMarshalling> GetEnumerator()
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Gets all property names
+        /// </summary>
+        /// <returns>properties</returns>
+        public override string[] GetProperties()
+        {
+            return new string[] { "name", "value" };
+        }
+
+        /// <summary>
+        /// Gets a named property
+        /// Shows all valid properties
+        /// </summary>
+        /// <param name="name">property name</param>
+        /// <returns>property value</returns>
+        public override IMarshalling GetProperty(string name)
+        {
+            string[] names = this.GetProperties();
+            if (names.Contains(name))
+            {
+                if (this.Exists(name))
+                    return this.Get(name);
+                else
+                    throw new ArgumentException(String.Format("Key '{0}' not found", name));
+            }
+            else
+                throw new ArgumentException(String.Format("Key '{0}' does not exist", name));
+        }
 
         /// <summary>
         /// Validation test
@@ -142,6 +191,10 @@ namespace Marshalling
             else if (kv.Value is double || kv.Value is float)
             {
                 return new MarshallingDoubleValue(kv.Key, kv.Value);
+            }
+            else if (kv.Value is IMarshalling)
+            {
+                return kv.Value;
             }
             else if (kv.Value is IEnumerable<dynamic>)
             {
@@ -548,6 +601,10 @@ namespace Marshalling
                     MarshallingDoubleValue d = new MarshallingDoubleValue(kv.Key, kv.Value);
                     this.Set(kv.Key, d);
                 }
+                else if (kv.Value is IMarshalling)
+                {
+                    this.Set(kv.Key, kv.Value);
+                }
                 else if (kv.Value is IEnumerable<dynamic>)
                 {
                     MarshallingList ml = new MarshallingList(kv.Key, kv.Value as IEnumerable<dynamic>);
@@ -663,6 +720,44 @@ namespace Marshalling
         #region Methods
 
         /// <summary>
+        /// Gets an enumerator
+        /// </summary>
+        /// <returns>enumerator</returns>
+        public IEnumerator<IMarshalling> GetEnumerator()
+        {
+            return this.Values.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets all property names
+        /// </summary>
+        /// <returns>properties</returns>
+        public override string[] GetProperties()
+        {
+            return this.HashKeys.ToArray();
+        }
+
+        /// <summary>
+        /// Gets a named property
+        /// Shows all valid properties
+        /// </summary>
+        /// <param name="name">property name</param>
+        /// <returns>property value</returns>
+        public override IMarshalling GetProperty(string name)
+        {
+            string[] names = this.GetProperties();
+            if (names.Contains(name))
+            {
+                if (this.Exists(name))
+                    return this.Get(name);
+                else
+                    throw new ArgumentException(String.Format("Key '{0}' not found", name));
+            }
+            else
+                throw new ArgumentException(String.Format("Key '{0}' does not exist", name));
+        }
+
+        /// <summary>
         /// Clone this
         /// </summary>
         /// <returns>new object</returns>
@@ -702,7 +797,7 @@ namespace Marshalling
         /// </summary>
         /// <param name="f">function to enter data</param>
         /// <returns>marshalling</returns>
-        public static Marshalling.MarshallingHash CreateMarshalling(string name, Func<IDictionary<string, dynamic>> f)
+        public static MarshallingHash CreateMarshalling(string name, Func<IDictionary<string, dynamic>> f)
         {
             return new MarshallingHash(name, f());
         }
@@ -768,6 +863,10 @@ namespace Marshalling
                 {
                     MarshallingDoubleValue d = new MarshallingDoubleValue(index.ToString(), element);
                     this.Set(index.ToString(), d);
+                }
+                else if (element is IMarshalling)
+                {
+                    this.Set(index.ToString(), element);
                 }
                 else if (element is IEnumerable<dynamic>)
                 {
@@ -839,6 +938,7 @@ namespace Marshalling
         {
             get
             {
+                // Data contains "name" so -1
                 return this.Data.Count() - 1;
             }
         }
@@ -880,6 +980,65 @@ namespace Marshalling
         #region Methods
 
         /// <summary>
+        /// Gets an enumerator
+        /// </summary>
+        /// <returns>enumerator</returns>
+        public IEnumerator<IMarshalling> GetEnumerator()
+        {
+            return this.Values.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Add an element into the list
+        /// </summary>
+        /// <param name="element">element to add</param>
+        public void Add(IMarshalling element)
+        {
+            this.Set(this.Count.ToString(), element);
+        }
+
+        /// <summary>
+        /// Add multiple element
+        /// </summary>
+        /// <param name="list">list of element</param>
+        public void Add(IEnumerable<IMarshalling> list)
+        {
+            foreach (IMarshalling m in list)
+            {
+                this.Add(m);
+            }
+        }
+
+        /// <summary>
+        /// Gets all property names
+        /// </summary>
+        /// <returns>properties</returns>
+        public override string[] GetProperties()
+        {
+            return Enumerable.Range(0, this.Count).Select(x => x.ToString()).ToArray();
+        }
+
+        /// <summary>
+        /// Gets a named property
+        /// Shows all valid properties
+        /// </summary>
+        /// <param name="name">property name</param>
+        /// <returns>property value</returns>
+        public override IMarshalling GetProperty(string name)
+        {
+            string[] names = this.GetProperties();
+            if (names.Contains(name))
+            {
+                if (this.Exists(name))
+                    return this.Get(name);
+                else
+                    throw new ArgumentException(String.Format("Key '{0}' not found", name));
+            }
+            else
+                throw new ArgumentException(String.Format("Key '{0}' does not exist", name));
+        }
+
+        /// <summary>
         /// Clone this
         /// </summary>
         /// <returns>new object</returns>
@@ -902,7 +1061,7 @@ namespace Marshalling
         /// </summary>
         /// <param name="f">function to enter data</param>
         /// <returns>marshalling</returns>
-        public static IMarshalling CreateMarshalling(string name, Func<IEnumerable<dynamic>> f)
+        public static MarshallingList CreateMarshalling(string name, Func<IEnumerable<dynamic>> f)
         {
             return new MarshallingList(name, f());
         }

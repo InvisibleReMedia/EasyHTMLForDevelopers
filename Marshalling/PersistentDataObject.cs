@@ -15,11 +15,17 @@ namespace Marshalling
     [Serializable]
     public class PersistentDataObject
     {
+
+        #region Fields
+
         /// <summary>
         /// Field to store data information to serialize
         /// </summary>
         private Dictionary<string, dynamic> dict;
 
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Default constructor
@@ -28,6 +34,10 @@ namespace Marshalling
         {
             this.dict = new Dictionary<string, dynamic>();
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Data to be used
@@ -49,6 +59,29 @@ namespace Marshalling
             {
                 return this.Data.Keys;
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets all property names
+        /// </summary>
+        /// <returns>properties</returns>
+        public virtual string[] GetProperties()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets a property
+        /// </summary>
+        /// <param name="name">property name</param>
+        /// <returns>value</returns>
+        public virtual IMarshalling GetProperty(string name)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -150,32 +183,54 @@ namespace Marshalling
         }
 
         /// <summary>
-        /// Copy this into a new object
+        /// Implements bindings
         /// </summary>
-        /// <param name="t">destination</param>
-        /// <returns></returns>
-        public T Copy<T>() where T : PersistentDataObject, new()
+        /// <param name="m">object to bind</param>
+        public virtual void Bind(IMarshalling m)
         {
-            T x = new T();
-            foreach (string s in this.Keys)
-            {
-                x.Set(s, this.Data[s]);
-            }
-            return x;
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Copy this into a new object
         /// </summary>
-        /// <param name="t">destination</param>
+        /// <typeparam name="T">a PersistentDataObject</typeparam>
+        /// <param name="clone">switch for cloning</param>
+        /// <returns>new object</returns>
+        public T Copy<T>(bool clone) where T : PersistentDataObject, new()
+        {
+            T x = new T();
+            foreach (string s in this.Keys)
+            {
+                var content = this.Data[s];
+                if (clone && content is ICloneable)
+                    x.Set(s, content.Clone());
+                else
+                    x.Set(s, content);
+            }
+            return x;
+        }
+
+
+        /// <summary>
+        /// Copy this into a new object
+        /// select what you copy
+        /// </summary>
+        /// <typeparam name="T">a PersistentDataObject</typeparam>
+        /// <param name="clone">switch for cloning</param>
+        /// <param name="names">list of wanted copy</param>
         /// <returns></returns>
-        public T Copy<T>(params string[] names) where T : PersistentDataObject, new()
+        public T Copy<T>(bool clone, params string[] names) where T : PersistentDataObject, new()
         {
             T x = new T();
             foreach (string s in names)
             {
+                var content = this.Data[s];
                 if (this.Exists(s))
-                    x.Set(s, this.Data[s]);
+                    if (clone && content is ICloneable)
+                        x.Set(s, content.Clone());
+                    else
+                        x.Set(s, content);
             }
             return x;
         }
@@ -184,12 +239,17 @@ namespace Marshalling
         /// Copy this into an existing object
         /// </summary>
         /// <typeparam name="T">a PersistentDataObject</typeparam>
+        /// <param name="clone">switch for cloning</param>
         /// <param name="obj">object</param>
-        public void Copy<T>(T obj) where T : PersistentDataObject
+        public void Copy<T>(bool clone, T obj) where T : PersistentDataObject
         {
             foreach (string s in this.Keys)
             {
-                obj.Set(s, this.Data[s]);
+                var content = this.Data[s];
+                if (clone && content is ICloneable)
+                    obj.Set(s, content.Clone());
+                else
+                    obj.Set(s, content);
             }
         }
 
@@ -197,14 +257,18 @@ namespace Marshalling
         /// Copy this into an existing object
         /// </summary>
         /// <typeparam name="T">a PersistentDataObject</typeparam>
+        /// <param name="clone">switch for cloning</param>
         /// <param name="obj">object</param>
         /// <param name="names">name list</param>
-        public void Copy<T>(T obj, params string[] names) where T : PersistentDataObject
+        public void Copy<T>(bool clone, T obj, params string[] names) where T : PersistentDataObject
         {
             foreach (string s in names)
             {
-                if (this.Exists(s))
-                    obj.Set(s, this.Data[s]);
+                var content = this.Data[s];
+                if (clone && content is ICloneable)
+                    obj.Set(s, content.Clone());
+                else
+                    obj.Set(s, content);
             }
         }
 
@@ -212,14 +276,19 @@ namespace Marshalling
         /// Creates all keys that does not exists into obj
         /// </summary>
         /// <typeparam name="T">a PersistentDataObject</typeparam>
+        /// <param name="clone">switch for cloning</param>
         /// <param name="obj">existing object</param>
         /// <param name="f">mapping function</param>
-        public void Mapping<T>(T obj, Func<string, string> f) where T : PersistentDataObject
+        public void Mapping<T>(bool clone, T obj, Func<string, string> f) where T : PersistentDataObject
         {
             foreach (string s in this.Keys)
             {
+                var content = this.Data[s];
                 if (!obj.Exists(f(s)))
-                    obj.Set(f(s), this.Data[s]);
+                    if (clone && content is ICloneable)
+                        obj.Set(f(s), content.Clone());
+                    else
+                    obj.Set(f(s), content);
             }
         }
 
@@ -227,15 +296,20 @@ namespace Marshalling
         /// Creates selected keys that does not exists into obj
         /// </summary>
         /// <typeparam name="T">a PersistentDataObject</typeparam>
+        /// <param name="clone">switch for cloning</param>
         /// <param name="obj">existing object</param>
         /// <param name="f">mapping fonctions</param>
         /// <param name="names">name list</param>
-        public void Mapping<T>(T obj, Func<string, string> f, params string[] names) where T : PersistentDataObject
+        public void Mapping<T>(bool clone, T obj, Func<string, string> f, params string[] names) where T : PersistentDataObject
         {
             foreach (string s in names)
             {
-                if (!obj.Exists(f(s)) && this.Exists(s))
-                    obj.Set(f(s), this.Data[s]);
+                var content = this.Data[s];
+                if (!obj.Exists(f(s)))
+                    if (clone && content is ICloneable)
+                        obj.Set(f(s), content.Clone());
+                    else
+                        obj.Set(f(s), content);
             }
         }
 
@@ -350,5 +424,8 @@ namespace Marshalling
 
             }
         }
+
+        #endregion
+
     }
 }
