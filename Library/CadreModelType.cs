@@ -73,7 +73,7 @@ namespace Library
         {
             this.Set(typeName, type);
             this.Set(contentName, "");
-            this.Set(contentObjectName, null);
+            this.Get(contentObjectName, null);
         }
 
         /// <summary>

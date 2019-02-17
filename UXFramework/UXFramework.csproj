@@ -64,6 +64,7 @@
     <Compile Include="BeamConnections\BrandIdentity.cs" />
     <Compile Include="BeamConnections\IBeamConnection.cs" />
     <Compile Include="BeamConnections\VisualIdentity.cs" />
+    <Compile Include="ChildCollection.cs" />
     <Compile Include="CommonProperties.cs" />
     <Compile Include="Creation.cs" />
     <Compile Include="ImageProperties.cs" />

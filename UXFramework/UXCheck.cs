@@ -11,19 +11,6 @@ namespace UXFramework
     public class UXCheck : UXControl
     {
 
-        #region Fields
-
-        /// <summary>
-        /// Text
-        /// </summary>
-        public static readonly string textName = "text";
-        /// <summary>
-        /// Id
-        /// </summary>
-        public static readonly string idName = "id";
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -31,29 +18,16 @@ namespace UXFramework
         /// </summary>
         public UXCheck()
         {
-            this.Add("<input type='checkbox' value='OK' name='chk' id='chk1'/>");
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the text content
-        /// </summary>
-        public string Text
-        {
-            get { return this.Get(textName, string.Empty); }
-            set { this.Set(textName, value); }
         }
 
         /// <summary>
-        /// Gets or sets the id object
+        /// Creates elements
         /// </summary>
-        public string Id
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXCheck(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
         {
-            get { return this.Get(idName, string.Empty); }
-            set { this.Set(idName, value); }
         }
 
         #endregion
@@ -67,7 +41,7 @@ namespace UXFramework
         public override void Connect(WebBrowser web)
         {
             base.Connect(web);
-            HtmlElement e = this.GetWebBrowser().Document.GetElementById(this.Id);
+            HtmlElement e = this.GetWebBrowser().Document.GetElementById(this.GetProperty("Id").Value);
             if (e != null)
             {
                 e.Click += UXCheck_Click;
@@ -84,9 +58,15 @@ namespace UXFramework
         {
             HtmlElement h = (HtmlElement)sender;
             if (h.GetAttribute("checked") == "true")
+            {
                 h.SetAttribute("checked", "false");
+                this.Set("Checked", false);
+            }
             else
+            {
                 h.SetAttribute("checked", "true");
+                this.Set("Checked", true);
+            }
         }
 
         #endregion
@@ -101,8 +81,19 @@ namespace UXFramework
         public static UXCheck CreateUXCheck(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
             UXCheck ux = new UXCheck();
-            ux.Construct(data, ui);
+            ux.Bind(data);
+            ux.Bind(ui);
             return ux;
+        }
+
+        /// <summary>
+        /// Create UXCheck
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXCheck CreateUXCheck(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXCheck(name, f());
         }
 
         #endregion

@@ -11,42 +11,23 @@ namespace UXFramework
     public class UXCell : UXControl
     {
 
-        #region Fields
-
-        private static readonly string rowIndexName = "rowIndex";
-        private static readonly string cellIndexName = "cellIndex";
-
-        #endregion
-
         #region Default Constructor
 
-        public UXCell(int rowIndex, int cellIndex, string id)
-        {
-            this.Set(rowIndexName, rowIndex);
-            this.Set(cellIndexName, cellIndex);
-        }
-
-
-        #endregion
-
-        #region Properties
-
         /// <summary>
-        /// Gets or sets the row index
+        /// Default constructor
         /// </summary>
-        public uint RowIndex
+        public UXCell()
         {
-            get { return this.Get(rowIndexName, 0); }
-            set { this.Set(rowIndexName, value); }
         }
 
         /// <summary>
-        /// Gets or sets the cell index
+        /// Creates elements
         /// </summary>
-        public uint CellIndex
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXCell(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
         {
-            get { return this.Get(cellIndexName, 0); }
-            set { this.Set(cellIndexName, value); }
         }
 
 
@@ -62,11 +43,13 @@ namespace UXFramework
         /// <returns>row</returns>
         public static UXCell CreateUXCell(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXCell cell = new UXCell(Convert.ToInt32(data["RowIndex"].Value), Convert.ToInt32(data["CellIndex"].Value), data["Id"].Value);
-            cell.Construct(data, ui);
-            if (data["Content"].Value is IUXObject)
+            UXCell cell = new UXCell();
+            cell.Bind(data);
+            cell.Bind(ui);
+
+            if (cell.Exists("Content"))
             {
-                IUXObject obj = data["Content"].Value;
+                IUXObject obj = cell["Content"].Value;
                 cell.Add(obj);
             }
             return cell;

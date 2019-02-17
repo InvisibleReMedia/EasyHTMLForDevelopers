@@ -111,6 +111,24 @@ namespace Marshalling
         #region Methods
 
         /// <summary>
+        /// Add a new element into hash
+        /// </summary>
+        /// <param name="e">new element</param>
+        public void Add(Func<IDictionary<string, dynamic>> f)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Add a new list into hash
+        /// </summary>
+        /// <param name="e">new element</param>
+        public void Add(Func<IEnumerable<dynamic>> f)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
         /// Gets an enumerator
         /// </summary>
         /// <returns>enumerator</returns>
@@ -775,17 +793,20 @@ namespace Marshalling
         /// Add a new element into hash
         /// </summary>
         /// <param name="e">new element</param>
-        public void Add(IMarshalling e)
+        public void Add(Func<IDictionary<string,dynamic>> f)
         {
-            this.Set(e.Name, e);
+            Marshalling.MarshallingHash h = Marshalling.MarshallingHash.CreateMarshalling("", f);
+            h.Copy(false, this);
         }
 
-        public void Add(IEnumerable<IMarshalling> e)
+        /// <summary>
+        /// Add a new list into hash
+        /// </summary>
+        /// <param name="e">new element</param>
+        public void Add(Func<IEnumerable<dynamic>> f)
         {
-            foreach (IMarshalling m in e)
-            {
-                this.Add(m);
-            }
+            Marshalling.MarshallingList l = Marshalling.MarshallingList.CreateMarshalling("", f);
+            l.Copy(false, this);
         }
 
         #endregion
@@ -989,24 +1010,23 @@ namespace Marshalling
         }
 
         /// <summary>
-        /// Add an element into the list
+        /// Add a new element into hash
         /// </summary>
-        /// <param name="element">element to add</param>
-        public void Add(IMarshalling element)
+        /// <param name="e">new element</param>
+        public void Add(Func<IDictionary<string, dynamic>> f)
         {
-            this.Set(this.Count.ToString(), element);
+            Marshalling.MarshallingHash h = Marshalling.MarshallingHash.CreateMarshalling("", f);
+            h.Copy(false, this);
         }
 
         /// <summary>
-        /// Add multiple element
+        /// Add a new list into hash
         /// </summary>
-        /// <param name="list">list of element</param>
-        public void Add(IEnumerable<IMarshalling> list)
+        /// <param name="e">new element</param>
+        public void Add(Func<IEnumerable<dynamic>> f)
         {
-            foreach (IMarshalling m in list)
-            {
-                this.Add(m);
-            }
+            Marshalling.MarshallingList l = Marshalling.MarshallingList.CreateMarshalling("", f);
+            l.Copy(false, this);
         }
 
         /// <summary>

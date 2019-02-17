@@ -16,10 +16,17 @@ namespace UXFramework
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="columnSize">column size</param>
-        /// <param name="lineSize">line size</param>
-        /// <param name="id">id</param>
-        public UXViewDataTable(int columnSize, int lineSize, string id) : base(columnSize, lineSize, id)
+        public UXViewDataTable()
+        {
+        }
+
+        /// <summary>
+        /// Creates elements
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXViewDataTable(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
         {
         }
 
@@ -34,9 +41,14 @@ namespace UXFramework
         /// <param name="ui">ui properties</param>
         public static UXViewDataTable CreateUXViewDataTable(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXViewDataTable ux = new UXViewDataTable(data["ColumnCount"].Value, data["LineCount"].Value, data["id"].Value);
-            ux.Construct(data, ui);
-            return ux;
+            UXViewDataTable table = new UXViewDataTable();
+            table.Bind(data);
+            table.Bind(ui);
+            foreach (Marshalling.IMarshalling m in table.GetProperty("childs").Values)
+            {
+                table.Add(m.Value);
+            }
+            return table;
         }
 
         #endregion

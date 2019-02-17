@@ -11,29 +11,23 @@ namespace UXFramework
     public class UXRow : UXControl
     {
 
-        #region Fields
-
-        /// <summary>
-        /// Row index
-        /// </summary>
-        private static readonly string rowIndexName = "rowIndex";
-        /// <summary>
-        /// Column count
-        /// </summary>
-        private static readonly string columnCountName = "columnCount";
-
-
-        #endregion
-
         #region Constructor
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public UXRow(int rowIndex, int columnCount, string id)
+        public UXRow()
         {
-            this.Set(rowIndexName, rowIndex);
-            this.Set(columnCountName, columnCount);
+        }
+
+        /// <summary>
+        /// Creates elements
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXRow(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
+        {
         }
 
         #endregion
@@ -41,21 +35,11 @@ namespace UXFramework
         #region Properties
 
         /// <summary>
-        /// Gets or sets the row index
-        /// </summary>
-        public int RowIndex
-        {
-            get { return this.Get(rowIndexName, 0); }
-            set { this.Set(rowIndexName, value);  }
-        }
-
-        /// <summary>
         /// Gets the column count
         /// </summary>
         public int ColumnCount
         {
-            get { return this.Get(columnCountName, 0); }
-            set { this.Set(columnCountName, value); }
+            get { return this.Get("ColumnCount", string.Empty).Value; }
         }
 
         #endregion
@@ -70,12 +54,12 @@ namespace UXFramework
         /// <returns>row</returns>
         public static UXRow CreateUXRow(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXRow row = new UXRow(data["RowIndex"].Value, data["ColumnCount"].Value, data["Id"].Value);
-            row.Construct(data, ui);
-            Marshalling.MarshallingList cells = data["Childs"] as Marshalling.MarshallingList;
-            foreach (Marshalling.MarshallingObjectValue obj in cells.Values)
+            UXRow row = new UXRow();
+            row.Bind(data);
+            row.Bind(ui);
+            foreach (Marshalling.IMarshalling m in row.GetProperty("childs").Values)
             {
-                row.Add(obj.Value);
+                row.Add(m.Value);
             }
             return row;
         }

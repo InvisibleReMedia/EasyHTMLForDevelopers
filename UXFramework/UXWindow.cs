@@ -18,10 +18,6 @@ namespace UXFramework
         /// Weak reference of the current browser
         /// </summary>
         private WeakReference webReference;
-        /// <summary>
-        /// Disposition window
-        /// </summary>
-        private Library.Disposition disp;
 
         #endregion
 
@@ -32,8 +28,16 @@ namespace UXFramework
         /// </summary>
         public UXWindow()
         {
-            this.Parent = null;
-            this.disp = Library.Disposition.CENTER;
+        }
+
+        /// <summary>
+        /// Creates elements
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXWindow(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
+        {
         }
 
         #endregion
@@ -46,15 +50,6 @@ namespace UXFramework
         public string FileName
         {
             get { return this.Name + ".html"; }
-        }
-
-        /// <summary>
-        /// Gets or sets the disposition page
-        /// </summary>
-        public Library.Disposition Disposition
-        {
-            get { return this.disp; }
-            set { this.disp = value; }
         }
 
         #endregion
@@ -123,7 +118,8 @@ namespace UXFramework
         public static UXWindow CreateUXWindow(string name, Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
             UXWindow win = new UXWindow();
-            win.Construct(data, ui);
+            win.Bind(data);
+            win.Bind(ui);
             return win;
         }
 

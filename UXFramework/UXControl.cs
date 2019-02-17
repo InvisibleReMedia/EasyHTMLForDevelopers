@@ -28,17 +28,48 @@ namespace UXFramework
         {
         }
 
+        /// <summary>
+        /// Creates elements
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXControl(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
+        {
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets Children
+        /// </summary>
+        public IEnumerable<IUXObject> Children
+        {
+            get
+            {
+                if (this.Exists("children"))
+                    return this.GetProperty("children").Conversion<IUXObject>();
+                else
+                    return new List<IUXObject>();
+            }
+        }
+
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Gets all property names
+        /// Add a child into object
         /// </summary>
-        /// <returns>properties</returns>
-        public override string[] GetProperties()
+        /// <param name="child">child to add</param>
+        public void Add(IUXObject child)
         {
-            return new string[] { "name", "children", "action", "parent", "beams" };
+            this.GetProperty("children").Add(() =>
+            {
+                return new List<dynamic>() { child };
+            });
         }
 
         /// <summary>
@@ -51,15 +82,6 @@ namespace UXFramework
         }
 
         /// <summary>
-        /// Add a child UX
-        /// </summary>
-        /// <param name="obj">child UX</param>
-        public void Add(IUXObject obj)
-        {
-            ((Marshalling.MarshallingList)this.GetProperty("children")).Add(obj);
-        }
-
-        /// <summary>
         /// Recursive connect function call
         /// </summary>
         /// <param name="ux">ux</param>
@@ -67,7 +89,7 @@ namespace UXFramework
         protected void RecursiveConnect(IUXObject ux, WebBrowser web)
         {
             ux.Connect(web);
-            foreach (IUXObject child in ux.GetProperty("children"))
+            foreach (IUXObject child in ux.Children)
             {
                 RecursiveConnect(child, web);
             }
@@ -81,7 +103,7 @@ namespace UXFramework
         protected void RecursiveDisconnect(IUXObject ux, WebBrowser web)
         {
             ux.Disconnect(web);
-            foreach (IUXObject child in ux.GetProperty("children"))
+            foreach (IUXObject child in ux.Children)
             {
                 RecursiveDisconnect(child, web);
             }
@@ -126,7 +148,7 @@ namespace UXFramework
         public virtual void UpdateChildren()
         {
             this.UpdateOne();
-            foreach (IUXObject ux in this.GetProperty("children"))
+            foreach (IUXObject ux in this.Children)
             {
                 ux.UpdateChildren();
             }
@@ -164,74 +186,18 @@ namespace UXFramework
             this.Set("action", a);
         }
 
-        /// <summary>
-        /// Clone this
-        /// </summary>
-        /// <returns>new object</returns>
-        public object Clone()
-        {
-            UXControl c = new UXControl();
-            foreach (KeyValuePair<string, dynamic> x in this.Data)
-            {
-                if (x.Key == "children")
-                {
-                    List<IUXObject> objects = new List<IUXObject>();
-                    foreach (IUXObject a in x.Value)
-                    {
-                        objects.Add(a.Clone() as IUXObject);
-                    }
-                    c.Set("children", new Marshalling.MarshallingHash("children", objects));
-                }
-                else
-                    c.Set(x.Key, x.Value);
-            }
-            return c;
-        }
-
-        /// <summary>
-        /// Constructs UX by marshalling information
-        /// </summary>
-        /// <param name="m">element for construction</param>
-        /// <param name="ui">ui properties</param>
-        public virtual void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui)
-        {
-            Marshalling.MarshallingHash hash = ui as Marshalling.MarshallingHash;
-            CommonProperties cp = hash["properties"].Value;
-            // enregistrement des elements
-            this.Get("beams").SetPropertyValues(new List<KeyValuePair<string, Beam>> {
-                new KeyValuePair<string, Beam>("properties", Beam.Register("properties", this, cp))
-            }.ToArray());
-        }
-
         #endregion
 
         #region Static Methods
 
-        public static void CreateUXControls(Marshalling.MarshallingList childs, Marshalling.MarshallingList uiChilds)
+        /// <summary>
+        /// Create UXControl
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXControl CreateUXControl(string name, Func<IDictionary<string, dynamic>> f)
         {
-            int index = 0;
-            foreach (Marshalling.MarshallingHash h in childs.Values)
-            {
-                string typeName = h["type"].Value;
-                string name = h["name"].Value;
-                switch (typeName)
-                {
-                    case "UXReadOnlyText":
-                        UXReadOnlyText.CreateUXReadOnlyText(h, uiChilds.Values.ElementAt(index) as Marshalling.MarshallingHash);
-                        break;
-                    case "UXClickableText":
-                        UXClickableText.CreateUXClickableText(h, uiChilds.Values.ElementAt(index) as Marshalling.MarshallingHash);
-                        break;
-                    case "UXSelectableText":
-                        UXSelectableText.CreateUXSelectableText(h, uiChilds.Values.ElementAt(index) as Marshalling.MarshallingHash);
-                        break;
-                    case "UXEditableText":
-                        UXEditableText.CreateUXEditableText(h, uiChilds.Values.ElementAt(index) as Marshalling.MarshallingHash);
-                        break;
-                }
-                ++index;
-            }
-
+            return new UXControl(name, f());
         }
 
         #endregion

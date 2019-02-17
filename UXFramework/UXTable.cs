@@ -15,18 +15,6 @@ namespace UXFramework
     public class UXTable : UXControl
     {
 
-        #region Fields
-
-        /// <summary>
-        /// Column size
-        /// </summary>
-        protected static readonly string columnSizeName = "columns";
-        /// <summary>
-        /// Line size
-        /// </summary>
-        protected static readonly string lineSizeName = "lines";
-
-        #endregion
 
         #region Inner Class
 
@@ -202,14 +190,18 @@ namespace UXFramework
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="columnCount">column count</param>
-        /// <param name="lineCount">line count</param>
-        /// <param name="id">id</param>
-        public UXTable(int columnCount, int lineCount, string id)
+        public UXTable()
         {
-            this.Set(columnSizeName, columnCount);
-            this.Set(lineSizeName, lineCount);
-            this.Name = id;
+        }
+
+        /// <summary>
+        /// Creates elements
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXTable(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
+        {
         }
 
         #endregion
@@ -221,21 +213,18 @@ namespace UXFramework
         /// </summary>
         public int ColumnCount
         {
-            get { return this.Get(columnSizeName, 0); }
-            set { this.Set(columnSizeName, value); }
+            get { return this.Get("ColumnCount", string.Empty).Value; }
         }
 
         /// <summary>
-        /// Gets the column count
+        /// Gets the line count
         /// </summary>
         public int LineCount
         {
-            get { return this.Get(lineSizeName, 0); }
-            set { this.Set(lineSizeName, value); }
+            get { return this.Get("LineCount", string.Empty).Value; }
         }
 
         #endregion
-
         #region Static Methods
 
         /// <summary>
@@ -246,14 +235,14 @@ namespace UXFramework
         /// <param name="ui">ui properties</param>
         public static UXTable CreateUXTable(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXTable ux = new UXTable(data["ColumnCount"].Value, data["LineCount"].Value, data["Id"].Value);
-            ux.Construct(data, ui);
-            Marshalling.MarshallingList rows = data["Childs"] as Marshalling.MarshallingList;
-            foreach (Marshalling.MarshallingObjectValue obj in rows.Values)
+            UXTable table = new UXTable();
+            table.Bind(data);
+            table.Bind(ui);
+            foreach (Marshalling.IMarshalling m in table.GetProperty("childs").Values)
             {
-                ux.Add(obj.Value);
+                table.Add(m.Value);
             }
-            return ux;
+            return table;
         }
 
         #endregion

@@ -12,26 +12,6 @@ namespace UXFramework
     public class UXButton : UXControl
     {
 
-        #region Fields
-
-        /// <summary>
-        /// Text for button
-        /// </summary>
-        public static readonly string textButtonName = "textButton";
-        /// <summary>
-        /// Id
-        /// </summary>
-        public static readonly string idName = "idButton";
-
-        /// <summary>
-        /// Colors for buttons
-        /// </summary>
-        public static readonly string rollBackColorName = "rollBackColor";
-        public static readonly string rollColorName = "rollColor";
-        public static readonly string clickBorderColorName = "clickBorderColorName";
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -42,14 +22,13 @@ namespace UXFramework
         }
 
         /// <summary>
-        /// Constructor with init
-        /// <param name="id">id</param>
-        /// <param name="title">title</param>
+        /// Creates elements
         /// </summary>
-        public UXButton(string id, string title)
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXButton(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
         {
-            this.Id = id;
-            this.ButtonText = title;
         }
 
         #endregion
@@ -57,48 +36,19 @@ namespace UXFramework
         #region Properties
 
         /// <summary>
-        /// Gets or sets the Id object
+        /// Gets the Id
         /// </summary>
         public string Id
         {
-            get { return this.Get(idName, "id"); }
-            set { this.Set(idName, value); }
+            get { return this.Get("Id", string.Empty).Value; }
         }
 
         /// <summary>
-        /// Gets or sets the button text
+        /// Gets the text
         /// </summary>
-        public string ButtonText
+        public string Text
         {
-            get { return this.Get(textButtonName, "Button"); }
-            set { this.Set(textButtonName, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the roll back color
-        /// </summary>
-        public string RollBackColor
-        {
-            get { return this.Get(rollBackColorName, "Gray3"); }
-            set { this.Set(rollBackColorName, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the roll color
-        /// </summary>
-        public string RollColor
-        {
-            get { return this.Get(rollColorName, "Gray4"); }
-            set { this.Set(rollColorName, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the click border color
-        /// </summary>
-        public string ClickBorderColor
-        {
-            get { return this.Get(clickBorderColorName, "Gray1"); }
-            set { this.Set(clickBorderColorName, value); }
+            get { return this.Get("Text", string.Empty).Value; }
         }
 
         #endregion
@@ -112,7 +62,7 @@ namespace UXFramework
         public override void Connect(WebBrowser web)
         {
             base.Connect(web);
-            HtmlElement e = web.Document.GetElementById(this.Id);
+            HtmlElement e = web.Document.GetElementById(this.GetProperty("Id").Value);
             if (e != null)
             {
                 e.Click += UXButton_Click;
@@ -127,7 +77,7 @@ namespace UXFramework
         public override void Disconnect(WebBrowser web)
         {
             base.Disconnect(web);
-            HtmlElement e = web.Document.GetElementById(this.Id);
+            HtmlElement e = web.Document.GetElementById(this.GetProperty("Id").Value);
             if (e != null)
             {
                 e.Click -= UXButton_Click;
@@ -144,16 +94,6 @@ namespace UXFramework
             this.UpdateOne();
         }
 
-        public override void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui)
-        {
-            Marshalling.MarshallingHash hash = ui as Marshalling.MarshallingHash;
-            TextProperties tp = hash["properties"].Value;
-            // enregistrement des elements
-            this.Beams.SetPropertyValues(new List<KeyValuePair<string, Beam>> {
-                new KeyValuePair<string, Beam>("properties", Beam.Register("properties", this, tp))
-            }.ToArray());
-        }
-        
         #endregion
 
         #region Static Methods
@@ -165,9 +105,20 @@ namespace UXFramework
         /// <param name="ui">ui properties</param>
         public static UXButton CreateUXButton(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXButton button = new UXButton(data["Id"].Value, data["Text"].Value);
-            button.Construct(data, ui);
+            UXButton button = new UXButton();
+            button.Bind(data);
+            button.Bind(ui);
             return button;
+        }
+
+        /// <summary>
+        /// Create UXButton
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXButton CreateUXButton(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXButton(name, f());
         }
 
 

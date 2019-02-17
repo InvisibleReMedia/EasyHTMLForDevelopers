@@ -11,26 +11,24 @@ namespace UXFramework
     /// </summary>
     public class UXTreeItem : UXControl
     {
-        #region Fields
-
-        private string text;
-        private UXTree subItems;
-
-        #endregion
 
         #region Constructors
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="t">static text</param>
-        public UXTreeItem(string t, Marshalling.MarshallingList subItems)
+        public UXTreeItem()
         {
-            this.text = t;
-            this.Add(this.text);
-            this.subItems = new UXTree(t);
-            this.subItems.Bind(subItems);
-            this.Name = this.subItems.Name;
+        }
+
+        /// <summary>
+        /// Creates elements
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXTreeItem(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
+        {
         }
 
         #endregion
@@ -38,26 +36,34 @@ namespace UXFramework
         #region Properties
 
         /// <summary>
-        /// Gets or sets the readonly text content
+        /// Gets the text
         /// </summary>
         public string Text
         {
-            get { return this.text; }
-            set { this.text = value; }
-        }
-
-        /// <summary>
-        /// Gets sub items
-        /// </summary>
-        public UXTree SubItems
-        {
-            get
-            {
-                return this.subItems;
-            }
+            get { return this.Get("Text", string.Empty).Value; }
         }
 
         #endregion
-    
+        #region Static Methods
+
+        /// <summary>
+        /// Create editable text
+        /// </summary>
+        /// <param name="data">data to show</param>
+        /// <param name="ui">ui properties</param>
+        public static UXTreeItem CreateUXTreeItem(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
+        {
+            UXTreeItem treeItem = new UXTreeItem();
+            treeItem.Bind(data);
+            treeItem.Bind(ui);
+            foreach (Marshalling.IMarshalling m in treeItem.GetProperty("childs").Values)
+            {
+                treeItem.Add(m.Value);
+            }
+            return treeItem;
+        }
+
+        #endregion
+
     }
 }

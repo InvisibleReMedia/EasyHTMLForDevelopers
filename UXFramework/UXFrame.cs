@@ -28,12 +28,6 @@ namespace UXFramework
         public UXFrame(string src)
         {
             this.frameSrc = src;
-            this.Add("<div id='frm1'></div>");
-            this.Add("<script language='javascript' type='text/javascript'>");
-            this.Add("//<!CDATA[[" + Environment.NewLine);
-            this.Add("function updateFrm1(s) {  var x = document.getElementById('frm1'); x.InnerHTML = s; }");
-            this.Add("//]]>" + Environment.NewLine);
-            this.Add("</script>");
             //this.GetWebBrowser().Document.InvokeScript("updateFrm1", new object[] { this.frameSrc });
         }
 

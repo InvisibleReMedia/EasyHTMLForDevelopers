@@ -72,7 +72,7 @@ namespace Library
         /// </summary>
         public Page()
         {
-            this.Set(folderObjectName, null);
+            this.Get(folderObjectName, null);
             this.Set(eventsName, new Events());
         }
 

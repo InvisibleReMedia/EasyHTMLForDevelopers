@@ -8,52 +8,24 @@ namespace UXFramework
 {
     public class UXTree : UXControl
     {
-        #region Fields
-
-
-        #endregion
 
         #region Constructor
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="id">id</param>
-        public UXTree(string id)
+        public UXTree()
         {
-            this.Name = id;
         }
 
-        #endregion
-
-        #region Properties
-
-        #endregion
-
-        #region Methods
-
         /// <summary>
-        /// Bind sequence
+        /// Creates elements
         /// </summary>
-        /// <param name="a">specific bind function</param>
-        public virtual void Bind(Marshalling.IMarshalling m)
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXTree(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
         {
-            if (m is Marshalling.MarshallingList)
-            {
-                Marshalling.MarshallingList list = m as Marshalling.MarshallingList;
-                // construction de la table
-                uint count = Convert.ToUInt32(list.Count);
-                if (count > 0)
-                {
-                    for (int index = 0; index < count; ++index)
-                    {
-                        string title = (list[index].Value as List<Marshalling.IMarshalling>).ElementAt(0).Value;
-                        dynamic sub = (list[index].Value as List<Marshalling.IMarshalling>).ElementAt(1);
-                        UXTreeItem r = new UXTreeItem(title, sub);
-                        this.Add(r);
-                    }
-                }
-            }
         }
 
         #endregion
@@ -67,9 +39,14 @@ namespace UXFramework
         /// <param name="ui">ui properties</param>
         public static UXTree CreateUXTree(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXTree ux = new UXTree(data["id"].Value);
-            ux.Construct(data, ui);
-            return ux;
+            UXTree tree = new UXTree();
+            tree.Bind(data);
+            tree.Bind(ui);
+            foreach (Marshalling.IMarshalling m in tree.GetProperty("childs").Values)
+            {
+                tree.Add(m.Value);
+            }
+            return tree;
         }
 
         #endregion

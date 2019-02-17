@@ -12,29 +12,23 @@ namespace UXFramework
     public class UXClickableText : UXControl
     {
 
-        #region Fields
-
-        /// <summary>
-        /// Text to print
-        /// </summary>
-        public static readonly string textName = "text";
-        /// <summary>
-        /// Id
-        /// </summary>
-        public static readonly string idName = "id";
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="id">id</param>
-        /// <param name="t">static text</param>
-        public UXClickableText(string id, string t)
+        public UXClickableText()
         {
-            this.Set(textName, t);
+        }
+
+        /// <summary>
+        /// Creates elements
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXClickableText(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
+        {
         }
 
         #endregion
@@ -42,40 +36,22 @@ namespace UXFramework
         #region Properties
 
         /// <summary>
-        /// Gets or sets the readonly text content
-        /// </summary>
-        public string Text
-        {
-            get { return this.Get(textName); }
-            set { this.Set(textName, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the Id object
+        /// Gets the Id
         /// </summary>
         public string Id
         {
-            get { return this.Get(idName); }
-            set { this.Set(idName, value); }
+            get { return this.Get("Id", string.Empty).Value; }
         }
 
-        #endregion
-
-        #region Methods
-
-        public override void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui)
+        /// <summary>
+        /// Gets the text
+        /// </summary>
+        public string Text
         {
-            base.Construct(m, ui);
-            Marshalling.MarshallingHash hash = ui as Marshalling.MarshallingHash;
-            TextProperties tp = hash["properties"].Value;
-            // enregistrement des elements
-            this.Beams.SetPropertyValues(new List<KeyValuePair<string, Beam>> {
-                new KeyValuePair<string, Beam>("properties", Beam.Register("properties", this, tp))
-            }.ToArray());
+            get { return this.Get("Text", string.Empty).Value; }
         }
 
         #endregion
-
         #region Static Methods
 
         /// <summary>
@@ -85,9 +61,20 @@ namespace UXFramework
         /// <param name="ui">ui properties</param>
         public static UXClickableText CreateUXClickableText(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXClickableText ux = new UXClickableText(data["Id"].Value, data["Text"].Value);
-            ux.Construct(data, ui);
+            UXClickableText ux = new UXClickableText();
+            ux.Bind(data);
+            ux.Bind(ui);
             return ux;
+        }
+
+        /// <summary>
+        /// Create UXClickableText
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXClickableText CreateUXClickableText(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXClickableText(name, f());
         }
 
         #endregion

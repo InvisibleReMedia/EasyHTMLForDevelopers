@@ -17,15 +17,41 @@ namespace UXFramework
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="columnSize">column size</param>
-        /// <param name="lineSize">line size</param>
-        /// <param name="id">id</param>
-        public UXViewSelectableDataTable(int columnSize, int lineSize, string id) : base(columnSize, lineSize, id)
+        public UXViewSelectableDataTable()
         {
         }
 
+        /// <summary>
+        /// Creates elements
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXViewSelectableDataTable(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
+        {
+        }
 
         #endregion
 
+        #region Static Methods
+
+        /// <summary>
+        /// Create view data table
+        /// </summary>
+        /// <param name="data">data to show</param>
+        /// <param name="ui">ui properties</param>
+        public static UXViewSelectableDataTable CreateUXViewSelectableDataTable(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
+        {
+            UXViewSelectableDataTable table = new UXViewSelectableDataTable();
+            table.Bind(data);
+            table.Bind(ui);
+            foreach (Marshalling.IMarshalling m in table.GetProperty("childs").Values)
+            {
+                table.Add(m.Value);
+            }
+            return table;
+        }
+
+        #endregion
     }
 }

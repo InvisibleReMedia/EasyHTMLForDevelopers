@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
@@ -95,6 +96,23 @@ namespace Marshalling
         }
 
         /// <summary>
+        /// Set a value if exists
+        /// </summary>
+        /// <param name="name">value name</param>
+        /// <param name="a">function</param>
+        /// <returns>true if succeeded</returns>
+        public bool Get(string name, Action<string, IMarshalling> a)
+        {
+            if (this.Exists(name))
+            {
+                a(name, this.Get(name));
+                return true;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
         /// Sets a value into the dictionary
         /// </summary>
         /// <param name="name">name of the field</param>
@@ -148,10 +166,13 @@ namespace Marshalling
                 {
                     if (content is IMarshalling)
                     {
+                        string tabs = "\t";
                         foreach (string s in content.ToTabularString(depth + 1))
                         {
-                            string tabs = "\t";
-                            yield return tabs + s.Trim('\r', '\n') + Environment.NewLine;
+                            if (s.StartsWith("name:"))
+                                yield return tabs + s.Trim('\r','\n') + " (" + content.GetType().Name + ")" + Environment.NewLine;
+                            else
+                                yield return tabs + s.Trim('\r', '\n') + Environment.NewLine;
                         }
                     }
                     else
@@ -189,6 +210,16 @@ namespace Marshalling
         public virtual void Bind(IMarshalling m)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Conversion to elements
+        /// </summary>
+        /// <typeparam name="T">type of elements</typeparam>
+        /// <returns>enumeration of T</returns>
+        public IEnumerable<T> Conversion<T>() where T : class
+        {
+            return (from x in this.Data.ToList() where x.Key != "name" select x.Value as T);
         }
 
         /// <summary>

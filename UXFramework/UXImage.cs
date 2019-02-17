@@ -12,34 +12,23 @@ namespace UXFramework
     public class UXImage : UXControl
     {
 
-        #region Fields
-
-        /// <summary>
-        /// File of image
-        /// </summary>
-        private string imageFile;
-        /// <summary>
-        /// Id
-        /// </summary>
-        private string id;
-        /// <summary>
-        /// Size of this image
-        /// </summary>
-        private Size size;
-
-        #endregion
-
         #region Constructor
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="id">id</param>
-        /// <param name="fileName">image file</param>
-        public UXImage(string id, string fileName)
+        public UXImage()
         {
-            this.id = id;
-            this.imageFile = fileName;
+        }
+
+        /// <summary>
+        /// Creates elements
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXImage(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
+        {
         }
 
         #endregion
@@ -47,32 +36,37 @@ namespace UXFramework
         #region Properties
 
         /// <summary>
-        /// Gets or sets the image file
-        /// </summary>
-        public string ImageFile
-        {
-            get { return this.imageFile; }
-            set { this.imageFile = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the Id object
+        /// Gets the Id
         /// </summary>
         public string Id
         {
-            get { return this.id; }
-            set { this.id = value; }
+            get { return this.Get("Id", string.Empty).Value; }
         }
 
         /// <summary>
-        /// Gets or sets the size of this image
+        /// Gets the image file
         /// </summary>
-        public Size Size
+        public string ImageFile
         {
-            get { return this.size; }
-            set { this.size = value; }
+            get { return this.Get("ImageFile", string.Empty).Value; }
         }
 
+        /// <summary>
+        /// Gets the image width
+        /// </summary>
+        public int ImageWidth
+        {
+            get { return this.Get("ImageWidth", string.Empty).Value; }
+        }
+
+        /// <summary>
+        /// Gets the image height
+        /// </summary>
+        public int ImageHeight
+        {
+            get { return this.Get("ImageHeight", string.Empty).Value; }
+        }
+        
         #endregion
 
         #region Static Methods
@@ -84,8 +78,9 @@ namespace UXFramework
         /// <param name="ui">ui properties</param>
         public static UXImage CreateUXImage(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXImage ux = new UXImage(data["Id"].Value, ui["ImageFile"].Value);
-            ux.Construct(data, ui);
+            UXImage ux = new UXImage();
+            ux.Bind(data);
+            ux.Bind(ui);
             return ux;
         }
 

@@ -26,11 +26,28 @@ namespace Marshalling
         /// <returns>properties</returns>
         string[] GetProperties();
         /// <summary>
+        /// Add a new hash into this
+        /// </summary>
+        /// <param name="f">function as elements</param>
+        void Add(Func<IDictionary<string, dynamic>> f);
+        /// <summary>
+        /// Add a new list into this
+        /// </summary>
+        /// <param name="f">function as elements</param>
+        void Add(Func<IEnumerable<dynamic>> f);
+        /// <summary>
         /// Set value
         /// </summary>
         /// <param name="name">name</param>
         /// <param name="value">value</param>
         void Set(string name, dynamic value);
+        /// <summary>
+        /// Set a value if exists
+        /// </summary>
+        /// <param name="name">value name</param>
+        /// <param name="a">function</param>
+        /// <returns>true if succeeded</returns>
+        bool Get(string name, Action<string, IMarshalling> a);
         /// <summary>
         /// Gets value
         /// </summary>
@@ -56,12 +73,64 @@ namespace Marshalling
         /// <param name="depth">depth tabulation</param>
         /// <returns>enumeration of string</returns>
         IEnumerable<string> ToTabularString(uint depth);
+        /// <summary>
+        /// Conversion to elements
+        /// </summary>
+        /// <typeparam name="T">type of elements</typeparam>
+        /// <returns>enumeration of T</returns>
+        IEnumerable<T> Conversion<T>() where T : class;
+        /// <summary>
+        /// Create a new object and copy this into
+        /// </summary>
+        /// <typeparam name="T">new object</typeparam>
+        /// <param name="clone">switch to clone</param>
+        /// <returns>new object</returns>
         T Copy<T>(bool clone) where T : PersistentDataObject, new();
+        /// <summary>
+        /// Create a new object and copy selected values into
+        /// </summary>
+        /// <typeparam name="T">new object</typeparam>
+        /// <param name="clone">switch to clone</param>
+        /// <param name="names">selected names</param>
+        /// <returns>new object</returns>
         T Copy<T>(bool clone, params string[] names) where T : PersistentDataObject, new();
+        /// <summary>
+        /// Copy this into an object
+        /// </summary>
+        /// <typeparam name="T">object type</typeparam>
+        /// <param name="clone">switch to clone</param>
+        /// <param name="obj">object where to copy</param>
         void Copy<T>(bool clone, T obj) where T : PersistentDataObject;
+        /// <summary>
+        /// Copy this by selected names into an object
+        /// </summary>
+        /// <typeparam name="T">object type</typeparam>
+        /// <param name="clone">switch to clone</param>
+        /// <param name="obj">object where to copy</param>
+        /// <param name="names">selected names</param>
         void Copy<T>(bool clone, T obj, params string[] names) where T : PersistentDataObject;
+        /// <summary>
+        /// Make a mapping between all names by other names into an existing object
+        /// </summary>
+        /// <typeparam name="T">existing object</typeparam>
+        /// <param name="clone">switch to clone</param>
+        /// <param name="obj">object where to copy</param>
+        /// <param name="f">function to transfer names</param>
         void Mapping<T>(bool clone, T obj, Func<string, string> f) where T : PersistentDataObject;
+        /// <summary>
+        /// Make a mapping between selected names by other names into an existing object
+        /// </summary>
+        /// <typeparam name="T">existing object</typeparam>
+        /// <param name="clone">switch to clone</param>
+        /// <param name="obj">object where to copy</param>
+        /// <param name="f">function to transfer names</param>
+        /// <param name="names">selected names</param>
         void Mapping<T>(bool clone, T obj, Func<string, string> f, params string[] names) where T : PersistentDataObject;
+        /// <summary>
+        /// Formatting a string input that contains a name preceding a %
+        /// </summary>
+        /// <param name="input">input string</param>
+        /// <returns>formatted text</returns>
         string Format(string input);
     }
 }

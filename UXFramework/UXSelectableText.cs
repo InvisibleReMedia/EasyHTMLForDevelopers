@@ -9,31 +9,23 @@ namespace UXFramework
     public class UXSelectableText : UXReadOnlyText
     {
 
-        #region Fields
-
-        /// <summary>
-        /// Id
-        /// </summary>
-        private string id;
-        /// <summary>
-        /// Reference index for selection
-        /// </summary>
-        private int index;
-
-        #endregion
-
         #region Constructor
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="id">id</param>
-        /// <param name="t">text</param>
-        public UXSelectableText(string id, string t, int refIndex)
-            : base(t)
+        public UXSelectableText()
         {
-            this.id = id;
-            this.index = refIndex;
+        }
+
+        /// <summary>
+        /// Creates elements
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXSelectableText(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
+        {
         }
 
         #endregion
@@ -41,22 +33,14 @@ namespace UXFramework
         #region Properties
 
         /// <summary>
-        /// Gets or sets id
+        /// Gets the RefIndex
         /// </summary>
-        public string Id
-        {
-            get { return this.id; }
-            set { this.id = value; }
-        }
-
         public int RefIndex
         {
-            get { return this.index; }
-            set { this.index = value; }
+            get { return this.Get("RefIndex", 0).Value; }
         }
 
         #endregion
-
         #region Overriden Methods
 
         /// <summary>
@@ -107,8 +91,9 @@ namespace UXFramework
         /// <param name="ui">ui properties</param>
         public static UXSelectableText CreateUXSelectableText(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXSelectableText ux = new UXSelectableText(data["Id"].Value, data["Text"].Value, data["RefIndex"].Value);
-            ux.Construct(data, ui);
+            UXSelectableText ux = new UXSelectableText();
+            ux.Bind(data);
+            ux.Bind(ui);
             return ux;
         }
 

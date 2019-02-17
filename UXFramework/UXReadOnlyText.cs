@@ -11,22 +11,24 @@ namespace UXFramework
     public class UXReadOnlyText : UXControl
     {
 
-        #region Fields
-
-        private string text;
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="t">static text</param>
-        public UXReadOnlyText(string t)
+        public UXReadOnlyText()
         {
-            this.text = t;
-            this.Add(this.text);
+        }
+
+        /// <summary>
+        /// Creates elements
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXReadOnlyText(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
+        {
         }
 
         #endregion
@@ -34,12 +36,19 @@ namespace UXFramework
         #region Properties
 
         /// <summary>
-        /// Gets or sets the readonly text content
+        /// Gets the Id
+        /// </summary>
+        public string Id
+        {
+            get { return this.Get("Id", string.Empty).Value; }
+        }
+
+        /// <summary>
+        /// Gets the text
         /// </summary>
         public string Text
         {
-            get { return this.text; }
-            set { this.text = value; }
+            get { return this.Get("Text", string.Empty).Value; }
         }
 
         #endregion
@@ -54,8 +63,9 @@ namespace UXFramework
         /// <param name="ui">ui properties</param>
         public static UXReadOnlyText CreateUXReadOnlyText(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXReadOnlyText ux = new UXReadOnlyText(data["Text"].Value);
-            ux.Construct(data, ui);
+            UXReadOnlyText ux = new UXReadOnlyText();
+            ux.Bind(data);
+            ux.Bind(ui);
             return ux;
         }
 

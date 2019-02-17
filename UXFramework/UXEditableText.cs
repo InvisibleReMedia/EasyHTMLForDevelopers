@@ -12,50 +12,23 @@ namespace UXFramework
     public class UXEditableText : UXControl
     {
 
-        #region Fields
-
-        /// <summary>
-        /// Text
-        /// </summary>
-        public static readonly string textName = "text";
-        /// <summary>
-        /// Id
-        /// </summary>
-        public static readonly string idName = "id";
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public UXEditableText(string id, string t)
+        public UXEditableText()
         {
-            this.Set(idName, id);
-            this.Set(textName, t);
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the text content
-        /// </summary>
-        public string Text
-        {
-            get { return this.Get(textName, string.Empty); }
-            set { this.Set(textName, value); }
         }
 
         /// <summary>
-        /// Gets or sets the id object
+        /// Creates elements
         /// </summary>
-        public string Id
+        /// <param name="name">name</param>
+        /// <param name="e">elements</param>
+        public UXEditableText(string name, IDictionary<string, dynamic> e)
+            : base(name, e)
         {
-            get { return this.Get(idName, string.Empty); }
-            set { this.Set(idName, value); }
         }
 
         #endregion
@@ -69,7 +42,7 @@ namespace UXFramework
         public override void Connect(WebBrowser web)
         {
             base.Connect(web);
-            HtmlElement e = web.Document.GetElementById(this.Id);
+            HtmlElement e = web.Document.GetElementById(this.GetProperty("Id").Value);
             if (e != null)
             {
                 e.LostFocus += UXEditableText_LostFocus;
@@ -83,7 +56,7 @@ namespace UXFramework
         public override void Disconnect(WebBrowser web)
         {
             base.Disconnect(web);
-            HtmlElement e = web.Document.GetElementById(this.Id);
+            HtmlElement e = web.Document.GetElementById(this.GetProperty("Id").Value);
             if (e != null)
             {
                 e.Click -= UXEditableText_LostFocus;
@@ -98,23 +71,8 @@ namespace UXFramework
         /// <param name="e">args</param>
         private void UXEditableText_LostFocus(object sender, HtmlElementEventArgs e)
         {
-            this.Text = ((HtmlElement)sender).InnerText;
+            this.Set("Text", ((HtmlElement)sender).InnerText);
             this.UpdateOne();
-        }
-
-        /// <summary>
-        /// Constructs ui properties
-        /// </summary>
-        /// <param name="m">data</param>
-        /// <param name="ui">ui properties</param>
-        public override void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui)
-        {
-            Marshalling.MarshallingHash hash = ui as Marshalling.MarshallingHash;
-            TextProperties tp = hash["properties"].Value;
-            // enregistrement des elements
-            this.Beams.SetPropertyValues(new List<KeyValuePair<string, Beam>> {
-                new KeyValuePair<string, Beam>("properties", Beam.Register("properties", this, tp))
-            }.ToArray());
         }
 
         #endregion
@@ -128,9 +86,20 @@ namespace UXFramework
         /// <param name="ui">ui properties</param>
         public static UXEditableText CreateUXEditableText(Marshalling.MarshallingHash data, Marshalling.MarshallingHash ui)
         {
-            UXEditableText ux = new UXEditableText(data["Id"].Value, data["Text"].Value);
-            ux.Construct(data, ui);
+            UXEditableText ux = new UXEditableText();
+            ux.Bind(data);
+            ux.Bind(ui);
             return ux;
+        }
+
+        /// <summary>
+        /// Create UXEditableText
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXEditableText CreateUXEditableText(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXEditableText(name, f());
         }
 
         #endregion

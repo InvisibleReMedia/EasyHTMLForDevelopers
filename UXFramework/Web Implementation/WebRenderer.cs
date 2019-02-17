@@ -204,35 +204,6 @@ namespace UXFramework.WebImplementation
         #region Methods
 
         /// <summary>
-        /// Render CSS properties from UX
-        /// </summary>
-        /// <param name="c">css</param>
-        /// <param name="ib">ux properties</param>
-        private void RenderCSSProperties(CodeCSS c, BeamConnections.InteractiveBeam ib)
-        {
-            //foreach (Beam b in ib.GetAllProperties())
-            //{
-            //    c.Body.Add(b.PropertyName, b.ReadProperty().ToString());
-            //}
-        }
-
-        /// <summary>
-        /// Render an interactive beam
-        /// </summary>
-        /// <param name="ib">interactive object</param>
-        /// <returns>javascript and xml data</returns>
-        private string RenderInteractiveBeam(BeamConnections.InteractiveBeam ib)
-        {
-            string output = "<ul style='display:none' id=''>";
-            foreach (BeamConnections.Beam b in ib.GetAllProperties())
-            {
-                output += "<li name='" + b.PropertyName + "'>" + b.ReadProperty().ToString() + "</li>";
-            }
-            output += "</ul>";
-            return output;
-        }
-
-        /// <summary>
         /// Render a window
         /// </summary>
         /// <param name="window">window to render</param>
@@ -241,11 +212,11 @@ namespace UXFramework.WebImplementation
             string previous;
             Projects.Activate(projectName, out previous);
             Page p = new Page();
-            p.Width = (window.Properties.Width.HasValue) ? window.Properties.Width.Value : 1320;
-            p.Height = (window.Properties.Height.HasValue) ? window.Properties.Height.Value : 700;
+            p.ConstraintWidth = EnumConstraint.AUTO;
+            p.ConstraintHeight = EnumConstraint.AUTO;
             p.Disposition = Disposition.CENTER;
-            p.ConstraintWidth = EnumConstraint.FIXED;
-            p.ConstraintHeight = EnumConstraint.FIXED;
+            window.Get("Width", (x, y) => { p.Width = Convert.ToUInt32(y.Value); p.ConstraintWidth = EnumConstraint.FIXED; });
+            window.Get("Height", (x, y) => { p.Height = Convert.ToUInt32(y.Value); p.ConstraintHeight = EnumConstraint.FIXED; });
             MasterPage mp = new MasterPage();
             mp.Name = "masterPage_" + window.Name;
             mp.Width = 100;
@@ -254,13 +225,12 @@ namespace UXFramework.WebImplementation
             mp.ConstraintHeight = EnumConstraint.RELATIVE;
             mp.CountColumns = 1;
             mp.CountLines = 1;
-            mp.CSS.BackgroundColor = new CSSColor((!String.IsNullOrEmpty(window.Properties.BackColor)) ? window.Properties.BackColor : "Transparent");
-            mp.CSS.ForegroundColor = new CSSColor((!String.IsNullOrEmpty(window.Properties.ForeColor)) ? window.Properties.ForeColor : "Black");
-            mp.CSS.Body.Add("border", (!String.IsNullOrEmpty(window.Properties.Border)) ? window.Properties.Border : "0px solid black");
-            mp.CSS.Body.Add("margin", (!String.IsNullOrEmpty(window.Properties.Margin)) ? window.Properties.Margin : "0,0,0,0");
-            mp.CSS.Body.Add("padding", (!String.IsNullOrEmpty(window.Properties.Padding)) ? window.Properties.Padding : "0,0,0,0");
+            window.Get("BackColor", (x, y) => { mp.CSS.BackgroundColor = new CSSColor(y.Value); });
+            window.Get("ForeColor", (x, y) => { mp.CSS.ForegroundColor = new CSSColor(y.Value); });
+            window.Get("Border", (x, y) => { mp.CSS.Body.Add("border", y.Value); });
+            window.Get("Margin", (x, y) => { mp.CSS.Body.Add("margin", y.Value); });
+            window.Get("Padding", (x, y) => { mp.CSS.Body.Add("padding", y.Value); });
             mp.Meta = "<meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no'/>";
-            this.RenderCSSProperties(mp.CSS, window.Beams);
 
 
             HTMLTool def = this.project.Tools.Find(x => x.Path == "html" && x.Name == "default");
@@ -309,7 +279,6 @@ namespace UXFramework.WebImplementation
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "box"));
             obj.Container = this.currentContainer;
-            this.RenderCSSProperties(obj.CSS, box.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -322,7 +291,7 @@ namespace UXFramework.WebImplementation
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "button"));
             obj.Container = this.currentContainer;
-            obj.HTML = String.Format(obj.HTML, button.Id, button.ButtonText);
+            obj.HTML = String.Format(obj.HTML, button.Id, button.Text);
             obj.JavaScriptOnLoad.Code = String.Format(obj.JavaScriptOnLoad.Code, button.Id);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
@@ -337,7 +306,6 @@ namespace UXFramework.WebImplementation
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "link"));
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, clickText.Id, clickText.Text);
-            this.RenderCSSProperties(obj.CSS, clickText.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -351,7 +319,6 @@ namespace UXFramework.WebImplementation
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "selectableText"));
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, selectableText.Id, selectableText.RefIndex, selectableText.Text);
-            this.RenderCSSProperties(obj.CSS, selectableText.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -364,8 +331,7 @@ namespace UXFramework.WebImplementation
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "image"));
             obj.Container = this.currentContainer;
-            obj.HTML = String.Format(obj.HTML, image.Id, image.ImageFile, image.Size.Width, image.Size.Height);
-            this.RenderCSSProperties(obj.CSS, image.Beams);
+            obj.HTML = String.Format(obj.HTML, image.Id, image.ImageFile, image.ImageWidth, image.ImageHeight);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -378,8 +344,6 @@ namespace UXFramework.WebImplementation
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "image"));
             obj.Container = this.currentContainer;
-            obj.HTML = String.Format(obj.HTML, image.Id, image.ImageFile, image.RollBackColor, image.RollColor, image.ClickBorderColor, image.RollImageFile, image.ClickImageFile);
-            this.RenderCSSProperties(obj.CSS, image.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -429,7 +393,6 @@ namespace UXFramework.WebImplementation
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "readOnlyText"));
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, text.Text);
-            this.RenderCSSProperties(obj.CSS, text.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
         }
@@ -459,7 +422,6 @@ namespace UXFramework.WebImplementation
                 h.Width = 100;
                 h.Height = 100;
                 h.CountLines = 1;
-                this.RenderCSSProperties(h.CSS, t.Beams);
                 mo.HorizontalZones.Add(h);
 
                 VerticalZone v = new VerticalZone();
@@ -470,7 +432,6 @@ namespace UXFramework.WebImplementation
                 v.ConstraintHeight = EnumConstraint.RELATIVE;
                 v.CountLines = 1;
                 v.CountColumns = 1;
-                this.RenderCSSProperties(v.CSS, t.Beams);
                 h.VerticalZones.Add(v);
                 this.currentContainer = mo.HorizontalZones[index++].VerticalZones[0].Name;
                 RenderControl(o);
@@ -492,10 +453,8 @@ namespace UXFramework.WebImplementation
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "li"));
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, item.Text, item.Name);
-            this.RenderCSSProperties(obj.CSS, item.Beams);
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
-            RenderControl(item.SubItems);
         }
 
         /// <summary>
@@ -521,7 +480,6 @@ namespace UXFramework.WebImplementation
             h.Width = 100;
             h.Height = 100;
             h.CountLines = 1;
-            this.RenderCSSProperties(h.CSS, data.Beams);
             mo.HorizontalZones.Add(h);
 
             VerticalZone v = new VerticalZone();
@@ -532,7 +490,6 @@ namespace UXFramework.WebImplementation
             v.ConstraintHeight = EnumConstraint.RELATIVE;
             v.CountLines = 1;
             v.CountColumns = 1;
-            this.RenderCSSProperties(v.CSS, data.Beams);
             h.VerticalZones.Add(v);
 
             this.project.MasterObjects.Add(mo);
@@ -577,8 +534,8 @@ namespace UXFramework.WebImplementation
             this.currentObject = mo;
             for (int pos_line = 0; pos_line < table.LineCount; ++pos_line)
             {
-                if (table.Children[pos_line] != null)
-                    RenderControl(table.Children[pos_line]);
+                if (table.Children.ElementAt(pos_line) != null)
+                    RenderControl(table.Children.ElementAt(pos_line));
             }
             this.currentObject = previousObject;
             this.currentMasterObject = previousMasterObject;
@@ -603,14 +560,13 @@ namespace UXFramework.WebImplementation
             h.CountLines = 1;
             h.Height = 30;
             h.Width = 50;
-            this.RenderCSSProperties(h.CSS, row.Beams);
             this.currentObject.HorizontalZones.Add(h);
             dynamic previousObject = this.currentObject;
             for (int pos_column = 0; pos_column < row.ColumnCount; ++pos_column)
             {
                 this.currentObject = h;
-                if (row.Children[pos_column] != null)
-                    RenderControl(row.Children[pos_column]);
+                if (row.Children.ElementAt(pos_column) != null)
+                    RenderControl(row.Children.ElementAt(pos_column));
             }
             this.currentObject = previousObject;
         }
@@ -627,7 +583,6 @@ namespace UXFramework.WebImplementation
             v.ConstraintHeight = EnumConstraint.AUTO;
             v.CountLines = 1;
             v.CountColumns = 1;
-            this.RenderCSSProperties(v.CSS, cell.Beams);
             this.currentObject.VerticalZones.Add(v);
 
             string previousContainer = this.currentContainer;

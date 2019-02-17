@@ -14,14 +14,14 @@ namespace UXFramework
     public interface IUXObject : Marshalling.IMarshalling
     {
         /// <summary>
-        /// Gets a name of this ux
+        /// Gets all children
         /// </summary>
-        string Name { get; set; }
+        IEnumerable<IUXObject> Children { get; }
         /// <summary>
-        /// Add a new control in children list
+        /// Add a child into object
         /// </summary>
-        /// <param name="obj">ux object</param>
-        void Add(IUXObject obj);
+        /// <param name="child">child to add</param>
+        void Add(IUXObject child);
         /// <summary>
         /// Connect for interoperability C#/Web
         /// </summary>
@@ -62,10 +62,9 @@ namespace UXFramework
         /// <param name="a">action</param>
         void SetUpdate(Action a);
         /// <summary>
-        /// Constructs UX by marshalling information
+        /// Bind
         /// </summary>
-        /// <param name="m">element for construction</param>
-        /// <param name="ui">ui properties</param>
-        void Construct(Marshalling.IMarshalling m, Marshalling.IMarshalling ui);
+        /// <param name="m">input</param>
+        void Bind(Marshalling.IMarshalling m);
     }
 }

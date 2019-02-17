@@ -15,14 +15,40 @@ namespace AppEasy
 
         public static void Splash(WebBrowser web)
         {
-            UXTable table = ProjectViewer.CreateProjectTableHeaders();
+            Marshalling.MarshallingHash ui = Marshalling.MarshallingHash.CreateMarshalling("splash.ui", () =>
+            {
+                return new Dictionary<string, dynamic>() {
+                    { "Width", 1320 },
+                    { "Height", 700 },
+                    { "BackColor", "Blue" },
+                    { "ForeColor", "White"}
+                };
+            });
 
-            CommonProperties cp = new CommonProperties();
-            cp.Width = 1320;
-            cp.Height = 700;
-            cp.BackColor = "White";
-            cp.ForeColor = "Black";
-            UXWindow win = Creation.NewUXWindow("splash", "Easy WEB for Developers", cp, table);
+            Marshalling.MarshallingHash data = Marshalling.MarshallingHash.CreateMarshalling("splash", () =>
+            {
+                return new Dictionary<string, dynamic>()
+                {
+                    { "Id", "splash" },
+                    { "Text", "Easy WEB For Developers" }
+                };
+            });
+
+            UXReadOnlyText ro = UXReadOnlyText.CreateUXReadOnlyText(data, new Marshalling.MarshallingHash("ui"));
+
+            Marshalling.MarshallingHash top = Marshalling.MarshallingHash.CreateMarshalling("splash", () =>
+            {
+                return new Dictionary<string, dynamic>()
+                {
+                    {
+                        "children", Marshalling.MarshallingList.CreateMarshalling("children", () => {
+                            return new List<IUXObject>() { ro };
+                        })
+                    }
+                };
+            });
+
+            UXWindow win = UXWindow.CreateUXWindow("splash", top, ui);
             browser = web;
             win.Navigate(web);
 
@@ -34,7 +60,6 @@ namespace AppEasy
 
         private static void T_Tick(object sender, EventArgs e)
         {
-            SelectProjectScreen.SelectProject(browser);
             t.Stop();
         }
     }
