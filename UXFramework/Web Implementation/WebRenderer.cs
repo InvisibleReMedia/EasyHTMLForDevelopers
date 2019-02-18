@@ -45,6 +45,7 @@ namespace UXFramework.WebImplementation
             Projects.TrySelect(projectName, out this.project);
 
             // add js link
+            //this.project.JavascriptUrls.Add("jquery-3.3.1.min.js");
             this.project.JavascriptUrls.Add("jquery-ui.1.12/external/jquery/jquery.js");
             this.project.JavascriptUrls.Add("jquery-ui.1.12/jquery-ui.js");
 
@@ -204,6 +205,27 @@ namespace UXFramework.WebImplementation
         #region Methods
 
         /// <summary>
+        /// Render all CSS properties
+        /// use a mapping to map ux properties and css properties
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="css"></param>
+        public void RenderCSSProperties(UXControl control, CodeCSS css)
+        {
+            control.Get("Width", (s, v) => { css.Body.Add("width", v.Value.ToString()); });
+            control.Get("Height", (s, v) => { css.Body.Add("height", v.Value.ToString()); });
+            control.Get("BackColor", (s, v) => { css.BackgroundColor = new CSSColor(v.Value); });
+            control.Get("ForeColor", (s, v) => { css.ForegroundColor = new CSSColor(v.Value); });
+            control.Get("Padding", (s, v) => { css.Body.Add("padding", v.Value); });
+            control.Get("Margin", (s, v) => { css.Body.Add("margin", v.Value); });
+            control.Get("Border", (s, v) => { css.Body.Add("border", v.Value); });
+            control.Get("Border-Spacing", (s, v) => { css.Body.Add("border-spacing", v.Value); });
+            control.Get("Border-Width", (s, v) => { css.Body.Add("border-width", v.Value); });
+            control.Get("Border-Height", (s, v) => { css.Body.Add("border-height", v.Value); });
+            control.Get("Border-Color", (s, v) => { css.Body.Add("border-color", v.Value); });
+        }
+
+        /// <summary>
         /// Render a window
         /// </summary>
         /// <param name="window">window to render</param>
@@ -218,6 +240,7 @@ namespace UXFramework.WebImplementation
             window.Get("Width", (x, y) => { p.Width = Convert.ToUInt32(y.Value); p.ConstraintWidth = EnumConstraint.FIXED; });
             window.Get("Height", (x, y) => { p.Height = Convert.ToUInt32(y.Value); p.ConstraintHeight = EnumConstraint.FIXED; });
             MasterPage mp = new MasterPage();
+            RenderCSSProperties(window, mp.CSS);
             mp.Name = "masterPage_" + window.Name;
             mp.Width = 100;
             mp.Height = 100;
@@ -225,11 +248,6 @@ namespace UXFramework.WebImplementation
             mp.ConstraintHeight = EnumConstraint.RELATIVE;
             mp.CountColumns = 1;
             mp.CountLines = 1;
-            window.Get("BackColor", (x, y) => { mp.CSS.BackgroundColor = new CSSColor(y.Value); });
-            window.Get("ForeColor", (x, y) => { mp.CSS.ForegroundColor = new CSSColor(y.Value); });
-            window.Get("Border", (x, y) => { mp.CSS.Body.Add("border", y.Value); });
-            window.Get("Margin", (x, y) => { mp.CSS.Body.Add("margin", y.Value); });
-            window.Get("Padding", (x, y) => { mp.CSS.Body.Add("padding", y.Value); });
             mp.Meta = "<meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no'/>";
 
 
@@ -278,6 +296,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXBox box)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "box"));
+            RenderCSSProperties(box, obj.CSS);
             obj.Container = this.currentContainer;
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
@@ -290,6 +309,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXButton button)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "button"));
+            RenderCSSProperties(button, obj.CSS);
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, button.Id, button.Text);
             obj.JavaScriptOnLoad.Code = String.Format(obj.JavaScriptOnLoad.Code, button.Id);
@@ -304,6 +324,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXClickableText clickText)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "link"));
+            RenderCSSProperties(clickText, obj.CSS);
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, clickText.Id, clickText.Text);
             this.currentObject.Objects.Add(obj);
@@ -317,6 +338,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXSelectableText selectableText)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "selectableText"));
+            RenderCSSProperties(selectableText, obj.CSS);
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, selectableText.Id, selectableText.RefIndex, selectableText.Text);
             this.currentObject.Objects.Add(obj);
@@ -330,6 +352,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXImage image)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "image"));
+            RenderCSSProperties(image, obj.CSS);
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, image.Id, image.ImageFile, image.ImageWidth, image.ImageHeight);
             this.currentObject.Objects.Add(obj);
@@ -343,6 +366,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXClickableImage image)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "image"));
+            RenderCSSProperties(image, obj.CSS);
             obj.Container = this.currentContainer;
             this.currentObject.Objects.Add(obj);
             this.project.Instances.Add(obj);
@@ -391,6 +415,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXReadOnlyText text)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "readOnlyText"));
+            RenderCSSProperties(text, obj.CSS);
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, text.Text);
             this.currentObject.Objects.Add(obj);
@@ -451,6 +476,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXTreeItem item)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "li"));
+            RenderCSSProperties(item, obj.CSS);
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, item.Text, item.Name);
             this.currentObject.Objects.Add(obj);
@@ -464,6 +490,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXViewSelectableDataTable data)
         {
             MasterObject mo = new MasterObject();
+            RenderCSSProperties(data, mo.CSS);
             mo.Name = data.Name + "_outer_masterObject";
             mo.Width = 100;
             mo.Height = 100;
@@ -520,6 +547,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXTable table)
         {
             MasterObject mo = new MasterObject();
+            RenderCSSProperties(table, mo.CSS);
             mo.Name = table.Name + "_masterObject";
             mo.Width = 100;
             mo.Height = 100;
@@ -555,6 +583,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXRow row)
         {
             HorizontalZone h = new HorizontalZone();
+            RenderCSSProperties(row, h.CSS);
             h.ConstraintWidth = EnumConstraint.AUTO;
             h.ConstraintHeight = EnumConstraint.FIXED;
             h.CountLines = 1;
@@ -562,6 +591,21 @@ namespace UXFramework.WebImplementation
             h.Width = 50;
             this.currentObject.HorizontalZones.Add(h);
             dynamic previousObject = this.currentObject;
+            if (row.IsSelectable)
+            {
+                string normalBackground = "Transparent";
+                row.Get("BackColor", (s, v) => { normalBackground = v.Value; });
+                HTMLEvent ev = new HTMLEvent("onmouseover");
+                ev.Raise.Add((o, e) => {
+                    return "this.style.backgroundColor = \"" + row.BackgroundSelectable + "\";";
+                });
+                h.Events.Add(ev);
+                ev = new HTMLEvent("onmouseout");
+                ev.Raise.Add((o, e) => {
+                    return "this.style.backgroundColor = \"" + normalBackground + "\";";
+                });
+                h.Events.Add(ev);
+            }
             for (int pos_column = 0; pos_column < row.ColumnCount; ++pos_column)
             {
                 this.currentObject = h;
@@ -578,6 +622,7 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXCell cell)
         {
             VerticalZone v = new VerticalZone();
+            RenderCSSProperties(cell, v.CSS);
             v.Disposition = Disposition.CENTER;
             v.ConstraintWidth = EnumConstraint.AUTO;
             v.ConstraintHeight = EnumConstraint.AUTO;

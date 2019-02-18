@@ -49,6 +49,16 @@ namespace UXFramework
             return tree;
         }
 
+        /// <summary>
+        /// Create UXTree
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXTree CreateUXTree(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXTree(name, f());
+        }
+
         #endregion
     }
 }

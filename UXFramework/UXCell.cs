@@ -46,13 +46,17 @@ namespace UXFramework
             UXCell cell = new UXCell();
             cell.Bind(data);
             cell.Bind(ui);
-
-            if (cell.Exists("Content"))
-            {
-                IUXObject obj = cell["Content"].Value;
-                cell.Add(obj);
-            }
             return cell;
+        }
+
+        /// <summary>
+        /// Create UXCell
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXCell CreateUXCell(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXCell(name, f());
         }
 
         #endregion

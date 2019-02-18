@@ -56,11 +56,21 @@ namespace UXFramework
             UXTreeItem treeItem = new UXTreeItem();
             treeItem.Bind(data);
             treeItem.Bind(ui);
-            foreach (Marshalling.IMarshalling m in treeItem.GetProperty("childs").Values)
+            foreach (Marshalling.IMarshalling m in treeItem.GetProperty("children").Values)
             {
                 treeItem.Add(m.Value);
             }
             return treeItem;
+        }
+
+        /// <summary>
+        /// Create UXTreeItem
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXTreeItem CreateUXTreeItem(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXTreeItem(name, f());
         }
 
         #endregion

@@ -213,7 +213,7 @@ namespace UXFramework
         /// </summary>
         public int ColumnCount
         {
-            get { return this.Get("ColumnCount", string.Empty).Value; }
+            get { return this.Get("ColumnCount").Value; }
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace UXFramework
         /// </summary>
         public int LineCount
         {
-            get { return this.Get("LineCount", string.Empty).Value; }
+            get { return this.Get("LineCount").Value; }
         }
 
         #endregion
@@ -243,6 +243,16 @@ namespace UXFramework
                 table.Add(m.Value);
             }
             return table;
+        }
+
+        /// <summary>
+        /// Create UXTable
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXTable CreateUXTable(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXTable(name, f());
         }
 
         #endregion

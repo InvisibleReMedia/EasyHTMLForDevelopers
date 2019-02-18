@@ -61,6 +61,7 @@ namespace AppEasy
         private static void T_Tick(object sender, EventArgs e)
         {
             t.Stop();
+            SelectProjectScreen.SelectProject(browser);
         }
     }
 }

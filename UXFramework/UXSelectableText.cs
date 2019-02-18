@@ -97,6 +97,16 @@ namespace UXFramework
             return ux;
         }
 
+        /// <summary>
+        /// Create UXSelectableText
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXSelectableText CreateUXSelectableText(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXSelectableText(name, f());
+        }
+
         #endregion
 
     }

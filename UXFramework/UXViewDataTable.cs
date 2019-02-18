@@ -51,6 +51,16 @@ namespace UXFramework
             return table;
         }
 
+        /// <summary>
+        /// Create UXViewDataTable
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXViewDataTable CreateUXViewDataTable(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXViewDataTable(name, f());
+        }
+
         #endregion
     
     }

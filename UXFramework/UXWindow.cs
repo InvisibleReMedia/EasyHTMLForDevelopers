@@ -123,6 +123,16 @@ namespace UXFramework
             return win;
         }
 
+        /// <summary>
+        /// Create UXWindow
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXWindow CreateUXWindow(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXWindow(name, f());
+        }
+
         #endregion
 
     }

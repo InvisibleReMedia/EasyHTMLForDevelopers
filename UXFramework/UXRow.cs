@@ -39,7 +39,61 @@ namespace UXFramework
         /// </summary>
         public int ColumnCount
         {
-            get { return this.Get("ColumnCount", string.Empty).Value; }
+            get { return this.Get("ColumnCount").Value; }
+        }
+
+        /// <summary>
+        /// Gets if this row is selectable
+        /// </summary>
+        public bool IsSelectable
+        {
+            get
+            {
+                if (this.Exists("IsSelectable"))
+                {
+                    return this.Get("IsSelectable").Value;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets if this row is clickable
+        /// </summary>
+        public bool IsClickable
+        {
+            get
+            {
+                if (this.Exists("IsClickable"))
+                {
+                    return this.Get("IsClickable").Value;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the background ground selectable
+        /// </summary>
+        public string BackgroundSelectable
+        {
+            get
+            {
+                if (this.Exists("Background-Selectable"))
+                {
+                    return this.Get("Background-Selectable").Value;
+                }
+                else
+                {
+                    return "";
+                }
+            }
         }
 
         #endregion
@@ -62,6 +116,16 @@ namespace UXFramework
                 row.Add(m.Value);
             }
             return row;
+        }
+
+        /// <summary>
+        /// Create UXRow
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXRow CreateUXRow(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXRow(name, f());
         }
 
         #endregion
