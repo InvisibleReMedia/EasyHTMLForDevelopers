@@ -28,7 +28,8 @@ namespace UXFramework
                     { "children", rows.ToList() }
                 };
             });
-            t.Bind(properties);
+            if (properties != null)
+                t.Bind(properties);
             return t;
         }
 
@@ -48,7 +49,8 @@ namespace UXFramework
                     { "children", cells.ToList() }
                 };
             });
-            row.Bind(properties);
+            if (properties != null)
+                row.Bind(properties);
             return row;
         }
 
@@ -66,7 +68,8 @@ namespace UXFramework
                     { "children", controls.ToList() }
                 };
             });
-            cell.Bind(properties);
+            if (properties != null)
+                cell.Bind(properties);
             return cell;
         }
 
@@ -86,7 +89,8 @@ namespace UXFramework
                     { "Text", text }
                 };
             });
-            t.Bind(properties);
+            if (properties != null)
+                t.Bind(properties);
             return t;
         }
 
@@ -106,7 +110,27 @@ namespace UXFramework
                     { "ImageFile", fileName }
                 };
             });
-            im.Bind(properties);
+            if (properties != null)
+                im.Bind(properties);
+            return im;
+        }
+
+        /// <summary>
+        /// Create a box
+        /// </summary>
+        /// <param name="properties">props</param>
+        /// <returns>ux read only text</returns>
+        public static UXBox CreateBox(Marshalling.MarshallingHash properties, int width, int height)
+        {
+            UXBox im = UXBox.CreateUXBox("box", () =>
+            {
+                return new Dictionary<string, dynamic>() {
+                    { "Width", width },
+                    { "Height", height }
+                };
+            });
+            if (properties != null)
+                im.Bind(properties);
             return im;
         }
 
@@ -131,7 +155,8 @@ namespace UXFramework
                     { "children", rows }
                 };
             });
-            t.Bind(properties);
+            if (properties != null)
+                t.Bind(properties);
             return t;
         }
 
