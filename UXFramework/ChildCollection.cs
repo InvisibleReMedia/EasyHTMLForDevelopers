@@ -15,7 +15,7 @@ namespace UXFramework
 
         #region Constructor
 
-        public ChildCollection(string name, IEnumerable<dynamic> r) : base(name, r) { }
+        public ChildCollection(string name, IEnumerable<IUXObject> r) : base(name, r) { }
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace UXFramework
         /// </summary>
         public new IEnumerable<IUXObject> Values
         {
-            get { return this.Values; }
+            get { return (from x in base.Values select x as IUXObject); }
         }
 
         #endregion
@@ -38,7 +38,7 @@ namespace UXFramework
         /// </summary>
         /// <param name="f">function to enter data</param>
         /// <returns>marshalling</returns>
-        public static ChildCollection CreateChildCollection(string name, Func<IEnumerable<dynamic>> f)
+        public static ChildCollection CreateChildCollection(string name, Func<IEnumerable<IUXObject>> f)
         {
             return new ChildCollection(name, f());
         }

@@ -75,6 +75,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="UXProject.cs" />
     <Compile Include="ProjectScreen.cs" />
     <Compile Include="ProjectViewer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

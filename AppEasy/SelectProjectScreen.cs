@@ -68,6 +68,7 @@ namespace AppEasy
             {
                 return new Dictionary<string, dynamic>() 
                 {   
+                    { "Index", "0" },
                     { "BackColor", "#0B5395" },
                     { "ForeColor", "White"},
                     { "ColumnCount", headers.Count },
@@ -84,6 +85,7 @@ namespace AppEasy
                     }
                 };
             });
+
 
             DirectoryInfo di = new DirectoryInfo(CommonDirectories.ConfigDirectories.GetDocumentsFolder());
             FileInfo[] files = di.GetFiles("*.bin");
@@ -111,10 +113,13 @@ namespace AppEasy
                     {
                         return new Dictionary<string, dynamic>()
                         {
+                            { "Id", "rowItem." + index.ToString() },
+                            { "Index", index },
                             { "BackColor", "#C8E3FB" },
                             { "ForeColor", "Black"},
                             { "IsSelectable", true },
                             { "Background-Selectable", "#D9F4FC" },
+                            { "Background-Clickable", "#96B1C8" },
                             { "IsClickable", true },
                             { "ColumnCount", headers.Count },
                             { "children", 
@@ -150,6 +155,12 @@ namespace AppEasy
                         };
                     });
 
+                    rowItems[index].SetUpdate((o) =>
+                    {
+                        UXFramework.UXRow r = o as UXFramework.UXRow;
+                        string selectedId = r.Id;
+                        UXProject.OpenProject(browser);
+                    });
 
 
                     ++index;
@@ -202,3 +213,4 @@ namespace AppEasy
         }
     }
 }
+

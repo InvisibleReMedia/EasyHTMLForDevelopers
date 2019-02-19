@@ -139,7 +139,7 @@ namespace UXFramework
         public virtual void UpdateOne()
         {
             if (this.Exists("action") && this.Get("action") != null)
-                this.Get("action").Invoke();
+                this.Get("action").Invoke(this);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace UXFramework
         /// when something changed in web
         /// </summary>
         /// <param name="a">action</param>
-        public void SetUpdate(Action a)
+        public void SetUpdate(Action<IUXObject> a)
         {
             this.Set("action", a);
         }

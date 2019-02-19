@@ -424,53 +424,7 @@ namespace UXFramework.WebImplementation
 
         public void RenderControl(UXTree t)
         {
-            MasterObject mo = new MasterObject();
-            mo.Name = t.Name + "_outer_masterObject";
-            mo.Width = 100;
-            mo.Height = 100;
-            mo.ConstraintWidth = EnumConstraint.RELATIVE;
-            mo.ConstraintHeight = EnumConstraint.RELATIVE;
-            mo.CountColumns = 1;
-            mo.CountLines = 1;
-            mo.HTMLBefore = "<div id='" + mo.Name + "_in' onmouseout='javascript:LeaveArrow();'>";
-            mo.HTMLAfter = "</div>";
-
-            int index = 0;
-            string previousContainer = this.currentContainer;
-            mo.HTMLBefore = "<ul style='list-item-style:none' id='" + t.Name + "'>";
-            mo.HTMLAfter = "</ul>";
-            foreach (IUXObject o in t.Children)
-            {
-                HorizontalZone h = new HorizontalZone();
-                h.ConstraintWidth = EnumConstraint.RELATIVE;
-                h.ConstraintHeight = EnumConstraint.RELATIVE;
-                h.Width = 100;
-                h.Height = 100;
-                h.CountLines = 1;
-                mo.HorizontalZones.Add(h);
-
-                VerticalZone v = new VerticalZone();
-                v.Width = 100;
-                v.Height = 100;
-                v.Disposition = Disposition.LEFT_TOP;
-                v.ConstraintWidth = EnumConstraint.RELATIVE;
-                v.ConstraintHeight = EnumConstraint.RELATIVE;
-                v.CountLines = 1;
-                v.CountColumns = 1;
-                h.VerticalZones.Add(v);
-                this.currentContainer = mo.HorizontalZones[index++].VerticalZones[0].Name;
-                RenderControl(o);
-
-            }
-
-            this.project.MasterObjects.Add(mo);
-
-            this.currentContainer = previousContainer;
-            HTMLObject obj = new HTMLObject(mo);
-            obj.Container = this.currentContainer;
-            this.currentObject.Objects.Add(obj);
-            this.project.Instances.Add(obj);
-
+            RenderControl(t as UXTable);
         }
 
         public void RenderControl(UXTreeItem item)
@@ -591,10 +545,10 @@ namespace UXFramework.WebImplementation
             h.Width = 50;
             this.currentObject.HorizontalZones.Add(h);
             dynamic previousObject = this.currentObject;
+            string normalBackground = "Transparent";
+            row.Get("BackColor", (s, v) => { normalBackground = v.Value; });
             if (row.IsSelectable)
             {
-                string normalBackground = "Transparent";
-                row.Get("BackColor", (s, v) => { normalBackground = v.Value; });
                 HTMLEvent ev = new HTMLEvent("onmouseover");
                 ev.Raise.Add((o, e) => {
                     return "this.style.backgroundColor = \"" + row.BackgroundSelectable + "\";";
@@ -603,6 +557,15 @@ namespace UXFramework.WebImplementation
                 ev = new HTMLEvent("onmouseout");
                 ev.Raise.Add((o, e) => {
                     return "this.style.backgroundColor = \"" + normalBackground + "\";";
+                });
+                h.Events.Add(ev);
+            }
+            if (row.IsClickable)
+            {
+                HTMLEvent ev = new HTMLEvent("onclick");
+                ev.Raise.Add((o, e) =>
+                {
+                    return "this.style.backgroundColor = \"" + row.BackgroundClickable + "\"; serverSideCall(\"row\",\"" + row.Id + "\");";
                 });
                 h.Events.Add(ev);
             }
@@ -673,11 +636,11 @@ namespace UXFramework.WebImplementation
             else if (obj is UXReadOnlyText) RenderControl(obj as UXReadOnlyText);
             else if (obj is UXViewSelectableDataTable) RenderControl(obj as UXViewSelectableDataTable);
             else if (obj is UXViewDataTable) RenderControl(obj as UXViewDataTable);
+            else if (obj is UXTree) RenderControl(obj as UXTree);
             else if (obj is UXTable) RenderControl(obj as UXTable);
             else if (obj is UXRow) RenderControl(obj as UXRow);
             else if (obj is UXCell) RenderControl(obj as UXCell);
             else if (obj is UXWindow) RenderControl(obj as UXWindow);
-            else if (obj is UXTree) RenderControl(obj as UXTree);
             else if (obj is UXTreeItem) RenderControl(obj as UXTreeItem);
             else if (obj is BeamConnections.InteractiveBeam) RenderControl(obj as BeamConnections.InteractiveBeam);
         }

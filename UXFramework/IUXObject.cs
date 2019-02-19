@@ -60,7 +60,7 @@ namespace UXFramework
         /// when something changed in web
         /// </summary>
         /// <param name="a">action</param>
-        void SetUpdate(Action a);
+        void SetUpdate(Action<IUXObject> a);
         /// <summary>
         /// Bind
         /// </summary>

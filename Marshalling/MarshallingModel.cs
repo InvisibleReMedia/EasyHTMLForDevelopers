@@ -143,7 +143,7 @@ namespace Marshalling
         /// <returns>properties</returns>
         public override string[] GetProperties()
         {
-            return new string[] { "name", "value" };
+            return (from x in this.Data.ToList() where x.Value is IMarshalling select (x.Value as IMarshalling).Name).ToArray();
         }
 
         /// <summary>
@@ -682,29 +682,29 @@ namespace Marshalling
         {
             get
             {
-                return (from x in this.Data where x.Key != nameName select x.Value as IMarshalling);
+                return (from x in this.Data where x.Value is IMarshalling select x.Value as IMarshalling).AsEnumerable();
             }
         }
 
         /// <summary>
-        /// Gets count
+        /// Gets count (of Marshalling objects)
         /// </summary>
         public int Count
         {
             get
             {
-                return this.Data.Count() - 1;
+                return this.HashKeys.Count();
             }
         }
 
         /// <summary>
-        /// Gets all keys
+        /// Gets all Marshalling keys
         /// </summary>
         public IEnumerable<string> HashKeys
         {
             get
             {
-                return this.Values.Select(x => x.Name);
+                return (from x in this.Data where x.Value is IMarshalling select x.Key).AsEnumerable();
             }
         }
 
@@ -718,13 +718,13 @@ namespace Marshalling
         {
             get
             {
-                if (this.Exists(key))
+                if (this.HashKeys.Contains(key))
                 {
                     return this.Get(key);
                 }
                 else
                 {
-                    throw new ArgumentException(String.Format("Key '{0}' not found", key));
+                    throw new ArgumentException(String.Format("Marshalling key '{0}' not found", key));
                 }
             }
             set
@@ -769,10 +769,10 @@ namespace Marshalling
                 if (this.Exists(name))
                     return this.Get(name);
                 else
-                    throw new ArgumentException(String.Format("Key '{0}' not found", name));
+                    throw new ArgumentException(String.Format("Marshalling key '{0}' not found", name));
             }
             else
-                throw new ArgumentException(String.Format("Key '{0}' does not exist", name));
+                throw new ArgumentException(String.Format("Marshalling key '{0}' does not exist", name));
         }
 
         /// <summary>
@@ -948,19 +948,29 @@ namespace Marshalling
         {
             get
             {
-                return (from x in this.Data where x.Key != nameName select x.Value as IMarshalling);
+                return (from x in this.Data where x.Value is IMarshalling select x.Value as IMarshalling).AsEnumerable();
             }
         }
 
         /// <summary>
-        /// Gets count
+        /// Gets count (of Marshalling objects)
         /// </summary>
         public int Count
         {
             get
             {
-                // Data contains "name" so -1
-                return this.Data.Count() - 1;
+                return this.HashKeys.Count();
+            }
+        }
+
+        /// <summary>
+        /// Gets all Marshalling keys
+        /// </summary>
+        public IEnumerable<string> HashKeys
+        {
+            get
+            {
+                return (from x in this.Data where x.Value is IMarshalling select x.Key).AsEnumerable();
             }
         }
 
@@ -985,14 +995,7 @@ namespace Marshalling
             }
             set
             {
-                if (index < this.Count)
-                {
-                    this.Set(index.ToString(), value);
-                }
-                else
-                {
-                    this.Set(this.Count.ToString(), value);
-                }
+                this.Set(index.ToString(), value);
             }
         }
 
@@ -1035,7 +1038,7 @@ namespace Marshalling
         /// <returns>properties</returns>
         public override string[] GetProperties()
         {
-            return Enumerable.Range(0, this.Count).Select(x => x.ToString()).ToArray();
+            return this.HashKeys.ToArray();
         }
 
         /// <summary>
@@ -1052,10 +1055,10 @@ namespace Marshalling
                 if (this.Exists(name))
                     return this.Get(name);
                 else
-                    throw new ArgumentException(String.Format("Key '{0}' not found", name));
+                    throw new ArgumentException(String.Format("Marshalling key '{0}' not found", name));
             }
             else
-                throw new ArgumentException(String.Format("Key '{0}' does not exist", name));
+                throw new ArgumentException(String.Format("Marshalling key '{0}' does not exist", name));
         }
 
         /// <summary>

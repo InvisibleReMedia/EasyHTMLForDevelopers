@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UXFramework
 {
-    public class UXTree : UXControl
+    public class UXTree : UXTable
     {
 
         #region Constructor
@@ -30,6 +30,24 @@ namespace UXFramework
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets if this item is root
+        /// </summary>
+        public bool IsRoot
+        {
+            get
+            {
+                if (this.Exists("IsRoot"))
+                    return this.GetProperty("IsRoot").Value;
+                else
+                    return false;
+            }
+        }
+
+        #endregion
+
         #region Static Methods
 
         /// <summary>
@@ -42,10 +60,6 @@ namespace UXFramework
             UXTree tree = new UXTree();
             tree.Bind(data);
             tree.Bind(ui);
-            foreach (Marshalling.IMarshalling m in tree.GetProperty("childs").Values)
-            {
-                tree.Add(m.Value);
-            }
             return tree;
         }
 

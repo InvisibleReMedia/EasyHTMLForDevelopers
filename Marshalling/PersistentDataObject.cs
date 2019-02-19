@@ -12,6 +12,10 @@ namespace Marshalling
     /// <summary>
     /// Classe contenant la séquence
     /// de sérialisation/déserialisation
+    /// 
+    /// Some data are IMarshalling
+    /// and others are not
+    /// 
     /// </summary>
     [Serializable]
     public class PersistentDataObject
@@ -219,7 +223,7 @@ namespace Marshalling
         /// <returns>enumeration of T</returns>
         public IEnumerable<T> Conversion<T>() where T : class
         {
-            return (from x in this.Data.ToList() where x.Key != "name" select x.Value as T);
+            return (from x in this.Data.ToList() where x.Value is IMarshalling && x.Key != "name" select x.Value as T);
         }
 
         /// <summary>

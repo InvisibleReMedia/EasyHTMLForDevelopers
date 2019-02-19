@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace UXFramework
 {
@@ -40,6 +41,24 @@ namespace UXFramework
         public int ColumnCount
         {
             get { return this.Get("ColumnCount").Value; }
+        }
+
+        /// <summary>
+        /// Gets Id
+        /// </summary>
+        public string Id
+        {
+            get
+            {
+                if (this.Exists("Id"))
+                {
+                    return this.Get("Id").Value;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
         }
 
         /// <summary>
@@ -94,6 +113,56 @@ namespace UXFramework
                     return "";
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets the background ground clickable
+        /// </summary>
+        public string BackgroundClickable
+        {
+            get
+            {
+                if (this.Exists("Background-Clickable"))
+                {
+                    return this.Get("Background-Clickable").Value;
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+        public override void Connect(System.Windows.Forms.WebBrowser web)
+        {
+            base.Connect(web);
+            HtmlElement e = web.Document.GetElementById("serverSideHandler");
+            if (e != null)
+            {
+                e.Click += UXRow_Click;
+            }
+        }
+
+        public override void Disconnect(WebBrowser web)
+        {
+            base.Disconnect(web);
+            HtmlElement e = web.Document.GetElementById("serverSideHandler");
+            if (e != null)
+            {
+                e.Click -= UXRow_Click;
+            }
+        }
+
+        /// <summary>
+        /// Event raised
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">args</param>
+        private void UXRow_Click(object sender, HtmlElementEventArgs e)
+        {
+            HtmlElement h = sender as HtmlElement;
+            if (h.GetAttribute("notif") == "row" && h.GetAttribute("data") == this.Id)
+                this.UpdateOne();
         }
 
         #endregion

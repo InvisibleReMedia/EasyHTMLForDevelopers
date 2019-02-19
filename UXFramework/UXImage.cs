@@ -37,10 +37,21 @@ namespace UXFramework
 
         /// <summary>
         /// Gets the Id
+        /// use Get(name, f()) to set your value if exists
         /// </summary>
         public string Id
         {
-            get { return this.Get("Id", string.Empty).Value; }
+            get
+            {
+                if (this.Exists("Id"))
+                {
+                    return this.Get("Id").Value;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
         }
 
         /// <summary>
@@ -48,23 +59,55 @@ namespace UXFramework
         /// </summary>
         public string ImageFile
         {
-            get { return this.Get("ImageFile", string.Empty).Value; }
+            get
+            {
+                if (this.Exists("ImageFile"))
+                {
+                    return this.Get("ImageFile").Value;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
         }
 
         /// <summary>
         /// Gets the image width
+        /// use Get(name, f()) to set your value if exists
         /// </summary>
         public int ImageWidth
         {
-            get { return this.Get("ImageWidth", string.Empty).Value; }
+            get
+            {
+                if (this.Exists("ImageWidth"))
+                {
+                    return this.Get("ImageWidth").Value;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
         }
 
         /// <summary>
         /// Gets the image height
+        /// use Get(name, f()) to set your value if exists
         /// </summary>
         public int ImageHeight
         {
-            get { return this.Get("ImageHeight", string.Empty).Value; }
+            get
+            {
+                if (this.Exists("ImageHeight"))
+                {
+                    return this.Get("ImageHeight").Value;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
         }
         
         #endregion
@@ -82,6 +125,16 @@ namespace UXFramework
             ux.Bind(data);
             ux.Bind(ui);
             return ux;
+        }
+
+        /// <summary>
+        /// Create UXImage
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXImage CreateUXImage(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXImage(name, f());
         }
 
         #endregion

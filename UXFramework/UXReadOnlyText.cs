@@ -40,7 +40,17 @@ namespace UXFramework
         /// </summary>
         public string Id
         {
-            get { return this.Get("Id", string.Empty).Value; }
+            get
+            {
+                if (this.Exists("Id"))
+                {
+                    return this.Get("Id").Value;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
         }
 
         /// <summary>
@@ -67,6 +77,16 @@ namespace UXFramework
             ux.Bind(data);
             ux.Bind(ui);
             return ux;
+        }
+
+        /// <summary>
+        /// Create UXReadOnlyText
+        /// </summary>
+        /// <param name="f">function to enter data</param>
+        /// <returns>marshalling</returns>
+        public static UXReadOnlyText CreateUXReadOnlyText(string name, Func<IDictionary<string, dynamic>> f)
+        {
+            return new UXReadOnlyText(name, f());
         }
 
         #endregion
