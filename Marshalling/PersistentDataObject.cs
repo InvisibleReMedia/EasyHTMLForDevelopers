@@ -158,6 +158,31 @@ namespace Marshalling
         }
 
         /// <summary>
+        /// Export this data into an another
+        /// </summary>
+        /// <param name="title">title</param>
+        /// <returns>an another data model</returns>
+        public virtual IMarshalling Export(string title = "")
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Export by a specific function
+        /// and a destination object
+        /// </summary>
+        /// <typeparam name="T">destination type</typeparam>
+        /// <param name="destination"></param>
+        /// <param name="f">function</param>
+        /// <returns>destination</returns>
+        public T Export<F,T>(T destination, Func<F,T> f) where T : PersistentDataObject where F : PersistentDataObject
+        {
+            T t = f(this as F);
+            t.Copy(true, destination);
+            return destination;
+        }
+
+        /// <summary>
         /// Converts all to string
         /// </summary>
         /// <returns>string tabular</returns>
@@ -214,6 +239,48 @@ namespace Marshalling
         public virtual void Bind(IMarshalling m)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Export to marshalling hash
+        /// </summary>
+        /// <returns>marshalling hash</returns>
+        public MarshallingHash ExportToHash()
+        {
+            MarshallingHash hash = new MarshallingHash(this.Get("name"));
+            this.Copy(false, hash);
+            return hash;
+        }
+
+        /// <summary>
+        /// Import an object
+        /// </summary>
+        /// <param name="hash">from hash</param>
+        /// <returns>master object</returns>
+        public static T Import<T>(MarshallingHash hash) where T : PersistentDataObject, new()
+        {
+            T t = new T();
+            t.Set("name", hash.Name);
+            hash.Copy(false, t);
+            return t;
+        }
+
+        /// <summary>
+        /// Get list model
+        /// </summary>
+        /// <typeparam name="T">destination object</typeparam>
+        /// <param name="name">name to test</param>
+        /// <returns>enumerable of T</returns>
+        public IEnumerable<T> TransformList<T>(string name) where T : PersistentDataObject
+        {
+            if (this.Exists(name))
+            {
+                return (this.Get(name) as IMarshalling).Conversion<T>();
+            }
+            else
+            {
+                return new List<T>();
+            }
         }
 
         /// <summary>
@@ -278,8 +345,9 @@ namespace Marshalling
         /// <param name="obj">object</param>
         public void Copy<T>(bool clone, T obj) where T : PersistentDataObject
         {
-            foreach (string s in this.Keys)
+            for (int index = 0; index < this.Keys.Count(); ++index)
             {
+                string s = this.Keys.ElementAt(index);
                 var content = this.Data[s];
                 if (clone && content is ICloneable)
                     obj.Set(s, content.Clone());

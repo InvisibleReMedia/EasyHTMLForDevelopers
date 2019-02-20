@@ -10,6 +10,19 @@ namespace UXFramework
     {
 
         /// <summary>
+        /// Create children
+        /// </summary>
+        /// <param name="controls">children to add</param>
+        /// <returns>a ChildCollection</returns>
+        public static ChildCollection CreateChildren(params UXControl[] controls)
+        {
+            return ChildCollection.CreateChildCollection("children", () =>
+            {
+                return controls.ToList();
+            });
+        }
+
+        /// <summary>
         /// Create a table
         /// </summary>
         /// <param name="name">name of table</param>
@@ -25,7 +38,7 @@ namespace UXFramework
                 return new Dictionary<string, dynamic>() {
                     { "ColumnCount", ColumnCount },
                     { "LineCount", LineCount },
-                    { "children", rows.ToList() }
+                    { "children", UXFramework.Creation.CreateChildren(rows) }
                 };
             });
             if (properties != null)
@@ -46,7 +59,7 @@ namespace UXFramework
             {
                 return new Dictionary<string, dynamic>() {
                     { "ColumnCount", ColumnCount },
-                    { "children", cells.ToList() }
+                    { "children", UXFramework.Creation.CreateChildren(cells) }
                 };
             });
             if (properties != null)
@@ -65,7 +78,7 @@ namespace UXFramework
             UXCell cell = UXCell.CreateUXCell("cell", () =>
             {
                 return new Dictionary<string, dynamic>() {
-                    { "children", controls.ToList() }
+                    { "children", UXFramework.Creation.CreateChildren(controls) }
                 };
             });
             if (properties != null)
@@ -126,13 +139,45 @@ namespace UXFramework
             {
                 return new Dictionary<string, dynamic>() {
                     { "Width", width },
-                    { "Height", height }
+                    { "Height", height },
+                    { "Constraint-Width", "FIXED" },
+                    { "Constraint-Height", "FIXED" }
                 };
             });
             if (properties != null)
                 im.Bind(properties);
             return im;
         }
+
+
+        /// <summary>
+        /// Create a window
+        /// </summary>
+        /// <param name="properties">props</param>
+        /// <returns>ux window</returns>
+        public static UXWindow CreateWindow(Marshalling.MarshallingHash properties, int width, int height, params UXControl[] controls)
+        {
+            UXWindow win = UXWindow.CreateUXWindow("win", () =>
+            {
+                return new Dictionary<string, dynamic>() {
+                    { "Width", width },
+                    { "Height", height },
+                    { "Constraint-Width", "FIXED" },
+                    { "Constraint-Height", "FIXED" },
+                    { 
+                        "children",
+                        ChildCollection.CreateChildCollection("children", () => {
+                            return controls.ToList();
+                        })
+                    }
+                };
+            });
+            if (properties != null)
+                win.Bind(properties);
+            return win;
+        }
+
+
 
         /// <summary>
         /// Create tree

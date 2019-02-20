@@ -131,6 +131,8 @@ namespace MarshallingTest
                 Console.WriteLine(c.ToString());
             }
 
+            Console.WriteLine(ab2.Export());
+
             Console.ReadKey();
 
         }

@@ -73,6 +73,7 @@ namespace UXFramework.WebImplementation
             tool.ConstraintWidth = EnumConstraint.AUTO;
             tool.Path = "html";
             tool.Name = "box";
+            tool.HTML = "<div id='{0}'>{1}</div>";
             tool.Id = "boxContainer";
             this.project.Tools.Add(tool);
 
@@ -224,6 +225,8 @@ namespace UXFramework.WebImplementation
             control.Get("Border-Height", (s, v) => { css.Body.Add("border-height", v.Value + "px"); });
             control.Get("Border-Color", (s, v) => { css.Body.Add("border-color", v.Value + "px"); });
             control.Get("Height-Minimum", (s, v) => { css.Body.Add("min-height", v.Value.ToString() + "px"); });
+            control.Get("align", (s, v) => { css.Body.Add("text-align", v.Value); });
+            control.Get("valign", (s, v) => { css.Body.Add("vertical-align", v.Value); });
         }
 
         /// <summary>
@@ -321,43 +324,29 @@ namespace UXFramework.WebImplementation
         /// <param name="box">box to render</param>
         public void RenderControl(UXBox box)
         {
-            HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "box"));
-            box.Get("Width", (s, v) =>
+            UXTable t = new UXTable();
+            UXCell c = new UXCell();
+            foreach(IUXObject ux in box.Children)
             {
-                obj.Width = Convert.ToUInt32(v.Value);
-            });
-            box.Get("Height", (s, v) =>
+                c.Add(ux);
+            }
+            Marshalling.MarshallingHash hash = Marshalling.MarshallingHash.CreateMarshalling("content", () =>
             {
-                obj.Height = Convert.ToUInt32(v.Value);
+                return new Dictionary<string, dynamic>() {
+                    { "ColumnCount", 1 },
+                    { "LineCount", 1 },
+                    { "children",
+                      ChildCollection.CreateChildCollection("row", () =>
+                      {
+                          return new List<IUXObject>() {
+                              Creation.CreateRow(1, null, c)
+                          };
+                      })
+                    }
+                };
             });
-            box.Get("Constraint-Width", (x, y) =>
-            {
-                EnumConstraint c;
-                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
-                {
-                    obj.ConstraintWidth = c;
-                }
-                else
-                {
-                    obj.ConstraintWidth = EnumConstraint.AUTO;
-                }
-            });
-            box.Get("Constraint-Height", (x, y) =>
-            {
-                EnumConstraint c;
-                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
-                {
-                    obj.ConstraintHeight = c;
-                }
-                else
-                {
-                    obj.ConstraintHeight = EnumConstraint.AUTO;
-                }
-            });
-            RenderCSSProperties(box, obj.CSS);
-            obj.Container = this.currentContainer;
-            this.currentObject.Objects.Add(obj);
-            this.project.Instances.Add(obj);
+            t.Bind(hash);
+            RenderControl(t);
         }
 
         /// <summary>

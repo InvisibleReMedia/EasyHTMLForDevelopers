@@ -62,7 +62,17 @@ namespace MarshallingTest
             {
                 return this.GetProperty("1").Values;
             }
-        } 
+        }
+
+        /// <summary>
+        /// Export this address bool
+        /// </summary>
+        /// <returns></returns>
+        public override Marshalling.IMarshalling Export(string title = "")
+        {
+            Marshalling.MarshallingList list = new Marshalling.MarshallingList("prenoms", this.Prenom);
+            return list;
+        }
 
         #endregion
 

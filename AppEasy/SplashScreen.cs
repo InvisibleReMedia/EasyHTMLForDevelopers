@@ -20,6 +20,8 @@ namespace AppEasy
                 return new Dictionary<string, dynamic>() {
                     { "Width", 1320 },
                     { "Height", 700 },
+                    { "Constraint-Width", "FIXED" },
+                    { "Constraint-Height", "FIXED" },
                     { "BackColor", "Blue" },
                     { "ForeColor", "White"}
                 };
@@ -30,7 +32,9 @@ namespace AppEasy
                 return new Dictionary<string, dynamic>()
                 {
                     { "Id", "splash" },
-                    { "Text", "Easy WEB For Developers" }
+                    { "Text", "Easy WEB For Developers" },
+                    { "Height", 100 },
+                    { "Constraint-Height", "FIXED" }
                 };
             });
 

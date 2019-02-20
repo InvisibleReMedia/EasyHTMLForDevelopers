@@ -121,6 +121,10 @@
       <Project>{c71b69ee-bf40-4f4a-a3df-8b494d84f3e0}</Project>
       <Name>CommonDirectories</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LibraryConverter\LibraryConverter.csproj">
+      <Project>{5a021b74-d297-486b-8b7e-58e8abb3e6e9}</Project>
+      <Name>LibraryConverter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Library\Library.csproj">
       <Project>{368b20d8-0c17-4f3e-8c49-45c3a1115ae9}</Project>
       <Name>Library</Name>

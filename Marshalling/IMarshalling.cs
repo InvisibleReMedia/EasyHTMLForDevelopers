@@ -132,5 +132,28 @@ namespace Marshalling
         /// <param name="input">input string</param>
         /// <returns>formatted text</returns>
         string Format(string input);
+        /// <summary>
+        /// Export function
+        /// </summary>
+        /// <param name="title">title of export</param>
+        /// <returns>new data model</returns>
+        IMarshalling Export(string title);
+        /// <summary>
+        /// Export to this object
+        /// </summary>
+        /// <typeparam name="T">object destination</typeparam>
+        /// <param name="destination"></param>
+        /// <param name="f">adapted function</param>
+        /// <returns>new object</returns>
+        T Export<F, T>(T destination, Func<F, T> f)
+            where T : PersistentDataObject
+            where F : PersistentDataObject;
+        /// <summary>
+        /// Get list model
+        /// </summary>
+        /// <typeparam name="T">destination object</typeparam>
+        /// <param name="name">name to test</param>
+        /// <returns>enumerable of T</returns>
+        IEnumerable<T> TransformList<T>(string name) where T : Marshalling.PersistentDataObject;
     }
 }
