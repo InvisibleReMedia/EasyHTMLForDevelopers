@@ -27,7 +27,7 @@ namespace AppEasy
                     };
                 });
                 UXFramework.UXBox box1 = UXFramework.Creation.CreateBox(hash, 16, 16);
-                UXFramework.UXImage im2 = UXFramework.Creation.CreateImage(hash, "image", "go.png");
+                UXFramework.UXImage im2 = UXFramework.Creation.CreateImage(hash, "image", "left.png");
                 UXFramework.UXReadOnlyText ro = UXFramework.Creation.CreateReadOnlyText(null, "text", node.NodeValue);
 
                 hash = Marshalling.MarshallingHash.CreateMarshalling("hash", () =>
@@ -35,8 +35,9 @@ namespace AppEasy
                     return new Dictionary<string, dynamic>()
                     {
                         { "Width", 32 },
-                        { "Height", 32 },
-                        { "Border", "1px solid black" }
+                        { "Height", 20 },
+                        { "align", "left" },
+                        { "Border", "2px solid Blue" }
                     };
                 });
                 UXFramework.UXCell cLeaf1 = UXFramework.Creation.CreateCell(hash, box1);
@@ -59,7 +60,7 @@ namespace AppEasy
                     };
                 });
                 UXFramework.UXImage im1 = UXFramework.Creation.CreateImage(hash, "image", "ehd_plus.png");
-                UXFramework.UXImage im2 = UXFramework.Creation.CreateImage(hash, "image", "go.png");
+                UXFramework.UXImage im2 = UXFramework.Creation.CreateImage(hash, "image", "left.png");
                 UXFramework.UXReadOnlyText ro = UXFramework.Creation.CreateReadOnlyText(null, "text", sub.NodeValue);
                 ro.Add(() => {
                     return new Dictionary<string,dynamic>() {
@@ -71,21 +72,23 @@ namespace AppEasy
                     return new Dictionary<string, dynamic>()
                     {
                         { "Width", 32 },
-                        { "Height", 32 },
-                        { "Border", "1px solid black" }
+                        { "Height", 20 },
+                        { "Border", "2px solid Blue" }
                     };
                 });
                 UXFramework.UXCell cNode1 = UXFramework.Creation.CreateCell(hash, im1);
-                UXFramework.UXCell cNode2 = UXFramework.Creation.CreateCell(hash, ro);
-                /// HACK TO INSERT the Width
-                cNode2.Add(() =>
+                UXFramework.UXCell cNode3 = UXFramework.Creation.CreateCell(hash, im2);
+                hash = Marshalling.MarshallingHash.CreateMarshalling("hash", () =>
                 {
                     return new Dictionary<string, dynamic>()
                     {
-                        { "Width", 150 }
+                        { "Width", 150 },
+                        { "Height", 20 },
+                        { "Disposition", "LEFT_MIDDLE" },
+                        { "Border", "2px solid Blue" }
                     };
                 });
-                UXFramework.UXCell cNode3 = UXFramework.Creation.CreateCell(hash, im2);
+                UXFramework.UXCell cNode2 = UXFramework.Creation.CreateCell(hash, ro);
                 UXFramework.UXRow row = UXFramework.Creation.CreateRow(3, null, cNode1, cNode2, cNode3);
 
                 subtree[nodesIndex] = row;
@@ -102,15 +105,15 @@ namespace AppEasy
                 };
             });
             UXFramework.UXImage image1 = UXFramework.Creation.CreateImage(hash, "image", "ehd_plus.png");
-            UXFramework.UXImage image2 = UXFramework.Creation.CreateImage(hash, "image", "go.png");
+            UXFramework.UXImage image2 = UXFramework.Creation.CreateImage(hash, "image", "left.png");
 
             hash = Marshalling.MarshallingHash.CreateMarshalling("hash", () =>
             {
                 return new Dictionary<string, dynamic>()
                 {
                     { "Width", 32 },
-                    { "Height", 32 },
-                    { "Border", "1px solid black" }
+                    { "Height", 20 },
+                    { "Border", "2px solid Blue" }
                 };
             });
             UXFramework.UXCell c3 = UXFramework.Creation.CreateCell(hash, image1);
@@ -121,8 +124,7 @@ namespace AppEasy
                 {
                     { "Width", 150 },
                     { "overflow", "hidden" },
-                    { "Height", 32 },
-                    { "Disposition", "LEFT_TOP" },
+                    { "Height", 20 },
                 };
             });
             UXFramework.UXReadOnlyText roText = UXFramework.Creation.CreateReadOnlyText(hash, "text", projectTree.NodeValue);
@@ -130,15 +132,20 @@ namespace AppEasy
             {
                 return new Dictionary<string, dynamic>()
                 {
-                    { "Height", 32 },
-                    { "Border", "1px solid black" }
+                    { "Height", 20 },
+                    { "Border", "2px solid Blue" },
+                    { "Disposition", "LEFT_MIDDLE" },
                 };
             });
             UXFramework.UXCell c5 = UXFramework.Creation.CreateCell(hash, roText);
 
             hash = Marshalling.MarshallingHash.CreateMarshalling("hash", () => {
                 return new Dictionary<string, dynamic>() {
+                    { "BackColor", "#0B5395" },
+                    { "ForeColor", "White"},
+                    { "Disposition", "LEFT_TOP" },
                     { "Width", 214 },
+                    { "Height-Minimum", 250 },
                     { "ColumnCount", 3 },
                     { "LineCount", subtree.Count() + 1 },
                 };
@@ -155,25 +162,51 @@ namespace AppEasy
         {
 
             Library.Project p = new Library.Project();
+
+            UXFramework.UXTree tree = CreateTreeView(0, p, p.Hierarchy);
+            tree.Add(() =>
+            {
+                return new Dictionary<string, dynamic>()
+                {
+                    { "IsRoot", true }
+                };
+            });
+            UXFramework.UXBox box = UXFramework.Creation.CreateBox(null, 1120, 700);
+            Marshalling.MarshallingHash hash = Marshalling.MarshallingHash.CreateMarshalling("left", () =>
+            {
+                return new Dictionary<string, dynamic>()
+                {
+                    { "Width", 214 },
+                    { "Height-Minimum", 250 },
+                    { "Constraint-Width", "FIXED" }
+                };
+            });
+            UXFramework.UXCell c1 = UXFramework.Creation.CreateCell(hash, tree);
+            hash = Marshalling.MarshallingHash.CreateMarshalling("right", () =>
+            {
+                return new Dictionary<string, dynamic>()
+                {
+                    { "Width", 1120 },
+                    { "Height", 700 },
+                    { "Constraint-Width", "FIXED" }
+                };
+            });
+            UXFramework.UXCell c2 = UXFramework.Creation.CreateCell(hash, box);
+
+            UXFramework.UXRow row = UXFramework.Creation.CreateRow(2, null, c1, c2);
+            UXFramework.UXTable table = UXFramework.Creation.CreateTable("boxes", 2, 1, null, row);
+
             UXFramework.UXWindow win = UXFramework.UXWindow.CreateUXWindow("openProject", () =>
             {
                 return new Dictionary<string, dynamic>() {
-                    { "Width", 220 },
+                    { "Width", 1320 },
                     { "Height", 700 },
                     { "BackColor", "Blue" },
                     { "ForeColor", "White"},
                     { "children",
                         UXFramework.ChildCollection.CreateChildCollection("children", () => {
                             List<UXFramework.IUXObject> children = new List<UXFramework.IUXObject>();
-                            UXFramework.UXTree t = CreateTreeView(0, p, p.Hierarchy);
-                            t.Add(() =>
-                            {
-                                return new Dictionary<string, dynamic>()
-                                {
-                                    { "IsRoot", true }
-                                };
-                            });
-                            children.Add(t);
+                            children.Add(table);
                             return children;
                         })
                     }

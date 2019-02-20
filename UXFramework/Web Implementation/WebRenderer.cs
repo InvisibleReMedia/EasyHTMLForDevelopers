@@ -212,17 +212,18 @@ namespace UXFramework.WebImplementation
         /// <param name="css"></param>
         public void RenderCSSProperties(UXControl control, CodeCSS css)
         {
-            control.Get("Width", (s, v) => { css.Body.Add("width", v.Value.ToString()); });
-            control.Get("Height", (s, v) => { css.Body.Add("height", v.Value.ToString()); });
+            control.Get("Width", (s, v) => { css.Body.Add("width", v.Value.ToString() + "px"); });
+            control.Get("Height", (s, v) => { css.Body.Add("height", v.Value.ToString() + "px"); });
             control.Get("BackColor", (s, v) => { css.BackgroundColor = new CSSColor(v.Value); });
             control.Get("ForeColor", (s, v) => { css.ForegroundColor = new CSSColor(v.Value); });
             control.Get("Padding", (s, v) => { css.Body.Add("padding", v.Value); });
             control.Get("Margin", (s, v) => { css.Body.Add("margin", v.Value); });
             control.Get("Border", (s, v) => { css.Body.Add("border", v.Value); });
             control.Get("Border-Spacing", (s, v) => { css.Body.Add("border-spacing", v.Value); });
-            control.Get("Border-Width", (s, v) => { css.Body.Add("border-width", v.Value); });
-            control.Get("Border-Height", (s, v) => { css.Body.Add("border-height", v.Value); });
-            control.Get("Border-Color", (s, v) => { css.Body.Add("border-color", v.Value); });
+            control.Get("Border-Width", (s, v) => { css.Body.Add("border-width", v.Value + "px"); });
+            control.Get("Border-Height", (s, v) => { css.Body.Add("border-height", v.Value + "px"); });
+            control.Get("Border-Color", (s, v) => { css.Body.Add("border-color", v.Value + "px"); });
+            control.Get("Height-Minimum", (s, v) => { css.Body.Add("min-height", v.Value.ToString() + "px"); });
         }
 
         /// <summary>
@@ -234,11 +235,36 @@ namespace UXFramework.WebImplementation
             string previous;
             Projects.Activate(projectName, out previous);
             Page p = new Page();
-            p.ConstraintWidth = EnumConstraint.AUTO;
-            p.ConstraintHeight = EnumConstraint.AUTO;
-            p.Disposition = Disposition.CENTER;
-            window.Get("Width", (x, y) => { p.Width = Convert.ToUInt32(y.Value); p.ConstraintWidth = EnumConstraint.FIXED; });
-            window.Get("Height", (x, y) => { p.Height = Convert.ToUInt32(y.Value); p.ConstraintHeight = EnumConstraint.FIXED; });
+            window.Get("Constraint-Width", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    p.ConstraintWidth = c;
+                }
+                else
+                {
+                    p.ConstraintWidth = EnumConstraint.AUTO;
+                }
+            });
+            window.Get("Constraint-Height", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    p.ConstraintHeight = c;
+                }
+                else
+                {
+                    p.ConstraintHeight = EnumConstraint.AUTO;
+                }
+            });
+            window.Get("Disposition", (s, v) =>
+            {
+                p.Disposition = Enum.Parse(typeof(Disposition), v.Value);
+            });
+            window.Get("Width", (x, y) => { p.Width = Convert.ToUInt32(y.Value); });
+            window.Get("Height", (x, y) => { p.Height = Convert.ToUInt32(y.Value); });
             MasterPage mp = new MasterPage();
             RenderCSSProperties(window, mp.CSS);
             mp.Name = "masterPage_" + window.Name;
@@ -296,6 +322,38 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXBox box)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "box"));
+            box.Get("Width", (s, v) =>
+            {
+                obj.Width = Convert.ToUInt32(v.Value);
+            });
+            box.Get("Height", (s, v) =>
+            {
+                obj.Height = Convert.ToUInt32(v.Value);
+            });
+            box.Get("Constraint-Width", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintWidth = c;
+                }
+                else
+                {
+                    obj.ConstraintWidth = EnumConstraint.AUTO;
+                }
+            });
+            box.Get("Constraint-Height", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintHeight = c;
+                }
+                else
+                {
+                    obj.ConstraintHeight = EnumConstraint.AUTO;
+                }
+            });
             RenderCSSProperties(box, obj.CSS);
             obj.Container = this.currentContainer;
             this.currentObject.Objects.Add(obj);
@@ -309,6 +367,38 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXButton button)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "button"));
+            button.Get("Width", (s, v) =>
+            {
+                obj.Width = Convert.ToUInt32(v.Value);
+            });
+            button.Get("Height", (s, v) =>
+            {
+                obj.Height = Convert.ToUInt32(v.Value);
+            });
+            button.Get("Constraint-Width", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintWidth = c;
+                }
+                else
+                {
+                    obj.ConstraintWidth = EnumConstraint.AUTO;
+                }
+            });
+            button.Get("Constraint-Height", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintHeight = c;
+                }
+                else
+                {
+                    obj.ConstraintHeight = EnumConstraint.AUTO;
+                }
+            });
             RenderCSSProperties(button, obj.CSS);
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, button.Id, button.Text);
@@ -324,6 +414,38 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXClickableText clickText)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "link"));
+            clickText.Get("Width", (s, v) =>
+            {
+                obj.Width = Convert.ToUInt32(v.Value);
+            });
+            clickText.Get("Height", (s, v) =>
+            {
+                obj.Height = Convert.ToUInt32(v.Value);
+            });
+            clickText.Get("Constraint-Width", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintWidth = c;
+                }
+                else
+                {
+                    obj.ConstraintWidth = EnumConstraint.AUTO;
+                }
+            });
+            clickText.Get("Constraint-Height", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintHeight = c;
+                }
+                else
+                {
+                    obj.ConstraintHeight = EnumConstraint.AUTO;
+                }
+            });
             RenderCSSProperties(clickText, obj.CSS);
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, clickText.Id, clickText.Text);
@@ -338,6 +460,38 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXSelectableText selectableText)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "selectableText"));
+            selectableText.Get("Width", (s, v) =>
+            {
+                obj.Width = Convert.ToUInt32(v.Value);
+            });
+            selectableText.Get("Height", (s, v) =>
+            {
+                obj.Height = Convert.ToUInt32(v.Value);
+            });
+            selectableText.Get("Constraint-Width", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintWidth = c;
+                }
+                else
+                {
+                    obj.ConstraintWidth = EnumConstraint.AUTO;
+                }
+            });
+            selectableText.Get("Constraint-Height", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintHeight = c;
+                }
+                else
+                {
+                    obj.ConstraintHeight = EnumConstraint.AUTO;
+                }
+            });
             RenderCSSProperties(selectableText, obj.CSS);
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, selectableText.Id, selectableText.RefIndex, selectableText.Text);
@@ -352,6 +506,38 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXImage image)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "image"));
+            image.Get("Width", (s, v) =>
+            {
+                obj.Width = Convert.ToUInt32(v.Value);
+            });
+            image.Get("Height", (s, v) =>
+            {
+                obj.Height = Convert.ToUInt32(v.Value);
+            });
+            image.Get("Constraint-Width", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintWidth = c;
+                }
+                else
+                {
+                    obj.ConstraintWidth = EnumConstraint.AUTO;
+                }
+            });
+            image.Get("Constraint-Height", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintHeight = c;
+                }
+                else
+                {
+                    obj.ConstraintHeight = EnumConstraint.AUTO;
+                }
+            });
             RenderCSSProperties(image, obj.CSS);
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, image.Id, image.ImageFile, image.ImageWidth, image.ImageHeight);
@@ -366,6 +552,38 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXClickableImage image)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "image"));
+            image.Get("Width", (s, v) =>
+            {
+                obj.Width = Convert.ToUInt32(v.Value);
+            });
+            image.Get("Height", (s, v) =>
+            {
+                obj.Height = Convert.ToUInt32(v.Value);
+            });
+            image.Get("Constraint-Width", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintWidth = c;
+                }
+                else
+                {
+                    obj.ConstraintWidth = EnumConstraint.AUTO;
+                }
+            });
+            image.Get("Constraint-Height", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintHeight = c;
+                }
+                else
+                {
+                    obj.ConstraintHeight = EnumConstraint.AUTO;
+                }
+            });
             RenderCSSProperties(image, obj.CSS);
             obj.Container = this.currentContainer;
             this.currentObject.Objects.Add(obj);
@@ -415,6 +633,38 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXReadOnlyText text)
         {
             HTMLObject obj = new HTMLObject(this.project.Tools.Find(x => x.Path == "html" && x.Name == "readOnlyText"));
+            text.Get("Width", (s, v) =>
+            {
+                obj.Width = Convert.ToUInt32(v.Value);
+            });
+            text.Get("Height", (s, v) =>
+            {
+                obj.Height = Convert.ToUInt32(v.Value);
+            });
+            text.Get("Constraint-Width", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintWidth = c;
+                }
+                else
+                {
+                    obj.ConstraintWidth = EnumConstraint.AUTO;
+                }
+            });
+            text.Get("Constraint-Height", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    obj.ConstraintHeight = c;
+                }
+                else
+                {
+                    obj.ConstraintHeight = EnumConstraint.AUTO;
+                }
+            });
             RenderCSSProperties(text, obj.CSS);
             obj.Container = this.currentContainer;
             obj.HTML = String.Format(obj.HTML, text.Text);
@@ -466,7 +716,10 @@ namespace UXFramework.WebImplementation
             VerticalZone v = new VerticalZone();
             v.Width = 100;
             v.Height = 100;
-            v.Disposition = Disposition.CENTER;
+            data.Get("Disposition", (s, x) =>
+            {
+                v.Disposition = Enum.Parse(typeof(Disposition), x.Value);
+            });
             v.ConstraintWidth = EnumConstraint.RELATIVE;
             v.ConstraintHeight = EnumConstraint.RELATIVE;
             v.CountLines = 1;
@@ -538,11 +791,39 @@ namespace UXFramework.WebImplementation
         {
             HorizontalZone h = new HorizontalZone();
             RenderCSSProperties(row, h.CSS);
-            h.ConstraintWidth = EnumConstraint.AUTO;
-            h.ConstraintHeight = EnumConstraint.FIXED;
+            row.Get("Width", (s, v) =>
+            {
+                h.Width = Convert.ToUInt32(v.Value);
+            });
+            row.Get("Height", (s, v) =>
+            {
+                h.Height = Convert.ToUInt32(v.Value);
+            });
+            row.Get("Constraint-Width", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    h.ConstraintWidth = c;
+                }
+                else
+                {
+                    h.ConstraintWidth = EnumConstraint.AUTO;
+                }
+            });
+            row.Get("Constraint-Height", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    h.ConstraintHeight = c;
+                }
+                else
+                {
+                    h.ConstraintHeight = EnumConstraint.AUTO;
+                }
+            });
             h.CountLines = 1;
-            h.Height = 30;
-            h.Width = 50;
             this.currentObject.HorizontalZones.Add(h);
             dynamic previousObject = this.currentObject;
             string normalBackground = "Transparent";
@@ -585,10 +866,43 @@ namespace UXFramework.WebImplementation
         public void RenderControl(UXCell cell)
         {
             VerticalZone v = new VerticalZone();
+            cell.Get("Width", (s, x) =>
+            {
+                v.Width = Convert.ToUInt32(x.Value);
+            });
+            cell.Get("Height", (s, x) =>
+            {
+                v.Height = Convert.ToUInt32(x.Value);
+            });
             RenderCSSProperties(cell, v.CSS);
-            v.Disposition = Disposition.CENTER;
-            v.ConstraintWidth = EnumConstraint.AUTO;
-            v.ConstraintHeight = EnumConstraint.AUTO;
+            cell.Get("Disposition", (s,x) =>
+            {
+                v.Disposition = Enum.Parse(typeof(Disposition), x.Value);
+            });
+            cell.Get("Constraint-Width", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    v.ConstraintWidth = c;
+                }
+                else
+                {
+                    v.ConstraintWidth = EnumConstraint.AUTO;
+                }
+            });
+            cell.Get("Constraint-Height", (x, y) =>
+            {
+                EnumConstraint c;
+                if (Enum.TryParse<EnumConstraint>(y.Value, out c))
+                {
+                    v.ConstraintHeight = c;
+                }
+                else
+                {
+                    v.ConstraintHeight = EnumConstraint.AUTO;
+                }
+            });
             v.CountLines = 1;
             v.CountColumns = 1;
             this.currentObject.VerticalZones.Add(v);
