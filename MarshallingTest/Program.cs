@@ -133,6 +133,38 @@ namespace MarshallingTest
 
             Console.WriteLine(ab2.Export());
 
+            Console.WriteLine("Test format");
+
+            Console.WriteLine(ab.Format("%name : is it Pablo ?"));
+
+            Marshalling.IMarshalling prenom = ab.Extract("AddressBook", "0", "Prenom");
+
+            Console.WriteLine(prenom.Value);
+
+            Marshalling.MarshallingList hash3 = new Marshalling.MarshallingList("remapped");
+            ab.Mapping(hash3, (t, dest, x) =>
+            {
+                if (t == Marshalling.MarshallingType.LIST)
+                {
+                    if (x.Name == "0")
+                    {
+                        Console.WriteLine("found");
+                    }
+                }
+                else if (t == Marshalling.MarshallingType.HASH)
+                {
+                }
+                else if (t == Marshalling.MarshallingType.VALUE)
+                {
+                    if (x.Name == "Prenom")
+                    {
+                        Console.WriteLine("found");
+                        x.Value = "Bruno";
+                    }
+                }
+                return x;
+            });
+
             Console.ReadKey();
 
         }

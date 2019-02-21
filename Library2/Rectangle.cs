@@ -28,14 +28,7 @@ namespace Library2
         {
             get
             {
-                if (this.Exists("CountColumn"))
-                {
-                    return this.Get("CountColumn").Value;
-                }
-                else
-                {
-                    return 0;
-                }
+                return this.GetValue("CountColumn", 0);
             }
         }
 
@@ -46,14 +39,7 @@ namespace Library2
         {
             get
             {
-                if (this.Exists("CountLine"))
-                {
-                    return this.Get("CountLine").Value;
-                }
-                else
-                {
-                    return 0;
-                }
+                return this.GetValue("CountLine", 0);
             }
         }
 
@@ -64,14 +50,7 @@ namespace Library2
         {
             get
             {
-                if (this.Exists("ColumnStart"))
-                {
-                    return this.Get("ColumnStart").Value;
-                }
-                else
-                {
-                    return 0;
-                }
+                return this.GetValue("ColumnStart", 0);
             }
         }
 
@@ -82,14 +61,7 @@ namespace Library2
         {
             get
             {
-                if (this.Exists("LineStart"))
-                {
-                    return this.Get("LineStart").Value;
-                }
-                else
-                {
-                    return 0;
-                }
+                return this.GetValue("LineStart", 0);
             }
         }
     }

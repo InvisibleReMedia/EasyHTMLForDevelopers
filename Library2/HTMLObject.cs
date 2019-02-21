@@ -55,7 +55,7 @@ namespace Library2
         {
             get
             {
-                return this.Get("HookContainer").Value;
+                return this.GetValue("HookContainer", string.Empty);
             }
         }
 

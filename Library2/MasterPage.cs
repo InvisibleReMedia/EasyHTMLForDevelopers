@@ -28,14 +28,7 @@ namespace Library2
         {
             get
             {
-                if (this.Exists("Meta"))
-                {
-                    return this.Get("Meta").Value;
-                }
-                else
-                {
-                    return new StringBuilder();
-                }
+                return this.GetValue("Meta", new StringBuilder());
             }
         }
 

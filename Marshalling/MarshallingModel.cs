@@ -9,6 +9,16 @@ namespace Marshalling
 {
 
     /// <summary>
+    /// Marshall content type
+    /// </summary>
+    public enum MarshallingType
+    {
+        VALUE,
+        LIST,
+        HASH
+    }
+
+    /// <summary>
     /// Class to value
     /// </summary>
     public abstract class MarshallingValue : PersistentDataObject, IMarshalling
@@ -103,6 +113,32 @@ namespace Marshalling
             get
             {
                 throw new NotSupportedException();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets formatting
+        /// </summary>
+        public string Formatting
+        {
+            get
+            {
+                return this.Get("Formatting", string.Empty);
+            }
+            set
+            {
+                this.Set("Formatting", value);
+            }
+        }
+
+        /// <summary>
+        /// Gets HashKeys
+        /// </summary>
+        public IEnumerable<string> HashKeys
+        {
+            get
+            {
+                return new List<string>();
             }
         }
 
@@ -733,6 +769,21 @@ namespace Marshalling
             }
         }
 
+        /// <summary>
+        /// Gets or sets formatting
+        /// </summary>
+        public string Formatting
+        {
+            get
+            {
+                return this.Get("Formatting", string.Empty);
+            }
+            set
+            {
+                this.Set("Formatting", value);
+            }
+        } 
+
         #endregion
 
         #region Methods
@@ -996,6 +1047,21 @@ namespace Marshalling
             set
             {
                 this.Set(index.ToString(), value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets formatting
+        /// </summary>
+        public string Formatting
+        {
+            get
+            {
+                return this.Get("Formatting", string.Empty);
+            }
+            set
+            {
+                this.Set("Formatting", value);
             }
         }
 

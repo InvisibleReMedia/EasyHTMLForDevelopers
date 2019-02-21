@@ -28,14 +28,7 @@ namespace Library2
         {
             get
             {
-                if (this.Exists("FileName"))
-                {
-                    return this.Get("FileName").Value;
-                }
-                else
-                {
-                    return string.Empty;
-                }
+                return this.GetValue("FileName", string.Empty);
             }
         }
 
@@ -176,7 +169,7 @@ namespace Library2
         {
             return ExportToTable<MasterObject>("masterObjects", 4, x =>
             {
-
+                x.ExportAreasToTable();
             }, this.MasterObjects);
         }
     }

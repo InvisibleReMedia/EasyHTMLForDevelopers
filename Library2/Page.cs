@@ -22,9 +22,19 @@ namespace Library2
 
         }
 
+        public string MasterPageName
+        {
+            get
+            {
+                return this.GetValue("MasterPageName", string.Empty);
+            }
+        }
+
         public UXFramework.UXRow ExportPageToRow()
         {
-            return UXFramework.Creation.CreateRow(7, null, ExportPath(), ExportFileName(), ExportExtension(), ExportHTML(), ExportCSS(), ExportJavascript(), ExportJavascriptOnLoad());
+            return UXFramework.Creation.CreateRow(7, null, ExportPath(), ExportFileName(), ExportExtension(),
+                                                           ExportHTML(), ExportCSS(), ExportJavascript(),
+                                                           ExportJavascriptOnLoad());
         }
     }
 }

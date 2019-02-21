@@ -29,7 +29,7 @@ namespace Library2
         {
             get
             {
-                return this.Get("Container").Value;
+                return this.GetValue("Container", string.Empty);
             }
         }
 
@@ -40,7 +40,7 @@ namespace Library2
         {
             get
             {
-                return this.Get("ColumnCount").Value;
+                return this.GetValue("ColumnCount", 0u);
             }
         }
 
@@ -51,7 +51,7 @@ namespace Library2
         {
             get
             {
-                return this.Get("LineCount").Value;
+                return this.GetValue("LineCount", 0u);
             }
         }
 

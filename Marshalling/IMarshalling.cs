@@ -17,6 +17,14 @@ namespace Marshalling
         /// </summary>
         dynamic Value { get; set; }
         /// <summary>
+        /// A property with the formatting for this object
+        /// </summary>
+        string Formatting { get; set; }
+        /// <summary>
+        /// Gets hash keys
+        /// </summary>
+        IEnumerable<string> HashKeys { get; }
+        /// <summary>
         /// Gets or sets the value
         /// </summary>
         IEnumerable<IMarshalling> Values { get; }
@@ -80,6 +88,16 @@ namespace Marshalling
         /// <returns>enumeration of T</returns>
         IEnumerable<T> Conversion<T>() where T : class;
         /// <summary>
+        /// Conversion of an object as a such type
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="t">type of input</param>
+        /// <param name="obj">destination object</param>
+        /// <param name="input">input object</param>
+        /// <param name="transform">transform function</param>
+        /// <returns>new content</returns>
+        void Conversion(string name, Type t, IMarshalling obj, IMarshalling input, Func<MarshallingType, IMarshalling, IMarshalling, IMarshalling> transform);
+        /// <summary>
         /// Create a new object and copy this into
         /// </summary>
         /// <typeparam name="T">new object</typeparam>
@@ -118,6 +136,21 @@ namespace Marshalling
         /// <param name="f">function to transfer names</param>
         void Mapping<T>(bool clone, T obj, Func<string, string> f) where T : PersistentDataObject;
         /// <summary>
+        /// Mapping in all tree
+        /// </summary>
+        /// <typeparam name="T">destination type</typeparam>
+        /// <param name="obj">destination</param>
+        /// <param name="map">transform function</param>
+        void Mapping(IMarshalling obj, Func<MarshallingType, IMarshalling, IMarshalling, IMarshalling> map);
+        /// <summary>
+        /// Mapping in all tree
+        /// </summary>
+        /// <typeparam name="T">destination type</typeparam>
+        /// <param name="obj">destination</param>
+        /// <param name="map">transform function</param>
+        /// <param name="names">name list</param>
+        void Mapping(IMarshalling obj, Func<MarshallingType, IMarshalling, IMarshalling, IMarshalling> map, params string[] names);
+        /// <summary>
         /// Make a mapping between selected names by other names into an existing object
         /// </summary>
         /// <typeparam name="T">existing object</typeparam>
@@ -149,11 +182,30 @@ namespace Marshalling
             where T : PersistentDataObject
             where F : PersistentDataObject;
         /// <summary>
+        /// Export to marshalling hash
+        /// </summary>
+        /// <returns>marshalling hash</returns>
+        MarshallingHash ExportToHash();
+        /// <summary>
         /// Get list model
         /// </summary>
         /// <typeparam name="T">destination object</typeparam>
         /// <param name="name">name to test</param>
         /// <returns>enumerable of T</returns>
         IEnumerable<T> TransformList<T>(string name) where T : Marshalling.PersistentDataObject;
+        /// <summary>
+        /// Extract something from the tree
+        /// </summary>
+        /// <param name="name">object name</param>
+        /// <param name="sequence">sequence of name</param>
+        /// <returns>object</returns>
+        IMarshalling Extract(string name, params string[] sequence);
+        /// <summary>
+        /// Extract by name the sub element from a source
+        /// </summary>
+        /// <param name="source">source</param>
+        /// <param name="name">name</param>
+        /// <returns>sub content</returns>
+        dynamic Extract(IMarshalling source, string name);
     }
 }

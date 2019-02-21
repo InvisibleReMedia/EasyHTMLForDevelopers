@@ -253,6 +253,65 @@ namespace Marshalling
         }
 
         /// <summary>
+        /// Extract a name from a source
+        /// </summary>
+        /// <param name="source">source</param>
+        /// <param name="name">name to find</param>
+        /// <returns>null if not exists</returns>
+        public dynamic Extract(IMarshalling source, string name)
+        {
+            if (source is MarshallingHash)
+                return source.Values.First(x => x.Name == name);
+            else if (source is MarshallingList)
+                return source.Values.ElementAt(Convert.ToInt32(name));
+            else
+                return source.Value;
+        }
+
+        /// <summary>
+        /// Select a specific element in tree
+        /// </summary>
+        /// <param name="sequence">tree sequence</param>
+        /// <returns>resulting object</returns>
+        public IMarshalling Extract(string name, params string[] sequence)
+        {
+            var content = this as IMarshalling;
+            if (content != null && content.Name == name)
+            {
+                int index = 0;
+                do
+                {
+                    string s = sequence[index];
+                    dynamic newContent = null;
+                    if (content is MarshallingList)
+                    {
+                        newContent = this.Extract(content, s);
+                    }
+                    else if (content is MarshallingValue)
+                    {
+                        return content;
+                    }
+                    else
+                    {
+                        newContent = this.Extract(content, s);
+                    }
+                    if (newContent != null)
+                    {
+                        content = newContent;
+                    }
+                    else
+                    {
+                        throw new ArgumentException(String.Format("{0} does not exist", s));
+                    }
+                    ++index;
+                } while (index < sequence.Count());
+                return content;
+            }
+            else
+                throw new ArgumentException(String.Format("{0} does not exist", name));
+        }
+
+        /// <summary>
         /// Import an object
         /// </summary>
         /// <param name="hash">from hash</param>
@@ -301,16 +360,7 @@ namespace Marshalling
         /// <returns>new object</returns>
         public T Copy<T>(bool clone) where T : PersistentDataObject, new()
         {
-            T x = new T();
-            foreach (string s in this.Keys)
-            {
-                var content = this.Data[s];
-                if (clone && content is ICloneable)
-                    x.Set(s, content.Clone());
-                else
-                    x.Set(s, content);
-            }
-            return x;
+            return Copy<T>(clone, this.Keys.ToArray());
         }
 
 
@@ -325,8 +375,9 @@ namespace Marshalling
         public T Copy<T>(bool clone, params string[] names) where T : PersistentDataObject, new()
         {
             T x = new T();
-            foreach (string s in names)
+            for (int index = 0; index < names.Count(); ++index)
             {
+                string s = names.ElementAt(index);
                 var content = this.Data[s];
                 if (this.Exists(s))
                     if (clone && content is ICloneable)
@@ -345,15 +396,7 @@ namespace Marshalling
         /// <param name="obj">object</param>
         public void Copy<T>(bool clone, T obj) where T : PersistentDataObject
         {
-            for (int index = 0; index < this.Keys.Count(); ++index)
-            {
-                string s = this.Keys.ElementAt(index);
-                var content = this.Data[s];
-                if (clone && content is ICloneable)
-                    obj.Set(s, content.Clone());
-                else
-                    obj.Set(s, content);
-            }
+            Copy(clone, obj, this.Keys.ToArray());
         }
 
         /// <summary>
@@ -365,8 +408,9 @@ namespace Marshalling
         /// <param name="names">name list</param>
         public void Copy<T>(bool clone, T obj, params string[] names) where T : PersistentDataObject
         {
-            foreach (string s in names)
+            for(int index = 0; index < names.Count(); ++index)
             {
+                string s = names.ElementAt(index);
                 var content = this.Data[s];
                 if (clone && content is ICloneable)
                     obj.Set(s, content.Clone());
@@ -384,15 +428,7 @@ namespace Marshalling
         /// <param name="f">mapping function</param>
         public void Mapping<T>(bool clone, T obj, Func<string, string> f) where T : PersistentDataObject
         {
-            foreach (string s in this.Keys)
-            {
-                var content = this.Data[s];
-                if (!obj.Exists(f(s)))
-                    if (clone && content is ICloneable)
-                        obj.Set(f(s), content.Clone());
-                    else
-                    obj.Set(f(s), content);
-            }
+            Mapping(clone, obj, f, this.Keys.ToArray());
         }
 
         /// <summary>
@@ -416,22 +452,130 @@ namespace Marshalling
             }
         }
 
+        
+        /// <summary>
+        /// Conversion of an object as a such type
+        /// </summary>
+        /// <typeparam name="T">destination object type</typeparam>
+        /// <param name="name">name</param>
+        /// <param name="t">type of input</param>
+        /// <param name="obj">destination object</param>
+        /// <param name="input">input object</param>
+        /// <param name="transform">transform function</param>
+        /// <returns>new content</returns>
+        public void Conversion(string name, Type t, IMarshalling obj, IMarshalling input, Func<MarshallingType, IMarshalling, IMarshalling, IMarshalling> transform)
+        {
+
+            Dictionary<Type, Action<IMarshalling>> SWITCH = new Dictionary<Type, Action<IMarshalling>>()
+            {
+                {
+                    typeof(MarshallingBoolValue), x => {
+                        obj.Set(name, transform(MarshallingType.VALUE, obj, x));
+                    }
+                },
+                {
+                    typeof(MarshallingDoubleValue), x => {
+                        obj.Set(name, transform(MarshallingType.VALUE, obj, x));
+                    }
+                },
+                {
+                    typeof(MarshallingHash), x => {
+                        IMarshalling subContent = transform(MarshallingType.HASH, obj, x);
+                        obj.Set(name, subContent);
+                        x.Mapping(subContent, transform);
+                    }
+                },
+                {
+                    typeof(MarshallingEnumerationValue), x => {
+                        obj.Set(name, transform(MarshallingType.VALUE, obj, x));
+                    }
+                },
+                {
+                    typeof(MarshallingIntValue), x => {
+                        obj.Set(name, transform(MarshallingType.VALUE, obj, x));
+                    }
+                },
+                {
+                    typeof(MarshallingList), x => {
+                        IMarshalling subContent = transform(MarshallingType.LIST, obj, x);
+                        obj.Set(name, subContent);
+                        x.Mapping(subContent, transform);
+                    }
+                },
+                {
+                    typeof(MarshallingObjectValue), x => {
+                        obj.Set(name, transform(MarshallingType.VALUE, obj, x));
+                    }
+                },
+                {
+                    typeof(MarshallingRegexValue), x => {
+                        obj.Set(name, transform(MarshallingType.VALUE, obj, x));
+                    }
+                }
+            };
+            bool found = false;
+            foreach (KeyValuePair<Type, Action<IMarshalling>> kv in SWITCH)
+            {
+                if (kv.Key.IsEquivalentTo(input.GetType())) {
+                    found = true;
+                    kv.Value(input);
+                }
+            }
+            if (!found)
+                throw new KeyNotFoundException(String.Format("Type {0} not found", input.GetType().Name));
+        }
+
+        /// <summary>
+        /// Mapping in all tree
+        /// </summary>
+        /// <typeparam name="T">destination type</typeparam>
+        /// <param name="obj">destination</param>
+        /// <param name="map">transform function</param>
+        public void Mapping(IMarshalling obj, Func<MarshallingType, IMarshalling, IMarshalling, IMarshalling> map)
+        {
+            Mapping(obj, map, (this as IMarshalling).HashKeys.ToArray());
+        }
+
+        /// <summary>
+        /// Mapping in all tree
+        /// </summary>
+        /// <typeparam name="T">destination type</typeparam>
+        /// <param name="obj">destination</param>
+        /// <param name="map">transform function</param>
+        /// <param name="names">selected names</param>
+        public void Mapping(IMarshalling obj, Func<MarshallingType, IMarshalling, IMarshalling, IMarshalling> map, params string[] names)
+        {
+            foreach (string s in names)
+            {
+                var content = this.Data[s];
+                Conversion(s, content.GetType(), obj, content, map);
+            }
+        }
+
         /// <summary>
         /// Format with replacement content
         /// </summary>
         /// <param name="input">input string</param>
         /// <returns></returns>
-        public string Format(string input)
+        public virtual string Format(string input)
         {
             string output = string.Empty;
-            Regex r = new Regex(@"%([a-zA-Z_0-9]+)|([^%]*)", RegexOptions.Multiline);
+            Regex r = new Regex(@"%([a-zA-Z_0-9]+)\s|([^%]*)", RegexOptions.Multiline);
             foreach (Match m in r.Matches(input))
             {
                 if (m.Groups[1].Success)
                 {
                     if (this.Exists(m.Groups[1].Value))
                     {
-                        output += this.Get(m.Groups[1].Value).Value;
+                        var content = this.Get(m.Groups[1].Value);
+                        if (content is IMarshalling)
+                        {
+                            output += content.Format(content.Formatting);
+                        }
+                        else
+                        {
+                            output += content.ToString();
+                        }
                     }
                     else
                     {
@@ -444,6 +588,25 @@ namespace Marshalling
                 }
             }
             return output;
+        }
+
+        /// <summary>
+        /// Get value
+        /// </summary>
+        /// <typeparam name="T">value type</typeparam>
+        /// <param name="name">name</param>
+        /// <param name="zero">value returned if null</param>
+        /// <returns>value</returns>
+        public T GetValue<T>(string name, T zero)
+        {
+            if (this.Exists(name))
+            {
+                return this.Get(name).Value;
+            }
+            else
+            {
+                return zero;
+            }
         }
 
         /// <summary>

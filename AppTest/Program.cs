@@ -16,6 +16,10 @@ namespace AppTest
 
             Console.WriteLine(f2.ToString());
 
+            Library2.Project p = new Library2.Project("p");
+            Library2.Page page = new Library2.Page("first");
+
+
             Console.ReadKey();
         }
     }

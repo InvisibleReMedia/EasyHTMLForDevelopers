@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formatter.cs" />
     <Compile Include="File.cs" />
     <Compile Include="HTMLObject.cs" />
     <Compile Include="MasterObject.cs" />
@@ -63,6 +64,18 @@
       <Project>{e70650f2-cbea-4c24-a8d7-34d4d1a44fee}</Project>
       <Name>UXFramework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="a.html" />
+    <Content Include="body.css" />
+    <Content Include="class.css" />
+    <Content Include="div.html" />
+    <Content Include="id.css" />
+    <Content Include="table.html" />
+    <Content Include="tag-class.css" />
+    <Content Include="tag.html" />
+    <Content Include="td.html" />
+    <Content Include="tr.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

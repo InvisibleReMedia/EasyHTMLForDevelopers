@@ -29,14 +29,7 @@ namespace Library2
         {
             get
             {
-                if (this.Exists("HTML"))
-                {
-                    return this.Get("HTML").Value;
-                }
-                else
-                {
-                    return new StringBuilder();
-                }
+                return this.GetValue("HTML", new StringBuilder());
             }
         }
 
@@ -47,14 +40,7 @@ namespace Library2
         {
             get
             {
-                if (this.Exists("CSS"))
-                {
-                    return this.Get("CSS").Value;
-                }
-                else
-                {
-                    return new StringBuilder();
-                }
+                return this.GetValue("CSS", new StringBuilder());
             }
         }
 
@@ -65,14 +51,7 @@ namespace Library2
         {
             get
             {
-                if (this.Exists("Javascript"))
-                {
-                    return this.Get("Javascript").Value;
-                }
-                else
-                {
-                    return new StringBuilder();
-                }
+                return this.GetValue("Javascript", new StringBuilder());
             }
         }
 
@@ -83,14 +62,7 @@ namespace Library2
         {
             get
             {
-                if (this.Exists("JavascriptOnLoad"))
-                {
-                    return this.Get("JavascriptOnLoad").Value;
-                }
-                else
-                {
-                    return new StringBuilder();
-                }
+                return this.GetValue("JavascriptOnLoad", new StringBuilder());
             }
         }
 
