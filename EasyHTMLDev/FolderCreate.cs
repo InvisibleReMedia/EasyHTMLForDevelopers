@@ -23,32 +23,10 @@ namespace EasyHTMLDev
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            Library.Folder rootFolder = Library.Project.CurrentProject.Folders;
-            Library.Folder currentFolder = rootFolder;
+            Library.Node<string, Library.Accessor> rootFolder = Library.Project.CurrentProject.Hierarchy.Find(Library.Project.FoldersName);
+            Library.Node<string, Library.Accessor> currentFolder = rootFolder;
             string[] list = this.textBox1.Text.Split('/');
-            IEnumerator el = list.GetEnumerator();
-            if (el.MoveNext())
-            {
-                do
-                {
-                    if (!String.IsNullOrEmpty((string)el.Current))
-                    {
-                        if (!currentFolder.Folders.Exists(a => { return a.Name == (string)el.Current; }))
-                        {
-                            Library.Folder newFolder = new Library.Folder();
-                            newFolder.Name = (string)el.Current;
-                            newFolder.Ancestor = currentFolder;
-                            currentFolder.Folders.Add(newFolder);
-                            currentFolder = newFolder;
-                        }
-                        else
-                        {
-                            currentFolder = currentFolder.Folders.Find(a => { return a.Name == (string)el.Current; });
-                        }
-                    }
-                }
-                while (el.MoveNext());
-            }
+            currentFolder.Find(list);
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Close();
             this.UnregisterControls(ref this.localeComponentId);

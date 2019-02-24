@@ -72,7 +72,7 @@ namespace Library
         /// </summary>
         public Page()
         {
-            this.Get(folderObjectName, null);
+            this.Get(folderObjectName, string.Empty);
             this.Set(eventsName, new Events());
         }
 
@@ -107,6 +107,15 @@ namespace Library
         {
             get { return this.Get(uniqueName); }
             set { this.Set(uniqueName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the folder
+        /// </summary>
+        public string Folder
+        {
+            get { return this.Get(folderObjectName); }
+            set { this.Set(folderObjectName, value); }
         }
 
         /// <summary>

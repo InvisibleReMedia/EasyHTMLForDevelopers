@@ -245,6 +245,7 @@ namespace Library
         public string MasterObjectName
         {
             get { return this.Get(masterObjectName, ""); }
+            set { this.Set(masterObjectName, value); }
         }
 
         /// <summary>

@@ -44,14 +44,14 @@ namespace EasyHTMLDev
             this.BackColor = this.cm.Background;
             this.ForeColor = this.cm.Foreground;
             this.BorderColor = this.cm.Border;
-            base.Left = this.cm.Ho;
-            base.Top = this.cm.VerticalPosition;
-            this.Width = this.cm.Largeur;
-            this.Height = this.cm.Hauteur;
+            base.Left = this.cm.Height;
+            base.Top = this.cm.HeightPosition;
+            this.Width = this.cm.Width;
+            this.Height = this.cm.Height;
             this.cm.PropertyChanged += cm_PropertyChanged;
             this.parent = panel;
             this.parent.RatioChanged += parent_RatioChanged;
-            this.Size = new Size(this.cm.Largeur, this.cm.Hauteur);
+            this.Size = new Size(this.cm.Width, this.cm.Height);
         }
 
         public CadreUC(SculpturePanel panel, Library.CadreModel cm)
@@ -62,16 +62,16 @@ namespace EasyHTMLDev
             this.BackColor = this.cm.Background;
             this.ForeColor = this.cm.Foreground;
             this.BorderColor = this.cm.Border;
-            base.Left = this.cm.HorizontalPosition;
-            base.Top = this.cm.VerticalPosition;
-            this.Width = this.cm.Largeur;
-            this.Height = this.cm.Hauteur;
+            base.Left = this.cm.WidthPosition;
+            base.Top = this.cm.HeightPosition;
+            this.Width = this.cm.Width;
+            this.Height = this.cm.Height;
             this.cm.PropertyChanged += cm_PropertyChanged;
             this.parent = panel;
             this.parent.RatioChanged += parent_RatioChanged;
-            base.Left = Convert.ToInt32(Math.Floor(this.cm.HorizontalPosition / this.Ratio));
-            base.Top = Convert.ToInt32(Math.Floor(this.cm.VerticalPosition / this.Ratio));
-            this.Size = new Size(this.cm.Largeur, this.cm.Hauteur);
+            base.Left = Convert.ToInt32(Math.Floor(this.cm.WidthPosition / this.Ratio));
+            base.Top = Convert.ToInt32(Math.Floor(this.cm.HeightPosition / this.Ratio));
+            this.Size = new Size(this.cm.Width, this.cm.Height);
         }
         #endregion
 
@@ -129,9 +129,9 @@ namespace EasyHTMLDev
             {
                 int h = this.parent.AutoScrollOffset.X;
                 int v = this.parent.AutoScrollOffset.Y;
-                this.cm.HorizontalPosition = Convert.ToInt32(Math.Floor((value.X - h) * this.Ratio));
+                this.cm.WidthPosition = Convert.ToInt32(Math.Floor((value.X - h) * this.Ratio));
                 base.Left = value.X;
-                this.cm.VerticalPosition = Convert.ToInt32(Math.Floor((value.Y - v) * this.Ratio));
+                this.cm.HeightPosition = Convert.ToInt32(Math.Floor((value.Y - v) * this.Ratio));
                 base.Top = value.Y;
             }
         }
@@ -140,7 +140,7 @@ namespace EasyHTMLDev
         {
             get
             {
-                return Convert.ToInt32(Math.Floor(this.cm.HorizontalPosition / this.Ratio));
+                return Convert.ToInt32(Math.Floor(this.cm.WidthPosition / this.Ratio));
             }
             set
             {
@@ -151,7 +151,7 @@ namespace EasyHTMLDev
         {
             get
             {
-                return Convert.ToInt32(Math.Floor(this.cm.VerticalPosition / this.Ratio));
+                return Convert.ToInt32(Math.Floor(this.cm.HeightPosition / this.Ratio));
             }
             set
             {
@@ -209,10 +209,10 @@ namespace EasyHTMLDev
             this.BackColor = this.cm.Background;
             this.ForeColor = this.cm.Foreground;
             this.BorderColor = this.cm.Border;
-            this.Width = this.cm.Largeur;
-            this.Height = this.cm.Hauteur;
-            base.Left = this.cm.HorizontalPosition;
-            base.Top = this.cm.VerticalPosition;
+            this.Width = this.cm.Width;
+            this.Height = this.cm.Height;
+            base.Left = this.cm.WidthPosition;
+            base.Top = this.cm.HeightPosition;
             this.BindingContext[this.cm].ResumeBinding();
             this.Parent.Invalidate(true);
         }
@@ -304,8 +304,8 @@ namespace EasyHTMLDev
                             break;
                     }
                     this.cm.SuspendBinding = true;
-                    this.cm.Largeur = Convert.ToInt32(Math.Floor(this.Width * this.Ratio));
-                    this.cm.Hauteur = Convert.ToInt32(Math.Floor(this.Height * this.Ratio));
+                    this.cm.Width = Convert.ToInt32(Math.Floor(this.Width * this.Ratio));
+                    this.cm.Height = Convert.ToInt32(Math.Floor(this.Height * this.Ratio));
                     this.cm.SuspendBinding = false;
                     this.cm.RaisePropertyChanged();
                 }
@@ -329,21 +329,21 @@ namespace EasyHTMLDev
             {
                 ControlPaint.DrawBorder(e.Graphics,
                                         this.ClientRectangle,
-                                        this.BorderColor, this.Properties.HorizontalBorder, ButtonBorderStyle.Solid,
-                                        this.BorderColor, this.Properties.VerticalBorder, ButtonBorderStyle.Solid,
-                                        this.BorderColor, this.Properties.HorizontalBorder, ButtonBorderStyle.Solid,
-                                        this.borderColor, this.Properties.VerticalBorder, ButtonBorderStyle.Solid);
-                RectangleF innerRect = new RectangleF(this.ClientRectangle.Left + ((this.Properties.HorizontalBorder + this.Properties.HorizontalPadding) / this.Ratio),
-                                                    this.ClientRectangle.Top + ((this.Properties.VerticalBorder + this.Properties.VerticalPadding) / this.Ratio),
-                                                    this.ClientRectangle.Width - (2 * (this.Properties.HorizontalBorder + this.Properties.HorizontalPadding) / this.Ratio),
-                                                    this.ClientRectangle.Height - (2 * (this.Properties.VerticalBorder + this.Properties.VerticalPadding) / this.Ratio));
+                                        this.BorderColor, this.Properties.WidthBorder, ButtonBorderStyle.Solid,
+                                        this.BorderColor, this.Properties.HeightBorder, ButtonBorderStyle.Solid,
+                                        this.BorderColor, this.Properties.WidthBorder, ButtonBorderStyle.Solid,
+                                        this.borderColor, this.Properties.HeightBorder, ButtonBorderStyle.Solid);
+                RectangleF innerRect = new RectangleF(this.ClientRectangle.Left + ((this.Properties.WidthBorder + this.Properties.WidthPadding) / this.Ratio),
+                                                    this.ClientRectangle.Top + ((this.Properties.HeightBorder + this.Properties.HeightPadding) / this.Ratio),
+                                                    this.ClientRectangle.Width - (2 * (this.Properties.WidthBorder + this.Properties.WidthPadding) / this.Ratio),
+                                                    this.ClientRectangle.Height - (2 * (this.Properties.HeightBorder + this.Properties.HeightPadding) / this.Ratio));
                 Pen penForeColor = new Pen(this.ForeColor);
                 if (this.crossRectanglePaint != null)
                     this.crossRectanglePaint(this, new Library.CadreIndexPaintArgs(this.Properties, e));
                 e.Graphics.DrawLine(penForeColor, new PointF(innerRect.Left + innerRect.Width / 2f, innerRect.Top), new PointF(innerRect.Left + innerRect.Width / 2f, innerRect.Top + innerRect.Height));
                 e.Graphics.DrawLine(penForeColor, new PointF(innerRect.Left, innerRect.Top + innerRect.Height / 2f), new PointF(innerRect.Left + innerRect.Width, innerRect.Top + innerRect.Height / 2f));
                 GraphicsPath p;
-                p = this.DrawMeter(0.0f, innerRect.Left + innerRect.Width / 2f, innerRect.Top + innerRect.Height / 2f, this.Properties.Largeur - this.Properties.HorizontalPadding - this.Properties.HorizontalBorder);
+                p = this.DrawMeter(0.0f, innerRect.Left + innerRect.Width / 2f, innerRect.Top + innerRect.Height / 2f, this.Properties.Width - this.Properties.WidthPadding - this.Properties.WidthBorder);
                 e.Graphics.DrawPath(penForeColor, p);
                 p.Dispose();
                 p = this.DrawArrow(0.0f, innerRect.Left + innerRect.Width / 2f, innerRect.Top);
@@ -353,7 +353,7 @@ namespace EasyHTMLDev
                 e.Graphics.DrawPath(penForeColor, p);
                 p.Dispose();
 
-                p = this.DrawMeter(-90.0f, innerRect.Left + innerRect.Width / 2f, innerRect.Top + innerRect.Height / 2f, this.Properties.Hauteur - this.Properties.VerticalPadding - this.Properties.VerticalBorder);
+                p = this.DrawMeter(-90.0f, innerRect.Left + innerRect.Width / 2f, innerRect.Top + innerRect.Height / 2f, this.Properties.Height - this.Properties.HeightPadding - this.Properties.HeightBorder);
                 e.Graphics.DrawPath(penForeColor, p);
                 p.Dispose();
                 p = this.DrawArrow(-90.0f, innerRect.Left, innerRect.Top + innerRect.Height / 2f);

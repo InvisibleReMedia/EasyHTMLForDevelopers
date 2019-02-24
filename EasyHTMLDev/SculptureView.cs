@@ -172,7 +172,7 @@ namespace EasyHTMLDev
                 {
                     ct.Reinit();
                 }
-                cu.Properties.Reinit();
+                cu.Properties.ClearEvents();
             }
             this.UnregisterControls(ref this.localeComponentId);
         }
@@ -200,16 +200,16 @@ namespace EasyHTMLDev
                     switch (g.cmbConversionType.SelectedIndex)
                     {
                         case 0:
-                            typeName = Library.GeneratedSculpture.MasterPage;
+                            typeName = Library.RefObject.MasterPage;
                             break;
                         case 1:
-                            typeName = Library.GeneratedSculpture.Page;
+                            typeName = Library.RefObject.Page;
                             break;
                         case 2:
-                            typeName = Library.GeneratedSculpture.MasterObject;
+                            typeName = Library.RefObject.MasterObject;
                             break;
                         case 3:
-                            typeName = Library.GeneratedSculpture.Tool;
+                            typeName = Library.RefObject.Tool;
                             break;
                     }
                     data = this.SculptureObject.GetPreviousGeneration(typeName);

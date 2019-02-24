@@ -164,13 +164,5 @@ namespace Library2
                 return x.ExportObjectToRow();
             }, this.Objects);
         }
-
-        public UXFramework.UXTable ExportMasterObjectToTable()
-        {
-            return ExportToTable<MasterObject>("masterObjects", 4, x =>
-            {
-                x.ExportAreasToTable();
-            }, this.MasterObjects);
-        }
     }
 }

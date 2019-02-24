@@ -43,7 +43,7 @@ namespace EasyHTMLDev
         /// <returns>point de coordonnées dans la grille</returns>
         public Point RevertCoordinates(Point p)
         {
-            return new Point((int)(p.X * (int)this.mPage.CountColumns / (double)(this.Width - 3)), (int)(p.Y * (double)this.mPage.CountLines / (double)(this.Height - 3)));
+            return new Point((int)(p.X * (double)this.mPage.CountColumns / (double)(this.Width - 3)), (int)(p.Y * (double)this.mPage.CountLines / (double)(this.Height - 3)));
         }
 
         public Point getCoordinates(int l, int c)
@@ -126,11 +126,9 @@ namespace EasyHTMLDev
             }
             foreach (Library.AreaSizedRectangle r in this.list)
             {
-                Rectangle rectStart = this.getRectangle(r.Top, r.Left);
-                Rectangle rectEnd = this.getRectangle(r.Bottom, r.Right);
-                Rectangle zoneRect = new Rectangle(rectStart.X, rectStart.Y, rectEnd.Right - rectStart.X, rectEnd.Bottom - rectStart.Y);
-                e.Graphics.FillRectangle(Brushes.Aquamarine, zoneRect);
-                e.Graphics.DrawRectangle(Pens.Black, zoneRect);
+                Rectangle rect = new Rectangle(r.Left, r.Top, r.Width, r.Height);
+                e.Graphics.FillRectangle(Brushes.Aquamarine, rect);
+                e.Graphics.DrawRectangle(Pens.Black, rect);
             }
         }
 

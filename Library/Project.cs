@@ -545,7 +545,9 @@ namespace Library
             string u = this.Unique.ComputeNewString();
             p.Unique = u;
             Accessor a = new Accessor(Project.PagesName, u);
-            this.Hierarchy.Find(Project.PagesName).Find(path.Split('/')).AddLeaf(a);
+            string[] splitted = path.Split('/');
+            this.Hierarchy.Find(Project.PagesName).Find(splitted).AddLeaf(a);
+            p.Folder = String.Join("/", splitted.Take(splitted.Count() - 1).ToArray()) + "/";
         }
 
         /// <summary>
