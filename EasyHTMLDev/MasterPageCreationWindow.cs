@@ -30,7 +30,7 @@ namespace EasyHTMLDev
         private void MasterPageWindow_Load(object sender, EventArgs e)
         {
             this.panel.MasterPage = this.mPage;
-            this.panel.initialize_cases();
+            this.panel.init();
         }
 
         private void ok_Click(object sender, EventArgs e)

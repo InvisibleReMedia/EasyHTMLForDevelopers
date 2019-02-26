@@ -26,10 +26,16 @@ namespace EasyHTMLDev
             get { return this.rect; }
         }
 
+        public bool IsDisabled
+        {
+            get
+            {
+                return this.disabled;
+            }
+        }
+
         public void Draw(Graphics g)
         {
-            if (!this.disabled)
-                g.DrawRectangle(Pens.Black, this.rect);
             Rectangle fill = new Rectangle(this.rect.Left + 1, this.rect.Top + 1, this.rect.Width - 2, this.rect.Height - 2);
             if (this.selected)
             {
@@ -59,6 +65,7 @@ namespace EasyHTMLDev
 
         public void Disable()
         {
+            this.selected = false;
             this.disabled = true;
         }
     }

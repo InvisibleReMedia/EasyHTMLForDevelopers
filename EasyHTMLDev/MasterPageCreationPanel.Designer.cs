@@ -28,23 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.creationPanel1 = new EasyHTMLDev.CreationPanel();
             this.SuspendLayout();
             // 
-            // MasterPagePanel
+            // creationPanel1
+            // 
+            this.creationPanel1.CountColumns = ((uint)(0u));
+            this.creationPanel1.CountLines = ((uint)(0u));
+            this.creationPanel1.Location = new System.Drawing.Point(129, 57);
+            this.creationPanel1.Name = "creationPanel1";
+            this.creationPanel1.Size = new System.Drawing.Size(203, 180);
+            this.creationPanel1.TabIndex = 0;
+            // 
+            // MasterPageCreationPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.creationPanel1);
             this.DoubleBuffered = true;
-            this.Name = "MasterPagePanel";
-            this.Size = new System.Drawing.Size(550, 360);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MasterPagePanel_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MasterPagePanel_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MasterPagePanel_MouseUp);
+            this.Name = "MasterPageCreationPanel";
+            this.Size = new System.Drawing.Size(490, 294);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private CreationPanel creationPanel1;
+
 
     }
 }

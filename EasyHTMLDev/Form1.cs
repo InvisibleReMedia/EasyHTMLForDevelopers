@@ -588,10 +588,16 @@ namespace EasyHTMLDev
                 FileAttributes fa = System.IO.File.GetAttributes(fi.FileName);
                 if (fa == FileAttributes.Directory)
                 {
+                    Project.Copy(Project.CurrentProject,
+                                 fi.FileName,
+                                 fi.DestinationPath);
                 }
                 else
                 {
-                    Project.AddFile(Project.CurrentProject, fi.DestinationPath, fi.FileName);
+                    Project.AddFile(Project.CurrentProject,
+                                    Path.Combine(CommonDirectories.ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title),
+                                                 fi.DestinationPath),
+                                    fi.FileName);
                 }
                 Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Project.CurrentProject.ReloadProject();

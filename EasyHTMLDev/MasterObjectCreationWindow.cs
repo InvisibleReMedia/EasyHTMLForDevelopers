@@ -50,7 +50,7 @@ namespace EasyHTMLDev
         private void MasterObjectCreationWindow_Load(object sender, EventArgs e)
         {
             this.panel.MasterObject = this.MasterObject;
-            this.panel.initialize_cases();
+            this.panel.init();
         }
     }
 }

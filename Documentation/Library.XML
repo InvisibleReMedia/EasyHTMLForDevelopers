@@ -5458,6 +5458,14 @@
             <param name="fileName">file name to add</param>
             <returns>true if added</returns>
         </member>
+        <member name="M:Library.Project.Copy(Library.Project,System.String,System.String)">
+            <summary>
+            Copy
+            </summary>
+            <param name="project">project</param>
+            <param name="sourcePath">source</param>
+            <param name="destPath">dest</param>
+        </member>
         <member name="M:Library.Project.AddPage(Library.Project,Library.Page,System.String)">
             <summary>
             Add a new Page

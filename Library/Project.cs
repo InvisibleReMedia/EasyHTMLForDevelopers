@@ -838,6 +838,29 @@ namespace Library
         }
 
         /// <summary>
+        /// Copy
+        /// </summary>
+        /// <param name="project">project</param>
+        /// <param name="sourcePath">source</param>
+        /// <param name="destPath">dest</param>
+        public static void Copy(Project project, string sourcePath, string destPath)
+        {
+            CommonDirectories.ConfigDirectories.AddFolder(project.Title, destPath);
+            DirectoryInfo di = new DirectoryInfo(sourcePath);
+            foreach (DirectoryInfo subDir in di.GetDirectories())
+            {
+                CommonDirectories.ConfigDirectories.AddFolder(project.Title, Path.Combine(destPath, subDir.Name));
+                Copy(project, Path.Combine(sourcePath, subDir.Name), Path.Combine(destPath, subDir.Name));
+            }
+            foreach (FileInfo fi in di.GetFiles())
+            {
+                Project.AddFile(Project.CurrentProject,
+                                Path.Combine(destPath, fi.Name),
+                                Path.Combine(sourcePath, fi.Name));
+            }
+        }
+
+        /// <summary>
         /// Add a new Page
         /// </summary>
         /// <param name="proj">concerned project</param>
@@ -939,5 +962,6 @@ namespace Library
         }
 
         #endregion
+
     }
 }
