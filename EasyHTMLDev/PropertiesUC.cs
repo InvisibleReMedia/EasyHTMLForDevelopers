@@ -33,7 +33,6 @@ namespace EasyHTMLDev
                 if (!String.IsNullOrEmpty(s))
                     this.cmbScale.Items.Add(s);
             }
-            this.cmbScale.SelectedIndex = 4;
             this.RegisterControls(ref this.localeComponentId);
         }
         #endregion

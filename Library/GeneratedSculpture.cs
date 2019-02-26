@@ -145,7 +145,7 @@ namespace Library
         /// </summary>
         public dynamic Destination
         {
-            get { return this.Get(destinationObjectName, ""); }
+            get { return this.Get(destinationObjectName); }
             set { this.Set(destinationObjectName, value); }
         }
 
@@ -281,6 +281,10 @@ namespace Library
                     mp.CountLines = v;
                     proj.MasterPages.Add(mp);
                     this.Destination = mp;
+                    string[] splitted = mp.ElementTitle.Split('/');
+                    string path = String.Join("/", splitted.Take(splitted.Count() - 1));
+                    mp.Name = splitted.Last();
+                    proj.Add(mp, path);
                 }
                 else if (this.Type == RefObject.Page)
                 {
@@ -319,8 +323,11 @@ namespace Library
                     mo.Width = width;
                     mo.CountColumns = h;
                     mo.CountLines = v;
-                    proj.MasterObjects.Add(mo);
                     this.Destination = mo;
+                    string[] splitted = mo.ElementTitle.Split('/');
+                    string path = String.Join("/", splitted.Take(splitted.Count() - 1));
+                    mo.Name = splitted.Last();
+                    proj.Add(mo, path);
                 }
                 else if (this.Type == RefObject.Tool)
                 {

@@ -183,7 +183,7 @@ namespace Library
         public string Name
         {
             get { return this.Get(nameName, ""); }
-            set { this.Get(nameName, value); }
+            set { this.Set(nameName, value); }
         }
 
         /// <summary>

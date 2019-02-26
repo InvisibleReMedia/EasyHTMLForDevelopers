@@ -426,7 +426,7 @@ namespace Library
             for (int index = 0; index < list.Count; ++index)
             {
                 AreaSizedRectangle current = list[index];
-                indexes[current.Top, current.Left] = current;
+                indexes[current.StartWidth, current.StartHeight] = current;
             }
 
             // ranger les données dans la master page
@@ -434,25 +434,32 @@ namespace Library
             {
                 HorizontalZone hz;
                 hz = new HorizontalZone();
-                hz.ConstraintWidth = EnumConstraint.FORCED;
-                hz.ConstraintHeight = EnumConstraint.FORCED;
+                hz.ConstraintWidth = EnumConstraint.FIXED;
+                hz.ConstraintHeight = EnumConstraint.AUTO;
                 int countLines;
+                uint width;
+                width = 0;
                 countLines = 0;
                 for (int pos_colonne = 0; pos_colonne < c; ++pos_colonne)
                 {
-                    AreaSizedRectangle current = indexes[pos_ligne, pos_colonne];
+                    AreaSizedRectangle current = indexes[pos_colonne, pos_ligne];
                     if (current != null)
                     {
-                        ++countLines;
                         VerticalZone vz = new VerticalZone();
                         vz.CountLines = current.CountHeight;
                         vz.CountColumns = current.CountWidth;
-                        vz.ConstraintWidth = EnumConstraint.FORCED;
-                        vz.ConstraintHeight = EnumConstraint.FORCED;
+                        vz.Width = Convert.ToUInt32(current.Width);
+                        width += vz.Width;
+                        vz.Height = Convert.ToUInt32(current.Height);
+                        vz.ConstraintWidth = EnumConstraint.FIXED;
+                        vz.ConstraintHeight = EnumConstraint.FIXED;
                         hz.VerticalZones.Add(vz);
+                        if (countLines < vz.CountLines)
+                            countLines = vz.CountLines;
                     }
                 }
                 hz.CountLines = countLines;
+                hz.Width = width;
                 hList.Add(hz);
             }
         }

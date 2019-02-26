@@ -56,7 +56,10 @@ namespace EasyHTMLDev
                 DialogResult dr2 = window.ShowDialog();
                 if (dr2 == DialogResult.OK)
                 {
-                    proj.MasterObjects.Add(creation.MasterObject);
+                    string[] splitted = creation.MasterObject.Title.Split('/');
+                    string path = String.Join("/", splitted.Take(splitted.Count() - 1).ToArray());
+                    creation.MasterObject.Title = splitted.Last();
+                    proj.Add(creation.MasterObject, path);
                     Library.Project.Save(proj, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                     proj.ReloadProject();
                 }

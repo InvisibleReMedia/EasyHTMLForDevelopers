@@ -187,6 +187,10 @@ namespace Library
             {
                 return p.Instances.Find(x => x.Unique == this.Get(uniqueName));
             }
+            else if (type == Project.SculpturesName)
+            {
+                return p.SculptureObjects.Find(x => x.Unique == this.Get(uniqueName));
+            }
             else if (type == Project.FilesName)
             {
                 return p.Files.Find(x => x.Unique == this.Get(uniqueName)); ;

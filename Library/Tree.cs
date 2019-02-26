@@ -322,22 +322,47 @@ namespace Library
         }
 
         /// <summary>
+        /// Enumerate selected nodes and add to the binding list
+        /// </summary>
+        /// <param name="path">complete path of this node</param>
+        /// <param name="b">binding list input</param>
+        public void Enumerate(IEnumerable<T> path, BindingList<dynamic> b)
+        {
+            foreach (Leaf<E> l in this.ListOfElement)
+            {
+                b.Add(l.Object);
+            }
+            Task.Factory.StartNew(() =>
+            {
+                foreach (Node<T, E> n in this.SubNodes)
+                {
+                    b.Add(n.NodeValue);
+                }
+            }).Wait();
+        }
+
+        /// <summary>
         /// Search an element
         /// </summary>
         /// <param name="search">element successors</param>
         /// <returns>the existing node</returns>
         public Node<T, E> Find(T search)
         {
-            Node<T, E> current = this;
-            Node<T, E> next = current.ListOfNodes.Find(x => x.NodeValue.Equals(search));
-            if (next != null)
-                return next;
-            else
+            if (!String.IsNullOrEmpty(search.ToString()))
             {
-                next = new Node<T, E>(search);
-                current.AddNode(next);
-                return next;
+                Node<T, E> current = this;
+                Node<T, E> next = current.ListOfNodes.Find(x => x.NodeValue.Equals(search));
+                if (next != null)
+                    return next;
+                else
+                {
+                    next = new Node<T, E>(search);
+                    current.AddNode(next);
+                    return next;
+                }
             }
+            else
+                return this;
         }
 
         /// <summary>
@@ -353,20 +378,26 @@ namespace Library
             for(; index < len; ++index)
             {
                 T e = search.ElementAt(index);
-                Node<T, E> next = current.ListOfNodes.Find(x => x.NodeValue.Equals(e));
-                if (next != null)
-                    current = next;
-                else
-                    break;
+                if (!String.IsNullOrEmpty(e.ToString()))
+                {
+                    Node<T, E> next = current.ListOfNodes.Find(x => x.NodeValue.Equals(e));
+                    if (next != null)
+                        current = next;
+                    else
+                        break;
+                }
             }
             if (index < len)
             {
                 for (; index < len; ++index)
                 {
                     T e = search.ElementAt(index);
-                    Node<T, E> newNode = new Node<T, E>(e);
-                    current.AddNode(newNode);
-                    current = newNode;
+                    if (!String.IsNullOrEmpty(e.ToString()))
+                    {
+                        Node<T, E> newNode = new Node<T, E>(e);
+                        current.AddNode(newNode);
+                        current = newNode;
+                    }
                 }
             }
             return current;

@@ -224,7 +224,6 @@ namespace Marshalling
         public override string ToString()
         {
             string output = string.Empty;
-            uint d;
             foreach (string s in this.ToTabularString(0))
             {
                 output += s.Trim('\n', '\r') + Environment.NewLine;

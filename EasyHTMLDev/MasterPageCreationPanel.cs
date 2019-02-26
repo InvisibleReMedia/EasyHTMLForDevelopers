@@ -233,6 +233,12 @@ namespace EasyHTMLDev
 
         public void Confirm()
         {
+            foreach (Library.AreaSizedRectangle r in this.list)
+            {
+                Point p = this.RevertCoordinates(new Point(r.Left, r.Top));
+                r.StartWidth = p.X;
+                r.StartHeight = p.Y;
+            }
             this.mPage.MakeZones(this.list);
         }
     }

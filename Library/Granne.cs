@@ -235,7 +235,10 @@ namespace Library
         {
             int width = (int)(this.sizeX * (uint)Granne.granneX);
             int height = (int)(this.sizeY * (uint)Granne.granneY);
-            return new AreaSizedRectangle(width, height, (int)sizeX, (int)sizeY, (int)this.indexY, (int)this.indexY);
+            AreaSizedRectangle s = new AreaSizedRectangle(width, height, (int)sizeX, (int)sizeY, (int)this.indexY, (int)this.indexY);
+            s.StartWidth = Convert.ToInt32(this.indexX);
+            s.StartHeight = Convert.ToInt32(this.indexY);
+            return s;
         }
 
 

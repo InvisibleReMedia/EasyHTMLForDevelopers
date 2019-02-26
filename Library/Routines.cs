@@ -108,7 +108,9 @@ namespace Library
                 sw.Dispose();
                 fs.Close();
                 fs.Dispose();
-                CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title, config.cssFile, AppDomain.CurrentDomain.BaseDirectory + "file.css");
+                CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title, 
+                                                            config.cssFile,
+                                                            AppDomain.CurrentDomain.BaseDirectory + "file.css");
             }
         }
 
@@ -123,7 +125,9 @@ namespace Library
                 sw.Dispose();
                 fs.Close();
                 fs.Dispose();
-                CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title, config.cssFile, AppDomain.CurrentDomain.BaseDirectory + "file.css");
+                CommonDirectories.ConfigDirectories.AddFile(Project.CurrentProject.Title,
+                                                            config.cssFile,
+                                                            AppDomain.CurrentDomain.BaseDirectory + "file.css");
             }
         }
 

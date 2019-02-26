@@ -44,7 +44,10 @@ namespace EasyHTMLDev
             DialogResult dr = fi.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                ConfigDirectories.AddFile(Library.Project.CurrentProject.Title, ConfigDirectories.RemoveLeadBackslash(fi.path.Text), fi.ofd.FileName);
+                ConfigDirectories.AddFile(Library.Project.CurrentProject.Title,
+                                          Path.Combine(ConfigDirectories.GetBuildFolder(Library.Project.CurrentProject.Title),
+                                                       fi.path.Text),
+                                          fi.ofd.FileName);
                 Library.Project.Save(Library.Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Library.Project.CurrentProject.ReloadProject();
                 this.pic.ImageLocation = fi.ofd.FileName;

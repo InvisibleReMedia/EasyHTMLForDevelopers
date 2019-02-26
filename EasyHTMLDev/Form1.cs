@@ -31,11 +31,11 @@ namespace EasyHTMLDev
             this.RegisterControls(ref this.localeComponentId);
         }
 
-        private string StandardTitle(string s)
+        private static string StandardTitle(string s)
         {
             if (String.IsNullOrEmpty(s))
             {
-                return this.Translate("NoTitle");
+                return Translate("NoTitle");
             }
             else
             {
@@ -51,7 +51,7 @@ namespace EasyHTMLDev
         {
         }
 
-        private string Translate(string key)
+        private static string Translate(string key)
         {
             return Localization.Strings.GetString(key);
         }
@@ -102,84 +102,27 @@ namespace EasyHTMLDev
                 TreeNode tools = racine.Nodes.Add(Translate("Tool"));
                 TreeNode sculptures = racine.Nodes.Add(Translate("SculptureForm"));
                 TreeNode instances = racine.Nodes.Add(Translate("ToolInstance"));
+                TreeNode pages = racine.Nodes.Add(Translate("Page"));
                 TreeNode folders = racine.Nodes.Add(Translate("Folder"));
                 racine.Expand();
 
                 foreach (string s in proj.Configuration.Elements.AllKeys)
                 {
-                    config.Nodes.Add(this.StandardTitle(s));
+                    config.Nodes.Add(StandardTitle(s));
                 }
 
                 foreach (string s in proj.JavascriptUrls)
                 {
-                    urls.Nodes.Add(this.StandardTitle(s));
+                    urls.Nodes.Add(StandardTitle(s));
                 }
 
-                var it = proj.Hierarchy.Find(Library.Project.MasterPagesName).GetNodesEnumerator();
-                while(it.MoveNext())
-                {
-                    TreeNode masterPageNode = masterPages.Nodes.Add(this.StandardTitle(it.Current.Get("name")));
-                    masterPageNode.Tag = it.Current;
-                    if (selectedTag is MasterPage && selectedTag.Equals(it.Current))
-                    {
-                        this.treeView1.SelectedNode = masterPageNode;
-                        masterPages.Expand();
-                    }
-                }
-
-                foreach (MasterPage mp in proj.MasterPages)
-                {
-                    TreeNode masterPageNode = masterPages.Nodes.Add(this.StandardTitle(mp.Name));
-                    masterPageNode.Tag = mp;
-                    if (selectedTag is MasterPage && selectedTag.Equals(mp))
-                    {
-                        this.treeView1.SelectedNode = masterPageNode;
-                        masterPages.Expand();
-                    }
-                    foreach (HTMLObject obj in mp.Objects)
-                    {
-                        TreeNode node = masterPageNode.Nodes.Add(this.StandardTitle(obj.Title));
-                        node.Tag = obj;
-                    }
-                }
-
-                foreach (MasterObject mo in proj.MasterObjects)
-                {
-                    TreeNode masterObjectNode = masterObjects.Nodes.Add(this.StandardTitle(mo.Title));
-                    masterObjectNode.Tag = mo;
-                    if (selectedTag is MasterObject && selectedTag.Equals(mo))
-                    {
-                        this.treeView1.SelectedNode = masterObjectNode;
-                        masterObjects.Expand();
-                    }
-                    foreach (HTMLObject obj in mo.Objects)
-                    {
-                        TreeNode node = masterObjectNode.Nodes.Add(this.StandardTitle(obj.Title));
-                        node.Tag = obj;
-                    }
-                }
-
-                foreach (SculptureObject s in proj.SculptureObjects)
-                {
-                    TreeNode sculptureObjectNode = sculptures.Nodes.Add(this.StandardTitle(s.Title));
-                    sculptureObjectNode.Tag = s;
-                    if (selectedTag is SculptureObject && selectedTag.Equals(s))
-                    {
-                        this.treeView1.SelectedNode = sculptureObjectNode;
-                        sculptures.Expand();
-                    }
-                }
-
-                foreach (HTMLObject instance in proj.Instances)
-                {
-                    TreeNode instanceNode = instances.Nodes.Add(this.StandardTitle(instance.Title));
-                    instanceNode.Tag = instance;
-                    if (selectedTag is HTMLObject && selectedTag.Equals(instance))
-                    {
-                        this.treeView1.SelectedNode = instanceNode;
-                        instances.Expand();
-                    }
-                }
+                EnumerateHierarchy(proj, masterPages, proj.Hierarchy.Find(Project.MasterPagesName));
+                EnumerateHierarchy(proj, masterObjects, proj.Hierarchy.Find(Project.MasterObjectsName));
+                EnumerateHierarchy(proj, tools, proj.Hierarchy.Find(Project.ToolsName));
+                EnumerateHierarchy(proj, sculptures, proj.Hierarchy.Find(Project.SculpturesName));
+                EnumerateHierarchy(proj, instances, proj.Hierarchy.Find(Project.InstancesName));
+                EnumerateHierarchy(proj, pages, proj.Hierarchy.Find(Project.PagesName));
+                EnumerateHierarchy(proj, folders, proj.Hierarchy.Find(Project.FoldersName));
 
                 this.sculpterMenu.Enabled = true;
                 this.masterPagesToolStripMenuItem.Enabled = true;
@@ -208,6 +151,20 @@ namespace EasyHTMLDev
             }
         }
 
+        public static void EnumerateHierarchy(Project proj, TreeNode destination, Node<string, Accessor> source)
+        {
+            foreach (Node<string, Accessor> subSource in source.SubNodes)
+            {
+                TreeNode subDestination = destination.Nodes.Add(subSource.NodeValue);
+                EnumerateHierarchy(proj, subDestination, subSource);
+            }
+            foreach (Leaf<Accessor> a in source.Elements)
+            {
+                TreeNode subDestination = destination.Nodes.Add(StandardTitle(a.Object.GetObject(proj).ElementTitle));
+                subDestination.Tag = a.Object.GetObject(proj);
+            }
+        }
+
         private void créerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Open op = new Open(ConfigDirectories.GetDocumentsFolder());
@@ -215,7 +172,7 @@ namespace EasyHTMLDev
             AppDomain.CurrentDomain.SetData("fileName", op.FileName);
             this.treeView1.SelectedNode = null;
             Project.Load(ConfigDirectories.GetDocumentsFolder(), op.FileName, new Project.OpenProject(OpenProject));
-            this.Text = String.Format(this.Translate("SoftwareTitleOnProject"), Project.CurrentProject.Title);
+            this.Text = String.Format(Translate("SoftwareTitleOnProject"), Project.CurrentProject.Title);
         }
 
         private void ouvrirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -226,7 +183,7 @@ namespace EasyHTMLDev
             {
                 AppDomain.CurrentDomain.SetData("fileName", op.FileName);
                 Project.Load(ConfigDirectories.GetDocumentsFolder(), op.FileName, new Project.OpenProject(OpenProject));
-                this.Text = String.Format(this.Translate("SoftwareTitleOnProject"), Project.CurrentProject.Title);
+                this.Text = String.Format(Translate("SoftwareTitleOnProject"), Project.CurrentProject.Title);
             }
         }
 
@@ -288,7 +245,10 @@ namespace EasyHTMLDev
                 if (dr2 == DialogResult.OK)
                 {
                     Library.SizeCompute.ComputeMasterPage(proj, form.MasterPage);
-                    proj.MasterPages.Add(form.MasterPage);
+                    string[] splitted = form.MasterPage.ElementTitle.Split('/');
+                    string path = String.Join("/", splitted.Take(splitted.Count() - 1));
+                    form.MasterPage.Name = splitted.Last();
+                    proj.Add(form.MasterPage, path);
                     Project.Save(proj, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                     Project.CurrentProject.ReloadProject();
                 }
@@ -309,7 +269,7 @@ namespace EasyHTMLDev
                     {
                         Library.MasterPage mp = this.treeView1.SelectedNode.Tag as Library.MasterPage;
                         MasterPageView window = new MasterPageView(mp.Name);
-                        window.Text = String.Format(this.Translate("MasterPageTitle"), mp.Name);
+                        window.Text = String.Format(Translate("MasterPageTitle"), mp.Name);
                         window.FormClosed += window_FormClosed;
                         window.MdiParent = this;
                         window.MasterPage = mp;
@@ -323,7 +283,7 @@ namespace EasyHTMLDev
                     {
                         Library.MasterObject mo = this.treeView1.SelectedNode.Tag as Library.MasterObject;
                         MasterObjectView window = new MasterObjectView(mo.Title);
-                        window.Text = String.Format(this.Translate("MasterObjectTitle"), mo.Title);
+                        window.Text = String.Format(Translate("MasterObjectTitle"), mo.Title);
                         window.FormClosed += window_FormClosed;
                         window.MdiParent = this;
                         window.MasterObject = mo;
@@ -337,7 +297,7 @@ namespace EasyHTMLDev
                     {
                         Library.SculptureObject so = this.treeView1.SelectedNode.Tag as Library.SculptureObject;
                         SculptureView window = new SculptureView();
-                        window.Text = String.Format(this.Translate("SculptureTitle"), so.Title);
+                        window.Text = String.Format(Translate("SculptureTitle"), so.Title);
                         window.FormClosed += window_FormClosed;
                         window.MdiParent = this;
                         window.SculptureObject = so;
@@ -356,7 +316,7 @@ namespace EasyHTMLDev
                     {
                         Library.HTMLTool t = this.treeView1.SelectedNode.Tag as Library.HTMLTool;
                         ToolView view = new ToolView(t.Title);
-                        view.Text = String.Format(this.Translate("ToolTitle"), t.Title);
+                        view.Text = String.Format(Translate("ToolTitle"), t.Title);
                         view.FormClosed += window_FormClosed;
                         view.MdiParent = this;
                         view.HTMLTool = t;
@@ -372,7 +332,7 @@ namespace EasyHTMLDev
                         if (!String.IsNullOrEmpty(obj.MasterObjectName))
                         {
                             ObjectView view = new ObjectView(obj.Title);
-                            view.Text = String.Format(this.Translate("ObjectTitle"), obj.Title);
+                            view.Text = String.Format(Translate("ObjectTitle"), obj.Title);
                             view.FormClosed += window_FormClosed;
                             view.MdiParent = this;
                             view.HTMLObject = obj;
@@ -385,7 +345,7 @@ namespace EasyHTMLDev
                         else
                         {
                             SimpleObjectView view = new SimpleObjectView(obj.Title);
-                            view.Text = String.Format(this.Translate("ObjectTitle"), obj.Title);
+                            view.Text = String.Format(Translate("ObjectTitle"), obj.Title);
                             view.FormClosed += window_FormClosed;
                             view.MdiParent = this;
                             view.HTMLObject = obj;
@@ -400,7 +360,7 @@ namespace EasyHTMLDev
                     {
                         Page p = this.treeView1.SelectedNode.Tag as Library.Page;
                         PageView view = new PageView(p.Name);
-                        view.Text = String.Format(this.Translate("PageTitle"), p.Name);
+                        view.Text = String.Format(Translate("PageTitle"), p.Name);
                         view.FormClosed += window_FormClosed;
                         view.MdiParent = this;
                         view.Page = p;
@@ -499,7 +459,10 @@ namespace EasyHTMLDev
                 if (dr2 == DialogResult.OK)
                 {
                     Library.SizeCompute.ComputeMasterObject(proj, creation.MasterObject);
-                    proj.MasterObjects.Add(creation.MasterObject);
+                    string[] splitted = creation.MasterObject.ElementTitle.Split('/');
+                    string path = String.Join("/", splitted.Take(splitted.Count() - 1));
+                    creation.MasterObject.Name = splitted.Last();
+                    proj.Add(creation.MasterObject, path);
                     Project.Save(proj, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                     Project.CurrentProject.ReloadProject();
                 }
@@ -536,6 +499,7 @@ namespace EasyHTMLDev
             if (dr == System.Windows.Forms.DialogResult.OK)
             {
                 Library.SizeCompute.ComputePage(Project.CurrentProject, pc.Page);
+
                 Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Project.CurrentProject.ReloadProject();
             }
@@ -621,7 +585,8 @@ namespace EasyHTMLDev
             {
                 fi.path.Text = ConfigDirectories.RemoveLeadBackslash(fi.path.Text);
                 Project.AddFile(Project.CurrentProject, Path.GetDirectoryName(fi.path.Text), Path.GetFileName(fi.path.Text));
-                ConfigDirectories.AddFile(Project.CurrentProject.Title, fi.path.Text, fi.ofd.FileName);
+                ConfigDirectories.AddFile(Project.CurrentProject.Title,
+                                          fi.path.Text, fi.ofd.FileName);
                 Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Project.CurrentProject.ReloadProject();
             }
@@ -634,7 +599,7 @@ namespace EasyHTMLDev
             {
                 if (t.Tag != null)
                 {
-                    DialogResult dr = MessageBox.Show(this.Translate("SuppressText"), this.Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult dr = MessageBox.Show(Translate("SuppressText"), Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (dr == System.Windows.Forms.DialogResult.Yes)
                     {
                         if (t.Tag is Library.MasterPage)
@@ -738,11 +703,11 @@ namespace EasyHTMLDev
                     Project.CurrentProject.Title = renamed;
                     AppDomain.CurrentDomain.SetData("fileName", renamed + ".bin");
                     Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
-                    this.Text = String.Format(this.Translate("SoftwareTitleOnProject"), Project.CurrentProject.Title);
+                    this.Text = String.Format(Translate("SoftwareTitleOnProject"), Project.CurrentProject.Title);
                 }
                 catch
                 {
-                    MessageBox.Show(this.Translate("FileLoadErrorText"), this.Translate("FileLoadErrorTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Translate("FileLoadErrorText"), Translate("FileLoadErrorTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 finally
                 {
@@ -783,7 +748,9 @@ namespace EasyHTMLDev
                 if (dr == DialogResult.OK)
                 {
                     Project proj = Project.CurrentProject;
-                    proj.SculptureObjects.Add(creation.SculptureObject);
+                    string[] splitted = creation.SculptureObject.Title.Split('/');
+                    creation.SculptureObject.Title = splitted.Last();
+                    proj.Add(creation.SculptureObject, String.Join("/", splitted.Take(splitted.Count() - 1)));
                     Project.Save(proj, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                     Project.CurrentProject.ReloadProject();
                 }
@@ -803,7 +770,7 @@ namespace EasyHTMLDev
                 {
                     if (t.Tag is Library.HTMLTool)
                     {
-                        DialogResult dr = MessageBox.Show(this.Translate("SuppressText"), this.Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show(Translate("SuppressText"), Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             Library.HTMLTool tool = t.Tag as Library.HTMLTool;
@@ -825,7 +792,7 @@ namespace EasyHTMLDev
                 {
                     if (t.Tag is Library.MasterObject)
                     {
-                        DialogResult dr = MessageBox.Show(this.Translate("SuppressText"), this.Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show(Translate("SuppressText"), Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             MasterObject mo = t.Tag as MasterObject;
@@ -851,7 +818,7 @@ namespace EasyHTMLDev
                 {
                     if (t.Tag is Library.MasterPage)
                     {
-                        DialogResult dr = MessageBox.Show(this.Translate("SuppressText"), this.Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show(Translate("SuppressText"), Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             MasterPage mp = t.Tag as MasterPage;
@@ -877,7 +844,7 @@ namespace EasyHTMLDev
                 {
                     if (t.Tag is string)
                     {
-                        DialogResult dr = MessageBox.Show(this.Translate("SuppressText"), this.Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show(Translate("SuppressText"), Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             string fileName = t.Tag as string;
@@ -903,7 +870,7 @@ namespace EasyHTMLDev
                 {
                     if (t.Tag is Library.Page)
                     {
-                        DialogResult dr = MessageBox.Show(this.Translate("SuppressText"), this.Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show(Translate("SuppressText"), Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             Page page = t.Tag as Page;
@@ -927,7 +894,7 @@ namespace EasyHTMLDev
                 {
                     if (t.Tag is Library.SculptureObject)
                     {
-                        DialogResult dr = MessageBox.Show(this.Translate("SuppressText"), this.Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show(Translate("SuppressText"), Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             SculptureObject sObject = t.Tag as SculptureObject;

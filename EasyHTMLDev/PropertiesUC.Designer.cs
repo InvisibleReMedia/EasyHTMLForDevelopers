@@ -194,7 +194,7 @@
             // 
             // txtBorderY
             // 
-            this.txtBorderY.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "VerticalBorder", true));
+            this.txtBorderY.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "HeightBorder", true));
             this.txtBorderY.Location = new System.Drawing.Point(339, 132);
             this.txtBorderY.Name = "txtBorderY";
             this.txtBorderY.Size = new System.Drawing.Size(129, 20);
@@ -202,7 +202,7 @@
             // 
             // txtBorderX
             // 
-            this.txtBorderX.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "HorizontalBorder", true));
+            this.txtBorderX.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "WidthBorder", true));
             this.txtBorderX.Location = new System.Drawing.Point(339, 101);
             this.txtBorderX.Name = "txtBorderX";
             this.txtBorderX.Size = new System.Drawing.Size(129, 20);
@@ -228,7 +228,7 @@
             // 
             // txtExpY
             // 
-            this.txtExpY.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "VerticalPadding", true));
+            this.txtExpY.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "HeightPadding", true));
             this.txtExpY.Location = new System.Drawing.Point(83, 132);
             this.txtExpY.Name = "txtExpY";
             this.txtExpY.Size = new System.Drawing.Size(129, 20);
@@ -236,7 +236,7 @@
             // 
             // txtEspX
             // 
-            this.txtEspX.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "HorizontalPadding", true));
+            this.txtEspX.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "WidthPadding", true));
             this.txtEspX.Location = new System.Drawing.Point(83, 101);
             this.txtEspX.Name = "txtEspX";
             this.txtEspX.Size = new System.Drawing.Size(129, 20);
@@ -262,7 +262,7 @@
             // 
             // txtY
             // 
-            this.txtY.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "VerticalPosition", true));
+            this.txtY.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "HeightPosition", true));
             this.txtY.Location = new System.Drawing.Point(339, 73);
             this.txtY.Name = "txtY";
             this.txtY.Size = new System.Drawing.Size(129, 20);
@@ -270,7 +270,7 @@
             // 
             // txtX
             // 
-            this.txtX.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "HorizontalPosition", true));
+            this.txtX.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "WidthPosition", true));
             this.txtX.Location = new System.Drawing.Point(339, 42);
             this.txtX.Name = "txtX";
             this.txtX.Size = new System.Drawing.Size(129, 20);
@@ -296,7 +296,7 @@
             // 
             // txtSizeY
             // 
-            this.txtSizeY.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "Hauteur", true));
+            this.txtSizeY.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "Height", true));
             this.txtSizeY.Location = new System.Drawing.Point(83, 73);
             this.txtSizeY.Name = "txtSizeY";
             this.txtSizeY.Size = new System.Drawing.Size(129, 20);
@@ -304,7 +304,7 @@
             // 
             // txtSizeX
             // 
-            this.txtSizeX.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "Largeur", true));
+            this.txtSizeX.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.cadreModelBindingSource, "Width", true));
             this.txtSizeX.Location = new System.Drawing.Point(83, 42);
             this.txtSizeX.Name = "txtSizeX";
             this.txtSizeX.Size = new System.Drawing.Size(129, 20);

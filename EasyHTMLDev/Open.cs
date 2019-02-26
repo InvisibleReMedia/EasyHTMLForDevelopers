@@ -164,11 +164,16 @@ namespace EasyHTMLDev
             Project proj = new Project();
             proj.Title = Path.GetFileNameWithoutExtension(fi.Name);
             proj.CreationDate = DateTime.Now;
-            FileStream fs = fi.Create();
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(fs, proj);
-            fs.Close();
-            fs.Dispose();
+            string errorText;
+            if (Project.Save(fi, proj, out errorText))
+            {
+                proj.Set(Project.hasErrorSaveName, false);
+            }
+            else
+            {
+                proj.Set(Project.hasErrorSaveName, true);
+                proj.Set(Project.errorReasonName, errorText);
+            }
             // we need to create the respective folder
             CommonDirectories.ConfigDirectories.CreateDirectoryProject(proj.Title);
             this._fileName = fi.Name;

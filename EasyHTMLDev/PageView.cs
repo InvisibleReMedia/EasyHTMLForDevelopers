@@ -50,12 +50,20 @@ namespace EasyHTMLDev
         {
             try
             {
+                string fileName = Path.Combine(ConfigDirectories.GetBuildFolder(Library.Project.CurrentProject.Title),
+                                               ConfigDirectories.RemoveLeadSlash(this.Page.Folder),
+                                               ConfigDirectories.RemoveLeadSlash(this.Page.Name));
+                string ehdash = Path.Combine(ConfigDirectories.GetBuildFolder(Library.Project.CurrentProject.Title),
+                                             ConfigDirectories.RemoveLeadSlash(this.Page.Folder),
+                                             "ehd_ask.png");
                 Library.OutputHTML html = this.Page.GenerateDesign();
                 if (!String.IsNullOrEmpty(this.Page.Folder))
                 {
-                    ConfigDirectories.AddFile(Library.Project.CurrentProject.Title, this.Page.Folder + "ehd_ask.png", ConfigDirectories.GetBuildFolder(Library.Project.CurrentProject.Title) + "ehd_ask.png");
+                    ConfigDirectories.AddFile(Library.Project.CurrentProject.Title,
+                                              ehdash,
+                                              ConfigDirectories.GetBuildFolder(Library.Project.CurrentProject.Title) + "ehd_ask.png");
                 }
-                FileStream fs = new FileStream(ConfigDirectories.GetBuildFolder(Library.Project.CurrentProject.Title) + this.Page.Folder + this.Page.Name, FileMode.Create);
+                FileStream fs = new FileStream(fileName, FileMode.Create);
                 StreamWriter sw = new StreamWriter(fs);
                 sw.WriteLine(html.HTML.ToString());
                 sw.Close();
@@ -63,7 +71,7 @@ namespace EasyHTMLDev
                 fs.Close();
                 fs.Dispose();
                 this.webBrowser1.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser1_DocumentCompleted);
-                this.webBrowser1.Navigate(ConfigDirectories.GetBuildFolder(Library.Project.CurrentProject.Title) + this.Page.Folder + this.Page.Name);
+                this.webBrowser1.Navigate(fileName);
             }
             catch (Exception ex)
             {

@@ -143,11 +143,10 @@ namespace CommonDirectories
         {
             string[] path = fileName.Split('/');
             AddFolder(projectName, String.Join("/", path, 0, path.Length - 1));
-            FileInfo fi = new FileInfo(Path.Combine(ConfigDirectories.GetBuildFolder(projectName), fileName));
             FileInfo src = new FileInfo(srcFile);
-            if (src.Exists)
+            if (src.Exists && fileName != srcFile)
             {
-                src.CopyTo(fi.FullName, true);
+                src.CopyTo(fileName, true);
             }
         }
 
@@ -178,7 +177,7 @@ namespace CommonDirectories
             string[] path = fileName.Split('/');
             AddProductionFolder(projectName, String.Join("/", path, 0, path.Length - 1), destinationDirectory);
             FileInfo fi = new FileInfo(Path.Combine(destinationDirectory, fileName));
-            FileInfo src = new FileInfo(srcFile);
+            FileInfo src = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + srcFile);
             if (src.Exists)
             {
                 src.CopyTo(fi.FullName, true);

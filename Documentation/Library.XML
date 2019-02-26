@@ -5146,6 +5146,12 @@
             viewed into the tree of project elements
             </summary>
         </member>
+        <member name="F:Library.Project.SculpturesName">
+            <summary>
+            Name of the translation label for Sculpture
+            viewed into the tree of project elements
+            </summary>
+        </member>
         <member name="F:Library.Project.hasErrorSaveName">
             <summary>
             Index name for error switch occurred
@@ -5352,6 +5358,14 @@
             given a specific path to organize project's element
             </summary>
             <param name="i">instance</param>
+            <param name="path">path</param>
+        </member>
+        <member name="M:Library.Project.Add(Library.SculptureObject,System.String)">
+            <summary>
+            Add an instance
+            given a specific path to organize project's element
+            </summary>
+            <param name="s">instance</param>
             <param name="path">path</param>
         </member>
         <member name="M:Library.Project.ImportPages(Library.Project,Library.Project)">
@@ -5859,9 +5873,19 @@
             Index name of width value
             </summary>
         </member>
+        <member name="F:Library.AreaSizedRectangle.startWidthName">
+            <summary>
+            Index name of start width value
+            </summary>
+        </member>
         <member name="F:Library.AreaSizedRectangle.countHeightName">
             <summary>
             Index name of height value
+            </summary>
+        </member>
+        <member name="F:Library.AreaSizedRectangle.startHeightName">
+            <summary>
+            Index name of start height value
             </summary>
         </member>
         <member name="M:Library.AreaSizedRectangle.#ctor">
@@ -5891,9 +5915,19 @@
             Gets the count width value
             </summary>
         </member>
+        <member name="P:Library.AreaSizedRectangle.StartWidth">
+            <summary>
+            Gets the start width value
+            </summary>
+        </member>
         <member name="P:Library.AreaSizedRectangle.CountHeight">
             <summary>
             Gets the count height value
+            </summary>
+        </member>
+        <member name="P:Library.AreaSizedRectangle.StartHeight">
+            <summary>
+            Gets the start height value
             </summary>
         </member>
         <member name="T:Library.RefObject">
@@ -6591,6 +6625,13 @@
             Enumerate selected nodes and add to the binding list
             </summary>
             <param name="isSelected">true if parent node is selected</param>
+            <param name="path">complete path of this node</param>
+            <param name="b">binding list input</param>
+        </member>
+        <member name="M:Library.Node`2.Enumerate(System.Collections.Generic.IEnumerable{`0},System.ComponentModel.BindingList{System.Object})">
+            <summary>
+            Enumerate selected nodes and add to the binding list
+            </summary>
             <param name="path">complete path of this node</param>
             <param name="b">binding list input</param>
         </member>

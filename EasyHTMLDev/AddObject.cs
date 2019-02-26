@@ -65,20 +65,10 @@ namespace EasyHTMLDev
 
         private void AddObject_Load(object sender, EventArgs e)
         {
-            TreeNode mObjects = this.treeView1.Nodes.Add(Localization.Strings.GetString("MasterObject"));
-            var it = Library.Project.CurrentProject.Hierarchy.Find(Library.Project.MasterObjectsName).GetNodesEnumerator();
-            while(it.MoveNext())
-            {
-                TreeNode subNode = mObjects.Nodes.Add(it.Current.Get("title"));
-                subNode.Tag = it.Current;
-            }
-
-            it = Library.Project.CurrentProject.Hierarchy.Find("Tools").GetNodesEnumerator();
-            while (it.MoveNext())
-            {
-                TreeNode subNode = mObjects.Nodes.Add(it.Current.Get("title"));
-                subNode.Tag = it.Current;
-            }
+            TreeNode mObjects = this.treeView1.Nodes.Add(Library.Project.MasterPagesName);
+            Form1.EnumerateHierarchy(Library.Project.CurrentProject, mObjects, Library.Project.CurrentProject.Hierarchy.Find(Library.Project.MasterPagesName));
+            TreeNode mTools = this.treeView1.Nodes.Add(Library.Project.MasterPagesName);
+            Form1.EnumerateHierarchy(Library.Project.CurrentProject, mTools, Library.Project.CurrentProject.Hierarchy.Find(Library.Project.ToolsName));
         }
     }
 }

@@ -84,19 +84,24 @@ namespace Library
         /// viewed into the tree of project elements
         /// </summary>
         public static readonly string FoldersName = "Folders";
+        /// <summary>
+        /// Name of the translation label for Sculpture
+        /// viewed into the tree of project elements
+        /// </summary>
+        public static readonly string SculpturesName = "Sculptures";
+        /// <summary>
+        /// Index name for error switch occurred
+        /// </summary>
+        public static readonly string hasErrorSaveName = "hasErrorSave";
+        /// <summary>
+        /// Index name for error reason string
+        /// </summary>
+        public static readonly string errorReasonName = "errorReason";
 
         #endregion
 
         #region Private Fields
 
-        /// <summary>
-        /// Index name for error switch occurred
-        /// </summary>
-        protected static readonly string hasErrorSaveName = "hasErrorSave";
-        /// <summary>
-        /// Index name for error reason string
-        /// </summary>
-        protected static readonly string errorReasonName = "errorReason";
         /// <summary>
         /// Index name for sculpture tool image
         /// </summary>
@@ -274,7 +279,10 @@ namespace Library
         public string Title
         {
             get { return this.Get(titleName, "new project"); }
-            set { this.Set(titleName, value); }
+            set {
+                this.Set(titleName, value);
+                this.Hierarchy.NodeValue = value;    
+            }
         }
 
         /// <summary>
@@ -470,6 +478,7 @@ namespace Library
             node.AddNode(new Node<string, Accessor>(Project.MasterPagesName));
             node.AddNode(new Node<string, Accessor>(Project.MasterObjectsName));
             node.AddNode(new Node<string, Accessor>(Project.ToolsName));
+            node.AddNode(new Node<string, Accessor>(Project.SculpturesName));
             node.AddNode(new Node<string, Accessor>(Project.InstancesName));
             node.AddNode(new Node<string, Accessor>(Project.PagesName));
             node.AddNode(new Node<string, Accessor>(Project.FilesName));
@@ -546,7 +555,8 @@ namespace Library
             p.Unique = u;
             Accessor a = new Accessor(Project.PagesName, u);
             string[] splitted = path.Split('/');
-            this.Hierarchy.Find(Project.PagesName).Find(splitted).AddLeaf(a);
+            p.Name = splitted.Last();
+            this.Hierarchy.Find(Project.PagesName).Find(splitted.Take(splitted.Count() - 1)).AddLeaf(a);
             p.Folder = String.Join("/", splitted.Take(splitted.Count() - 1).ToArray()) + "/";
         }
 
@@ -577,7 +587,10 @@ namespace Library
             string u = this.Unique.ComputeNewString();
             t.Unique = u;
             Accessor a = new Accessor(Project.ToolsName, u);
-            this.Hierarchy.Find(Project.ToolsName).Find(path.Split('/')).AddLeaf(a);
+            string[] splitted = path.Split('/');
+            this.Hierarchy.Find(Project.ToolsName).Find(splitted).AddLeaf(a);
+            t.Path = String.Join("/", splitted.Take(splitted.Count() - 1).ToArray()) + "/";
+            t.Title = splitted.Last();
         }
 
         /// <summary>
@@ -593,6 +606,21 @@ namespace Library
             i.Unique = u;
             Accessor a = new Accessor(Project.InstancesName, u);
             this.Hierarchy.Find(Project.InstancesName).Find(path.Split('/')).AddLeaf(a);
+        }
+
+        /// <summary>
+        /// Add an instance
+        /// given a specific path to organize project's element
+        /// </summary>
+        /// <param name="s">instance</param>
+        /// <param name="path">path</param>
+        public void Add(SculptureObject s, string path)
+        {
+            this.SculptureObjects.Add(s);
+            string u = this.Unique.ComputeNewString();
+            s.Unique = u;
+            Accessor a = new Accessor(Project.SculpturesName, u);
+            this.Hierarchy.Find(Project.SculpturesName).Find(path.Split('/')).AddLeaf(a);
         }
 
         #endregion
@@ -793,7 +821,9 @@ namespace Library
             bool result;
             try
             {
-                CommonDirectories.ConfigDirectories.AddFile(proj.Title, Path.Combine(path, f), fileName);
+                CommonDirectories.ConfigDirectories.AddFile(proj.Title,
+                                                            Path.Combine(CommonDirectories.ConfigDirectories.GetBuildFolder(proj.Title), path, f),
+                                                            fileName);
                 result = true;
             }
             catch

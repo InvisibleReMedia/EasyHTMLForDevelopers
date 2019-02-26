@@ -334,9 +334,17 @@ namespace Library
         /// </summary>
         protected static readonly string countWidthName = "CountWidth";
         /// <summary>
+        /// Index name of start width value
+        /// </summary>
+        protected static readonly string startWidthName = "startWidth";
+        /// <summary>
         /// Index name of height value
         /// </summary>
         protected static readonly string countHeightName = "CountHeight";
+        /// <summary>
+        /// Index name of start height value
+        /// </summary>
+        protected static readonly string startHeightName = "startHeight";
 
         #endregion
 
@@ -376,12 +384,30 @@ namespace Library
         }
 
         /// <summary>
+        /// Gets the start width value
+        /// </summary>
+        public int StartWidth
+        {
+            get { return this.Get(startWidthName, 0); }
+            set { this.Set(startWidthName, value); }
+        }
+
+        /// <summary>
         /// Gets the count height value
         /// </summary>
         public int CountHeight
         {
             get { return this.Get(countHeightName, 0); }
             set { this.Set(countHeightName, value); }
+        }
+
+        /// <summary>
+        /// Gets the start height value
+        /// </summary>
+        public int StartHeight
+        {
+            get { return this.Get(startHeightName, 0); }
+            set { this.Set(startHeightName, value); }
         }
 
 
@@ -397,7 +423,8 @@ namespace Library
         {
             return this.CountWidth.ToString() + "," + this.CountHeight.ToString() + "," +
                    this.Width.ToString() + "," + this.Height.ToString() + "," +
-                   this.Left.ToString() + "," + this.Top.ToString();
+                   this.Left.ToString() + "," + this.Top.ToString() + "," +
+                   this.StartWidth.ToString() + "," + this.StartHeight.ToString();
         }
 
         #endregion
