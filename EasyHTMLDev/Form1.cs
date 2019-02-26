@@ -103,6 +103,7 @@ namespace EasyHTMLDev
                 TreeNode sculptures = racine.Nodes.Add(Translate("SculptureForm"));
                 TreeNode instances = racine.Nodes.Add(Translate("ToolInstance"));
                 TreeNode pages = racine.Nodes.Add(Translate("Page"));
+                TreeNode files = racine.Nodes.Add(Translate("File"));
                 TreeNode folders = racine.Nodes.Add(Translate("Folder"));
                 racine.Expand();
 
@@ -122,6 +123,7 @@ namespace EasyHTMLDev
                 EnumerateHierarchy(proj, sculptures, proj.Hierarchy.Find(Project.SculpturesName));
                 EnumerateHierarchy(proj, instances, proj.Hierarchy.Find(Project.InstancesName));
                 EnumerateHierarchy(proj, pages, proj.Hierarchy.Find(Project.PagesName));
+                EnumerateHierarchy(proj, files, proj.Hierarchy.Find(Project.FilesName));
                 EnumerateHierarchy(proj, folders, proj.Hierarchy.Find(Project.FoldersName));
 
                 this.sculpterMenu.Enabled = true;
@@ -583,10 +585,14 @@ namespace EasyHTMLDev
             DialogResult dr = fi.ShowDialog();
             if (dr == System.Windows.Forms.DialogResult.OK)
             {
-                fi.path.Text = ConfigDirectories.RemoveLeadBackslash(fi.path.Text);
-                Project.AddFile(Project.CurrentProject, Path.GetDirectoryName(fi.path.Text), Path.GetFileName(fi.path.Text));
-                ConfigDirectories.AddFile(Project.CurrentProject.Title,
-                                          fi.path.Text, fi.ofd.FileName);
+                FileAttributes fa = System.IO.File.GetAttributes(fi.FileName);
+                if (fa == FileAttributes.Directory)
+                {
+                }
+                else
+                {
+                    Project.AddFile(Project.CurrentProject, fi.DestinationPath, fi.FileName);
+                }
                 Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Project.CurrentProject.ReloadProject();
             }

@@ -282,7 +282,7 @@ namespace Library
         /// </summary>
         public string TypeName
         {
-            get { return "MasterObject"; }
+            get { return "HTMLTool"; }
         }
 
         /// <summary>

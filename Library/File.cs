@@ -12,7 +12,7 @@ namespace Library
     /// the source file resides into the project's build directory
     /// </summary>
     [Serializable]
-    public class File : Marshalling.PersistentDataObject
+    public class File : Marshalling.PersistentDataObject, IProjectElement
     {
 
         #region Fields
@@ -25,6 +25,10 @@ namespace Library
         /// Index name for the file name
         /// </summary>
         protected static readonly string fileNameName = "fileName";
+        /// <summary>
+        /// Index name for the folder
+        /// </summary>
+        protected static readonly string folderName = "folder";
 
         #endregion
 
@@ -44,6 +48,7 @@ namespace Library
         /// <param name="f">file name</param>
         public File(string f)
         {
+            this.Set(folderName, Path.GetDirectoryName(f));
             this.Set(fileNameName, Path.GetFileName(f));
         }
 
@@ -66,6 +71,30 @@ namespace Library
         public string FileName
         {
             get { return this.Get(fileNameName, ""); }
+        }
+
+        /// <summary>
+        /// Gets the folder
+        /// </summary>
+        public string Folder
+        {
+            get { return this.Get(folderName, ""); }
+        }
+
+        /// <summary>
+        /// Gets the type name
+        /// </summary>
+        public string TypeName
+        {
+            get { return "File"; }
+        }
+
+        /// <summary>
+        /// Gets the element title
+        /// </summary>
+        public string ElementTitle
+        {
+            get { return this.FileName; }
         }
 
         #endregion

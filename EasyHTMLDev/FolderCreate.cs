@@ -25,6 +25,7 @@ namespace EasyHTMLDev
         {
             Library.Node<string, Library.Accessor> rootFolder = Library.Project.CurrentProject.Hierarchy.Find(Library.Project.FoldersName);
             Library.Node<string, Library.Accessor> currentFolder = rootFolder;
+            CommonDirectories.ConfigDirectories.AddFolder(Library.Project.CurrentProject.Title, this.textBox1.Text);
             string[] list = this.textBox1.Text.Split('/');
             currentFolder.Find(list);
             this.DialogResult = System.Windows.Forms.DialogResult.OK;

@@ -186,7 +186,7 @@ namespace CommonDirectories
 
         public static string RemoveLeadBackslash(string s)
         {
-            string lead = s.Replace("\\\\", "/");
+            string lead = s.Replace("\\", "/");
             if (lead.StartsWith("/"))
             {
                 return lead.Substring(1);
@@ -199,10 +199,10 @@ namespace CommonDirectories
 
         public static string RemoveLeadSlash(string s)
         {
-            string lead = s.Replace("/", "\\\\");
-            if (lead.StartsWith("\\\\"))
+            string lead = s.Replace("/", "\\");
+            if (lead.StartsWith("\\"))
             {
-                return lead.Substring(2);
+                return lead.Substring(1);
             }
             else
             {

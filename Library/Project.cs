@@ -557,7 +557,9 @@ namespace Library
             string[] splitted = path.Split('/');
             p.Name = splitted.Last();
             this.Hierarchy.Find(Project.PagesName).Find(splitted.Take(splitted.Count() - 1)).AddLeaf(a);
+            this.Hierarchy.Find(Project.FoldersName).Find(splitted.Take(splitted.Count() - 1)).AddLeaf(a);
             p.Folder = String.Join("/", splitted.Take(splitted.Count() - 1).ToArray()) + "/";
+            CommonDirectories.ConfigDirectories.AddFolder(this.Title, p.Folder);
         }
 
         /// <summary>
@@ -573,6 +575,7 @@ namespace Library
             f.Unique = u;
             Accessor a = new Accessor(Project.FilesName, u);
             this.Hierarchy.Find(Project.FilesName).Find(path.Split('/')).AddLeaf(a);
+            this.Hierarchy.Find(Project.FoldersName).Find(path.Split('/')).AddLeaf(a);
         }
 
         /// <summary>
@@ -816,8 +819,9 @@ namespace Library
         public static bool AddFile(Project proj, string path, string fileName)
         {
             FileInfo fi = new FileInfo(fileName);
-            string f = Path.GetFileName(fileName);
-            proj.Add(new File(f), path);
+            string path2 = CommonDirectories.ConfigDirectories.RemoveLeadBackslash(path);
+            string f = CommonDirectories.ConfigDirectories.RemoveLeadBackslash(Path.GetFileName(fileName));
+            proj.Add(new File(f), path2);
             bool result;
             try
             {

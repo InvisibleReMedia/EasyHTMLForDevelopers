@@ -1763,6 +1763,21 @@
             the source file resides into the project's build directory
             </summary>
         </member>
+        <member name="T:Library.IProjectElement">
+            <summary>
+            Interface of an element project
+            </summary>
+        </member>
+        <member name="P:Library.IProjectElement.TypeName">
+            <summary>
+            Gets the type name
+            </summary>
+        </member>
+        <member name="P:Library.IProjectElement.ElementTitle">
+            <summary>
+            Gets the element title
+            </summary>
+        </member>
         <member name="F:Library.File.uniqueName">
             <summary>
             Index name for the unique id
@@ -1771,6 +1786,11 @@
         <member name="F:Library.File.fileNameName">
             <summary>
             Index name for the file name
+            </summary>
+        </member>
+        <member name="F:Library.File.folderName">
+            <summary>
+            Index name for the folder
             </summary>
         </member>
         <member name="M:Library.File.#ctor">
@@ -1792,6 +1812,21 @@
         <member name="P:Library.File.FileName">
             <summary>
             Gets the file name
+            </summary>
+        </member>
+        <member name="P:Library.File.Folder">
+            <summary>
+            Gets the folder
+            </summary>
+        </member>
+        <member name="P:Library.File.TypeName">
+            <summary>
+            Gets the type name
+            </summary>
+        </member>
+        <member name="P:Library.File.ElementTitle">
+            <summary>
+            Gets the element title
             </summary>
         </member>
         <member name="T:Library.GeneratedSculpture">
@@ -3303,21 +3338,6 @@
         <member name="T:Library.HTMLTool">
             <summary>
             HTML tool : a tool is simply a host for any HTML code
-            </summary>
-        </member>
-        <member name="T:Library.IProjectElement">
-            <summary>
-            Interface of an element project
-            </summary>
-        </member>
-        <member name="P:Library.IProjectElement.TypeName">
-            <summary>
-            Gets the type name
-            </summary>
-        </member>
-        <member name="P:Library.IProjectElement.ElementTitle">
-            <summary>
-            Gets the element title
             </summary>
         </member>
         <member name="F:Library.HTMLTool.uniqueName">
