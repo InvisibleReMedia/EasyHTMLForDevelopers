@@ -16,7 +16,6 @@ namespace EasyHTMLDev
         public MasterObjectCreationPanel()
         {
             InitializeComponent();
-            this.creationPanel1.Dock = DockStyle.Fill;
         }
 
         public MasterObjectCreationPanel(Library.MasterObject mObj)

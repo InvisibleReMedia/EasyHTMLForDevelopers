@@ -17,7 +17,6 @@ namespace EasyHTMLDev
         public MasterPageCreationPanel()
         {
             InitializeComponent();
-            this.creationPanel1.Dock = DockStyle.Fill;
         }
 
         public MasterPageCreationPanel(Library.MasterPage mPage)

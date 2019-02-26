@@ -37,7 +37,7 @@
             // btnValider
             // 
             this.btnValider.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnValider.Location = new System.Drawing.Point(513, 338);
+            this.btnValider.Location = new System.Drawing.Point(513, 333);
             this.btnValider.Name = "btnValider";
             this.btnValider.Size = new System.Drawing.Size(75, 23);
             this.btnValider.TabIndex = 1;
@@ -49,7 +49,7 @@
             // 
             this.btnAnnuler.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnAnnuler.Location = new System.Drawing.Point(412, 338);
+            this.btnAnnuler.Location = new System.Drawing.Point(412, 333);
             this.btnAnnuler.Name = "btnAnnuler";
             this.btnAnnuler.Size = new System.Drawing.Size(75, 23);
             this.btnAnnuler.TabIndex = 2;
@@ -62,10 +62,10 @@
             this.panel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel.Location = new System.Drawing.Point(0, 0);
+            this.panel.Location = new System.Drawing.Point(12, 12);
             this.panel.MasterObject = null;
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(150, 150);
+            this.panel.Size = new System.Drawing.Size(576, 309);
             this.panel.TabIndex = 0;
             // 
             // MasterObjectCreationWindow
@@ -74,7 +74,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnAnnuler;
-            this.ClientSize = new System.Drawing.Size(600, 373);
+            this.ClientSize = new System.Drawing.Size(600, 368);
             this.Controls.Add(this.btnAnnuler);
             this.Controls.Add(this.btnValider);
             this.Controls.Add(this.panel);

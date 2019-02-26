@@ -275,6 +275,12 @@
       <DependentUpon>ToogleBar.cs</DependentUpon>
     </Compile>
     <Compile Include="TutorialExec.cs" />
+    <Compile Include="CreationPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CreationPanel.Designer.cs">
+      <DependentUpon>CreationPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="ZonesBinding.cs" />
     <Compile Include="JavascriptUrls.cs">
       <SubType>Form</SubType>
@@ -472,6 +478,9 @@
     <EmbeddedResource Include="BtnClose.resx">
       <DependentUpon>BtnClose.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreationPanel.resx">
+      <DependentUpon>CreationPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DynamicUC.resx">
       <DependentUpon>DynamicUC.cs</DependentUpon>

@@ -35,9 +35,10 @@
             // 
             this.creationPanel1.CountColumns = ((uint)(0u));
             this.creationPanel1.CountLines = ((uint)(0u));
-            this.creationPanel1.Location = new System.Drawing.Point(152, 59);
+            this.creationPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.creationPanel1.Location = new System.Drawing.Point(0, 0);
             this.creationPanel1.Name = "creationPanel1";
-            this.creationPanel1.Size = new System.Drawing.Size(203, 180);
+            this.creationPanel1.Size = new System.Drawing.Size(529, 427);
             this.creationPanel1.TabIndex = 0;
             // 
             // MasterObjectCreationPanel
