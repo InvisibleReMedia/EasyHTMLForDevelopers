@@ -23,7 +23,6 @@ namespace EasyHTMLDev
         public CreationPanel()
         {
             InitializeComponent();
-            this.Dock = DockStyle.Fill;
         }
 
         public CreationPanel(uint countColumns, uint countLines)
@@ -31,7 +30,6 @@ namespace EasyHTMLDev
             this.countColumns = countColumns;
             this.countLines = countLines;
             InitializeComponent();
-            this.Dock = DockStyle.Fill;
         }
 
         public uint CountColumns
@@ -58,25 +56,42 @@ namespace EasyHTMLDev
             }
         }
 
+        /// <summary>
+        /// Gets inner width pour avoir une zone franche
+        /// </summary>
+        public int InnerWidth
+        {
+            get
+            {
+                return this.Width - (this.Width % (int)this.CountColumns);
+            }
+        }
+
+        /// <summary>
+        /// Gets innner height pour avoir une zone franche
+        /// </summary>
+        public int InnerHeight
+        {
+            get
+            {
+                return this.Height - (this.Height % (int)this.CountLines);
+            }
+        }
+
         public List<Library.AreaSizedRectangle> List
         {
             get { return this.list; }
         }
 
         /// <summary>
-        /// int deltax = (width - 3) / (int)this.mPage.CountColumns;
-        /// est le pas sur l'écran par rapport à la grille
-        /// l * deltax = la position sur l'écran du coin supérieur gauche d'un rectangle de la grille
-        /// width - 3 => (int)this.mPage.CountColumns
-        ///          => ?
-        /// C'est une règle de trois.
-        /// 
+        /// methode pour retrouver le numéro de case
+        /// en fonction de la position sur l'écran du coin inférieur gauche de la case
         /// </summary>
         /// <param name="p">point de coordonnées écran</param>
         /// <returns>point de coordonnées dans la grille</returns>
         public Point RevertCoordinates(Point p)
         {
-            return new Point((int)(p.X * (double)this.CountColumns / (double)(this.Width - 3)), (int)(p.Y * (double)this.CountLines / (double)(this.Height - 3)));
+            return new Point((int)(p.X * (double)this.CountColumns / (double)this.InnerWidth), (int)(p.Y * (double)this.CountLines / (double)this.InnerHeight));
         }
 
         public Point getCoordinates(int l, int c)
@@ -96,20 +111,20 @@ namespace EasyHTMLDev
 
         private void calculeSize(int width, int height)
         {
-            int deltax = (width - 3) / (int)this.CountColumns;
-            int deltay = (height - 3) / (int)this.CountLines;
+            int deltax = width / (int)this.CountColumns;
+            int deltay = height / (int)this.CountLines;
 
             if (deltax < 3 || deltay < 3)
                 return;
 
-            int pos_ligne = 3;
+            int pos_ligne = 0;
             int pos_colonne;
             for (int count_ligne = 0; count_ligne < this.CountLines; ++count_ligne)
             {
-                pos_colonne = 3;
+                pos_colonne = 0;
                 for (int count_colonne = 0; count_colonne < this.CountColumns; ++count_colonne)
                 {
-                    resize_case(count_ligne, count_colonne, new Rectangle(pos_colonne + 1, pos_ligne + 1, deltax, deltay));
+                    resize_case(count_ligne, count_colonne, new Rectangle(pos_colonne, pos_ligne, deltax, deltay));
                     pos_colonne += deltax;
                 }
                 pos_ligne += deltay;
@@ -126,16 +141,25 @@ namespace EasyHTMLDev
                     this.cases[count_ligne, count_colonne] = new Case(count_ligne, count_colonne);
                 }
             }
-            this.calculeSize(this.Width, this.Height);
+            this.calculeSize(this.InnerWidth, this.InnerHeight);
         }
 
-        protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+        protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
         {
-            base.SetBoundsCore(x, y, width, height, specified);
-            if (started)
+            if (e.KeyCode == Keys.Back)
             {
-                this.calculeSize(width, height);
-                this.Invalidate();
+                if (this.list.Count > 0)
+                {
+                    this.list.RemoveAt(this.list.Count - 1);
+                    for (int count_ligne = 0; count_ligne < this.CountLines; ++count_ligne)
+                    {
+                        for (int count_colonne = 0; count_colonne < this.CountColumns; ++count_colonne)
+                        {
+                            this.cases[count_ligne, count_colonne].Activate();
+                        }
+                    }
+                    this.Invalidate();
+                }
             }
         }
 
@@ -187,18 +211,18 @@ namespace EasyHTMLDev
                         this.select = false;
 
 
-                        int deltax = (this.Width - 3) / (int)this.CountColumns;
-                        int deltay = (this.Height - 3) / (int)this.CountLines;
+                        int deltax = InnerWidth / (int)this.CountColumns;
+                        int deltay = InnerHeight / (int)this.CountLines;
 
                         if (deltax < 3 || deltay < 3)
                             return;
 
                         bool cancel = false;
-                        int pos_ligne = 3;
+                        int pos_ligne = 0;
                         int pos_colonne;
                         for (int count_ligne = 0; count_ligne < this.CountLines; ++count_ligne)
                         {
-                            pos_colonne = 3;
+                            pos_colonne = 0;
                             for (int count_colonne = 0; count_colonne < this.CountColumns; ++count_colonne)
                             {
                                 if (((pos_colonne + deltax) >= this.startx && pos_colonne < this.PointToClient(Control.MousePosition).X) &&
@@ -249,26 +273,24 @@ namespace EasyHTMLDev
                     {
                         for (int count_colonne = 0; count_colonne < this.CountColumns; ++count_colonne)
                         {
-                            if (!this.cases[count_ligne, count_colonne].IsDisabled)
-                                this.cases[count_ligne, count_colonne].Unselect();
+                            this.cases[count_ligne, count_colonne].Unselect();
                         }
                     }
-                    int deltax = (this.Width - 3) / (int)this.CountColumns;
-                    int deltay = (this.Height - 3) / (int)this.CountLines;
+                    int deltax = this.InnerWidth / (int)this.CountColumns;
+                    int deltay = this.InnerHeight / (int)this.CountLines;
 
                     if (deltax < 3 || deltay < 3)
                         return;
 
-                    int pos_ligne = 3;
+                    int pos_ligne = 0;
                     int pos_colonne;
                     for (int count_ligne = 0; count_ligne < this.CountLines; ++count_ligne)
                     {
-                        pos_colonne = 3;
+                        pos_colonne = 0;
                         for (int count_colonne = 0; count_colonne < this.CountColumns; ++count_colonne)
                         {
                             if (((pos_colonne + deltax) >= this.startx && pos_colonne < this.PointToClient(Control.MousePosition).X) &&
                                 ((pos_ligne + deltay) >= this.starty && pos_ligne < this.PointToClient(Control.MousePosition).Y))
-                                if (!this.cases[count_ligne, count_colonne].IsDisabled)
                                     this.cases[count_ligne, count_colonne].Select();
                             pos_colonne += deltax;
                         }

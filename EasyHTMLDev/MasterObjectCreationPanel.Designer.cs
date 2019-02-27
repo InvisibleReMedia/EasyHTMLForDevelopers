@@ -33,12 +33,14 @@
             // 
             // creationPanel1
             // 
+            this.creationPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.creationPanel1.CountColumns = ((uint)(0u));
             this.creationPanel1.CountLines = ((uint)(0u));
-            this.creationPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.creationPanel1.Location = new System.Drawing.Point(0, 0);
+            this.creationPanel1.Location = new System.Drawing.Point(3, 3);
             this.creationPanel1.Name = "creationPanel1";
-            this.creationPanel1.Size = new System.Drawing.Size(529, 427);
+            this.creationPanel1.Size = new System.Drawing.Size(523, 421);
             this.creationPanel1.TabIndex = 0;
             // 
             // MasterObjectCreationPanel

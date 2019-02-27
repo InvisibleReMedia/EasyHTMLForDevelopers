@@ -37,7 +37,7 @@
             // ok
             // 
             this.ok.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ok.Location = new System.Drawing.Point(622, 394);
+            this.ok.Location = new System.Drawing.Point(538, 438);
             this.ok.Name = "ok";
             this.ok.Size = new System.Drawing.Size(75, 23);
             this.ok.TabIndex = 3;
@@ -49,7 +49,7 @@
             // 
             this.annuler.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.annuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.annuler.Location = new System.Drawing.Point(514, 394);
+            this.annuler.Location = new System.Drawing.Point(430, 438);
             this.annuler.Name = "annuler";
             this.annuler.Size = new System.Drawing.Size(75, 23);
             this.annuler.TabIndex = 4;
@@ -65,7 +65,7 @@
             this.panel.Location = new System.Drawing.Point(12, 12);
             this.panel.MasterPage = null;
             this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(685, 376);
+            this.panel.Size = new System.Drawing.Size(601, 420);
             this.panel.TabIndex = 1;
             // 
             // MasterPageCreationWindow
@@ -74,7 +74,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.annuler;
-            this.ClientSize = new System.Drawing.Size(709, 426);
+            this.ClientSize = new System.Drawing.Size(625, 470);
             this.Controls.Add(this.annuler);
             this.Controls.Add(this.ok);
             this.Controls.Add(this.panel);

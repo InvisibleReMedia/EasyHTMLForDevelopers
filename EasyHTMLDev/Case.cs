@@ -36,14 +36,16 @@ namespace EasyHTMLDev
 
         public void Draw(Graphics g)
         {
-            Rectangle fill = new Rectangle(this.rect.Left + 1, this.rect.Top + 1, this.rect.Width - 2, this.rect.Height - 2);
+            Rectangle fill = new Rectangle(this.rect.Left + 2, this.rect.Top + 2, this.rect.Width - 4, this.rect.Height - 4);
             if (this.selected)
             {
-                g.FillRectangle(Brushes.Blue, fill);
+                g.FillRectangle(Brushes.Aquamarine, fill);
+                g.DrawRectangle(Pens.Blue, fill);
             }
             else
             {
                 g.FillRectangle(Brushes.White, fill);
+                g.DrawRectangle(Pens.AntiqueWhite, fill);
             }
         }
 
@@ -67,6 +69,11 @@ namespace EasyHTMLDev
         {
             this.selected = false;
             this.disabled = true;
+        }
+
+        internal void Activate()
+        {
+            this.disabled = false;
         }
     }
 }

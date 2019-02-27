@@ -628,11 +628,6 @@ namespace Library
         {
             // Create a fake page
             Page page = new Page();
-
-            page.ConstraintWidth = EnumConstraint.RELATIVE;
-            page.Width = 100;
-            page.ConstraintHeight = EnumConstraint.RELATIVE;
-            page.Height = 100;
             if (this.ConstraintWidth == EnumConstraint.RELATIVE || this.ConstraintHeight == EnumConstraint.RELATIVE)
             {
                 OutputHTML html = this.GenerateDesignTable(page);

@@ -908,7 +908,7 @@ namespace Library
                     bool sup = false;
                     foreach (VerticalZone vz in hz.VerticalZones)
                     {
-                        if (vz.CountLines > hz.CountLines) sup = true;
+                        if (vz.CountLines < hz.CountLines) sup = true;
                     }
                     if (sup)
                     {
@@ -966,7 +966,7 @@ namespace Library
                     bool sup = false;
                     foreach (VerticalZone vz in hz.VerticalZones)
                     {
-                        if (vz.CountLines > hz.CountLines) sup = true;
+                        if (vz.CountLines < hz.CountLines) sup = true;
                     }
                     if (sup)
                     {
@@ -1013,7 +1013,7 @@ namespace Library
                     bool sup = false;
                     foreach (VerticalZone vz in hz.VerticalZones)
                     {
-                        if (vz.CountLines > hz.CountLines) sup = true;
+                        if (vz.CountLines < hz.CountLines) sup = true;
                     }
                     if (sup)
                     {
@@ -1058,7 +1058,7 @@ namespace Library
                     bool sup = false;
                     foreach (VerticalZone vz in hz.VerticalZones)
                     {
-                        if (vz.CountLines > hz.CountLines) sup = true;
+                        if (vz.CountLines < hz.CountLines) sup = true;
                     }
                     if (sup)
                     {
@@ -1136,7 +1136,7 @@ namespace Library
                     bool sup = false;
                     foreach (VerticalZone vz in hz.VerticalZones)
                     {
-                        if (vz.CountLines > hz.CountLines) sup = true;
+                        if (vz.CountLines < hz.CountLines) sup = true;
                     }
                     if (sup)
                     {
@@ -1183,7 +1183,7 @@ namespace Library
                     bool sup = false;
                     foreach (VerticalZone vz in hz.VerticalZones)
                     {
-                        if (vz.CountLines > hz.CountLines) sup = true;
+                        if (vz.CountLines < hz.CountLines) sup = true;
                     }
                     if (sup)
                     {
