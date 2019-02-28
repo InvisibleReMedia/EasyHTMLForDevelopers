@@ -13,7 +13,7 @@ namespace Library
     /// Any changes in a tool after creating an instance of a tool are not propagated
     /// </summary>
     [Serializable]
-    public class HTMLObject : Marshalling.PersistentDataObject, IContent, IContainer, IGenerateDesign, IGenerateProduction, ICloneable
+    public class HTMLObject : Marshalling.PersistentDataObject, IProjectElement, IContent, IContainer, IGenerateDesign, IGenerateProduction, ICloneable
     {
 
         #region Fields
@@ -210,6 +210,22 @@ namespace Library
         public bool IsToolObject
         {
             get { return String.IsNullOrEmpty(this.MasterObjectName); }
+        }
+
+        /// <summary>
+        /// Gets the type name
+        /// </summary>
+        public string TypeName
+        {
+            get { return "HTMLObject"; }
+        }
+
+        /// <summary>
+        /// Gets the element title
+        /// </summary>
+        public string ElementTitle
+        {
+            get { return this.Title; }
         }
 
         /// <summary>

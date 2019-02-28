@@ -152,7 +152,7 @@ namespace Library
         public EnumConstraint ConstraintHeight
         {
             get { return this.Get(constraintHeightName, EnumConstraint.AUTO); }
-            set { this.Get(constraintHeightName, value); }
+            set { this.Set(constraintHeightName, value); }
         }
 
         /// <summary>

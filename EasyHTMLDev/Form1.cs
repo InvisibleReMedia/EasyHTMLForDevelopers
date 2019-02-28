@@ -595,8 +595,7 @@ namespace EasyHTMLDev
                 else
                 {
                     Project.AddFile(Project.CurrentProject,
-                                    Path.Combine(CommonDirectories.ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title),
-                                                 fi.DestinationPath),
+                                    fi.DestinationPath,
                                     fi.FileName);
                 }
                 Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
@@ -728,8 +727,30 @@ namespace EasyHTMLDev
             }
         }
 
-        private void GenerateProduction(string path, Library.File f, string destinationDirectory)
+        private void GenerateProduction(Library.Project f, string destinationDirectory)
         {
+            ConfigDirectories.AddProductionFolder(f.Title, "", destinationDirectory);
+            foreach (Page p in f.Pages)
+            {
+                OutputHTML html = p.GenerateProduction();
+                ConfigDirectories.AddProductionFolder(f.Title, p.Folder, destinationDirectory);
+                FileStream fs = new FileStream(Path.Combine(destinationDirectory,
+                                                            ConfigDirectories.RemoveLeadSlash(p.Folder),
+                                                            ConfigDirectories.RemoveLeadSlash(p.Name)),
+                                               FileMode.Create);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.WriteLine(html.HTML.ToString());
+                sw.Close();
+                sw.Dispose();
+                fs.Close();
+                fs.Dispose();
+            }
+            foreach (Library.File s in f.Files)
+            {
+                ConfigDirectories.AddProductionFile(f.Title,
+                                                    Path.Combine(s.Folder, s.FileName),
+                                                    Path.Combine(ConfigDirectories.GetBuildFolder(f.Title), s.Folder, s.FileName), destinationDirectory);
+            }
         }
 
         private void toolStripMenuItem1_Click_1(object sender, EventArgs e)
@@ -744,7 +765,7 @@ namespace EasyHTMLDev
             {
                 Library.Project.CurrentProject.Configuration.Elements.Remove("BASE_HREF");
                 Library.Project.CurrentProject.Configuration.Elements.Add("BASE_HREF", f.path.Text);
-                this.GenerateProduction("", Project.CurrentProject.Files.First(), f.ffd.SelectedPath);
+                this.GenerateProduction(Project.CurrentProject, f.ffd.SelectedPath);
                 // it's possible added new files
                 Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Project.CurrentProject.ReloadProject();

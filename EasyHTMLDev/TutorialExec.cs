@@ -30,54 +30,58 @@ namespace EasyHTMLDev
         {
             if (this.tuto == null)
             {
-                this.tuto = new TutorialListening.Tutorial(AppDomain.CurrentDomain.BaseDirectory + "tutorial-fr.txt.wav", (c, f, a) =>
+                this.tuto = new TutorialListening.Tutorial((c, f, a) =>
                 {
-                    List<Form> list = new List<Form>();
-                    // recopie la liste (car elle est sujette à changer au cours de l'exécution)
-                    foreach (Form z in Application.OpenForms)
+                    if (!String.IsNullOrEmpty(c))
                     {
-                        list.Add(z);
-                    }
-                    foreach (Form z in list)
-                    {
-                        if (z.Name == c)
+
+                        List<Form> list = new List<Form>();
+                        // recopie la liste (car elle est sujette à changer au cours de l'exécution)
+                        foreach (Form z in Application.OpenForms)
                         {
-                            Type t = z.GetType();
-                            object res = t.InvokeMember(f, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public, null, z, new object[] { });
-                            if (res != null)
+                            list.Add(z);
+                        }
+                        foreach (Form z in list)
+                        {
+                            if (z.Name == c)
                             {
-                                if (res is Button)
+                                Type t = z.GetType();
+                                object res = t.InvokeMember(f, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.GetField | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public, null, z, new object[] { });
+                                if (res != null)
                                 {
-                                    Button btn = res as Button;
-                                    btn.PerformClick();
-                                }
-                                else if (res is MenuItem)
-                                {
-                                    MenuItem menu = res as MenuItem;
-                                    menu.PerformClick();
-                                }
-                                else if (res is RadioButton)
-                                {
-                                    RadioButton radio = res as RadioButton;
-                                    radio.PerformClick();
-                                }
-                                else if (res is ToolStripMenuItem)
-                                {
-                                    ToolStripMenuItem tool = res as ToolStripMenuItem;
-                                    if (a == "Select")
+                                    if (res is Button)
                                     {
-                                        tool.Select();
+                                        Button btn = res as Button;
+                                        btn.PerformClick();
                                     }
-                                    else if (a == "Show")
+                                    else if (res is MenuItem)
                                     {
-                                        tool.DropDown.Show();
+                                        MenuItem menu = res as MenuItem;
+                                        menu.PerformClick();
                                     }
-                                    else if (a == "Click")
+                                    else if (res is RadioButton)
                                     {
-                                        tool.PerformClick();
+                                        RadioButton radio = res as RadioButton;
+                                        radio.PerformClick();
                                     }
+                                    else if (res is ToolStripMenuItem)
+                                    {
+                                        ToolStripMenuItem tool = res as ToolStripMenuItem;
+                                        if (a == "Select")
+                                        {
+                                            tool.Select();
+                                        }
+                                        else if (a == "Show")
+                                        {
+                                            tool.DropDown.Show();
+                                        }
+                                        else if (a == "Click")
+                                        {
+                                            tool.PerformClick();
+                                        }
+                                    }
+                                    break;
                                 }
-                                break;
                             }
                         }
                     }
@@ -96,16 +100,18 @@ namespace EasyHTMLDev
                 this.Init();
             }
 
-            this.tuto.AddClick("T1", "Form1", "projetToolStripMenuItem", new TimeSpan(0, 0, 10), "Select", new Dictionary<string, object>()
+            this.tuto.AddClick("tutorial-fr 1.wav", "", "", "", new TimeSpan(0, 0, 58), "", null);
+
+            this.tuto.AddClick("tutorial-fr 2.wav", "T1", "Form1", "projetToolStripMenuItem", new TimeSpan(0, 0, 5), "Select", new Dictionary<string, object>()
             {
             });
-            this.tuto.AddClick("T2", "Form1", "projetToolStripMenuItem", new TimeSpan(0, 0, 2), "Show", new Dictionary<string, object>()
+            this.tuto.AddClick("", "T2", "Form1", "projetToolStripMenuItem", new TimeSpan(0, 0, 2), "Show", new Dictionary<string, object>()
             {
             });
-            this.tuto.AddClick("T3", "Form1", "ouvrirToolStripMenuItem", new TimeSpan(0, 0, 5), "Select", new Dictionary<string, object>()
+            this.tuto.AddClick("", "T3", "Form1", "créerToolStripMenuItem", new TimeSpan(0, 0, 2), "Select", new Dictionary<string, object>()
             {
             });
-            this.tuto.AddClick("T4", "Form1", "ouvrirToolStripMenuItem", new TimeSpan(0, 0, 2), "Click", new Dictionary<string, object>()
+            this.tuto.AddClick("", "T4", "Form1", "créerToolStripMenuItem", new TimeSpan(0, 0, 2), "Click", new Dictionary<string, object>()
             {
             });
             this.tuto.Play();

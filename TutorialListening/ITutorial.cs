@@ -13,10 +13,6 @@ namespace TutorialListening
         /// </summary>
         Exception LastException { get; }
         /// <summary>
-        /// Gets or sets the file name of the media to read
-        /// </summary>
-        string MediaFilename { get; set; }
-        /// <summary>
         /// True if media is loaded
         /// </summary>
         bool IsMediaLoaded { get; }
@@ -44,11 +40,13 @@ namespace TutorialListening
         /// <summary>
         /// Add a perform action request
         /// </summary>
+        /// <param name="wavFile">wav file</param>
         /// <param name="title">title of action</param>
         /// <param name="formName">name of the form</param>
         /// <param name="fieldName">field name</param>
         /// <param name="delay">delayed time</param>
         /// <param name="actionType">action type</param>
-        void AddClick(string title, string formName, string fieldName, TimeSpan delay, string actionType, Dictionary<string, object> dict);
+        /// <param name="dict">data</param>
+        void AddClick(string wavFile, string title, string formName, string fieldName, TimeSpan delay, string actionType, Dictionary<string, object> dict);
     }
 }

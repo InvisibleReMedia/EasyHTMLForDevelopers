@@ -11,6 +11,7 @@ namespace TutorialListening
 
         #region Private Fields
 
+        private string wavFile;
         private string name;
         private string className;
         private string fieldName;
@@ -22,8 +23,9 @@ namespace TutorialListening
 
         #region Public Constructor
 
-        public AutomaticClick(string name, string className, string fieldName, TimeSpan delay, string actionType, Dictionary<string, object> dict)
+        public AutomaticClick(string wavFile, string name, string className, string fieldName, TimeSpan delay, string actionType, Dictionary<string, object> dict)
         {
+            this.wavFile = wavFile;
             this.name = name;
             this.className = className;
             this.fieldName = fieldName;
@@ -35,6 +37,11 @@ namespace TutorialListening
         #endregion
 
         #region IAutomaticClick Members
+
+        public string MediaFile
+        {
+            get { return this.wavFile; }
+        }
 
         public string Name
         {

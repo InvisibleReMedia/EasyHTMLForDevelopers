@@ -176,8 +176,8 @@ namespace CommonDirectories
         {
             string[] path = fileName.Split('/');
             AddProductionFolder(projectName, String.Join("/", path, 0, path.Length - 1), destinationDirectory);
-            FileInfo fi = new FileInfo(Path.Combine(destinationDirectory, fileName));
-            FileInfo src = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + srcFile);
+            FileInfo fi = new FileInfo(Path.Combine(destinationDirectory, RemoveLeadSlash(fileName)));
+            FileInfo src = new FileInfo(srcFile);
             if (src.Exists)
             {
                 src.CopyTo(fi.FullName, true);

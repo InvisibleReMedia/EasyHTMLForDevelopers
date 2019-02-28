@@ -40,7 +40,13 @@ namespace EasyHTMLDev
             InitializeComponent();
             this.path.DataBindings.Add("Text", this, "DestinationPath");
             this.RegisterControls(ref this.localeComponentId);
+            this.InitTreeView();
+        }
+
+        private void InitTreeView()
+        {
             this.startNode = this.treeView1.Nodes.Add("./");
+            this.startNode.Tag = this.startPath;
             this.treeView1.BeforeExpand += new TreeViewCancelEventHandler((o, e) =>
             {
                 this.treeView1.SuspendLayout();
@@ -82,7 +88,8 @@ namespace EasyHTMLDev
             if (dr == System.Windows.Forms.DialogResult.OK)
             {
                 this.startPath = fbd.SelectedPath;
-                this.startNode.Tag = this.startPath;
+                this.treeView1.Nodes.Clear();
+                this.InitTreeView();
                 EnumerateFiles(this.startNode, this.startPath);
             }
         }

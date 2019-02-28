@@ -116,7 +116,7 @@ namespace Library
         public EnumConstraint ConstraintWidth
         {
             get { return this.Get(constraintWidthName, EnumConstraint.AUTO); }
-            set { this.Get(constraintWidthName, value); }
+            set { this.Set(constraintWidthName, value); }
         }
 
         /// <summary>

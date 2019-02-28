@@ -79,6 +79,7 @@ namespace Library
         public string Folder
         {
             get { return this.Get(folderName, ""); }
+            set { this.Set(folderName, value); }
         }
 
         /// <summary>

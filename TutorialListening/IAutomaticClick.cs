@@ -9,6 +9,10 @@ namespace TutorialListening
     public interface IAutomaticClick
     {
         /// <summary>
+        /// Media file
+        /// </summary>
+        string MediaFile { get; }
+        /// <summary>
         /// Name of this action
         /// </summary>
         string Name { get; }

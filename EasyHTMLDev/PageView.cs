@@ -157,7 +157,7 @@ namespace EasyHTMLDev
                     }
 
                     item.BelongsTo = this.Page.Name;
-                    proj.Instances.Add(item);
+                    proj.Add(item, "");
                     this.Page.Objects.Add(item);
                     this.btnValidate1.SetDirty();
                     this.ReloadBrowser();

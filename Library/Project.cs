@@ -573,6 +573,7 @@ namespace Library
             this.Files.Add(f);
             string u = this.Unique.ComputeNewString();
             f.Unique = u;
+            f.Folder = path;
             Accessor a = new Accessor(Project.FilesName, u);
             this.Hierarchy.Find(Project.FilesName).Find(path.Split('/')).AddLeaf(a);
             this.Hierarchy.Find(Project.FoldersName).Find(path.Split('/')).AddLeaf(a);
@@ -591,7 +592,7 @@ namespace Library
             t.Unique = u;
             Accessor a = new Accessor(Project.ToolsName, u);
             string[] splitted = path.Split('/');
-            this.Hierarchy.Find(Project.ToolsName).Find(splitted).AddLeaf(a);
+            this.Hierarchy.Find(Project.ToolsName).Find(splitted.Take(splitted.Count() - 1)).AddLeaf(a);
             t.Path = String.Join("/", splitted.Take(splitted.Count() - 1).ToArray()) + "/";
             t.Title = splitted.Last();
         }

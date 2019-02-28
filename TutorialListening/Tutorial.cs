@@ -15,7 +15,6 @@ namespace TutorialListening
         #region Private Fields
 
         private Exception lastEx;
-        private string mediaFilename;
         private bool isMediaLoaded;
         private bool isMediaPlaying;
         private List<IAutomaticClick> clicks;
@@ -29,14 +28,13 @@ namespace TutorialListening
 
         #region Public Constructor
 
-        public Tutorial(string mediaFilename, Tutorial.PerformInteractiveWork work)
+        public Tutorial(Tutorial.PerformInteractiveWork work)
         {
             this.lastEx = null;
             this.isMediaLoaded = false;
             this.isMediaPlaying = false;
             this.syncContext = System.Threading.SynchronizationContext.Current;
             this.autoEvt = new System.Threading.AutoResetEvent(false);
-            this.mediaFilename = mediaFilename;
             this.clicks = new List<IAutomaticClick>();
             this.work = work;
         }
@@ -49,7 +47,8 @@ namespace TutorialListening
             IAutomaticClick click = obj as IAutomaticClick;
             this.syncContext.Post(new System.Threading.SendOrPostCallback(o =>
             {
-                this.work(click.Class, click.Field, click.ActionType);
+                IAutomaticClick c = o as IAutomaticClick;
+                this.work(c.Class, c.Field, c.ActionType);
             }), click);
             this.autoEvt.Set();
         }
@@ -58,6 +57,22 @@ namespace TutorialListening
         {
             foreach (IAutomaticClick click in this.clicks)
             {
+                if (!String.IsNullOrEmpty(click.MediaFile))
+                {
+                    if (this.isMediaLoaded)
+                    {
+                        if (this.isMediaPlaying)
+                        {
+                            this.isMediaPlaying = false;
+                            this.player.Stop();
+                        }
+                        this.isMediaLoaded = false;
+                    }
+                    this.player = new System.Media.SoundPlayer(click.MediaFile);
+                    this.isMediaLoaded = true;
+                    this.player.Play();
+                    this.isMediaPlaying = true;
+                }
                 using (System.Threading.Timer ti = new System.Threading.Timer(new System.Threading.TimerCallback(this.timerElapsed), click, click.Delay, TimeSpan.Zero))
                 {
                     this.autoEvt.WaitOne();
@@ -74,18 +89,6 @@ namespace TutorialListening
             get { return this.lastEx; }
         }
 
-        public string MediaFilename
-        {
-            get
-            {
-                return this.mediaFilename;
-            }
-            set
-            {
-                this.mediaFilename = value;
-            }
-        }
-
         public bool IsMediaLoaded
         {
             get { return this.isMediaLoaded; }
@@ -98,17 +101,10 @@ namespace TutorialListening
 
         public void Play()
         {
-            if (!String.IsNullOrEmpty(this.mediaFilename))
-            {
-                this.player = new System.Media.SoundPlayer(this.mediaFilename);
-                this.isMediaLoaded = true;
-            }
             if (this.t == null)
             {
                 this.t = new System.Threading.Thread(new System.Threading.ThreadStart(this.SimulateClicks));
             }
-            this.player.Play();
-            this.isMediaPlaying = true;
             this.t.Start();
         }
 
@@ -143,15 +139,16 @@ namespace TutorialListening
         /// <summary>
         /// Add a perform action request
         /// </summary>
+        /// <param name="wavFile">wav file</param>
         /// <param name="title">title of action</param>
         /// <param name="formName">name of the form</param>
         /// <param name="fieldName">field name</param>
         /// <param name="delay">delayed time</param>
         /// <param name="actionType">action type</param>
         /// <param name="dict">parameters</param>
-        public void AddClick(string title, string formName, string fieldName, TimeSpan delay, string actionType, Dictionary<string, object> dict)
+        public void AddClick(string wavFile, string title, string formName, string fieldName, TimeSpan delay, string actionType, Dictionary<string, object> dict)
         {
-            this.clicks.Add(new AutomaticClick(title, formName, fieldName, delay, actionType, dict));
+            this.clicks.Add(new AutomaticClick(wavFile, title, formName, fieldName, delay, actionType, dict));
         }
 
         #endregion

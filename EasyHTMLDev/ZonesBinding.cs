@@ -116,20 +116,23 @@ namespace EasyHTMLDev
                 {
                     System.Windows.Forms.RadioButton rb = sender as System.Windows.Forms.RadioButton;
                     System.Enum val = null;
-                    try
+                    if (rb.Checked)
                     {
-                        val = System.Enum.Parse(this.enumType, this.GetEnumValue(rb.Text)) as System.Enum;
-                    }
-                    catch (Exception ex)
-                    {
-                        // cannot occurred if code is safe
-                        System.Windows.Forms.MessageBox.Show("BUG : No enum value for this radio button\n\r " + ex.ToString(), "BUG", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                    }
-                    finally
-                    {
-                        obj.GetType().GetProperty(propertyName).SetValue(obj, val, new object[] { });
-                        this.bindingSource.CurrencyManager.Refresh();
-                        if (this.modified != null) this.modified(this, new EventArgs());
+                        try
+                        {
+                            val = System.Enum.Parse(this.enumType, this.GetEnumValue(rb.Text)) as System.Enum;
+                        }
+                        catch (Exception ex)
+                        {
+                            // cannot occurred if code is safe
+                            System.Windows.Forms.MessageBox.Show("BUG : No enum value for this radio button\n\r " + ex.ToString(), "BUG", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                        }
+                        finally
+                        {
+                            obj.GetType().GetProperty(propertyName).SetValue(obj, val, new object[] { });
+                            this.bindingSource.CurrencyManager.Refresh();
+                            if (this.modified != null) this.modified(this, new EventArgs());
+                        }
                     }
                 }
             }

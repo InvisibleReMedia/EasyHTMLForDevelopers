@@ -23,11 +23,7 @@ namespace EasyHTMLDev
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            string text = this.txtName.Text;
-            string[] splitted = text.Split('/');
-            string path = String.Join("/", splitted.Take(splitted.Count() - 1));
-            text = splitted.Last();
-            if (Library.Project.AddTool(Library.Project.CurrentProject, new Library.HTMLTool(), text))
+            if (Library.Project.AddTool(Library.Project.CurrentProject, new Library.HTMLTool(), this.txtName.Text))
             {
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
