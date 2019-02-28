@@ -3218,6 +3218,16 @@
             Says if it is a tool object
             </summary>
         </member>
+        <member name="P:Library.HTMLObject.TypeName">
+            <summary>
+            Gets the type name
+            </summary>
+        </member>
+        <member name="P:Library.HTMLObject.ElementTitle">
+            <summary>
+            Gets the element title
+            </summary>
+        </member>
         <member name="P:Library.HTMLObject.BelongsTo">
             <summary>
             Gets or sets the parent
