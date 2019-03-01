@@ -77,6 +77,18 @@
             <param name="p">project input</param>
             <returns>an object into this project</returns>
         </member>
+        <member name="M:Library.Accessor.Equals(Library.Accessor)">
+            <summary>
+            Test equality
+            </summary>
+            <param name="other">with</param>
+            <returns>true if equals</returns>
+        </member>
+        <member name="P:Library.Accessor.Unique">
+            <summary>
+            Gets the unique name
+            </summary>
+        </member>
         <member name="T:Library.BorderConstraint">
             <summary>
             Border constraint
@@ -5398,6 +5410,48 @@
             <param name="s">instance</param>
             <param name="path">path</param>
         </member>
+        <member name="M:Library.Project.Remove(Library.MasterPage)">
+            <summary>
+            Remove a master page
+            </summary>
+            <param name="mp">master page</param>
+        </member>
+        <member name="M:Library.Project.Remove(Library.MasterObject)">
+            <summary>
+            Remove a master object
+            </summary>
+            <param name="mo">master object</param>
+        </member>
+        <member name="M:Library.Project.Remove(Library.Page)">
+            <summary>
+            Remove a page
+            </summary>
+            <param name="p">page</param>
+        </member>
+        <member name="M:Library.Project.Remove(Library.File)">
+            <summary>
+            Remove a file
+            </summary>
+            <param name="f">file</param>
+        </member>
+        <member name="M:Library.Project.Remove(Library.HTMLTool)">
+            <summary>
+            Remove an html tool
+            </summary>
+            <param name="t">html tool</param>
+        </member>
+        <member name="M:Library.Project.Remove(Library.HTMLObject)">
+            <summary>
+            Remove a html object
+            </summary>
+            <param name="o">htmlObject</param>
+        </member>
+        <member name="M:Library.Project.Remove(Library.SculptureObject)">
+            <summary>
+            Remove a sculpture
+            </summary>
+            <param name="s">sculpture</param>
+        </member>
         <member name="M:Library.Project.ImportPages(Library.Project,Library.Project)">
             <summary>
             Import all pages from an existing project
@@ -6686,6 +6740,12 @@
             </summary>
             <param name="search">element successors</param>
             <returns>the existing node</returns>
+        </member>
+        <member name="M:Library.Node`2.Remove(`1)">
+            <summary>
+            Remove an element from tree
+            </summary>
+            <param name="element">element</param>
         </member>
         <member name="M:Library.Node`2.GetNodesEnumerator">
             <summary>

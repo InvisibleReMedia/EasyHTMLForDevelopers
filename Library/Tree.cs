@@ -98,7 +98,7 @@ namespace Library
     /// <typeparam name="T">data type element of node list</typeparam>
     /// <typeparam name="E">data type element leaf</typeparam>
     [Serializable]
-    public class Node<T, E> : Marshalling.PersistentDataObject, ICloneable where T : IEquatable<T>
+    public class Node<T, E> : Marshalling.PersistentDataObject, ICloneable where T : IEquatable<T> where E : IEquatable<E>
     {
 
         #region Private Fields
@@ -404,6 +404,35 @@ namespace Library
         }
 
         /// <summary>
+        /// Remove an element from tree
+        /// </summary>
+        /// <param name="element">element</param>
+        public Leaf<E> Remove(E element)
+        {
+            foreach (Node<T, E> node in this.ListOfNodes)
+            {
+                Leaf<E> leaf = node.Remove(element);
+                if (leaf != null)
+                {
+                    if (node.ListOfNodes.Count == 0 && node.ListOfElement.Count == 0)
+                    {
+                        this.ListOfNodes.Remove(node);
+                        return leaf;
+                    }
+                }
+            }
+            foreach (Leaf<E> leaf in this.ListOfElement)
+            {
+                if (leaf.Object.Equals(element))
+                {
+                    this.ListOfElement.Remove(leaf);
+                    return leaf;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Gets the enumerator of sub nodes
         /// </summary>
         /// <returns></returns>
@@ -438,7 +467,7 @@ namespace Library
     /// </summary>
     /// <typeparam name="T">data type element of node</typeparam>
     /// <typeparam name="E">data type element of leaf</typeparam>
-    public class Tree<T, E> where T : IEquatable<T>
+    public class Tree<T, E> where T : IEquatable<T> where E : IEquatable<E>
     {
         #region Private Fields
 

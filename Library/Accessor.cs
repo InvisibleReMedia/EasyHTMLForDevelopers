@@ -12,7 +12,7 @@ namespace Library
     /// with the same data type item
     /// </summary>
     [Serializable]
-    public class Accessor : Marshalling.PersistentDataObject
+    public class Accessor : Marshalling.PersistentDataObject, IEquatable<Accessor>
     {
 
         #region Fields
@@ -157,6 +157,18 @@ namespace Library
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the unique name
+        /// </summary>
+        public string Unique
+        {
+            get { return this.Get(uniqueName, ""); }
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -197,6 +209,16 @@ namespace Library
             }
             else
                 return null;
+        }
+
+        /// <summary>
+        /// Test equality
+        /// </summary>
+        /// <param name="other">with</param>
+        /// <returns>true if equals</returns>
+        public bool Equals(Accessor other)
+        {
+            return this.Unique.Equals(other.Unique);
         }
 
         #endregion

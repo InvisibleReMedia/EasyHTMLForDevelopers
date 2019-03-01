@@ -627,6 +627,124 @@ namespace Library
             this.Hierarchy.Find(Project.SculpturesName).Find(path.Split('/')).AddLeaf(a);
         }
 
+        /// <summary>
+        /// Remove a master page
+        /// </summary>
+        /// <param name="mp">master page</param>
+        public void Remove(MasterPage mp)
+        {
+            Accessor a = new Accessor(Project.MasterPagesName, mp.Unique);
+            this.Hierarchy.Find(Project.MasterPagesName).Remove(a);
+            this.MasterPages.Remove(mp);
+            foreach (HTMLObject obj in mp.Objects)
+            {
+                this.Instances.Remove(obj);
+                Accessor b = new Accessor(Project.InstancesName, obj.Unique);
+                this.Hierarchy.Find(Project.InstancesName).Remove(b);
+            }
+        }
+
+        /// <summary>
+        /// Remove a master object
+        /// </summary>
+        /// <param name="mo">master object</param>
+        public void Remove(MasterObject mo)
+        {
+            Accessor a = new Accessor(Project.MasterObjectsName, mo.Unique);
+            this.Hierarchy.Find(Project.MasterObjectsName).Remove(a);
+            this.MasterObjects.Remove(mo);
+            foreach (HTMLObject obj in mo.Objects)
+            {
+                this.Instances.Remove(obj);
+                Accessor b = new Accessor(Project.InstancesName, obj.Unique);
+                this.Hierarchy.Find(Project.InstancesName).Remove(b);
+            }
+        }
+
+        /// <summary>
+        /// Remove a page
+        /// </summary>
+        /// <param name="p">page</param>
+        public void Remove(Page p)
+        {
+            Accessor a = new Accessor(Project.PagesName, p.Unique);
+            this.Hierarchy.Find(Project.PagesName).Remove(a);
+            this.Hierarchy.Find(Project.FoldersName).Remove(a);
+            this.Pages.Remove(p);
+        }
+
+        /// <summary>
+        /// Remove a file
+        /// </summary>
+        /// <param name="f">file</param>
+        public void Remove(File f)
+        {
+            Accessor a = new Accessor(Project.FilesName, f.Unique);
+            this.Hierarchy.Find(Project.FilesName).Remove(a);
+            this.Hierarchy.Find(Project.FoldersName).Remove(a);
+            this.Files.Remove(f);
+        }
+
+        /// <summary>
+        /// Remove an html tool
+        /// </summary>
+        /// <param name="t">html tool</param>
+        public void Remove(HTMLTool t)
+        {
+            Accessor a = new Accessor(Project.ToolsName, t.Unique);
+            this.Hierarchy.Find(Project.ToolsName).Remove(a);
+            this.Tools.Remove(t);
+        }
+
+        /// <summary>
+        /// Remove a html object
+        /// </summary>
+        /// <param name="o">htmlObject</param>
+        public void Remove(HTMLObject o)
+        {
+            Accessor a = new Accessor(Project.InstancesName, o.Unique);
+            this.Hierarchy.Find(Project.InstancesName).Remove(a);
+            this.Instances.Remove(o);
+            if (o.BelongsTo != null)
+            {
+                // ce serait un master object
+                MasterObject mo = this.MasterObjects.Find(x => { return x.Name == o.BelongsTo; });
+                if (mo != null)
+                {
+                    mo.Objects.Remove(o);
+                }
+                else
+                {
+                    Page p = this.Pages.Find(x => { return x.Name == o.BelongsTo; });
+                    if (p != null)
+                    {
+                        p.Objects.Remove(o);
+                    }
+                    else
+                    {
+                        // il appartient plutot à un tool
+                        MasterPage mp = this.MasterPages.Find(x => { return x.Name == o.BelongsTo; });
+                        if (mp != null)
+                        {
+                            mp.Objects.Remove(o);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Remove a sculpture
+        /// </summary>
+        /// <param name="s">sculpture</param>
+        public void Remove(SculptureObject s)
+        {
+            Accessor a = new Accessor(Project.SculpturesName, s.Unique);
+            this.Hierarchy.Find(Project.SculpturesName).Remove(a);
+            this.SculptureObjects.Remove(s);
+        }
+
+
         #endregion
 
         #region Private Static Methods

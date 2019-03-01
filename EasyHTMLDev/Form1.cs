@@ -616,74 +616,43 @@ namespace EasyHTMLDev
                         if (t.Tag is Library.MasterPage)
                         {
                             MasterPage mp = t.Tag as MasterPage;
-                            foreach (HTMLObject obj in mp.Objects)
-                            {
-                                Project.CurrentProject.Instances.Remove(obj);
-                            }
-                            Project.CurrentProject.MasterPages.Remove(mp);
+                            Project.CurrentProject.Remove(mp);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
                         else if (t.Tag is Library.MasterObject)
                         {
-                            MasterObject mo = t.Tag as MasterObject;
-                            foreach (HTMLObject obj in mo.Objects)
-                            {
-                                Project.CurrentProject.Instances.Remove(obj);
-                            }
-                            Project.CurrentProject.MasterObjects.Remove(mo);
+                            Project.CurrentProject.Remove(t.Tag as MasterObject);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
                         else if (t.Tag is Library.HTMLTool)
                         {
                             Library.HTMLTool tool = t.Tag as Library.HTMLTool;
-                            Project.CurrentProject.Tools.Remove(tool);
+                            Project.CurrentProject.Remove(tool);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
                         else if (t.Tag is Library.HTMLObject)
                         {
                             HTMLObject obj = t.Tag as Library.HTMLObject;
-                            if (obj.BelongsTo != null && obj.BelongsTo.StartsWith("mObj"))
-                            {
-                                // ce serait un master object
-                                MasterObject mo = Project.CurrentProject.MasterObjects.Find(a => { return a.Name == obj.BelongsTo; });
-                                if (mo != null)
-                                {
-                                    mo.Objects.Remove(obj);
-                                }
-                            }
-                            else
-                            {
-                                Page p = Project.CurrentProject.Pages.Find(a => { return a.Name == obj.BelongsTo; });
-                                if (p != null)
-                                {
-                                    p.Objects.Remove(obj);
-                                }
-                                else
-                                {
-                                    // il appartient plutot à une master page
-                                    MasterPage mp = Project.CurrentProject.MasterPages.Find(a => { return a.Name == obj.BelongsTo; });
-                                    if (mp != null)
-                                    {
-                                        mp.Objects.Remove(obj);
-                                    }
-                                }
-                            }
-                            Project.CurrentProject.Instances.Remove(obj);
+                            Project.CurrentProject.Remove(obj);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
                         else if (t.Tag is Library.SculptureObject)
                         {
                             SculptureObject sObject = t.Tag as SculptureObject;
-                            Project.CurrentProject.SculptureObjects.Remove(sObject);
+                            Project.CurrentProject.Remove(sObject);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
                         else if (t.Tag is Library.Page)
                         {
+                            Page p = t.Tag as Library.Page;
+                            Project.CurrentProject.Remove(p);
+                            Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
+                            Project.CurrentProject.ReloadProject();
                         }
                         else if (t.Tag is string)
                         {
@@ -766,7 +735,6 @@ namespace EasyHTMLDev
                 Library.Project.CurrentProject.Configuration.Elements.Remove("BASE_HREF");
                 Library.Project.CurrentProject.Configuration.Elements.Add("BASE_HREF", f.path.Text);
                 this.GenerateProduction(Project.CurrentProject, f.ffd.SelectedPath);
-                // it's possible added new files
                 Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Project.CurrentProject.ReloadProject();
             }
@@ -807,7 +775,7 @@ namespace EasyHTMLDev
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             Library.HTMLTool tool = t.Tag as Library.HTMLTool;
-                            Project.CurrentProject.Tools.Remove(tool);
+                            Project.CurrentProject.Remove(tool);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
@@ -829,11 +797,7 @@ namespace EasyHTMLDev
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             MasterObject mo = t.Tag as MasterObject;
-                            foreach (HTMLObject obj in mo.Objects)
-                            {
-                                Project.CurrentProject.Instances.Remove(obj);
-                            }
-                            Project.CurrentProject.MasterObjects.Remove(mo);
+                            Project.CurrentProject.Remove(mo);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
@@ -855,11 +819,7 @@ namespace EasyHTMLDev
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             MasterPage mp = t.Tag as MasterPage;
-                            foreach (HTMLObject obj in mp.Objects)
-                            {
-                                Project.CurrentProject.Instances.Remove(obj);
-                            }
-                            Project.CurrentProject.MasterPages.Remove(mp);
+                            Project.CurrentProject.Remove(mp);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
@@ -870,28 +830,6 @@ namespace EasyHTMLDev
 
         private void supprimerToolStripMenuItem4_Click(object sender, EventArgs e)
         {
-            TreeNode t = this.currentNodeContext;
-            if (t != null)
-            {
-                if (t.Tag != null)
-                {
-                    if (t.Tag is string)
-                    {
-                        DialogResult dr = MessageBox.Show(Translate("SuppressText"), Translate("SuppressTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        if (dr == System.Windows.Forms.DialogResult.Yes)
-                        {
-                            string fileName = t.Tag as string;
-                            if (!Project.CurrentProject.Files.Exists(x => x.FileName == fileName))
-                            {
-                                // recherche dans les dossiers
-                                string[] path = fileName.TrimEnd(Path.DirectorySeparatorChar).Split(Path.DirectorySeparatorChar);
-                            }
-                            Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
-                            Project.CurrentProject.ReloadProject();
-                        }
-                    }
-                }
-            }
         }
 
         private void supprimerToolStripMenuItem2_Click(object sender, EventArgs e)
@@ -907,9 +845,7 @@ namespace EasyHTMLDev
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             Page page = t.Tag as Page;
-                            if (!Project.CurrentProject.Pages.Remove(page))
-                            {
-                            }
+                            Project.CurrentProject.Remove(page);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
@@ -931,7 +867,7 @@ namespace EasyHTMLDev
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             SculptureObject sObject = t.Tag as SculptureObject;
-                            Project.CurrentProject.SculptureObjects.Remove(sObject);
+                            Project.CurrentProject.Remove(sObject);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
