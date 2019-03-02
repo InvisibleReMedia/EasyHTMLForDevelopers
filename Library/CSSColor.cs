@@ -91,7 +91,7 @@ namespace Library
         /// <returns>object result</returns>
         public static CSSColor ParseColor(string colorValue)
         {
-            Regex rg = new Regex(@"(#(([0-9a-f][0-9a-f]){3,4}))|(rgba\((([0-9]|\s)+),(([0-9]|\s)+),(([0-9]|\s)+),(([0-9]|\s)+)\))|(#\([^)]+\))|([a-z0-9]+)", RegexOptions.IgnoreCase);
+            Regex rg = new Regex(@"(#(([0-9a-f][0-9a-f]){3,4}))|(rgb\((([0-9]|\s)+),(([0-9]|\s)+),(([0-9]|\s)+)\))|(rgba\((([0-9]|\s)+),(([0-9]|\s)+),(([0-9]|\s)+),(([0-9]|\s)+)\))|(#\([^)]+\))|([A-Za-z0-9]+)", RegexOptions.IgnoreCase);
             Match m = rg.Match(colorValue.Trim());
             if (m.Success)
             {
@@ -116,25 +116,37 @@ namespace Library
                 }
                 else if (m.Groups[4].Success)
                 {
-                    float a = 0;
                     byte r = 0, g = 0, b = 0;
                     bool ok = true;
                     ok &= Byte.TryParse(m.Groups[5].Value, out r);
                     ok &= Byte.TryParse(m.Groups[7].Value, out g);
                     ok &= Byte.TryParse(m.Groups[9].Value, out b);
-                    ok &= float.TryParse(m.Groups[11].Value, out a);
+                    if (ok)
+                        return new CSSColor(Color.FromArgb(0xFF, r, g, b));
+                    else
+                        throw new FormatException();
+                }
+                else if (m.Groups[11].Success)
+                {
+                    float a = 0;
+                    byte r = 0, g = 0, b = 0;
+                    bool ok = true;
+                    ok &= Byte.TryParse(m.Groups[12].Value, out r);
+                    ok &= Byte.TryParse(m.Groups[14].Value, out g);
+                    ok &= Byte.TryParse(m.Groups[16].Value, out b);
+                    ok &= float.TryParse(m.Groups[19].Value, out a);
                     if (ok)
                         return new CSSColor(Color.FromArgb((byte)(a * 0xFF), r, g, b));
                     else
                         throw new FormatException();
                 }
-                else if (m.Groups[13].Success)
+                else if (m.Groups[21].Success)
                 {
                     throw new FormatException();
                 }
-                else if (m.Groups[14].Success)
+                else if (m.Groups[22].Success)
                 {
-                    return new CSSColor(Color.FromName(m.Groups[14].Value));
+                    return new CSSColor(Color.FromName(m.Groups[22].Value));
                 }
                 else
                     throw new FormatException();

@@ -352,7 +352,16 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div");
+            // search object content
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+            HTMLObject objMasterPage = null;
+            if (masterRefPage != null)
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+
+            if (objPage == null && objMasterPage == null)
+                output.HTML.Append("<div onclick='javascript:callback(this);' style='cursor:pointer'");
+            else
+                output.HTML.Append("<div");
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
@@ -375,10 +384,6 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
-            HTMLObject objMasterPage = null;
-            if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, masterRefPage, newInfos);
@@ -395,7 +400,7 @@ namespace Library
             }
             else
             {
-                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png' onclick='callback(this);'/>");
+                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png'/>");
                 output.CSS.Append(zone.CSS.ToString());
                 output.JavaScript.Append(zone.JavaScript.ToString());
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
@@ -428,7 +433,19 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div");
+            // search object content
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+            List<HTMLObject> list = new List<HTMLObject>();
+            foreach (MasterObject mObj in objects)
+            {
+                list.AddRange(mObj.Objects);
+            }
+            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+
+            if (objPage == null && objHtmlObject == null)
+                output.HTML.Append("<div onclick='javascript:callback(this);' style='cursor:pointer'");
+            else
+                output.HTML.Append("<div");
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
@@ -451,13 +468,6 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
-            List<HTMLObject> list = new List<HTMLObject>();
-            foreach (MasterObject mObj in objects)
-            {
-                list.AddRange(mObj.Objects);
-            }
-            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, objects, newInfos);
@@ -474,7 +484,7 @@ namespace Library
             }
             else
             {
-                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png' onclick='callback(this);'/>");
+                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png'/>");
                 output.CSS.Append(zone.CSS.ToString());
                 output.JavaScript.Append(zone.JavaScript.ToString());
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
@@ -509,7 +519,22 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div");
+            // search object content
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+            HTMLObject objMasterPage = null;
+            if (masterRefPage != null)
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+            List<HTMLObject> list = new List<HTMLObject>();
+            foreach (MasterObject mObj in objects)
+            {
+                list.AddRange(mObj.Objects);
+            }
+            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+
+            if (objPage == null && objMasterPage == null && objHtmlObject == null)
+                output.HTML.Append("<div onclick='javascript:callback(this);' style='cursor:pointer'");
+            else
+                output.HTML.Append("<div");
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
@@ -532,16 +557,6 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
-            HTMLObject objMasterPage = null;
-            if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
-            List<HTMLObject> list = new List<HTMLObject>();
-            foreach (MasterObject mObj in objects)
-            {
-                list.AddRange(mObj.Objects);
-            }
-            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, masterRefPage, objects, newInfos);
@@ -565,7 +580,7 @@ namespace Library
             }
             else
             {
-                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png' onclick='callback(this);'/>");
+                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png'/>");
                 output.CSS.Append(zone.CSS.ToString());
                 output.JavaScript.Append(zone.JavaScript.ToString());
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
@@ -622,9 +637,18 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td");
+            // search object content
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+            HTMLObject objMasterPage = null;
+            if (masterRefPage != null)
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+
+            if (objPage == null && objMasterPage == null)
+                output.HTML.Append("<td onclick='javascript:callback(this);' style='cursor:pointer'");
+            else
+                output.HTML.Append("<td");
             output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName) + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
             output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
@@ -643,10 +667,6 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
-            HTMLObject objMasterPage = null;
-            if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, masterRefPage, newInfos);
@@ -665,7 +685,7 @@ namespace Library
             }
             else
             {
-                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png' onclick='callback(this);'/>");
+                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png'/>");
                 output.HTML.Append(zone.HTML.ToString());
                 output.CSS.Append(zone.CSS.ToString());
                 output.JavaScript.Append(zone.JavaScript.ToString());
@@ -694,9 +714,21 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td");
+            // search object content
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+            List<HTMLObject> list = new List<HTMLObject>();
+            foreach (MasterObject mObj in objects)
+            {
+                list.AddRange(mObj.Objects);
+            }
+            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+
+            if (objPage == null && objHtmlObject == null)
+                output.HTML.Append("<td onclick='javascript:callback(this);' style='cursor:pointer'");
+            else
+                output.HTML.Append("<td");
             output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName) + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
             output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
@@ -715,13 +747,6 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
-            List<HTMLObject> list = new List<HTMLObject>();
-            foreach (MasterObject mObj in objects)
-            {
-                list.AddRange(mObj.Objects);
-            }
-            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, objects, newInfos);
@@ -740,7 +765,7 @@ namespace Library
             }
             else
             {
-                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png' onclick='callback(this);'/>");
+                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png'/>");
                 output.HTML.Append(zone.HTML.ToString());
                 output.CSS.Append(zone.CSS.ToString());
                 output.JavaScript.Append(zone.JavaScript.ToString());
@@ -772,9 +797,24 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td");
+            // search object content
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+            HTMLObject objMasterPage = null;
+            if (masterRefPage != null)
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+            List<HTMLObject> list = new List<HTMLObject>();
+            foreach (MasterObject mObj in objects)
+            {
+                list.AddRange(mObj.Objects);
+            }
+            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+
+            if (objPage == null && objMasterPage == null && objHtmlObject == null)
+                output.HTML.Append("<td onclick='javascript:callback(this);' style='cursor:pointer'");
+            else
+                output.HTML.Append("<td");
             output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName) + "'");
+            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
             output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
             output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
             output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
@@ -793,16 +833,6 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
-            HTMLObject objMasterPage = null;
-            if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
-            List<HTMLObject> list = new List<HTMLObject>();
-            foreach (MasterObject mObj in objects)
-            {
-                list.AddRange(mObj.Objects);
-            }
-            HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateDesign(refPage, masterRefPage, objects, newInfos);
@@ -829,7 +859,7 @@ namespace Library
             }
             else
             {
-                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png' onclick='callback(this);'/>");
+                zone.HTML.Append("<img " + cs.ComputeStyle() + " src='ehd_ask.png'/>");
                 output.HTML.Append(zone.HTML.ToString());
                 output.CSS.Append(zone.CSS.ToString());
                 output.JavaScript.Append(zone.JavaScript.ToString());
@@ -871,6 +901,12 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
+            // search object content
+            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+            HTMLObject objMasterPage = null;
+            if (masterRefPage != null)
+                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
+
             output.HTML.Append("<div");
             output.HTML.Append(" id='" + myId + "'");
             output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
@@ -893,10 +929,6 @@ namespace Library
 
             OutputHTML zone = new OutputHTML();
 
-            HTMLObject objPage = refPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
-            HTMLObject objMasterPage = null;
-            if (masterRefPage != null)
-                objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
             if (objPage != null)
             {
                 zone = objPage.GenerateProduction(refPage, masterRefPage, newInfos);

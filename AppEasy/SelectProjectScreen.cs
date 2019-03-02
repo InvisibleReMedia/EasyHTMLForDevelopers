@@ -23,7 +23,7 @@ namespace AppEasy
                 row.SetUpdate(x =>
                 {
                     UXFramework.UXRow r = x as UXFramework.UXRow;
-                    Project p = r.Get("project") as Library.Project;
+                    Project p = r.Get("project").Value as Library.Project;
                     LibraryConverter.ListConverter.MakeUXhierarchyProject(p, p.Hierarchy);
                 });
             }

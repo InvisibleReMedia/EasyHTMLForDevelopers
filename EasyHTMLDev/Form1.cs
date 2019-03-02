@@ -585,18 +585,21 @@ namespace EasyHTMLDev
             DialogResult dr = fi.ShowDialog();
             if (dr == System.Windows.Forms.DialogResult.OK)
             {
-                FileAttributes fa = System.IO.File.GetAttributes(fi.FileName);
-                if (fa == FileAttributes.Directory)
+                foreach (string f in fi.FileNames)
                 {
-                    Project.Copy(Project.CurrentProject,
-                                 fi.FileName,
-                                 fi.DestinationPath);
-                }
-                else
-                {
-                    Project.AddFile(Project.CurrentProject,
-                                    fi.DestinationPath,
-                                    fi.FileName);
+                    FileAttributes fa = System.IO.File.GetAttributes(f);
+                    if (fa == FileAttributes.Directory)
+                    {
+                        Project.Copy(Project.CurrentProject,
+                                     f,
+                                     fi.DestinationPath);
+                    }
+                    else
+                    {
+                        Project.AddFile(Project.CurrentProject,
+                                        fi.DestinationPath,
+                                        f);
+                    }
                 }
                 Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Project.CurrentProject.ReloadProject();
@@ -654,8 +657,12 @@ namespace EasyHTMLDev
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();
                         }
-                        else if (t.Tag is string)
+                        else if (t.Tag is Library.File)
                         {
+                            Library.File f = t.Tag as Library.File;
+                            Project.CurrentProject.Remove(f);
+                            Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
+                            Project.CurrentProject.ReloadProject();
                         }
                     }
                 }
@@ -946,6 +953,38 @@ namespace EasyHTMLDev
         {
             this.tutoExec = new TutorialExec();
             this.tutoExec.Exec();
+        }
+
+        private void menuTransformToolToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode t = this.currentNodeContext;
+            if (t != null)
+            {
+                if (t.Tag != null)
+                {
+                    if (t.Tag is Library.MasterObject)
+                    {
+                        DialogResult dr = MessageBox.Show(Translate("TransformTool"), Translate("TransformToolTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dr == System.Windows.Forms.DialogResult.Yes)
+                        {
+                            HTMLTool tool = new HTMLTool();
+                            MasterObject mo = t.Tag as MasterObject;
+                            OutputHTML html = mo.GenerateProduction();
+                            tool.HTML = html.HTML.ToString();
+                            tool.JavaScript.Code = html.JavaScript.ToString();
+                            tool.JavaScriptOnLoad.Code = html.JavaScriptOnLoad.ToString();
+                            tool.CSSSource = html.CSS.ToString();
+                            tool.Width = mo.Width;
+                            tool.Height = mo.Height;
+                            tool.ConstraintWidth = mo.ConstraintWidth;
+                            tool.ConstraintHeight = mo.ConstraintHeight;
+                            Project.CurrentProject.Add(tool, "generated/" + mo.Title);
+                            Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
+                            Project.CurrentProject.ReloadProject();
+                        }
+                    }
+                }
+            }
         }
 
     }

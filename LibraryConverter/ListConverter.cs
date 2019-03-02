@@ -32,8 +32,13 @@ namespace LibraryConverter
                         if (proj != null)
                         {
                             HashConverter h = HashConverter.ProjectItems(proj);
-                            h.Set("name", index.ToString());
-                            h.Set("project", proj);
+                            h.Name = index.ToString();
+                            h.Add(() => {
+                                return new Dictionary<string, dynamic>() {
+                                    { "index", index.ToString() },
+                                    { "project", proj }
+                                };
+                            });
                             list.Add(h);
                             ++index;
                         }

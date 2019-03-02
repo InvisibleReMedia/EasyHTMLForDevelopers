@@ -12,7 +12,7 @@ namespace EasyHTMLDev
     {
         public static bool CSSValidate(string input, bool directAdd, out string reason, Library.CodeCSS css)
         {
-            Regex reg = new Regex(@"(/[*]([^/]|[*])*/)|(([^:]+):([^;]*);?)", RegexOptions.IgnorePatternWhitespace);
+            Regex reg = new Regex(@"(/[*]([^/]|[*])*/)|(([^:]+):([^;]*);?)", RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
             MatchCollection results = reg.Matches(input);
             IEnumerator el = results.GetEnumerator();
 
@@ -74,7 +74,7 @@ namespace EasyHTMLDev
 
         public static bool CSSValidate(string input, bool directAdd, List<Library.CodeCSS> list, out string reason)
         {
-            Regex reg = new Regex(@"(/[*]([^/]|[*])*/)|([^{]+)\{((" + Environment.NewLine + @")*|(\s)*|(([^:]+):([^;}]*);?))*\}", RegexOptions.IgnorePatternWhitespace);
+            Regex reg = new Regex(@"(/\*([^/]|\*)*/)|([^{" + Environment.NewLine + @"]+)\{((" + Environment.NewLine + @")*|(\s)*|(([^:]+):([^;}]*);?))*\}", RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
             MatchCollection results = reg.Matches(input);
             IEnumerator el = results.GetEnumerator();
             List<Library.CodeCSS> copiedList = new List<Library.CodeCSS>();

@@ -81,6 +81,7 @@
             this.tdd = new System.Windows.Forms.Timer(this.components);
             this.errorZone = new System.Windows.Forms.Label();
             this.tmBlind = new System.Windows.Forms.Timer(this.components);
+            this.menuTransformToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prv_menu.SuspendLayout();
             this.cntx.SuspendLayout();
             this.SuspendLayout();
@@ -452,23 +453,24 @@
             // 
             this.cntx.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cntxMenuOpen,
-            this.supprimerToolStripMenuItem5});
+            this.supprimerToolStripMenuItem5,
+            this.menuTransformToolToolStripMenuItem});
             this.cntx.Name = "cntx";
             this.cntx.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.cntx.Size = new System.Drawing.Size(153, 48);
+            this.cntx.Size = new System.Drawing.Size(164, 70);
             this.cntx.Opening += new System.ComponentModel.CancelEventHandler(this.cntx_Opening);
             // 
             // cntxMenuOpen
             // 
             this.cntxMenuOpen.Name = "cntxMenuOpen";
-            this.cntxMenuOpen.Size = new System.Drawing.Size(152, 22);
+            this.cntxMenuOpen.Size = new System.Drawing.Size(163, 22);
             this.cntxMenuOpen.Text = "MenuOpen";
             this.cntxMenuOpen.Click += new System.EventHandler(this.cntxMenuOpen_Click);
             // 
             // supprimerToolStripMenuItem5
             // 
             this.supprimerToolStripMenuItem5.Name = "supprimerToolStripMenuItem5";
-            this.supprimerToolStripMenuItem5.Size = new System.Drawing.Size(152, 22);
+            this.supprimerToolStripMenuItem5.Size = new System.Drawing.Size(163, 22);
             this.supprimerToolStripMenuItem5.Text = "MenuSuppress";
             this.supprimerToolStripMenuItem5.Click += new System.EventHandler(this.supprimerToolStripMenuItem5_Click);
             // 
@@ -501,6 +503,13 @@
             // tmBlind
             // 
             this.tmBlind.Tick += new System.EventHandler(this.tmBlind_Tick);
+            // 
+            // menuTransformToolToolStripMenuItem
+            // 
+            this.menuTransformToolToolStripMenuItem.Name = "menuTransformToolToolStripMenuItem";
+            this.menuTransformToolToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.menuTransformToolToolStripMenuItem.Text = "Convert to a tool";
+            this.menuTransformToolToolStripMenuItem.Click += new System.EventHandler(this.menuTransformToolToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -584,6 +593,7 @@
         private System.Windows.Forms.Label errorZone;
         private System.Windows.Forms.Timer tmBlind;
         private System.Windows.Forms.ToolStripMenuItem tutorialToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuTransformToolToolStripMenuItem;
     }
 }
 

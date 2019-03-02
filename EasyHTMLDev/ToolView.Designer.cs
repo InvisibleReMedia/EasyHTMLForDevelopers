@@ -148,6 +148,7 @@
             // textBox4
             // 
             this.textBox4.AcceptsReturn = true;
+            this.textBox4.AcceptsTab = true;
             this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.epCSS.SetIconAlignment(this.textBox4, System.Windows.Forms.ErrorIconAlignment.BottomRight);
@@ -172,6 +173,7 @@
             // textBox3
             // 
             this.textBox3.AcceptsReturn = true;
+            this.textBox3.AcceptsTab = true;
             this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.hTMLToolBindingSource, "JavaScriptOnLoadSource", true));
@@ -195,6 +197,7 @@
             // textBox2
             // 
             this.textBox2.AcceptsReturn = true;
+            this.textBox2.AcceptsTab = true;
             this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));

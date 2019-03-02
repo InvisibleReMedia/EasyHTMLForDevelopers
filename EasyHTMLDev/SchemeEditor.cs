@@ -53,16 +53,7 @@ namespace EasyHTMLDev
                 this.txtCSS.Text = String.Empty;
                 foreach (Library.CodeCSS c in this.cssList)
                 {
-                    this.txtCSS.Text += c.GenerateCSS(false, true) + Environment.NewLine;
-                }
-                foreach (Library.CodeCSS c in cssList)
-                {
-                    for(int index = 0; index < c.Body.Count; ++index) {
-                        try {
-                            Library.CSSColor col = Library.CSSColor.ParseColor(c.Body[index]);
-                            Library.Project.CurrentProject.CustomColors.Add(col.Color.ToArgb());
-                        } catch {}
-                    }
+                    this.txtCSS.Text += c.GenerateCSS(true, true) + Environment.NewLine;
                 }
                 this.btnAdd.Enabled = true;
             }
@@ -73,15 +64,12 @@ namespace EasyHTMLDev
             this.colors.Clear();
             foreach (Library.CodeCSS c in cssList)
             {
-                for (int index = 0; index < c.Body.Count; ++index)
+                try
                 {
-                    try
-                    {
-                        Library.CSSColor col = Library.CSSColor.ParseColor(c.Body[index]);
-                        this.colors.Add(col.Color.ToArgb());
-                    }
-                    catch { }
+                    Library.CSSColor col = c.ForegroundColor;
+                    this.colors.Add(col.Color.ToArgb());
                 }
+                catch { }
             }
             this.schemeEditorChanged(sender, e);
         }

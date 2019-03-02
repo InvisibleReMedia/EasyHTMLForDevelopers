@@ -44,13 +44,14 @@ namespace EasyHTMLDev
             DialogResult dr = fi.ShowDialog();
             if (dr == DialogResult.OK)
             {
+                
                 ConfigDirectories.AddFile(Library.Project.CurrentProject.Title,
                                           Path.Combine(ConfigDirectories.GetBuildFolder(Library.Project.CurrentProject.Title),
                                                        fi.path.Text),
-                                          fi.FileName);
+                                          fi.FileNames[0]);
                 Library.Project.Save(Library.Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Library.Project.CurrentProject.ReloadProject();
-                this.pic.ImageLocation = fi.FileName;
+                this.pic.ImageLocation = fi.FileNames[0];
                 int index = this.cmbFiles.Items.Add(fi.path.Text);
                 this.cmbFiles.Text = fi.path.Text;
             }

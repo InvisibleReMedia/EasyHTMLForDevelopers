@@ -97,6 +97,10 @@ namespace Library
         /// Index name for error reason string
         /// </summary>
         public static readonly string errorReasonName = "errorReason";
+        /// <summary>
+        /// Index name for cadre model counter
+        /// </summary>
+        public static readonly string cadreModelCounterName = "cadreModelCounter";
 
         #endregion
 
@@ -220,7 +224,7 @@ namespace Library
         /// </summary>
         public DateTime CreationDate
         {
-            get { return this.Get(creationDateName, DateTime.Now.ToShortDateString()); }
+            get { return this.Get(creationDateName, DateTime.Now); }
             set { this.Set(creationDateName, value); }
         }
 
@@ -230,7 +234,7 @@ namespace Library
         /// </summary>
         public DateTime ModificationDate
         {
-            get { return this.Get(modificationDateName); }
+            get { return this.Get(modificationDateName, DateTime.Now); }
             set { this.Set(modificationDateName, value); }
         }
 
@@ -461,6 +465,15 @@ namespace Library
             }
         }
 
+        /// <summary>
+        /// Gets or set the cadre model counter
+        /// </summary>
+        public int CadreModelCounter
+        {
+            get { return this.Get(cadreModelCounterName, 0); }
+            set { this.Set(cadreModelCounterName, value); }
+        }
+
         #endregion
 
         #region Protected Methods
@@ -638,9 +651,7 @@ namespace Library
             this.MasterPages.Remove(mp);
             foreach (HTMLObject obj in mp.Objects)
             {
-                this.Instances.Remove(obj);
-                Accessor b = new Accessor(Project.InstancesName, obj.Unique);
-                this.Hierarchy.Find(Project.InstancesName).Remove(b);
+                this.Remove(obj);
             }
         }
 
@@ -655,9 +666,7 @@ namespace Library
             this.MasterObjects.Remove(mo);
             foreach (HTMLObject obj in mo.Objects)
             {
-                this.Instances.Remove(obj);
-                Accessor b = new Accessor(Project.InstancesName, obj.Unique);
-                this.Hierarchy.Find(Project.InstancesName).Remove(b);
+                this.Remove(obj);
             }
         }
 
@@ -865,6 +874,7 @@ namespace Library
             }
             ++p.Revision;
             p.ModificationDate = DateTime.Now;
+            p.CadreModelCounter = CadreModel.counter;
             string errorText;
             if (Save(fi, p, out errorText))
             {
@@ -889,7 +899,6 @@ namespace Library
         /// <returns>project object</returns>
         public static Project Load(string path, string fileName, OpenProject del)
         {
-            CadreModel.ReinitCounter(0);
             FileInfo fi = new FileInfo(Path.Combine(path, fileName));
             Marshalling.PersistentDataObject obj = null;
             Load(fi, out obj);
@@ -899,6 +908,7 @@ namespace Library
             {
                 throw new FormatException(String.Format(Localization.Strings.GetString("ExceptionProjectNotLoaded"), fileName));
             }
+            CadreModel.ReinitCounter(pn.CadreModelCounter);
             pn.openProject = del;
             Project.CurrentProject = pn;
             pn.ReloadProject();
@@ -1048,26 +1058,26 @@ namespace Library
                 obj = new HTMLObject(proj.ToolImage);
                 model.CopyProperties(obj);
                 obj.CSS.BackgroundImageURL = model.SelectedModelTypeObject.Content;
-                proj.Instances.Add(obj);
+                proj.Add(obj, "Sculptures");
             }
             else if (model.SelectedModelTypeObject.Type == CadreModelType.Text)
             {
                 obj = new HTMLObject(proj.ToolText);
                 model.CopyProperties(obj);
                 obj.HTML = model.SelectedModelTypeObject.Content;
-                proj.Instances.Add(obj);
+                proj.Add(obj, "Sculptures");
             }
             else if (model.SelectedModelTypeObject.Type == CadreModelType.Tool)
             {
                 obj = new HTMLObject(model.SelectedModelTypeObject.DirectObject);
                 model.CopyProperties(obj);
-                proj.Instances.Add(obj);
+                proj.Add(obj, "Sculptures");
             }
             else if (model.SelectedModelTypeObject.Type == CadreModelType.MasterObject)
             {
                 obj = new HTMLObject(model.SelectedModelTypeObject.DirectObject);
                 model.CopyProperties(obj);
-                proj.Instances.Add(obj);
+                proj.Add(obj, "Sculptures");
             }
             return obj;
         }

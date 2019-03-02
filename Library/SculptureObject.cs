@@ -609,7 +609,7 @@ namespace Library
         /// <returns>cadre model that has the same index</returns>
         public static CadreModel Find(List<CadreModel> src, int index)
         {
-            return src.Single(a => { return a.Index == index; });
+            return src.Find(a => { return a.Index == index; });
         }
 
         /// <summary>

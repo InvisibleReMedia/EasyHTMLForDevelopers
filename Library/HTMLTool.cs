@@ -73,6 +73,14 @@ namespace Library
         /// Index name for additional css
         /// </summary>
         protected static readonly string additionalCssName = "additionalCss";
+        /// <summary>
+        /// Index name for css list
+        /// </summary>
+        protected static readonly string cssListName = "cssList";
+        /// <summary>
+        /// Index name for css source
+        /// </summary>
+        protected static readonly string cssSourceName = "cssSource";
 
         #endregion
 
@@ -270,11 +278,28 @@ namespace Library
         }
 
         /// <summary>
+        /// Gets or sets additionnal CSSSource
+        /// </summary>
+        public string CSSSource
+        {
+            get { return this.Get(cssSourceName, string.Empty); }
+            set { this.Set(cssSourceName, value); }
+        }
+
+        /// <summary>
         /// Gets the CSS additional list
         /// </summary>
         public List<CodeCSS> CSSAdditional
         {
             get { return this.Get(additionalCssName, new List<CodeCSS>()); }
+        }
+
+        /// <summary>
+        /// Gets the css list
+        /// </summary>
+        public CSSList CSSList
+        {
+            get { return this.Get(cssListName, new CSSList()); }
         }
 
         /// <summary>
@@ -317,6 +342,7 @@ namespace Library
             string output = this.CSS.GenerateCSS(false, true, resolveConfig) + Environment.NewLine;
             List<string> list = this.CSSAdditional.ConvertAll(a => { return a.GenerateCSS(true, true, resolveConfig) + Environment.NewLine; });
             if (list.Count() > 0) output += list.Aggregate((a, b) => a + b);
+            output += this.CSSSource;
             return output;
         }
 

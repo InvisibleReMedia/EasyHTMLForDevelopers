@@ -248,12 +248,12 @@ namespace Library
             }
             else if (this.Type == RefObject.Tool)
             {
-                HTMLObject obj = this.Destination;
+                HTMLTool obj = this.Destination;
                 MasterObject mo = this.SecondObject;
                 mo.HorizontalZones.Clear();
                 mo.MakeZones(list);
                 this.FillContainerObject(mo.HorizontalZones, mo.Objects);
-                SizeCompute.ComputeHTMLObject(Project.CurrentProject, obj);
+                SizeCompute.ComputeHTMLObject(Project.CurrentProject, new HTMLObject(obj));
             }
         }
 
@@ -361,7 +361,12 @@ namespace Library
                 if (this.Type == RefObject.MasterPage)
                 {
                     MasterPage mp = this.Destination;
-                    mp.Objects.Clear();
+                    for (int index = mp.Objects.Count - 1; index >= 0; --index)
+                    {
+                        if (proj.Instances.Contains(mp.Objects[index])) {
+                            proj.Remove(mp.Objects[index]);
+                        }
+                    }
                     mp.ConstraintHeight = EnumConstraint.FIXED;
                     mp.Height = height;
                     mp.ConstraintWidth = EnumConstraint.FIXED;
@@ -373,48 +378,19 @@ namespace Library
                 {
                     Page p = this.Destination;
                     MasterPage mp = this.SecondObject;
-                    mp.Objects.ForEach(a =>
+                    for (int index = mp.Objects.Count - 1; index >= 0; --index)
                     {
-                        if (a.IsMasterObject)
-                        {
-                            Project.CurrentProject.MasterObjects.ForEach(z =>
-                            {
-                                if (z.Name == a.MasterObjectName)
-                                {
-                                    z.Objects.ForEach(k =>
-                                    {
-                                        if (Project.CurrentProject.Instances.Contains(k))
-                                            Project.CurrentProject.Instances.Remove(k);
-                                    });
-                                    z.Objects.Clear();
-                                }
-                            });
+                        if (proj.Instances.Contains(mp.Objects[index])) {
+                            proj.Remove(mp.Objects[index]);
                         }
-                        if (Project.CurrentProject.Instances.Contains(a))
-                            Project.CurrentProject.Instances.Remove(a);
-                    });
-                    mp.Objects.Clear();
-                    p.Objects.ForEach(a =>
+                    }
+                    for (int index = p.Objects.Count - 1; index >= 0; --index)
                     {
-                        if (a.IsMasterObject)
-                        {
-                            Project.CurrentProject.MasterObjects.ForEach(z =>
-                            {
-                                if (z.Name == a.MasterObjectName)
-                                {
-                                    z.Objects.ForEach(k =>
-                                    {
-                                        if (Project.CurrentProject.Instances.Contains(k))
-                                            Project.CurrentProject.Instances.Remove(k);
-                                    });
-                                    z.Objects.Clear();
-                                }
-                            });
+                        if (proj.Instances.Contains(p.Objects[index])) {
+                            proj.Remove(p.Objects[index]);
                         }
-                        if (Project.CurrentProject.Instances.Contains(a))
-                            Project.CurrentProject.Instances.Remove(a);
-                    });
-                    p.Objects.Clear();
+                    }
+
                     mp.ConstraintHeight = EnumConstraint.FIXED;
                     mp.Height = height;
                     mp.ConstraintWidth = EnumConstraint.FIXED;
@@ -429,11 +405,12 @@ namespace Library
                 else if (this.Type == RefObject.MasterObject)
                 {
                     MasterObject mo = this.Destination;
-                    mo.Objects.ForEach(a => {
-                        if (Project.CurrentProject.Instances.Contains(a))
-                            Project.CurrentProject.Instances.Remove(a);
-                    });
-                    mo.Objects.Clear();
+                    for (int index = mo.Objects.Count - 1; index >= 0; --index)
+                    {
+                        if (proj.Instances.Contains(mo.Objects[index])) {
+                            proj.Remove(mo.Objects[index]);
+                        }
+                    }
                     mo.ConstraintHeight = EnumConstraint.FIXED;
                     mo.Height = height;
                     mo.ConstraintWidth = EnumConstraint.FIXED;
@@ -445,13 +422,12 @@ namespace Library
                 {
                     HTMLTool t = this.Destination;
                     MasterObject mo = this.SecondObject;
-                    mo.Objects.ForEach(a =>
+                    for (int index = mo.Objects.Count - 1; index >= 0; --index)
                     {
-                        if (Project.CurrentProject.Instances.Contains(a))
-                            Project.CurrentProject.Instances.Remove(a);
-                    });
-                    mo.Objects.Clear();
-                    Project.CurrentProject.Tools.Remove(t);
+                        if (proj.Instances.Contains(mo.Objects[index])) {
+                            proj.Remove(mo.Objects[index]);
+                        }
+                    }
                     mo.ConstraintHeight = EnumConstraint.FIXED;
                     mo.Height = height;
                     mo.ConstraintWidth = EnumConstraint.FIXED;

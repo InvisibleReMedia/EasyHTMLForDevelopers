@@ -1508,6 +1508,61 @@
             Gets if this object has a setted color
             </summary>
         </member>
+        <member name="T:Library.CSSList">
+            <summary>
+            CSS list
+            </summary>
+        </member>
+        <member name="F:Library.CSSList.cssName">
+            <summary>
+            Index name for css list
+            </summary>
+        </member>
+        <member name="M:Library.CSSList.#ctor">
+            <summary>
+            Empty Constructor
+            </summary>
+        </member>
+        <member name="M:Library.CSSList.AddCSS(Library.CSSProperties)">
+            <summary>
+            Add a new CSS Properties
+            </summary>
+            <param name="props"></param>
+        </member>
+        <member name="M:Library.CSSList.RemoveCSS(System.String)">
+            <summary>
+            Remove css properties
+            with this id
+            </summary>
+            <param name="id">id</param>
+        </member>
+        <member name="P:Library.CSSList.Elements">
+            <summary>
+            Gets elements
+            </summary>
+        </member>
+        <member name="P:Library.CSSList.List">
+            <summary>
+            Gets the list
+            </summary>
+        </member>
+        <member name="T:Library.CSSProperties">
+            <summary>
+            Contains a list of properties
+            </summary>
+        </member>
+        <member name="F:Library.CSSProperties.idName">
+            <summary>
+            Index name for css list
+            </summary>
+        </member>
+        <member name="M:Library.CSSProperties.#ctor(System.String,System.String)">
+            <summary>
+            Create id
+            </summary>
+            <param name="prefix">#, . ou nothing</param>
+            <param name="value">value</param>
+        </member>
         <member name="T:Library.DesignPage">
             <summary>
             Structure to host properties across elements
@@ -3437,6 +3492,16 @@
             Index name for additional css
             </summary>
         </member>
+        <member name="F:Library.HTMLTool.cssListName">
+            <summary>
+            Index name for css list
+            </summary>
+        </member>
+        <member name="F:Library.HTMLTool.cssSourceName">
+            <summary>
+            Index name for css source
+            </summary>
+        </member>
         <member name="M:Library.HTMLTool.#ctor">
             <summary>
             Empty constructor
@@ -3616,9 +3681,19 @@
             Gets or sets CSS
             </summary>
         </member>
+        <member name="P:Library.HTMLTool.CSSSource">
+            <summary>
+            Gets or sets additionnal CSSSource
+            </summary>
+        </member>
         <member name="P:Library.HTMLTool.CSSAdditional">
             <summary>
             Gets the CSS additional list
+            </summary>
+        </member>
+        <member name="P:Library.HTMLTool.CSSList">
+            <summary>
+            Gets the css list
             </summary>
         </member>
         <member name="P:Library.HTMLTool.TypeName">
@@ -3760,6 +3835,11 @@
         <member name="F:Library.MasterObject.horizontalZoneName">
             <summary>
             Index name for horizontal areas
+            </summary>
+        </member>
+        <member name="F:Library.MasterObject.cssListName">
+            <summary>
+            Index name for css list
             </summary>
         </member>
         <member name="M:Library.MasterObject.#ctor">
@@ -4165,6 +4245,11 @@
             Gets or sets CSS
             </summary>
         </member>
+        <member name="P:Library.MasterObject.CSSList">
+            <summary>
+            Gets the css list
+            </summary>
+        </member>
         <member name="P:Library.MasterObject.HTMLBefore">
             <summary>
             Gets or sets a plain text html header
@@ -4285,6 +4370,11 @@
         <member name="F:Library.MasterPage.metaName">
             <summary>
             Index name for meta keywords
+            </summary>
+        </member>
+        <member name="F:Library.MasterPage.cssListName">
+            <summary>
+            Index name for css list
             </summary>
         </member>
         <member name="M:Library.MasterPage.#ctor">
@@ -4724,6 +4814,11 @@
         <member name="P:Library.MasterPage.CSS">
             <summary>
             Gets the css code
+            </summary>
+        </member>
+        <member name="P:Library.MasterPage.CSSList">
+            <summary>
+            Gets the css list
             </summary>
         </member>
         <member name="P:Library.MasterPage.Meta">
@@ -5202,6 +5297,11 @@
         <member name="F:Library.Project.errorReasonName">
             <summary>
             Index name for error reason string
+            </summary>
+        </member>
+        <member name="F:Library.Project.cadreModelCounterName">
+            <summary>
+            Index name for cadre model counter
             </summary>
         </member>
         <member name="F:Library.Project.sculptureToolImageName">
@@ -5707,6 +5807,11 @@
         <member name="P:Library.Project.Unique">
             <summary>
             Gets a generation of unique strings operator
+            </summary>
+        </member>
+        <member name="P:Library.Project.CadreModelCounter">
+            <summary>
+            Gets or set the cadre model counter
             </summary>
         </member>
         <member name="T:Library.Project.OpenProject">

@@ -20,7 +20,7 @@ namespace Library
         /// <summary>
         /// Static Counter
         /// </summary>
-        private static int counter = 0;
+        public static int counter = 0;
         /// <summary>
         /// Distance minimum under two objects are collapsed
         /// </summary>
@@ -351,7 +351,7 @@ namespace Library
             get {
                 if (!this.Exists(indexName))
                 {
-                    int c = counter++;
+                    int c = ++counter;
                     this.Set(indexName, c);
                 }
                 return this.Get(indexName);

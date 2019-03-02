@@ -15,7 +15,7 @@ namespace EasyHTMLDev
         private int localeComponentId;
 
         private string startPath;
-        private string fileName;
+        private List<string> fileNames;
         private string destPath;
         private TreeNode startNode;
 
@@ -24,9 +24,9 @@ namespace EasyHTMLDev
             get { return this.startPath; }
         }
 
-        public string FileName
+        public List<string> FileNames
         {
-            get { return this.fileName; }
+            get { return this.fileNames; }
         }
 
         public string DestinationPath
@@ -94,16 +94,22 @@ namespace EasyHTMLDev
             }
         }
 
+
         private void valider_Click(object sender, EventArgs e)
         {
-            int n = this.treeView1.SelectedNode.GetNodeCount(true);
-            if (n > 1)
+            List<TreeNode> checkedNodes = this.treeView1.Nodes.Descendants().Where(c => c.Checked).ToList();
+            int n = 0;
+            foreach (TreeNode node in checkedNodes)
+            {
+                n += node.GetNodeCount(true);
+            }
+            if (n > 10)
             {
                 DialogResult r = MessageBox.Show(String.Format("Copier {0} éléments ?", n), "Attention", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
                 if (r == System.Windows.Forms.DialogResult.No)
                     return;
             }
-            this.fileName = Path.Combine(this.startPath,  this.treeView1.SelectedNode.Tag.ToString());
+            this.fileNames = this.treeView1.Nodes.Descendants().Where(c => c.Checked).Select(x => x.Tag.ToString()).ToList();
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Close();
             this.UnregisterControls(ref this.localeComponentId);

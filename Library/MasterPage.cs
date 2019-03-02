@@ -94,6 +94,10 @@ namespace Library
         /// Index name for meta keywords
         /// </summary>
         protected static readonly string metaName = "meta";
+        /// <summary>
+        /// Index name for css list
+        /// </summary>
+        protected static readonly string cssListName = "cssList";
 
         #endregion
 
@@ -350,6 +354,14 @@ namespace Library
         public CodeCSS CSS
         {
             get { return this.Get(cssName, new CodeCSS("body")); }
+        }
+
+        /// <summary>
+        /// Gets the css list
+        /// </summary>
+        public CSSList CSSList
+        {
+            get { return this.Get(cssListName, new CSSList()); }
         }
 
         /// <summary>

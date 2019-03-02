@@ -115,7 +115,7 @@ namespace Library
         /// </summary>
         public dynamic DirectObject
         {
-            get { return this.Get(contentObjectName, null); }
+            get { return this.Get(contentObjectName); }
             set { this.Set(contentObjectName, value); }
         }
 

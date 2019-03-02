@@ -149,7 +149,7 @@ namespace UXFramework.WebImplementation
             sb.Append("  function unImageRoll(obj) { if (obj.rollSrc != undefined) { obj.src = obj.saveSrc; } else { unRoll(obj); } }");
             sb.Append("function onImageClickDown(obj) { if (obj.clickSrc != undefined) { obj.saveSrc = obj.src; obj.src = obj.clickSrc; } else { onClickDown(obj); } }  ");
             sb.Append("function onImageClickUp(obj) { if (obj.clickSrc != undefined) { obj.src = obj.saveSrc; } else { onClickUp(obj); } }  ");
-            sb.Append("function serverSideCall(notif, data) { var p = document.getElementById('serverSideHandler'); p.notif = notif; p.data = data; p.click(); }");
+            sb.Append("function serverSideCall(notif, data) { var p = document.getElementById('serverSideHandler'); p.setAttribute('notif', notif); p.setAttribute('data',data); p.click(); }");
             sb.Append("function onTreeItemChanged(obj) { if (obj.innerText == '+') { obj.innerText = '- '; var i = document.getElementById(obj.itemName); i.style.display='block';} else { obj.innerText = '+'; var i = document.getElementById(obj.itemName); i.style.display='none';}  }");
             tool.JavaScript.Code = sb.ToString();
             tool.HTML = @"<div id='serverSideHandler' style='display:none'></div>";

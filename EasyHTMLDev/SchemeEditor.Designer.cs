@@ -39,6 +39,8 @@
             // 
             // txtCSS
             // 
+            this.txtCSS.AcceptsReturn = true;
+            this.txtCSS.AcceptsTab = true;
             this.txtCSS.Location = new System.Drawing.Point(23, 52);
             this.txtCSS.Multiline = true;
             this.txtCSS.Name = "txtCSS";
