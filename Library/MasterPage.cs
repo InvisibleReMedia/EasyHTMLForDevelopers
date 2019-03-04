@@ -102,7 +102,10 @@ namespace Library
         /// <summary>
         /// Empty constructor
         /// </summary>
-        public MasterPage() { }
+        public MasterPage()
+        {
+            this.CSSList.AddCSS(new CodeCSS("body"));
+        }
 
         #endregion
 

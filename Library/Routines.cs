@@ -949,7 +949,7 @@ namespace Library
             }
 
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
-            html.CSS.Append(pageConfig.cssList.GenerateCSSWithoutPrincipal("body", true, true));
+            html.CSS.Append(pageConfig.cssList.GenerateCSSWithoutPrincipal(master.Id, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
 
@@ -958,7 +958,7 @@ namespace Library
             html.HTML.Append("<table");
             html.HTML.Append(" " + Routines.SetTableDisposition(refPage.Disposition));
             html.HTML.Append(" name='globalTable'");
-            html.HTML.Append(" id='" + master.Name + "'");
+            html.HTML.Append(" id='" + myId + "'");
             html.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
             if (!String.IsNullOrEmpty(cs.attributeWidth))
                 html.HTML.Append(" " + cs.attributeWidth);

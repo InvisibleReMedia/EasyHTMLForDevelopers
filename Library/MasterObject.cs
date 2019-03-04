@@ -105,6 +105,7 @@ namespace Library
             int val = Project.CurrentProject.IncrementedCounter;
             this.Set(automaticNameName, String.Format("masterObj{0}", val));
             this.Set(automaticIdName, String.Format("idMasterObj{0}", val));
+            this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
         }
         
         #endregion
@@ -142,6 +143,7 @@ namespace Library
             this.Set(javascriptName, refObj.JavaScript.Clone());
             this.Set(javascriptOnloadName, refObj.JavaScriptOnLoad.Clone());
             this.CSSList.ImportCSS(refObj.CSSList.List);
+            this.CSSList.RenamePrincipalCSS(refObj.Id, this.Id);
             this.HTMLBefore = ExtensionMethods.CloneThis(refObj.HTMLBefore);
             this.HTMLAfter = ExtensionMethods.CloneThis(refObj.HTMLAfter);
         }

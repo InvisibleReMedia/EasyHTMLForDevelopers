@@ -351,8 +351,6 @@ namespace Library
 
                 // set CSS part
                 myCss.Ids = "#" + myId;
-                if (myCss.Body.AllKeys.Contains("border"))
-                    myCss.Body.Remove("border");
                 Routines.SetCSSPart(myCss, cs);
 
                 List<VerticalZone>.Enumerator e = this.VerticalZones.GetEnumerator();
@@ -420,8 +418,6 @@ namespace Library
 
                 // set CSS part
                 myCss.Ids = "#" + myId;
-                if (myCss.Body.AllKeys.Contains("border"))
-                    myCss.Body.Remove("border");
                 Routines.SetCSSPart(myCss, cs);
 
                 List<VerticalZone>.Enumerator e = this.VerticalZones.GetEnumerator();
