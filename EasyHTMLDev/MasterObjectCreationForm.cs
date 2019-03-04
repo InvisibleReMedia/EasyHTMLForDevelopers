@@ -12,10 +12,15 @@ namespace EasyHTMLDev
     public partial class MasterObjectCreationForm : Form
     {
         private int localeComponentId;
+        private ZonesBinding rbWidth, rbHeight;
 
         public MasterObjectCreationForm()
         {
             InitializeComponent();
+            rbWidth = new ZonesBinding(typeof(Library.EnumConstraint), this.masterObjectBindingSource, "ConstraintWidth", "Width");
+            rbWidth.AddControlsIntoGroupBox(this.groupBox1, FlowDirection.LeftToRight);
+            rbHeight = new ZonesBinding(typeof(Library.EnumConstraint), this.masterObjectBindingSource, "ConstraintHeight", "Height");
+            rbHeight.AddControlsIntoGroupBox(this.groupBox2, FlowDirection.LeftToRight);
             this.RegisterControls(ref this.localeComponentId);
         }
 
@@ -48,22 +53,5 @@ namespace EasyHTMLDev
             advanced.ShowDialog();
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            this.MasterObject.ConstraintWidth = Library.EnumConstraint.AUTO;
-            this.MasterObject.ConstraintHeight = Library.EnumConstraint.AUTO;
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            this.MasterObject.ConstraintWidth = Library.EnumConstraint.FIXED;
-            this.MasterObject.ConstraintHeight = Library.EnumConstraint.FIXED;
-        }
-
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-            this.MasterObject.ConstraintWidth = Library.EnumConstraint.RELATIVE;
-            this.MasterObject.ConstraintHeight = Library.EnumConstraint.RELATIVE;
-        }
     }
 }

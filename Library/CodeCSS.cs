@@ -104,7 +104,7 @@ namespace Library
         /// <summary>
         /// Default constructor (addressed for the body of page)
         /// </summary>
-        public CodeCSS() { this.Ids = "#body"; }
+        public CodeCSS() { this.Ids = "body"; }
 
         #endregion
 

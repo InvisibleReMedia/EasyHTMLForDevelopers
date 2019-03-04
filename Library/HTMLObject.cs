@@ -114,7 +114,8 @@ namespace Library
             this.Set(javascriptName, htmlTool.JavaScript.Clone());
             this.Set(javascriptOnloadName, htmlTool.JavaScriptOnLoad.Clone());
             this.Set(cssListName, new CSSList(htmlTool.CSSList.List));
-            this.CSS.Ids = "#" + this.Id;
+            // rename the principal css element
+            this.CSSList.RenamePrincipalCSS(htmlTool.Id, this.Id);
         }
 
         /// <summary>
@@ -137,7 +138,7 @@ namespace Library
             this.Set(javascriptName, masterObject.JavaScript.Clone());
             this.Set(javascriptOnloadName, masterObject.JavaScriptOnLoad.Clone());
             this.Set(cssListName, new CSSList((from CodeCSS c in masterObject.CSSList.List select c.Clone() as CodeCSS).ToList()));
-            this.CSS.Ids = "#" + this.Id;
+            this.CSSList.RenamePrincipalCSS(masterObject.Id, this.Id);
         }
 
         /// <summary>
@@ -148,7 +149,7 @@ namespace Library
             int val = Project.CurrentProject.IncrementedCounter;
             this.Set(automaticNameName, String.Format("object{0}", val));
             this.Set(automaticIdName, String.Format("idObject{0}", val));
-            this.CSS.Ids = "#" + this.Id;
+            this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
         }
 
         /// <summary>
@@ -174,7 +175,7 @@ namespace Library
             this.Set(javascriptName, obj.JavaScript.Clone());
             this.Set(javascriptOnloadName, obj.JavaScriptOnLoad.Clone());
             this.Set(cssListName, new CSSList((from CodeCSS c in this.CSSList.List select c.Clone() as CodeCSS).ToList()));
-            this.CSS.Ids = "#" + this.Id;
+            this.CSSList.RenamePrincipalCSS(obj.Id, this.Id);
         }
 
         #endregion
@@ -237,7 +238,7 @@ namespace Library
         public EnumConstraint ConstraintWidth
         {
             get { return this.Get(constraintWidthName, EnumConstraint.AUTO); }
-            set { this.Set(constraintHeightName, value); }
+            set { this.Set(constraintWidthName, value); }
         }
 
         /// <summary>
@@ -415,7 +416,7 @@ namespace Library
             {
                 CodeCSS c = this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
                 if (c == null)
-                    this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
+                    throw new KeyNotFoundException(this.Id);
                 return this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
             }
         }
@@ -569,7 +570,7 @@ namespace Library
 
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
-                html.AppendCSS(this.CSSList.List);
+                html.AppendCSS(this.CSSList.GetListWithoutPrincipal(this.Id));
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
                 return html;
@@ -630,7 +631,7 @@ namespace Library
 
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
-                html.AppendCSS(this.CSSList.List);
+                html.AppendCSS(this.CSSList.GetListWithoutPrincipal(this.Id));
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
                 return html;
@@ -689,7 +690,7 @@ namespace Library
 
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
-                html.AppendCSS(this.CSSList.List);
+                html.AppendCSS(this.CSSList.GetListWithoutPrincipal(this.Id));
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
                 return html;
@@ -777,7 +778,7 @@ namespace Library
 
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
-                html.AppendCSS(this.CSSList.List);
+                html.AppendCSS(this.CSSList.GetListWithoutPrincipal(this.Id));
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
                 return html;
@@ -836,7 +837,7 @@ namespace Library
 
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
-                html.AppendCSS(this.CSSList.List);
+                html.AppendCSS(this.CSSList.GetListWithoutPrincipal(this.Id));
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
                 return html;

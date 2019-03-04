@@ -12,10 +12,15 @@ namespace EasyHTMLDev
     public partial class MasterPageCreationForm : Form
     {
         private int localeComponentId;
+        private ZonesBinding rbWidth, rbHeight;
 
         public MasterPageCreationForm()
         {
             InitializeComponent();
+            rbWidth = new ZonesBinding(typeof(Library.EnumConstraint), this.masterPageBindingSource, "ConstraintWidth", "Width");
+            rbWidth.AddControlsIntoGroupBox(this.groupBox1, FlowDirection.LeftToRight);
+            rbHeight = new ZonesBinding(typeof(Library.EnumConstraint), this.masterPageBindingSource, "ConstraintHeight", "Height");
+            rbHeight.AddControlsIntoGroupBox(this.groupBox2, FlowDirection.LeftToRight);
             this.RegisterControls(ref this.localeComponentId);
         }
 
@@ -43,28 +48,5 @@ namespace EasyHTMLDev
             this.masterPageBindingSource.DataSource = new Library.MasterPage();
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            this.MasterPage.ConstraintHeight = Library.EnumConstraint.AUTO;
-            this.MasterPage.ConstraintWidth = Library.EnumConstraint.AUTO;
-            this.width.Enabled = false;
-            this.height.Enabled = false;
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            this.MasterPage.ConstraintHeight = Library.EnumConstraint.FIXED;
-            this.MasterPage.ConstraintWidth = Library.EnumConstraint.FIXED;
-            this.width.Enabled = true;
-            this.height.Enabled = true;
-        }
-
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-            this.MasterPage.ConstraintHeight = Library.EnumConstraint.RELATIVE;
-            this.MasterPage.ConstraintWidth = Library.EnumConstraint.RELATIVE;
-            this.width.Enabled = true;
-            this.height.Enabled = true;
-        }
     }
 }

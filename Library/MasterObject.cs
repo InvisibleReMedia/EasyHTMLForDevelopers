@@ -184,7 +184,7 @@ namespace Library
         public EnumConstraint ConstraintWidth
         {
             get { return this.Get(constraintWidthName, EnumConstraint.AUTO); }
-            set { this.Get(constraintWidthName, value); }
+            set { this.Set(constraintWidthName, value); }
         }
 
         /// <summary>
@@ -369,10 +369,10 @@ namespace Library
         {
             get
             {
-                CodeCSS c = this.CSSList.List.Find(x => x.Ids == "#" + this.Name);
+                CodeCSS c = this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
                 if (c == null)
-                    this.CSSList.AddCSS(new CodeCSS("#" + this.Name));
-                return this.CSSList.List.Find(x => x.Ids == "#" + this.Name);
+                    this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
+                return this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
             }
         }
 
@@ -517,7 +517,7 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
+            output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -572,7 +572,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
+            output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -628,7 +628,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
+            output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -709,7 +709,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
+            output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -781,7 +781,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
+            output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -855,7 +855,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
+            output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -1267,7 +1267,7 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
-            html.CSS.Append(this.CSSList.GenerateCSS(true, true));
+            html.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -1361,7 +1361,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
-            html.CSS.Append(this.CSSList.GenerateCSS(true, true));
+            html.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -1464,7 +1464,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
-            html.CSS.Append(this.CSSList.GenerateCSS(true, true));
+            html.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -1577,7 +1577,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
-            html.CSS.Append(this.CSSList.GenerateCSS(true, true));
+            html.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -1778,7 +1778,7 @@ namespace Library
             tool.JavaScript.Code = output;
             tool.JavaScriptOnLoad.Code = html.JavaScriptOnLoad.ToString() + Environment.NewLine + "// call here function " + this.Title + Environment.NewLine;
             string reason;
-            CSSValidation.CSSValidate(html.CSS.ToString(), true, tool.CSSList.List, out reason);
+            CSSValidation.CSSValidate(html.CSS.ToString(), false, tool.CSSList.List, out reason);
             tool.Width = this.Width;
             tool.Height = this.Height;
             tool.ConstraintWidth = this.ConstraintWidth;

@@ -329,7 +329,7 @@ namespace Library
             }
 
             html.CSS.Append(body.GenerateCSS(true, true, true));
-            html.CSS.Append(pageConfig.cssList.GenerateCSS(true, true));
+            html.CSS.Append(pageConfig.cssList.GenerateCSSWithoutPrincipal("body", true, true));
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
@@ -455,6 +455,7 @@ namespace Library
             }
 
             html.CSS.Append(body.GenerateCSS(true, true, true));
+            html.CSS.Append(master.CSSList.GenerateCSSWithoutPrincipal("body", true, true));
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
@@ -573,7 +574,7 @@ namespace Library
             }
 
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
-            html.CSS.Append(pageConfig.cssList.GenerateCSS(true, true));
+            html.CSS.Append(master.CSSList.GenerateCSSWithoutPrincipal("body", true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
             html.HTML.Append(master.HTMLBefore);
@@ -811,7 +812,7 @@ namespace Library
             }
 
             html.CSS.Append(body.GenerateCSS(true, true, true));
-            html.CSS.Append(pageConfig.cssList.GenerateCSS(true, true));
+            html.CSS.Append(pageConfig.cssList.GenerateCSSWithoutPrincipal("body", true, true));
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
@@ -948,7 +949,7 @@ namespace Library
             }
 
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
-            html.CSS.Append(pageConfig.cssList.GenerateCSS(true, true));
+            html.CSS.Append(pageConfig.cssList.GenerateCSSWithoutPrincipal("body", true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
 
@@ -1041,7 +1042,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
 
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
-            html.CSS.Append(tool.CSSList.GenerateCSS(true, true));
+            html.CSS.Append(tool.CSSList.GenerateCSSWithoutPrincipal(tool.Id, true, true));
             html.CSS.Append(tool.CSSOutput(true));
             html.JavaScript.Append(tool.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(tool.JavaScriptOnLoad.GeneratedCode);
@@ -1109,7 +1110,7 @@ namespace Library
             //Routines.SetObjectDisposition(parent, myCss, newInfos);
 
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
-            html.CSS.Append(obj.CSSOutput(true));
+            html.CSS.Append(obj.CSSList.GenerateCSSWithoutPrincipal(obj.Id, true, true));
             html.JavaScript.Append(obj.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(obj.JavaScriptOnLoad.GeneratedCode);
             html.HTML.Append(obj.GeneratedHTML);

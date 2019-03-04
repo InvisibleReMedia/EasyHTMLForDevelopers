@@ -86,7 +86,7 @@ namespace Library
             int val = Project.CurrentProject.IncrementedCounter;
             this.Set(automaticNameName, String.Format("tool{0}", val));
             this.Set(automaticIdName, String.Format("idTool{0}", val));
-            this.CSS.Ids = "#" + this.Id;
+            this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
         }
 
         #endregion
@@ -108,7 +108,7 @@ namespace Library
         public EnumConstraint ConstraintWidth
         {
             get { return this.Get(constraintWidthName, EnumConstraint.AUTO); }
-            set { this.Set(constraintHeightName, value); }
+            set { this.Set(constraintWidthName, value); }
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace Library
             {
                 CodeCSS c = this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
                 if (c == null)
-                    this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
+                    this.CSSList.List.Add(new CodeCSS("#" + this.Id));
                 return this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
             }
         }
@@ -424,8 +424,8 @@ namespace Library
             tool.Set(eventsName, this.Events.Clone());
             tool.Set(javascriptName, this.JavaScript.Clone());
             tool.Set(javascriptOnloadName, this.JavaScriptOnLoad.Clone());
-            tool.CSS.Ids = "#" + tool.Id;
             tool.CSSList.List.AddRange(from CodeCSS c in this.CSSList.List select c.Clone() as CodeCSS);
+            tool.CSSList.RenamePrincipalCSS(this.Id, tool.Id);
             return tool;
 
         }

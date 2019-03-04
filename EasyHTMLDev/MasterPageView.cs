@@ -69,7 +69,7 @@ namespace EasyHTMLDev
                 fs.Dispose();
                 this.webBrowser1.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser1_DocumentCompleted);
                 this.webBrowser1.Navigate(ConfigDirectories.GetBuildFolder(Library.Project.CurrentProject.Title) + this.mPage.Name + ".html");
-                this.textBox4.Text = this.mPage.CSSList.GenerateCSS(false, false);
+                this.textBox4.Text = this.mPage.CSSList.GenerateCSS(true, false);
             }
             catch (Exception ex)
             {

@@ -234,19 +234,18 @@ namespace EasyHTMLDev
             {
                 Project proj = Project.CurrentProject;
                 MasterPageCreationWindow window = new MasterPageCreationWindow(form.MasterPage);
-                if (form.MasterPage.ConstraintWidth != EnumConstraint.RELATIVE && form.MasterPage.ConstraintWidth != EnumConstraint.AUTO)
-                    window.Height = (int)form.MasterPage.Height;
-                else
-                    window.Height = 500;
-                if (form.MasterPage.ConstraintHeight != EnumConstraint.RELATIVE && form.MasterPage.ConstraintHeight != EnumConstraint.AUTO)
+                if (form.MasterPage.ConstraintWidth == EnumConstraint.FIXED)
                     window.Width = (int)form.MasterPage.Width;
                 else
                     window.Width = 500;
+                if (form.MasterPage.ConstraintHeight == EnumConstraint.FIXED)
+                    window.Height = (int)form.MasterPage.Height;
+                else
+                    window.Height = 500;
                 window.WindowState = FormWindowState.Normal;
                 DialogResult dr2 = window.ShowDialog();
                 if (dr2 == DialogResult.OK)
                 {
-                    Library.SizeCompute.ComputeMasterPage(proj, form.MasterPage);
                     string[] splitted = form.MasterPage.ElementTitle.Split('/');
                     string path = String.Join("/", splitted.Take(splitted.Count() - 1));
                     form.MasterPage.Name = splitted.Last();
@@ -448,19 +447,18 @@ namespace EasyHTMLDev
             {
                 Project proj = Project.CurrentProject;
                 MasterObjectCreationWindow window = new MasterObjectCreationWindow(creation.MasterObject);
-                if (creation.MasterObject.ConstraintWidth != EnumConstraint.RELATIVE && creation.MasterObject.ConstraintWidth != EnumConstraint.AUTO)
+                if (creation.MasterObject.ConstraintWidth == EnumConstraint.FIXED)
+                    window.Width = (int)creation.MasterObject.Width;
+                else
+                    window.Height = 500;
+                if (creation.MasterObject.ConstraintHeight == EnumConstraint.FIXED)
                     window.Height = (int)creation.MasterObject.Height;
                 else
                     window.Height = 500;
-                if (creation.MasterObject.ConstraintHeight != EnumConstraint.RELATIVE && creation.MasterObject.ConstraintHeight != EnumConstraint.AUTO)
-                    window.Width = (int)creation.MasterObject.Width;
-                else
-                    window.Width = 500;
                 window.WindowState = FormWindowState.Normal;
                 DialogResult dr2 = window.ShowDialog();
                 if (dr2 == DialogResult.OK)
                 {
-                    Library.SizeCompute.ComputeMasterObject(proj, creation.MasterObject);
                     string[] splitted = creation.MasterObject.ElementTitle.Split('/');
                     string path = String.Join("/", splitted.Take(splitted.Count() - 1));
                     creation.MasterObject.Name = splitted.Last();

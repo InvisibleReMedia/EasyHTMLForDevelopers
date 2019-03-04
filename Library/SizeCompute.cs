@@ -412,13 +412,17 @@ namespace Library
                 {
                     if (maxWidth < ads.Width)
                         maxWidth = ads.Width;
-                } else {
+                }
+                else
+                {
                     cWidth = EnumConstraint.AUTO;
                 }
                 if (ads.ConstraintHeight == EnumConstraint.FIXED)
                 {
                     height += ads.Height;
-                } else {
+                }
+                else
+                {
                     cHeight = EnumConstraint.AUTO;
                 }
             }

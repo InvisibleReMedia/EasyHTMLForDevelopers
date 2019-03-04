@@ -1556,6 +1556,29 @@
             <param name="resolveConfig">transforms configuration keys to values</param>
             <returns>css string generated code output</returns>
         </member>
+        <member name="M:Library.CSSList.GenerateCSSWithoutPrincipal(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Generate CSS without principal id
+            </summary>
+            <param name="principalId">principal</param>
+            <param name="addDefaultKeys">add default key</param>
+            <param name="resolveConfig">resolve config</param>
+            <returns>string output</returns>
+        </member>
+        <member name="M:Library.CSSList.RenamePrincipalCSS(System.String,System.String)">
+            <summary>
+            Rename a css element
+            </summary>
+            <param name="currentId">current id</param>
+            <param name="nextId">new id</param>
+        </member>
+        <member name="M:Library.CSSList.GetListWithoutPrincipal(System.String)">
+            <summary>
+            Get list without principal element
+            </summary>
+            <param name="principalId">principal id</param>
+            <returns>list</returns>
+        </member>
         <member name="M:Library.CSSList.RemoveCSS(System.String)">
             <summary>
             Remove css properties

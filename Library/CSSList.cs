@@ -114,6 +114,45 @@ namespace Library
         }
 
         /// <summary>
+        /// Generate CSS without principal id
+        /// </summary>
+        /// <param name="principalId">principal</param>
+        /// <param name="addDefaultKeys">add default key</param>
+        /// <param name="resolveConfig">resolve config</param>
+        /// <returns>string output</returns>
+        public string GenerateCSSWithoutPrincipal(string principalId, bool addDefaultKeys, bool resolveConfig = false)
+        {
+            string output = string.Empty;
+            foreach (CodeCSS c in this.GetListWithoutPrincipal(principalId))
+            {
+                output += c.GenerateCSS(addDefaultKeys, true, resolveConfig);
+                output += Environment.NewLine + Environment.NewLine;
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// Rename a css element
+        /// </summary>
+        /// <param name="currentId">current id</param>
+        /// <param name="nextId">new id</param>
+        public void RenamePrincipalCSS(string currentId, string nextId)
+        {
+            CodeCSS objCSS = this.List.Find(x => x.Ids == "#" + currentId);
+            objCSS.Ids = "#" + nextId;
+        }
+
+        /// <summary>
+        /// Get list without principal element
+        /// </summary>
+        /// <param name="principalId">principal id</param>
+        /// <returns>list</returns>
+        public List<CodeCSS> GetListWithoutPrincipal(string principalId)
+        {
+            return (from x in this.List where x.Ids != principalId select x).ToList();
+        }
+
+        /// <summary>
         /// Remove css properties
         /// with this id
         /// </summary>
