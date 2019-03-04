@@ -64,7 +64,7 @@ namespace EasyHTMLDev
                 fs.Dispose();
                 this.webBrowser1.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(webBrowser1_DocumentCompleted);
                 this.webBrowser1.Navigate(ConfigDirectories.GetBuildFolder(Library.Project.CurrentProject.Title) + this.mObject.Name + ".html");
-                this.textBox4.Text = this.mObject.CSS.GenerateCSS(false, false);
+                this.textBox4.Text = this.mObject.CSSList.GenerateCSS(false, false);
             }
             catch (Exception ex)
             {
@@ -211,7 +211,7 @@ namespace EasyHTMLDev
         private void textBox4_Validating(object sender, CancelEventArgs e)
         {
             string reason = String.Empty;
-            if (CSSValidation.CSSValidate(this.textBox4.Text, false, out reason, this.mObject.CSS))
+            if (Library.CSSValidation.CSSValidate(this.textBox4.Text, false, mObject.CSSList.List, out reason))
             {
                 this.epCSS.Clear();
                 this.btnValidate1.SetDirty();

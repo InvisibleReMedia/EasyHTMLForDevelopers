@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Library
 {
@@ -72,10 +73,6 @@ namespace Library
         /// </summary>
         protected static readonly string javascriptOnloadName = "javascriptOnload";
         /// <summary>
-        /// Index name for css styles
-        /// </summary>
-        protected static readonly string cssName = "css";
-        /// <summary>
         /// Index name for the html header
         /// </summary>
         protected static readonly string htmlHeaderName = "htmlHeader";
@@ -144,7 +141,7 @@ namespace Library
             this.Set(eventsName, refObj.Events.Clone());
             this.Set(javascriptName, refObj.JavaScript.Clone());
             this.Set(javascriptOnloadName, refObj.JavaScriptOnLoad.Clone());
-            this.CSS = refObj.CSS.Clone() as CodeCSS;
+            this.CSSList.ImportCSS(refObj.CSSList.List);
             this.HTMLBefore = ExtensionMethods.CloneThis(refObj.HTMLBefore);
             this.HTMLAfter = ExtensionMethods.CloneThis(refObj.HTMLAfter);
         }
@@ -366,13 +363,19 @@ namespace Library
         }
 
         /// <summary>
-        /// Gets or sets CSS
+        /// Gets the css code
         /// </summary>
         public CodeCSS CSS
         {
-            get { return this.Get(cssName, new CodeCSS()); }
-            set { this.Set(cssName, value); }
+            get
+            {
+                CodeCSS c = this.CSSList.List.Find(x => x.Ids == "#" + this.Name);
+                if (c == null)
+                    this.CSSList.AddCSS(new CodeCSS("#" + this.Name));
+                return this.CSSList.List.Find(x => x.Ids == "#" + this.Name);
+            }
         }
+
 
         /// <summary>
         /// Gets the css list
@@ -449,7 +452,7 @@ namespace Library
         /// <param name="list">list of rectangle the user supplied</param>
         public void MakeZones(List<AreaSizedRectangle> list)
         {
-            MasterPage.MakeZones(this.CountColumns, this.CountLines, list, this.HorizontalZones);
+            MasterPage.MakeZones(this.CountColumns, this.CountLines, list, this.HorizontalZones, this.Width, this.Height, this.ConstraintWidth, this.ConstraintHeight);
         }
         #endregion
 
@@ -481,7 +484,7 @@ namespace Library
             config.constraintHeight = this.ConstraintHeight;
             config.width = this.Width;
             config.height = this.Height;
-            config.cssPart = this.CSS;
+            config.cssList = this.CSSList;
             config.events = this.Events;
             config.javascriptPart = this.JavaScript;
             config.onload = this.JavaScriptOnLoad;
@@ -514,6 +517,7 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
+            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -568,6 +572,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
+            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -623,6 +628,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
+            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -668,7 +674,7 @@ namespace Library
             config.constraintHeight = this.ConstraintHeight;
             config.width = this.Width;
             config.height = this.Height;
-            config.cssPart = this.CSS;
+            config.cssList = this.CSSList;
             config.events = this.Events;
             config.javascriptPart = this.JavaScript;
             config.onload = this.JavaScriptOnLoad;
@@ -703,6 +709,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
+            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -774,6 +781,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
+            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -847,6 +855,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             output.CSS.Append(myCss.GenerateCSS(true, true, true));
+            output.CSS.Append(this.CSSList.GenerateCSS(true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -1258,6 +1267,7 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
+            html.CSS.Append(this.CSSList.GenerateCSS(true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -1351,6 +1361,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
+            html.CSS.Append(this.CSSList.GenerateCSS(true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -1453,6 +1464,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
+            html.CSS.Append(this.CSSList.GenerateCSS(true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -1565,6 +1577,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
+            html.CSS.Append(this.CSSList.GenerateCSS(true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
@@ -1648,7 +1661,6 @@ namespace Library
             output.HTML.Append(this.HTMLAfter);
             return output;
         }
-        #endregion
 
         /// <summary>
         /// Clone this object
@@ -1659,5 +1671,121 @@ namespace Library
             MasterObject mo = new MasterObject(this);
             return mo;
         }
+
+        /// <summary>
+        /// Replace each name by its value
+        /// </summary>
+        /// <param name="input">input string</param>
+        /// <returns>list of parameters</returns>
+        private IEnumerable<string> GetParameters(string input)
+        {
+            List<string> parameters = new List<string>();
+            string output = String.Empty;
+            if (!String.IsNullOrEmpty(input))
+            {
+                Regex reg = new Regex(@"\$(.*)|([^$]+)", RegexOptions.Multiline);
+                MatchCollection results = reg.Matches(input);
+                foreach (Match m in results)
+                {
+                    if (m.Success)
+                    {
+                        if (m.Groups[1].Success)
+                        {
+                            parameters.Add(m.Groups[1].Value);
+                        }
+                    }
+                }
+            }
+            return parameters;
+        }
+
+        /// <summary>
+        /// Replace each name by its value
+        /// </summary>
+        /// <param name="input">input string</param>
+        /// <returns>output</returns>
+        public string TransformToJavascript(string input)
+        {
+            int state = 0;
+            string output = String.Empty;
+            if (!String.IsNullOrEmpty(input))
+            {
+                Regex reg = new Regex(@"(\$.*)|([^$]+)|(" + Environment.NewLine + ")|\"", RegexOptions.Multiline);
+                MatchCollection results = reg.Matches(input);
+                foreach (Match m in results)
+                {
+                    if (m.Success)
+                    {
+                        if (m.Groups[1].Success)
+                        {
+                            if (state > 1) output += "\" + ";
+                            output += m.Groups[1].Value + " + ";
+                            state = 1;
+                        }
+                        else if (m.Groups[2].Success)
+                        {
+                            if (state <= 1) output += "\"";
+                            output += m.Groups[2].Value;
+                            state = 2;
+                        }
+                        else if (m.Groups[3].Success)
+                        {
+                            if (state <= 1) output += "\"";
+                            output += "\\r\\n";
+                            state = 2;
+                        }
+                        else if (m.Groups[4].Success)
+                        {
+                            if (state <= 1) output += "\"";
+                            output += "\\\"";
+                            state = 2;
+                        }
+                        else
+                        {
+                            throw new Exception(String.Format(Localization.Strings.GetString("ExceptionMalFormedContent"), input));
+                        }
+                    }
+                    else
+                    {
+                        output += m.Value;
+                    }
+                }
+            }
+            if (state == 2) output += "\"";
+            return output;
+        }
+
+        
+        /// <summary>
+        /// Converts to Javascript
+        /// </summary>
+        /// <returns></returns>
+        public HTMLTool ToJavascript()
+        {
+            HTMLTool tool = new HTMLTool();
+            OutputHTML html = this.GenerateProduction();
+            string output = html.JavaScript.ToString();
+            string input = html.HTML.ToString();
+            output += "function " + this.Title + "(id";
+            foreach (string par in this.GetParameters(input))
+            {
+                output += ", " + par;
+            }
+            output += ") {" + Environment.NewLine + "var obj = document.getElementById(id); if (obj) { obj.innerHTML = ";
+            output += this.TransformToJavascript(input);
+            output += "}" + Environment.NewLine + "}" + Environment.NewLine;
+            tool.HTML = "<div id='" + this.Name + "'></div>";
+            tool.JavaScript.Code = output;
+            tool.JavaScriptOnLoad.Code = html.JavaScriptOnLoad.ToString() + Environment.NewLine + "// call here function " + this.Title + Environment.NewLine;
+            string reason;
+            CSSValidation.CSSValidate(html.CSS.ToString(), true, tool.CSSList.List, out reason);
+            tool.Width = this.Width;
+            tool.Height = this.Height;
+            tool.ConstraintWidth = this.ConstraintWidth;
+            tool.ConstraintHeight = this.ConstraintHeight;
+            return tool;
+        }
+        #endregion
+
     }
 }

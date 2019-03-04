@@ -250,7 +250,7 @@ namespace EasyHTMLDev
             {
                 string reason = String.Empty;
                 Library.VerticalZone v = this.bsVert.Current as Library.VerticalZone;
-                if (CSSValidation.CSSValidate(this.cssVert.Text, false, out reason, v.CSS))
+                if (Library.CSSValidation.CSSValidate(this.cssVert.Text, false, out reason, v.CSS))
                 {
                     if (this.modified != null)
                     {
@@ -266,7 +266,7 @@ namespace EasyHTMLDev
             {
                 string reason = String.Empty;
                 Library.HorizontalZone h = (this.bsHoriz.Current) as Library.HorizontalZone;
-                if (CSSValidation.CSSValidate(this.cssHoriz.Text, false, out reason, h.CSS))
+                if (Library.CSSValidation.CSSValidate(this.cssHoriz.Text, false, out reason, h.CSS))
                 {
                     if (this.modified != null)
                     {

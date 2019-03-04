@@ -27,9 +27,9 @@ namespace Library
         /// </summary>
         public EnumConstraint constraintHeight;
         /// <summary>
-        /// Code CSS
+        /// CSS additional list
         /// </summary>
-        public CodeCSS cssPart;
+        public CSSList cssList;
         /// <summary>
         /// Evenements
         /// </summary>

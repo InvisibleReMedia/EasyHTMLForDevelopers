@@ -66,10 +66,6 @@ namespace Library
         /// </summary>
         protected static readonly string javascriptOnloadName = "javascriptOnload";
         /// <summary>
-        /// Index name for css
-        /// </summary>
-        protected static readonly string cssName = "css";
-        /// <summary>
         /// Index name for additional css
         /// </summary>
         protected static readonly string additionalCssName = "additionalCss";
@@ -77,10 +73,6 @@ namespace Library
         /// Index name for css list
         /// </summary>
         protected static readonly string cssListName = "cssList";
-        /// <summary>
-        /// Index name for css source
-        /// </summary>
-        protected static readonly string cssSourceName = "cssSource";
 
         #endregion
 
@@ -269,29 +261,17 @@ namespace Library
         }
 
         /// <summary>
-        /// Gets or sets CSS
+        /// Gets the css code
         /// </summary>
         public CodeCSS CSS
         {
-            get { return this.Get(cssName, new CodeCSS()); }
-            set { this.Set(cssName, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets additionnal CSSSource
-        /// </summary>
-        public string CSSSource
-        {
-            get { return this.Get(cssSourceName, string.Empty); }
-            set { this.Set(cssSourceName, value); }
-        }
-
-        /// <summary>
-        /// Gets the CSS additional list
-        /// </summary>
-        public List<CodeCSS> CSSAdditional
-        {
-            get { return this.Get(additionalCssName, new List<CodeCSS>()); }
+            get
+            {
+                CodeCSS c = this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
+                if (c == null)
+                    this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
+                return this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
+            }
         }
 
         /// <summary>
@@ -326,23 +306,33 @@ namespace Library
         /// Import a CSS
         /// </summary>
         /// <param name="css">css code</param>
-        public void ImportCSS(CodeCSS css)
+        public void ImportCSS(List<CodeCSS> css)
         {
-            this.CSS = css.Clone() as CodeCSS;
+            this.Set(cssListName, new CSSList(css));
+        }
+
+        /// <summary>
+        /// Returns the CSS output
+        /// </summary>
+        /// <param name="resolveConfig">true if resolve configuration</param>
+        /// <returns>css</returns>
+        public string CSSOutput(bool resolveConfig)
+        {
+            return HTMLTool.CSSOutput(this.CSSList.List, resolveConfig);
         }
 
         /// <summary>
         /// Obtain the CSS output
         /// given a switch to resolve configuration key
         /// </summary>
+        /// <param name="css">css input</param>
         /// <param name="resolveConfig">true if replace configuration key by its value</param>
         /// <returns>css output</returns>
-        public string CSSOutput(bool resolveConfig)
+        public static string CSSOutput(List<CodeCSS> css, bool resolveConfig)
         {
-            string output = this.CSS.GenerateCSS(false, true, resolveConfig) + Environment.NewLine;
-            List<string> list = this.CSSAdditional.ConvertAll(a => { return a.GenerateCSS(true, true, resolveConfig) + Environment.NewLine; });
+            string output = string.Empty;
+            List<string> list = css.ConvertAll(a => { return a.GenerateCSS(true, true, resolveConfig) + Environment.NewLine; });
             if (list.Count() > 0) output += list.Aggregate((a, b) => a + b);
-            output += this.CSSSource;
             return output;
         }
 
@@ -434,9 +424,8 @@ namespace Library
             tool.Set(eventsName, this.Events.Clone());
             tool.Set(javascriptName, this.JavaScript.Clone());
             tool.Set(javascriptOnloadName, this.JavaScriptOnLoad.Clone());
-            tool.Set(cssName, new CodeCSS(this.CSS));
             tool.CSS.Ids = "#" + tool.Id;
-            tool.CSSAdditional.AddRange(from CodeCSS c in this.CSSAdditional select c.Clone() as CodeCSS);
+            tool.CSSList.List.AddRange(from CodeCSS c in this.CSSList.List select c.Clone() as CodeCSS);
             return tool;
 
         }

@@ -83,13 +83,9 @@ namespace Library
         /// </summary>
         protected static readonly string javascriptOnloadName = "javascriptOnload";
         /// <summary>
-        /// Index name for css
-        /// </summary>
-        protected static readonly string cssName = "css";
-        /// <summary>
         /// Index name for additional css
         /// </summary>
-        protected static readonly string additionalCssName = "additionalCss";
+        protected static readonly string cssListName = "cssList";
 
         #endregion
 
@@ -117,9 +113,8 @@ namespace Library
             this.Set(eventsName, htmlTool.Events.Clone());
             this.Set(javascriptName, htmlTool.JavaScript.Clone());
             this.Set(javascriptOnloadName, htmlTool.JavaScriptOnLoad.Clone());
-            this.Set(cssName, new CodeCSS(htmlTool.CSS));
+            this.Set(cssListName, new CSSList(htmlTool.CSSList.List));
             this.CSS.Ids = "#" + this.Id;
-            this.Set(additionalCssName, (from CodeCSS c in htmlTool.CSSAdditional select c.Clone() as CodeCSS).ToList());
         }
 
         /// <summary>
@@ -141,7 +136,7 @@ namespace Library
             this.Set(eventsName, masterObject.Events.Clone());
             this.Set(javascriptName, masterObject.JavaScript.Clone());
             this.Set(javascriptOnloadName, masterObject.JavaScriptOnLoad.Clone());
-            this.Set(cssName, new CodeCSS(masterObject.CSS));
+            this.Set(cssListName, new CSSList((from CodeCSS c in masterObject.CSSList.List select c.Clone() as CodeCSS).ToList()));
             this.CSS.Ids = "#" + this.Id;
         }
 
@@ -178,9 +173,8 @@ namespace Library
             this.Set(eventsName, obj.Events.Clone());
             this.Set(javascriptName, obj.JavaScript.Clone());
             this.Set(javascriptOnloadName, obj.JavaScriptOnLoad.Clone());
-            this.Set(cssName, obj.CSS.Clone());
+            this.Set(cssListName, new CSSList((from CodeCSS c in this.CSSList.List select c.Clone() as CodeCSS).ToList()));
             this.CSS.Ids = "#" + this.Id;
-            this.Set(additionalCssName, (from CodeCSS c in this.CSSAdditional select c.Clone() as CodeCSS).ToList());
         }
 
         #endregion
@@ -413,20 +407,25 @@ namespace Library
         }
 
         /// <summary>
-        /// Gets or sets CSS
+        /// Gets the css code
         /// </summary>
         public CodeCSS CSS
         {
-            get { return this.Get(cssName, new CodeCSS()); }
-            set { this.Set(cssName, value); }
+            get
+            {
+                CodeCSS c = this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
+                if (c == null)
+                    this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
+                return this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
+            }
         }
 
         /// <summary>
         /// Gets the CSS additional list
         /// </summary>
-        public List<CodeCSS> CSSAdditional
+        public CSSList CSSList
         {
-            get { return this.Get(additionalCssName, new List<CodeCSS>()); }
+            get { return this.Get(cssListName, new CSSList()); }
         }
 
         #endregion
@@ -463,23 +462,19 @@ namespace Library
         /// Import a css object
         /// </summary>
         /// <param name="css">css code </param>
-        public void ImportCSS(CodeCSS css)
+        public void ImportCSS(List<CodeCSS> css)
         {
-            this.CSS = css.Clone() as CodeCSS;
+            this.CSSList.ImportCSS(css);
         }
 
         /// <summary>
-        /// Obtain the CSS output
-        /// given a switch to resolve configuration key
+        /// Returns the CSS output
         /// </summary>
-        /// <param name="resolveConfig">true if replace configuration key by its value</param>
-        /// <returns>css output</returns>
+        /// <param name="resolveConfig">true if resolve configuration</param>
+        /// <returns>css</returns>
         public string CSSOutput(bool resolveConfig)
         {
-            string output = this.CSS.GenerateCSS(resolveConfig ? true : false, true, resolveConfig) + Environment.NewLine;
-            List<string> list = this.CSSAdditional.ConvertAll(a => { return a.GenerateCSS(true, true, resolveConfig) + Environment.NewLine; });
-            if (list.Count() > 0) output += list.Aggregate((a, b) => a + b);
-            return output;
+            return HTMLTool.CSSOutput(this.CSSList.List, resolveConfig);
         }
 
         /// <summary>
@@ -574,7 +569,7 @@ namespace Library
 
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
-                html.AppendCSS(this.CSSAdditional);
+                html.AppendCSS(this.CSSList.List);
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
                 return html;
@@ -635,7 +630,7 @@ namespace Library
 
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
-                html.AppendCSS(this.CSSAdditional);
+                html.AppendCSS(this.CSSList.List);
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
                 return html;
@@ -694,7 +689,7 @@ namespace Library
 
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
-                html.AppendCSS(this.CSSAdditional);
+                html.AppendCSS(this.CSSList.List);
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
                 return html;
@@ -782,7 +777,7 @@ namespace Library
 
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
-                html.AppendCSS(this.CSSAdditional);
+                html.AppendCSS(this.CSSList.List);
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
                 return html;
@@ -841,7 +836,7 @@ namespace Library
 
                 html.HTML.Append("</div>");
                 html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
-                html.AppendCSS(this.CSSAdditional);
+                html.AppendCSS(this.CSSList.List);
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
                 return html;

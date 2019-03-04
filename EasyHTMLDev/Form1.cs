@@ -973,11 +973,35 @@ namespace EasyHTMLDev
                             tool.HTML = html.HTML.ToString();
                             tool.JavaScript.Code = html.JavaScript.ToString();
                             tool.JavaScriptOnLoad.Code = html.JavaScriptOnLoad.ToString();
-                            tool.CSSSource = html.CSS.ToString();
+                            string error;
+                            CSSValidation.CSSValidate(html.CSS.ToString(), false, tool.CSSList.List, out error);
                             tool.Width = mo.Width;
                             tool.Height = mo.Height;
                             tool.ConstraintWidth = mo.ConstraintWidth;
                             tool.ConstraintHeight = mo.ConstraintHeight;
+                            Project.CurrentProject.Add(tool, "generated/" + mo.Title);
+                            Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
+                            Project.CurrentProject.ReloadProject();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void toJavascriptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode t = this.currentNodeContext;
+            if (t != null)
+            {
+                if (t.Tag != null)
+                {
+                    if (t.Tag is Library.MasterObject)
+                    {
+                        DialogResult dr = MessageBox.Show(Translate("ConvertToJavascript"), Translate("ConvertToJavascriptTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dr == System.Windows.Forms.DialogResult.Yes)
+                        {
+                            MasterObject mo = t.Tag as MasterObject;
+                            HTMLTool tool = mo.ToJavascript();
                             Project.CurrentProject.Add(tool, "generated/" + mo.Title);
                             Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                             Project.CurrentProject.ReloadProject();

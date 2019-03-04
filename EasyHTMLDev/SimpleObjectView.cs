@@ -70,9 +70,9 @@ namespace EasyHTMLDev
         private void textBox4_Validating(object sender, CancelEventArgs e)
         {
             string errorText;
-            if (!this.HTMLObject.CSSAdditional.Exists(a => a.Ids == this.HTMLObject.CSS.Ids))
-                this.HTMLObject.CSSAdditional.Add(this.HTMLObject.CSS);
-            bool isSuccess = CSSValidation.CSSValidate(this.textBox4.Text, false, this.HTMLObject.CSSAdditional, out errorText);
+            if (!this.HTMLObject.CSSList.List.Exists(a => a.Ids == this.HTMLObject.CSS.Ids))
+                this.HTMLObject.CSSList.List.Add(this.HTMLObject.CSS);
+            bool isSuccess = Library.CSSValidation.CSSValidate(this.textBox4.Text, false, this.HTMLObject.CSSList.List, out errorText);
             if (!isSuccess)
             {
                 this.epCSS.SetError(this.textBox4, errorText);
@@ -80,18 +80,6 @@ namespace EasyHTMLDev
             else
             {
                 this.epCSS.Clear();
-                Library.CodeCSS css = this.HTMLObject.CSSAdditional.Find(a => a.Ids == "#" + this.HTMLObject.Id);
-                if (css != null)
-                {
-                    this.HTMLObject.ImportCSS(css);
-                    this.HTMLObject.CSSAdditional.Remove(css);
-                }
-                else
-                {
-                    Library.CodeCSS newCss = new Library.CodeCSS();
-                    newCss.Ids = "#" + this.HTMLObject.Id;
-                    this.HTMLObject.ImportCSS(newCss);
-                }
                 this.textBox4.Text = this.HTMLObject.CSSOutput(false);
                 this.btnValidate1.SetDirty();
             }

@@ -1513,7 +1513,7 @@
             CSS list
             </summary>
         </member>
-        <member name="F:Library.CSSList.cssName">
+        <member name="F:Library.CSSList.cssListName">
             <summary>
             Index name for css list
             </summary>
@@ -1523,11 +1523,38 @@
             Empty Constructor
             </summary>
         </member>
-        <member name="M:Library.CSSList.AddCSS(Library.CSSProperties)">
+        <member name="M:Library.CSSList.#ctor(System.Collections.Generic.List{Library.CodeCSS})">
+            <summary>
+            Copy constructor
+            </summary>
+            <param name="list">input list</param>
+        </member>
+        <member name="M:Library.CSSList.AddCSS(Library.CodeCSS)">
             <summary>
             Add a new CSS Properties
             </summary>
             <param name="props"></param>
+        </member>
+        <member name="M:Library.CSSList.ImportCSS(System.Collections.Generic.List{Library.CodeCSS})">
+            <summary>
+            Import CSS
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:Library.CSSList.Find(System.String)">
+            <summary>
+            Find a css from id
+            </summary>
+            <param name="id">id</param>
+            <returns>css</returns>
+        </member>
+        <member name="M:Library.CSSList.GenerateCSS(System.Boolean,System.Boolean)">
+            <summary>
+            Generates the CSS code
+            </summary>
+            <param name="addDefaultKeys">add default keys</param>
+            <param name="resolveConfig">transforms configuration keys to values</param>
+            <returns>css string generated code output</returns>
         </member>
         <member name="M:Library.CSSList.RemoveCSS(System.String)">
             <summary>
@@ -1535,6 +1562,12 @@
             with this id
             </summary>
             <param name="id">id</param>
+        </member>
+        <member name="M:Library.CSSList.Clone">
+            <summary>
+            Clone this
+            </summary>
+            <returns>new object</returns>
         </member>
         <member name="P:Library.CSSList.Elements">
             <summary>
@@ -1563,6 +1596,42 @@
             <param name="prefix">#, . ou nothing</param>
             <param name="value">value</param>
         </member>
+        <member name="T:Library.CSSValidation">
+            <summary>
+            CSS Validation
+            verify string input CSS
+            </summary>
+        </member>
+        <member name="M:Library.CSSValidation.CSSValidate(System.String,System.Boolean,System.String@,Library.CodeCSS)">
+            <summary>
+            Validate a string input CSS
+            </summary>
+            <param name="input">CSS input</param>
+            <param name="directAdd">add into body direclty</param>
+            <param name="reason">error reason</param>
+            <param name="css">css result</param>
+            <returns>true if success</returns>
+        </member>
+        <member name="M:Library.CSSValidation.CSSValidate(System.String,System.Boolean,System.Collections.Generic.List{Library.CodeCSS},System.String@)">
+            <summary>
+            Validate a string input with multiple CSS
+            </summary>
+            <param name="input">multiple CSS</param>
+            <param name="directAdd">add into body directly</param>
+            <param name="list">css list result</param>
+            <param name="reason">error reason</param>
+            <returns>true if success</returns>
+        </member>
+        <member name="M:Library.CSSValidation.CSSValidate(System.String,System.Boolean,Library.CSSList,System.String@)">
+            <summary>
+            CSS Validation
+            </summary>
+            <param name="input">input string</param>
+            <param name="directAdd">add into body directly</param>
+            <param name="list">css list</param>
+            <param name="reason">error reason</param>
+            <returns>true if success</returns>
+        </member>
         <member name="T:Library.DesignPage">
             <summary>
             Structure to host properties across elements
@@ -1588,9 +1657,9 @@
             Height constraint
             </summary>
         </member>
-        <member name="F:Library.DesignPage.cssPart">
+        <member name="F:Library.DesignPage.cssList">
             <summary>
-            Code CSS
+            CSS additional list
             </summary>
         </member>
         <member name="F:Library.DesignPage.events">
@@ -3122,12 +3191,7 @@
             Index name for javascript on load code
             </summary>
         </member>
-        <member name="F:Library.HTMLObject.cssName">
-            <summary>
-            Index name for css
-            </summary>
-        </member>
-        <member name="F:Library.HTMLObject.additionalCssName">
+        <member name="F:Library.HTMLObject.cssListName">
             <summary>
             Index name for additional css
             </summary>
@@ -3166,7 +3230,7 @@
             <param name="found">container result</param>
             <returns>true if a container has found</returns>
         </member>
-        <member name="M:Library.HTMLObject.ImportCSS(Library.CodeCSS)">
+        <member name="M:Library.HTMLObject.ImportCSS(System.Collections.Generic.List{Library.CodeCSS})">
             <summary>
             Import a css object
             </summary>
@@ -3174,11 +3238,10 @@
         </member>
         <member name="M:Library.HTMLObject.CSSOutput(System.Boolean)">
             <summary>
-            Obtain the CSS output
-            given a switch to resolve configuration key
+            Returns the CSS output
             </summary>
-            <param name="resolveConfig">true if replace configuration key by its value</param>
-            <returns>css output</returns>
+            <param name="resolveConfig">true if resolve configuration</param>
+            <returns>css</returns>
         </member>
         <member name="M:Library.HTMLObject.GenerateDesign">
             <summary>
@@ -3404,10 +3467,10 @@
         </member>
         <member name="P:Library.HTMLObject.CSS">
             <summary>
-            Gets or sets CSS
+            Gets the css code
             </summary>
         </member>
-        <member name="P:Library.HTMLObject.CSSAdditional">
+        <member name="P:Library.HTMLObject.CSSList">
             <summary>
             Gets the CSS additional list
             </summary>
@@ -3482,11 +3545,6 @@
             Index name for javascript on load code
             </summary>
         </member>
-        <member name="F:Library.HTMLTool.cssName">
-            <summary>
-            Index name for css
-            </summary>
-        </member>
         <member name="F:Library.HTMLTool.additionalCssName">
             <summary>
             Index name for additional css
@@ -3497,17 +3555,12 @@
             Index name for css list
             </summary>
         </member>
-        <member name="F:Library.HTMLTool.cssSourceName">
-            <summary>
-            Index name for css source
-            </summary>
-        </member>
         <member name="M:Library.HTMLTool.#ctor">
             <summary>
             Empty constructor
             </summary>
         </member>
-        <member name="M:Library.HTMLTool.ImportCSS(Library.CodeCSS)">
+        <member name="M:Library.HTMLTool.ImportCSS(System.Collections.Generic.List{Library.CodeCSS})">
             <summary>
             Import a CSS
             </summary>
@@ -3515,9 +3568,17 @@
         </member>
         <member name="M:Library.HTMLTool.CSSOutput(System.Boolean)">
             <summary>
+            Returns the CSS output
+            </summary>
+            <param name="resolveConfig">true if resolve configuration</param>
+            <returns>css</returns>
+        </member>
+        <member name="M:Library.HTMLTool.CSSOutput(System.Collections.Generic.List{Library.CodeCSS},System.Boolean)">
+            <summary>
             Obtain the CSS output
             given a switch to resolve configuration key
             </summary>
+            <param name="css">css input</param>
             <param name="resolveConfig">true if replace configuration key by its value</param>
             <returns>css output</returns>
         </member>
@@ -3678,17 +3739,7 @@
         </member>
         <member name="P:Library.HTMLTool.CSS">
             <summary>
-            Gets or sets CSS
-            </summary>
-        </member>
-        <member name="P:Library.HTMLTool.CSSSource">
-            <summary>
-            Gets or sets additionnal CSSSource
-            </summary>
-        </member>
-        <member name="P:Library.HTMLTool.CSSAdditional">
-            <summary>
-            Gets the CSS additional list
+            Gets the css code
             </summary>
         </member>
         <member name="P:Library.HTMLTool.CSSList">
@@ -3810,11 +3861,6 @@
         <member name="F:Library.MasterObject.javascriptOnloadName">
             <summary>
             Index name for javascript onload code
-            </summary>
-        </member>
-        <member name="F:Library.MasterObject.cssName">
-            <summary>
-            Index name for css styles
             </summary>
         </member>
         <member name="F:Library.MasterObject.htmlHeaderName">
@@ -4116,6 +4162,26 @@
             </summary>
             <returns>cloned object</returns>
         </member>
+        <member name="M:Library.MasterObject.GetParameters(System.String)">
+            <summary>
+            Replace each name by its value
+            </summary>
+            <param name="input">input string</param>
+            <returns>list of parameters</returns>
+        </member>
+        <member name="M:Library.MasterObject.TransformToJavascript(System.String)">
+            <summary>
+            Replace each name by its value
+            </summary>
+            <param name="input">input string</param>
+            <returns>output</returns>
+        </member>
+        <member name="M:Library.MasterObject.ToJavascript">
+            <summary>
+            Converts to Javascript
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Library.MasterObject.Unique">
             <summary>
             Gets or sets the unique id
@@ -4242,7 +4308,7 @@
         </member>
         <member name="P:Library.MasterObject.CSS">
             <summary>
-            Gets or sets CSS
+            Gets the css code
             </summary>
         </member>
         <member name="P:Library.MasterObject.CSSList">
@@ -4362,11 +4428,6 @@
             Index name for javascript on load code
             </summary>
         </member>
-        <member name="F:Library.MasterPage.cssName">
-            <summary>
-            Index name for css
-            </summary>
-        </member>
         <member name="F:Library.MasterPage.metaName">
             <summary>
             Index name for meta keywords
@@ -4405,7 +4466,7 @@
             </summary>
             <param name="list">list of rectangle the user supplied</param>
         </member>
-        <member name="M:Library.MasterPage.MakeZones(System.UInt32,System.UInt32,System.Collections.Generic.List{Library.AreaSizedRectangle},System.Collections.Generic.List{Library.HorizontalZone})">
+        <member name="M:Library.MasterPage.MakeZones(System.UInt32,System.UInt32,System.Collections.Generic.List{Library.AreaSizedRectangle},System.Collections.Generic.List{Library.HorizontalZone},System.UInt32,System.UInt32,Library.EnumConstraint,Library.EnumConstraint)">
             <summary>
             Construct all zones and compute total size
             </summary>
@@ -4413,6 +4474,10 @@
             <param name="l">list count</param>
             <param name="list">list of rectangle the user supplied</param>
             <param name="hList">horizontal zones list</param>
+            <param name="width">width</param>
+            <param name="height">height</param>
+            <param name="constraintWidth">constraint width</param>
+            <param name="constraintHeight">constraint height</param>
         </member>
         <member name="M:Library.MasterPage.GenerateDesignDIV">
             <summary>

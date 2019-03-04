@@ -84,6 +84,7 @@
     <Compile Include="CSSColor.cs" />
     <Compile Include="CSSList.cs" />
     <Compile Include="CSSProperties.cs" />
+    <Compile Include="CSSValidation.cs" />
     <Compile Include="DesignPage.cs" />
     <Compile Include="Disposition.cs" />
     <Compile Include="EnumConstraint.cs" />

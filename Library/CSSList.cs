@@ -10,7 +10,7 @@ namespace Library
     /// CSS list
     /// </summary>
     [Serializable]
-    public class CSSList : Marshalling.PersistentDataObject
+    public class CSSList : Marshalling.PersistentDataObject, ICloneable
     {
 
         #region Fields
@@ -18,7 +18,7 @@ namespace Library
         /// <summary>
         /// Index name for css list
         /// </summary>
-        private static readonly string cssName = "css";
+        private static readonly string cssListName = "cssList";
 
         #endregion
 
@@ -29,7 +29,16 @@ namespace Library
         /// </summary>
         public CSSList()
         {
-            this.Set(cssName, new List<CSSProperties>());
+            this.Set(cssListName, new List<CodeCSS>());
+        }
+
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        /// <param name="list">input list</param>
+        public CSSList(List<CodeCSS> list)
+        {
+            this.Set(cssListName, (from CodeCSS c in list select c.Clone() as CodeCSS).ToList());
         }
 
         #endregion
@@ -39,7 +48,7 @@ namespace Library
         /// <summary>
         /// Gets elements
         /// </summary>
-        public IEnumerable<CSSProperties> Elements
+        public IEnumerable<CodeCSS> Elements
         {
             get { return this.List; }
         }
@@ -47,9 +56,9 @@ namespace Library
         /// <summary>
         /// Gets the list
         /// </summary>
-        private List<CSSProperties> List
+        public List<CodeCSS> List
         {
-            get { return this.Get(cssName, new List<CSSProperties>()); }
+            get { return this.Get(cssListName, new List<CodeCSS>()); }
         }
 
         #endregion
@@ -60,9 +69,48 @@ namespace Library
         /// Add a new CSS Properties
         /// </summary>
         /// <param name="props"></param>
-        public void AddCSS(CSSProperties props)
+        public void AddCSS(CodeCSS props)
         {
             this.List.Add(props);
+        }
+
+        /// <summary>
+        /// Import CSS
+        /// </summary>
+        /// <param name="list"></param>
+        public void ImportCSS(List<CodeCSS> list)
+        {
+            foreach(CodeCSS c in list)
+            {
+                this.AddCSS(c.Clone() as CodeCSS);
+            }
+        }
+
+        /// <summary>
+        /// Find a css from id
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>css</returns>
+        public CodeCSS Find(string id)
+        {
+            return this.List.Find(x => x.Ids == id);
+        }
+
+        /// <summary>
+        /// Generates the CSS code
+        /// </summary>
+        /// <param name="addDefaultKeys">add default keys</param>
+        /// <param name="resolveConfig">transforms configuration keys to values</param>
+        /// <returns>css string generated code output</returns>
+        public string GenerateCSS(bool addDefaultKeys, bool resolveConfig = false)
+        {
+            string output = string.Empty;
+            foreach (CodeCSS c in this.Elements)
+            {
+                output += c.GenerateCSS(addDefaultKeys, true, resolveConfig);
+                output += Environment.NewLine + Environment.NewLine;
+            }
+            return output;
         }
 
         /// <summary>
@@ -72,8 +120,17 @@ namespace Library
         /// <param name="id">id</param>
         public void RemoveCSS(string id)
         {
-            CSSProperties css = this.List.Find(x => x.Get(CSSProperties.idName) == id);
+            CodeCSS css = this.List.Find(x => x.Ids == id);
             this.List.Remove(css);
+        }
+
+        /// <summary>
+        /// Clone this
+        /// </summary>
+        /// <returns>new object</returns>
+        public object Clone()
+        {
+            return new CSSList(this.List);
         }
 
         #endregion

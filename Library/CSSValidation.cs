@@ -6,10 +6,22 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace EasyHTMLDev
+namespace Library
 {
-    internal static class CSSValidation
+    /// <summary>
+    /// CSS Validation
+    /// verify string input CSS
+    /// </summary>
+    public static class CSSValidation
     {
+        /// <summary>
+        /// Validate a string input CSS
+        /// </summary>
+        /// <param name="input">CSS input</param>
+        /// <param name="directAdd">add into body direclty</param>
+        /// <param name="reason">error reason</param>
+        /// <param name="css">css result</param>
+        /// <returns>true if success</returns>
         public static bool CSSValidate(string input, bool directAdd, out string reason, Library.CodeCSS css)
         {
             Regex reg = new Regex(@"(/[*]([^/]|[*])*/)|(([^:]+):([^;]*);?)", RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
@@ -72,6 +84,14 @@ namespace EasyHTMLDev
             }
         }
 
+        /// <summary>
+        /// Validate a string input with multiple CSS
+        /// </summary>
+        /// <param name="input">multiple CSS</param>
+        /// <param name="directAdd">add into body directly</param>
+        /// <param name="list">css list result</param>
+        /// <param name="reason">error reason</param>
+        /// <returns>true if success</returns>
         public static bool CSSValidate(string input, bool directAdd, List<Library.CodeCSS> list, out string reason)
         {
             Regex reg = new Regex(@"(/\*([^/]|\*)*/)|([^{" + Environment.NewLine + @"]+)\{((" + Environment.NewLine + @")*|(\s)*|(([^:]+):([^;}]*);?))*\}", RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
@@ -171,6 +191,19 @@ namespace EasyHTMLDev
                 reason = null;
                 return true;
             }
+        }
+
+        /// <summary>
+        /// CSS Validation
+        /// </summary>
+        /// <param name="input">input string</param>
+        /// <param name="directAdd">add into body directly</param>
+        /// <param name="list">css list</param>
+        /// <param name="reason">error reason</param>
+        /// <returns>true if success</returns>
+        public static bool CSSValidate(string input, bool directAdd, CSSList list, out string reason)
+        {
+            return CSSValidate(input, directAdd, list.List, out reason);
         }
     }
 }

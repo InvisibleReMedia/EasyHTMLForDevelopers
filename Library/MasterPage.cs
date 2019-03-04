@@ -87,10 +87,6 @@ namespace Library
         /// </summary>
         protected static readonly string javascriptOnloadName = "javascriptOnload";
         /// <summary>
-        /// Index name for css
-        /// </summary>
-        protected static readonly string cssName = "css";
-        /// <summary>
         /// Index name for meta keywords
         /// </summary>
         protected static readonly string metaName = "meta";
@@ -140,7 +136,7 @@ namespace Library
             this.Set(eventsName, refObj.Events.Clone());
             this.Set(javascriptName, refObj.JavaScript.Clone());
             this.Set(javascriptOnloadName, refObj.JavaScriptOnLoad.Clone());
-            this.Set(cssName, refObj.CSS.Clone());
+            this.Set(cssListName, refObj.CSSList.Clone());
             this.Meta = ExtensionMethods.CloneThis(refObj.Meta);
 
         }
@@ -353,7 +349,13 @@ namespace Library
         /// </summary>
         public CodeCSS CSS
         {
-            get { return this.Get(cssName, new CodeCSS("body")); }
+           get 
+           {
+               CodeCSS c = this.CSSList.List.Find(x => x.Ids == "body");
+               if (c == null)
+                   this.CSSList.AddCSS(new CodeCSS("body"));
+               return this.CSSList.List.Find(x => x.Ids == "body");
+           }
         }
 
         /// <summary>
@@ -422,7 +424,7 @@ namespace Library
         /// <param name="list">list of rectangle the user supplied</param>
         public void MakeZones(List<AreaSizedRectangle> list)
         {
-            MasterPage.MakeZones(this.CountColumns, this.CountLines, list, this.HorizontalZones);
+            MasterPage.MakeZones(this.CountColumns, this.CountLines, list, this.HorizontalZones, this.Width, this.Height, this.ConstraintWidth, this.ConstraintHeight);
         }
 
         /// <summary>
@@ -432,7 +434,11 @@ namespace Library
         /// <param name="l">list count</param>
         /// <param name="list">list of rectangle the user supplied</param>
         /// <param name="hList">horizontal zones list</param>
-        public static void MakeZones(uint c, uint l, List<AreaSizedRectangle> list, List<HorizontalZone> hList)
+        /// <param name="width">width</param>
+        /// <param name="height">height</param>
+        /// <param name="constraintWidth">constraint width</param>
+        /// <param name="constraintHeight">constraint height</param>
+        public static void MakeZones(uint c, uint l, List<AreaSizedRectangle> list, List<HorizontalZone> hList, uint width, uint height, EnumConstraint constraintWidth, EnumConstraint constraintHeight)
         {
             AreaSizedRectangle[,] indexes = new AreaSizedRectangle[c, l];
             for (int index = 0; index < list.Count; ++index)
@@ -441,17 +447,20 @@ namespace Library
                 indexes[current.StartWidth, current.StartHeight] = current;
             }
 
+            double deltaWidth = width / (double)c;
+            double deltaHeight = height / (double)l;
             // ranger les données dans la master page
             for (int pos_ligne = 0; pos_ligne < l; ++pos_ligne)
             {
                 HorizontalZone hz;
                 hz = new HorizontalZone();
-                hz.ConstraintWidth = EnumConstraint.FIXED;
+                hz.ConstraintWidth = constraintWidth;
                 hz.ConstraintHeight = EnumConstraint.AUTO;
-                int countLines;
-                uint width;
-                width = 0;
-                countLines = 0;
+                hz.Width = width;
+                int maxCountLines;
+                uint maxHeight;
+                maxHeight = 0;
+                maxCountLines = 0;
                 for (int pos_colonne = 0; pos_colonne < c; ++pos_colonne)
                 {
                     AreaSizedRectangle current = indexes[pos_colonne, pos_ligne];
@@ -460,18 +469,19 @@ namespace Library
                         VerticalZone vz = new VerticalZone();
                         vz.CountLines = current.CountHeight;
                         vz.CountColumns = current.CountWidth;
-                        vz.Width = Convert.ToUInt32(current.Width);
-                        width += vz.Width;
-                        vz.Height = Convert.ToUInt32(current.Height);
-                        vz.ConstraintWidth = EnumConstraint.FIXED;
-                        vz.ConstraintHeight = EnumConstraint.FIXED;
+                        vz.Width = Convert.ToUInt32(deltaWidth * current.CountWidth);
+                        vz.Height = Convert.ToUInt32(deltaHeight * current.CountHeight);
+                        vz.ConstraintWidth = constraintWidth;
+                        vz.ConstraintHeight = constraintHeight;
                         hz.VerticalZones.Add(vz);
-                        if (countLines < vz.CountLines)
-                            countLines = vz.CountLines;
+                        if (maxCountLines < vz.CountLines)
+                            maxCountLines = vz.CountLines;
+                        if (maxHeight < vz.Height)
+                            maxHeight = vz.Height;
                     }
                 }
-                hz.CountLines = countLines;
-                hz.Width = width;
+                hz.CountLines = maxCountLines;
+                hz.Height = maxHeight;
                 hList.Add(hz);
             }
         }
@@ -506,7 +516,7 @@ namespace Library
             config.constraintHeight = this.ConstraintHeight;
             config.width = this.Width;
             config.height = this.Height;
-            config.cssPart = this.CSS;
+            config.cssList = this.CSSList;
             config.cssOnFile = this.IsCSSOnFile;
             config.cssFile = this.CSSFileName;
             config.events = this.Events;
@@ -581,7 +591,7 @@ namespace Library
             config.constraintHeight = this.ConstraintHeight;
             config.width = this.Width;
             config.height = this.Height;
-            config.cssPart = this.CSS;
+            config.cssList = this.CSSList;
             config.cssOnFile = this.IsCSSOnFile;
             config.cssFile = this.CSSFileName;
             config.events = this.Events;
@@ -811,10 +821,6 @@ namespace Library
         {
             Page page = new Page();
 
-            page.ConstraintWidth = EnumConstraint.RELATIVE;
-            page.Width = 100;
-            page.ConstraintHeight = EnumConstraint.RELATIVE;
-            page.Height = 100;
             if (this.ConstraintWidth == EnumConstraint.RELATIVE || this.ConstraintHeight == EnumConstraint.RELATIVE)
             {
                 DesignPage config = new DesignPage();
@@ -824,7 +830,8 @@ namespace Library
                 config.height = this.Height;
                 CodeCSS cssThumbnail = new CodeCSS(this.CSS);
                 cssThumbnail.Body.Add("zoom", "0.4");
-                config.cssPart = cssThumbnail;
+                this.CSSList.AddCSS(cssThumbnail);
+                config.cssList = this.CSSList;
                 config.cssOnFile = false;
                 config.cssFile = "";
                 config.events = this.Events;
@@ -863,7 +870,8 @@ namespace Library
                 config.height = this.Height;
                 CodeCSS cssThumbnail = new CodeCSS(this.CSS);
                 cssThumbnail.Body.Add("zoom", "0.4");
-                config.cssPart = cssThumbnail;
+                this.CSSList.AddCSS(cssThumbnail);
+                config.cssList = this.CSSList;
                 config.cssOnFile = false;
                 config.cssFile = "";
                 config.events = this.Events;
@@ -983,7 +991,7 @@ namespace Library
             config.constraintHeight = this.ConstraintHeight;
             config.width = this.Width;
             config.height = this.Height;
-            config.cssPart = this.CSS;
+            config.cssList = this.CSSList;
             config.cssOnFile = this.IsCSSOnFile;
             config.cssFile = this.CSSFileName;
             config.events = this.Events;
@@ -1045,7 +1053,7 @@ namespace Library
             config.constraintHeight = this.ConstraintHeight;
             config.width = this.Width;
             config.height = this.Height;
-            config.cssPart = this.CSS;
+            config.cssList = this.CSSList;
             config.cssOnFile = this.IsCSSOnFile;
             config.cssFile = this.CSSFileName;
             config.events = this.Events;

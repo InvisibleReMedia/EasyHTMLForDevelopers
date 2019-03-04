@@ -41,7 +41,7 @@ namespace EasyHTMLDev
         private void txtCSS_Validating(object sender, CancelEventArgs e)
         {
             string errorText;
-            bool isSuccess = CSSValidation.CSSValidate(this.txtCSS.Text, false, this.cssList, out errorText);
+            bool isSuccess = Library.CSSValidation.CSSValidate(this.txtCSS.Text, false, this.cssList, out errorText);
             if (!isSuccess)
             {
                 this.epCSS.SetError(this.txtCSS, errorText);

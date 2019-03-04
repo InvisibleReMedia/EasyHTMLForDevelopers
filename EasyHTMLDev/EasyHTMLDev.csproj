@@ -165,7 +165,6 @@
     <Compile Include="BtnClose.Designer.cs">
       <DependentUpon>BtnClose.cs</DependentUpon>
     </Compile>
-    <Compile Include="CSSValidation.cs" />
     <Compile Include="DynamicUC.cs">
       <SubType>UserControl</SubType>
     </Compile>

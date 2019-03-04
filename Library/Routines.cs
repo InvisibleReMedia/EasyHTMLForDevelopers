@@ -293,8 +293,8 @@ namespace Library
         public static OutputHTML GenerateDesignPageDIV(Page refPage, MasterPage master, DesignPage pageConfig)
         {
             Project.InitializeTraceCounter();
-            CodeCSS body = new CodeCSS(pageConfig.cssPart);
             string myId = "master" + Project.IncrementedTraceCounter.ToString();
+            CodeCSS body = new CodeCSS(master.CSS);
             CodeCSS myCss = new CodeCSS();
             // create specific output page
             refPage.SpecificOutput = new OutputHTML();
@@ -329,6 +329,7 @@ namespace Library
             }
 
             html.CSS.Append(body.GenerateCSS(true, true, true));
+            html.CSS.Append(pageConfig.cssList.GenerateCSS(true, true));
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
@@ -414,7 +415,7 @@ namespace Library
         public static OutputHTML GenerateProductionPageDIV(Page refPage, MasterPage master, DesignPage pageConfig)
         {
             Project.InitializeTraceCounter();
-            CodeCSS body = new CodeCSS(pageConfig.cssPart);
+            CodeCSS body = new CodeCSS(master.CSS);
             string myId = "master" + Project.IncrementedTraceCounter.ToString();
             CodeCSS myCss = new CodeCSS();
             // create specific output page
@@ -539,7 +540,7 @@ namespace Library
         {
             Project.InitializeTraceCounter();
             string myId = "master" + Project.IncrementedTraceCounter.ToString();
-            CodeCSS myCss = new CodeCSS(pageConfig.cssPart);
+            CodeCSS myCss = new CodeCSS(master.CSS);
             OutputHTML outputPage = new OutputHTML();
             outputPage.HTML.Append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html lang='fr'>");
             outputPage.HTML.Append("<head>");
@@ -572,6 +573,7 @@ namespace Library
             }
 
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
+            html.CSS.Append(pageConfig.cssList.GenerateCSS(true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
             html.HTML.Append(master.HTMLBefore);
@@ -630,8 +632,8 @@ namespace Library
         public static OutputHTML GenerateDesignPageTable(Page refPage, MasterPage master, DesignPage pageConfig)
         {
             Project.InitializeTraceCounter();
-            CodeCSS myCss = new CodeCSS(pageConfig.cssPart);
-            CodeCSS body = new CodeCSS(pageConfig.cssPart);
+            CodeCSS myCss = new CodeCSS(master.CSS);
+            CodeCSS body = new CodeCSS(master.CSS);
             // create specific output page
             refPage.SpecificOutput = new OutputHTML();
             OutputHTML outputPage = new OutputHTML();
@@ -661,7 +663,9 @@ namespace Library
                 html.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
             }
 
+            html.CSS.Append(body.GenerateCSS(true, true, true));
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
+            html.CSS.Append(pageConfig.cssList.GenerateCSS(true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
 
@@ -765,7 +769,7 @@ namespace Library
         {
             Project.InitializeTraceCounter();
             string myId = "master" + Project.IncrementedTraceCounter.ToString();
-            CodeCSS body = new CodeCSS(pageConfig.cssPart);
+            CodeCSS body = new CodeCSS(master.CSS);
             CodeCSS myCss = new CodeCSS();
             // create specific output page
             refPage.SpecificOutput = new OutputHTML();
@@ -807,6 +811,7 @@ namespace Library
             }
 
             html.CSS.Append(body.GenerateCSS(true, true, true));
+            html.CSS.Append(pageConfig.cssList.GenerateCSS(true, true));
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
@@ -908,7 +913,7 @@ namespace Library
         {
             Project.InitializeTraceCounter();
             string myId = "master" + Project.IncrementedTraceCounter.ToString();
-            CodeCSS myCss = new CodeCSS(pageConfig.cssPart);
+            CodeCSS myCss = new CodeCSS(master.CSS);
             OutputHTML outputPage = new OutputHTML();
             outputPage.HTML.Append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html lang='fr'>");
             outputPage.HTML.Append("<head>");
@@ -943,6 +948,7 @@ namespace Library
             }
 
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
+            html.CSS.Append(pageConfig.cssList.GenerateCSS(true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
 
@@ -1035,6 +1041,7 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
 
             html.CSS.Append(myCss.GenerateCSS(true, true, true));
+            html.CSS.Append(tool.CSSList.GenerateCSS(true, true));
             html.CSS.Append(tool.CSSOutput(true));
             html.JavaScript.Append(tool.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(tool.JavaScriptOnLoad.GeneratedCode);
