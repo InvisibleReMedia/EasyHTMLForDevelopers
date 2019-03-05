@@ -538,6 +538,12 @@ namespace Library
             mp.Unique = u;
             Accessor a = new Accessor(Project.MasterPagesName, u);
             this.Hierarchy.Find(Project.MasterPagesName).Find(path.Split('/')).AddLeaf(a);
+
+            // objects
+            foreach (HTMLObject obj in mp.Objects)
+            {
+                this.Add(obj, "");
+            }
         }
 
         /// <summary>
@@ -553,6 +559,12 @@ namespace Library
             mo.Unique = u;
             Accessor a = new Accessor(Project.MasterObjectsName, u);
             this.Hierarchy.Find(Project.MasterObjectsName).Find(path.Split('/')).AddLeaf(a);
+
+            // objects
+            foreach (HTMLObject obj in mo.Objects)
+            {
+                this.Add(obj, "");
+            }
         }
 
         /// <summary>
@@ -570,9 +582,17 @@ namespace Library
             string[] splitted = path.Split('/');
             p.Name = splitted.Last();
             this.Hierarchy.Find(Project.PagesName).Find(splitted.Take(splitted.Count() - 1)).AddLeaf(a);
+
+            // folders
             this.Hierarchy.Find(Project.FoldersName).Find(splitted.Take(splitted.Count() - 1)).AddLeaf(a);
             p.Folder = String.Join("/", splitted.Take(splitted.Count() - 1).ToArray()) + "/";
             CommonDirectories.ConfigDirectories.AddFolder(this.Title, p.Folder);
+
+            // objects
+            foreach (HTMLObject obj in p.Objects)
+            {
+                this.Add(obj, "");
+            }
         }
 
         /// <summary>
@@ -680,6 +700,10 @@ namespace Library
             this.Hierarchy.Find(Project.PagesName).Remove(a);
             this.Hierarchy.Find(Project.FoldersName).Remove(a);
             this.Pages.Remove(p);
+            foreach (HTMLObject obj in p.Objects)
+            {
+                this.Remove(obj);
+            }
         }
 
         /// <summary>
@@ -759,7 +783,7 @@ namespace Library
         #region Private Static Methods
 
         /// <summary>
-        /// Import all pages from an existing project
+        /// Import selected pages from an existing project
         /// </summary>
         /// <param name="src">project source</param>
         /// <param name="dest">project destination</param>
@@ -768,16 +792,18 @@ namespace Library
             Tree<string, Accessor> t = new Tree<string, Accessor>(src.Hierarchy.Find(Project.PagesName));
             BindingList<KeyValuePair<IEnumerable<string>, Accessor>> b = new BindingList<KeyValuePair<IEnumerable<string>, Accessor>>();
             Node<string, Accessor> destNode = dest.Hierarchy.Find(Project.PagesName);
-            b.AddingNew += (sender, e) =>
-            {
-                KeyValuePair<IEnumerable<string>, Accessor> kv = (KeyValuePair<IEnumerable<string>, Accessor>)e.NewObject;
-                destNode.Find(kv.Key).AddLeaf(kv.Value);
-            };
             t.EnumerateSelected(b);
+            foreach (KeyValuePair<IEnumerable<string>, Accessor> kv in b)
+            {
+                Page page = kv.Value.GetObject(src);
+                List<string> path = new List<string>(kv.Key.Skip(1));
+                path.Add(page.ElementTitle);
+                dest.Add(page, String.Join("/", path));
+            }
         }
 
         /// <summary>
-        /// Import all tools from an existing project
+        /// Import selected tools from an existing project
         /// </summary>
         /// <param name="src">project source</param>
         /// <param name="dest">project destination</param>
@@ -786,16 +812,18 @@ namespace Library
             Tree<string, Accessor> t = new Tree<string, Accessor>(src.Hierarchy.Find(Project.ToolsName));
             BindingList<KeyValuePair<IEnumerable<string>, Accessor>> b = new BindingList<KeyValuePair<IEnumerable<string>, Accessor>>();
             Node<string, Accessor> destNode = dest.Hierarchy.Find(Project.ToolsName);
-            b.AddingNew += (sender, e) =>
-            {
-                KeyValuePair<IEnumerable<string>, Accessor> kv = (KeyValuePair<IEnumerable<string>, Accessor>)e.NewObject;
-                destNode.Find(kv.Key).AddLeaf(kv.Value);
-            };
             t.EnumerateSelected(b);
+            foreach (KeyValuePair<IEnumerable<string>, Accessor> kv in b)
+            {
+                HTMLTool tool = kv.Value.GetObject(src);
+                List<string> path = new List<string>(kv.Key.Skip(1));
+                path.Add(tool.ElementTitle);
+                dest.Add(tool, String.Join("/", path.ToArray()));
+            }
         }
 
         /// <summary>
-        /// Import all master pages from an existing project
+        /// Import selected master pages from an existing project
         /// </summary>
         /// <param name="src">project source</param>
         /// <param name="dest">project destination</param>
@@ -804,60 +832,108 @@ namespace Library
             Tree<string, Accessor> t = new Tree<string, Accessor>(src.Hierarchy.Find(Project.MasterPagesName));
             BindingList<KeyValuePair<IEnumerable<string>, Accessor>> b = new BindingList<KeyValuePair<IEnumerable<string>, Accessor>>();
             Node<string, Accessor> destNode = dest.Hierarchy.Find(Project.MasterPagesName);
-            b.AddingNew += (sender, e) =>
-            {
-                KeyValuePair<IEnumerable<string>, Accessor> kv = (KeyValuePair<IEnumerable<string>, Accessor>)e.NewObject;
-                destNode.Find(kv.Key).AddLeaf(kv.Value);
-            };
             t.EnumerateSelected(b);
+            foreach (KeyValuePair<IEnumerable<string>, Accessor> kv in b)
+            {
+                // recherche des objets (soit des tools, soit des master objects)
+                MasterPage srcMo = kv.Value.GetObject(src);
+                dest.Add(srcMo, String.Join("/", kv.Key.Skip(1).ToArray()));
+            }
         }
 
         /// <summary>
-        /// Import all master object from an existing project
+        /// Import selected master object from an existing project
         /// </summary>
         /// <param name="src">project source</param>
         /// <param name="dest">project destination</param>
-        /// <param name="needs">contains all subsequent elements to add</param>
-        private static void ImportMasterObjects(Project src, Project dest, List<string> needs)
+        private static void ImportMasterObjects(Project src, Project dest)
         {
             Tree<string, Accessor> t = new Tree<string, Accessor>(src.Hierarchy.Find(Project.MasterObjectsName));
             BindingList<KeyValuePair<IEnumerable<string>, Accessor>> b = new BindingList<KeyValuePair<IEnumerable<string>, Accessor>>();
             Node<string, Accessor> destNode = dest.Hierarchy.Find(Project.MasterObjectsName);
-            b.AddingNew += (sender, e) =>
-            {
-                KeyValuePair<IEnumerable<string>, Accessor> kv = (KeyValuePair<IEnumerable<string>, Accessor>)e.NewObject;
-                MasterObject srcMo = kv.Value.GetObject(src);
-                MasterObject destMo = srcMo.Clone() as MasterObject;
-                destMo.Unique = dest.Unique.ComputeNewString();
-                // recherche des objets (soit des tools, soit des master objects)
-                foreach (HTMLObject o in srcMo.Objects)
-                {
-                    if (o.IsMasterObject)
-                    {
-                        needs.Add(o.MasterObjectName);
-                    }
-                    else if (o.IsToolObject)
-                    {
-                        needs.Add(o.Name);
-                    }
-                }
-                destNode.Find(kv.Key).AddLeaf(kv.Value);
-            };
             t.EnumerateSelected(b);
+            foreach (KeyValuePair<IEnumerable<string>, Accessor> kv in b)
+            {
+                MasterObject srcMo = kv.Value.GetObject(src);
+                dest.Add(srcMo, String.Join("/", kv.Key.Skip(1).ToArray()));
+            }
         }
 
         /// <summary>
-        /// Import all sculptures from an existing project
+        /// Import selected sculptures from an existing project
         /// </summary>
         /// <param name="src">project source</param>
         /// <param name="dest">project destination</param>
         private static void ImportSculptures(Project src, Project dest)
         {
+            Tree<string, Accessor> t = new Tree<string, Accessor>(src.Hierarchy.Find(Project.SculpturesName));
+            BindingList<KeyValuePair<IEnumerable<string>, Accessor>> b = new BindingList<KeyValuePair<IEnumerable<string>, Accessor>>();
+            Node<string, Accessor> destNode = dest.Hierarchy.Find(Project.SculpturesName);
+            t.EnumerateSelected(b);
+            foreach (KeyValuePair<IEnumerable<string>, Accessor> kv in b)
+            {
+                SculptureObject srcSculpture = kv.Value.GetObject(src);
+                dest.Add(srcSculpture, String.Join("/", kv.Key.Skip(1).ToArray()));
+            }
+        }
+
+        /// <summary>
+        /// Import selected files from an existing project
+        /// </summary>
+        /// <param name="src">project source</param>
+        /// <param name="dest">project destination</param>
+        private static void ImportFiles(Project src, Project dest)
+        {
+            Tree<string, Accessor> t = new Tree<string, Accessor>(src.Hierarchy.Find(Project.FilesName));
+            BindingList<KeyValuePair<IEnumerable<string>, Accessor>> b = new BindingList<KeyValuePair<IEnumerable<string>, Accessor>>();
+            Node<string, Accessor> destNode = dest.Hierarchy.Find(Project.FilesName);
+            t.EnumerateSelected(b);
+            foreach (KeyValuePair<IEnumerable<string>, Accessor> kv in b)
+            {
+                File f = kv.Value.GetObject(src);
+                dest.Add(f, String.Join("/", kv.Key.Skip(1).ToArray()));
+            }
         }
 
         #endregion
 
         #region Public Static Methods
+
+        /// <summary>
+        /// Import from an another project
+        /// </summary>
+        /// <param name="src">source</param>
+        /// <param name="dest">destination</param>
+        public static void Import(Project src, Project dest)
+        {
+            foreach (Node<string, Accessor> node in src.Hierarchy.SubNodes)
+            {
+                if (node.NodeValue == Project.MasterPagesName && node.IsSelected)
+                {
+                    ImportMasterPages(src, dest);
+                }
+                else if (node.NodeValue == Project.MasterObjectsName && node.IsSelected)
+                {
+                    ImportMasterObjects(src, dest);
+                }
+                else if (node.NodeValue == Project.PagesName && node.IsSelected)
+                {
+                    ImportPages(src, dest);
+                }
+                else if (node.NodeValue == Project.ToolsName && node.IsSelected)
+                {
+                    ImportTools(src, dest);
+                }
+                else if (node.NodeValue == Project.SculpturesName && node.IsSelected)
+                {
+                    ImportSculptures(src, dest);
+                }
+                else if (node.NodeValue == Project.FilesName && node.IsSelected)
+                {
+                    ImportFiles(src, dest);
+                }
+            }
+        }
 
         /// <summary>
         /// Save project into file
@@ -920,8 +996,9 @@ namespace Library
         /// </summary>
         /// <param name="path">path of file</param>
         /// <param name="fileName">file name</param>
+        /// <param name="notCurrent">do not set the current project</param>
         /// <returns>project object</returns>
-        public static Project Load(string path, string fileName)
+        public static Project Load(string path, string fileName, bool notCurrent = false)
         {
             CadreModel.ReinitCounter(0);
             FileInfo fi = new FileInfo(Path.Combine(path, fileName));
@@ -933,8 +1010,11 @@ namespace Library
             {
                 throw new FormatException(String.Format(Localization.Strings.GetString("ExceptionProjectNotLoaded"), fileName));
             }
-            pn.openProject = Project.CurrentProject.openProject;
-            Project.CurrentProject = pn;
+            if (!notCurrent)
+            {
+                pn.openProject = Project.CurrentProject.openProject;
+                Project.CurrentProject = pn;
+            }
             return pn;
         }
 

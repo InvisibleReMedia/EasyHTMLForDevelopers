@@ -31,7 +31,7 @@ namespace EasyHTMLDev
             this.RegisterControls(ref this.localeComponentId);
         }
 
-        private static string StandardTitle(string s)
+        public static string StandardTitle(string s)
         {
             if (String.IsNullOrEmpty(s))
             {
@@ -1006,6 +1006,32 @@ namespace EasyHTMLDev
                         }
                     }
                 }
+            }
+        }
+
+        private void menuImportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Open op = new Open(ConfigDirectories.GetDocumentsFolder());
+                DialogResult drOp = op.ShowDialog();
+                if (drOp == System.Windows.Forms.DialogResult.OK)
+                {
+                    Project p = Project.Load(ConfigDirectories.GetDocumentsFolder(), op.FileName, true);
+                    Import imp = new Import();
+                    imp.Current = p;
+                    DialogResult drImp = imp.ShowDialog();
+                    if (drImp == System.Windows.Forms.DialogResult.OK)
+                    {
+                        Library.Project.Import(p, Project.CurrentProject);
+                        Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
+                        Project.CurrentProject.ReloadProject();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
             }
         }
 

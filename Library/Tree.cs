@@ -316,7 +316,7 @@ namespace Library
             List<Leaf<E>>.Enumerator eLeaf = this.GetLeafEnumerator();
             while(eLeaf.MoveNext())
             {
-                if (eLeaf.Current.IsSelected || isSelected)
+                if (eLeaf.Current.IsSelected)
                     b.Add(new KeyValuePair<IEnumerable<T>, E>(path, eLeaf.Current.Object));
             }
         }

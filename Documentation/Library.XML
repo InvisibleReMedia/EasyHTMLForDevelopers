@@ -5642,39 +5642,52 @@
         </member>
         <member name="M:Library.Project.ImportPages(Library.Project,Library.Project)">
             <summary>
-            Import all pages from an existing project
+            Import selected pages from an existing project
             </summary>
             <param name="src">project source</param>
             <param name="dest">project destination</param>
         </member>
         <member name="M:Library.Project.ImportTools(Library.Project,Library.Project)">
             <summary>
-            Import all tools from an existing project
+            Import selected tools from an existing project
             </summary>
             <param name="src">project source</param>
             <param name="dest">project destination</param>
         </member>
         <member name="M:Library.Project.ImportMasterPages(Library.Project,Library.Project)">
             <summary>
-            Import all master pages from an existing project
+            Import selected master pages from an existing project
             </summary>
             <param name="src">project source</param>
             <param name="dest">project destination</param>
         </member>
-        <member name="M:Library.Project.ImportMasterObjects(Library.Project,Library.Project,System.Collections.Generic.List{System.String})">
+        <member name="M:Library.Project.ImportMasterObjects(Library.Project,Library.Project)">
             <summary>
-            Import all master object from an existing project
+            Import selected master object from an existing project
             </summary>
             <param name="src">project source</param>
             <param name="dest">project destination</param>
-            <param name="needs">contains all subsequent elements to add</param>
         </member>
         <member name="M:Library.Project.ImportSculptures(Library.Project,Library.Project)">
             <summary>
-            Import all sculptures from an existing project
+            Import selected sculptures from an existing project
             </summary>
             <param name="src">project source</param>
             <param name="dest">project destination</param>
+        </member>
+        <member name="M:Library.Project.ImportFiles(Library.Project,Library.Project)">
+            <summary>
+            Import selected files from an existing project
+            </summary>
+            <param name="src">project source</param>
+            <param name="dest">project destination</param>
+        </member>
+        <member name="M:Library.Project.Import(Library.Project,Library.Project)">
+            <summary>
+            Import from an another project
+            </summary>
+            <param name="src">source</param>
+            <param name="dest">destination</param>
         </member>
         <member name="M:Library.Project.Save(Library.Project,System.String,System.String)">
             <summary>
@@ -5693,12 +5706,13 @@
             <param name="del">delegate to open project</param>
             <returns>project object</returns>
         </member>
-        <member name="M:Library.Project.Load(System.String,System.String)">
+        <member name="M:Library.Project.Load(System.String,System.String,System.Boolean)">
             <summary>
             Load a project
             </summary>
             <param name="path">path of file</param>
             <param name="fileName">file name</param>
+            <param name="notCurrent">do not set the current project</param>
             <returns>project object</returns>
         </member>
         <member name="M:Library.Project.AddFile(Library.Project,System.String,System.String)">

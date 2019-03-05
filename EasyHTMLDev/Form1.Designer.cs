@@ -60,10 +60,6 @@
             this.supprimerToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.importer = new System.Windows.Forms.ToolStripMenuItem();
             this.fichiers = new System.Windows.Forms.ToolStripMenuItem();
-            this.lesOutilsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lesMasterPagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lesMasterObjetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuImportFoldersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sculpterMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.créerUneSculptureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ouvrirToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,11 +74,12 @@
             this.cntxMenuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.supprimerToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTransformToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toJavascriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.tdd = new System.Windows.Forms.Timer(this.components);
             this.errorZone = new System.Windows.Forms.Label();
             this.tmBlind = new System.Windows.Forms.Timer(this.components);
-            this.toJavascriptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuImportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prv_menu.SuspendLayout();
             this.cntx.SuspendLayout();
             this.SuspendLayout();
@@ -96,8 +93,8 @@
             this.outils,
             this.dossiers,
             this.pagesToolStripMenuItem,
-            this.importer,
             this.sculpterMenu,
+            this.importer,
             this.helpToolStripMenuItem});
             this.prv_menu.Location = new System.Drawing.Point(0, 0);
             this.prv_menu.Name = "prv_menu";
@@ -322,10 +319,7 @@
             // 
             this.importer.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fichiers,
-            this.lesOutilsToolStripMenuItem,
-            this.lesMasterPagesToolStripMenuItem,
-            this.lesMasterObjetsToolStripMenuItem,
-            this.menuImportFoldersToolStripMenuItem});
+            this.menuImportToolStripMenuItem});
             this.importer.Enabled = false;
             this.importer.Name = "importer";
             this.importer.Size = new System.Drawing.Size(111, 20);
@@ -334,37 +328,9 @@
             // fichiers
             // 
             this.fichiers.Name = "fichiers";
-            this.fichiers.Size = new System.Drawing.Size(217, 22);
+            this.fichiers.Size = new System.Drawing.Size(188, 22);
             this.fichiers.Text = "MenuImportFile";
             this.fichiers.Click += new System.EventHandler(this.fichiers_Click);
-            // 
-            // lesOutilsToolStripMenuItem
-            // 
-            this.lesOutilsToolStripMenuItem.Name = "lesOutilsToolStripMenuItem";
-            this.lesOutilsToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
-            this.lesOutilsToolStripMenuItem.Text = "MenuImportTools";
-            this.lesOutilsToolStripMenuItem.Click += new System.EventHandler(this.lesOutilsToolStripMenuItem_Click);
-            // 
-            // lesMasterPagesToolStripMenuItem
-            // 
-            this.lesMasterPagesToolStripMenuItem.Name = "lesMasterPagesToolStripMenuItem";
-            this.lesMasterPagesToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
-            this.lesMasterPagesToolStripMenuItem.Text = "MenuImportMasterPages";
-            this.lesMasterPagesToolStripMenuItem.Click += new System.EventHandler(this.lesMasterPagesToolStripMenuItem_Click);
-            // 
-            // lesMasterObjetsToolStripMenuItem
-            // 
-            this.lesMasterObjetsToolStripMenuItem.Name = "lesMasterObjetsToolStripMenuItem";
-            this.lesMasterObjetsToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
-            this.lesMasterObjetsToolStripMenuItem.Text = "MenuImportMasterObjects";
-            this.lesMasterObjetsToolStripMenuItem.Click += new System.EventHandler(this.lesMasterObjetsToolStripMenuItem_Click);
-            // 
-            // menuImportFoldersToolStripMenuItem
-            // 
-            this.menuImportFoldersToolStripMenuItem.Name = "menuImportFoldersToolStripMenuItem";
-            this.menuImportFoldersToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
-            this.menuImportFoldersToolStripMenuItem.Text = "MenuImportFolders";
-            this.menuImportFoldersToolStripMenuItem.Click += new System.EventHandler(this.menuImportFoldersToolStripMenuItem_Click);
             // 
             // sculpterMenu
             // 
@@ -459,7 +425,7 @@
             this.toJavascriptToolStripMenuItem});
             this.cntx.Name = "cntx";
             this.cntx.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.cntx.Size = new System.Drawing.Size(185, 114);
+            this.cntx.Size = new System.Drawing.Size(185, 92);
             this.cntx.Opening += new System.ComponentModel.CancelEventHandler(this.cntx_Opening);
             // 
             // cntxMenuOpen
@@ -482,6 +448,13 @@
             this.menuTransformToolToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.menuTransformToolToolStripMenuItem.Text = "Convert to a tool";
             this.menuTransformToolToolStripMenuItem.Click += new System.EventHandler(this.menuTransformToolToolStripMenuItem_Click);
+            // 
+            // toJavascriptToolStripMenuItem
+            // 
+            this.toJavascriptToolStripMenuItem.Name = "toJavascriptToolStripMenuItem";
+            this.toJavascriptToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.toJavascriptToolStripMenuItem.Text = "Convert to Javascript";
+            this.toJavascriptToolStripMenuItem.Click += new System.EventHandler(this.toJavascriptToolStripMenuItem_Click);
             // 
             // splitter1
             // 
@@ -513,12 +486,12 @@
             // 
             this.tmBlind.Tick += new System.EventHandler(this.tmBlind_Tick);
             // 
-            // toJavascriptToolStripMenuItem
+            // menuImportToolStripMenuItem
             // 
-            this.toJavascriptToolStripMenuItem.Name = "toJavascriptToolStripMenuItem";
-            this.toJavascriptToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.toJavascriptToolStripMenuItem.Text = "Convert to Javascript";
-            this.toJavascriptToolStripMenuItem.Click += new System.EventHandler(this.toJavascriptToolStripMenuItem_Click);
+            this.menuImportToolStripMenuItem.Name = "menuImportToolStripMenuItem";
+            this.menuImportToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.menuImportToolStripMenuItem.Text = "Import from a project";
+            this.menuImportToolStripMenuItem.Click += new System.EventHandler(this.menuImportToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -582,9 +555,6 @@
         private System.Windows.Forms.ToolStripMenuItem déplierToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem supprimerToolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem importer;
-        private System.Windows.Forms.ToolStripMenuItem lesOutilsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem lesMasterPagesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem lesMasterObjetsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fichiers;
         private System.Windows.Forms.ContextMenuStrip cntx;
         private System.Windows.Forms.ToolStripMenuItem supprimerToolStripMenuItem5;
@@ -598,12 +568,12 @@
         private System.Windows.Forms.Timer tdd;
         private System.Windows.Forms.ToolStripMenuItem cntxMenuOpen;
         private System.Windows.Forms.ToolStripMenuItem languages;
-        private System.Windows.Forms.ToolStripMenuItem menuImportFoldersToolStripMenuItem;
         private System.Windows.Forms.Label errorZone;
         private System.Windows.Forms.Timer tmBlind;
         private System.Windows.Forms.ToolStripMenuItem tutorialToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuTransformToolToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toJavascriptToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuImportToolStripMenuItem;
     }
 }
 

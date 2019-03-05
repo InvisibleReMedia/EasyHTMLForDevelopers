@@ -178,6 +178,12 @@
     <Compile Include="FtpForm.Designer.cs">
       <DependentUpon>FtpForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Import.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import.designer.cs">
+      <DependentUpon>Import.cs</DependentUpon>
+    </Compile>
     <Compile Include="LocaleKeyBinding.cs" />
     <Compile Include="SiteGenerationForm.cs">
       <SubType>Form</SubType>
@@ -298,12 +304,6 @@
     </Compile>
     <Compile Include="HTMLOptions.Designer.cs">
       <DependentUpon>HTMLOptions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Import.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Import.Designer.cs">
-      <DependentUpon>Import.cs</DependentUpon>
     </Compile>
     <Compile Include="JavascriptOptions.cs">
       <SubType>Form</SubType>
@@ -487,6 +487,9 @@
     <EmbeddedResource Include="FtpForm.resx">
       <DependentUpon>FtpForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Import.resx">
+      <DependentUpon>Import.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SiteGenerationForm.resx">
       <DependentUpon>SiteGenerationForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -525,9 +528,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HTMLOptions.resx">
       <DependentUpon>HTMLOptions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Import.resx">
-      <DependentUpon>Import.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JavascriptOptions.resx">
       <DependentUpon>JavascriptOptions.cs</DependentUpon>

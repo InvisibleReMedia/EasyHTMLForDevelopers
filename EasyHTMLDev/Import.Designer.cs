@@ -50,7 +50,6 @@
             this.treeView1.Size = new System.Drawing.Size(680, 254);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterCheck);
-            this.treeView1.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterExpand);
             // 
             // importer
             // 
@@ -93,6 +92,7 @@
             this.Name = "Import";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ImportTitle";
+            this.Load += new System.EventHandler(this.Import_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bsProjectElement)).EndInit();
             this.ResumeLayout(false);
 
