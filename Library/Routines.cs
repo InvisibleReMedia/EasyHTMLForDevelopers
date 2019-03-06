@@ -304,6 +304,7 @@ namespace Library
             outputPage.HTML.Append("<base href='" + ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title) + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
             outputPage.HTML.Append(master.Meta);
+            outputPage.HTML.Append(pageConfig.head);
             OutputHTML html = new OutputHTML();
             myCss.Ids = "#" + myId;
             body.Ids = "body";
@@ -426,6 +427,7 @@ namespace Library
             outputPage.HTML.Append("<base href='" + Project.CurrentProject.Configuration.Replace("#(BASE_HREF)") + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
             outputPage.HTML.Append(master.Meta);
+            outputPage.HTML.Append(pageConfig.head);
             OutputHTML html = new OutputHTML();
             myCss.Ids = "#" + myId;
             body.Ids = "body";
@@ -643,6 +645,7 @@ namespace Library
             outputPage.HTML.Append("<base href='" + ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title) + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
             outputPage.HTML.Append(master.Meta);
+            outputPage.HTML.Append(pageConfig.head);
             OutputHTML html = new OutputHTML();
 
             // compute size
@@ -780,6 +783,7 @@ namespace Library
             outputPage.HTML.Append("<base href='" + Project.CurrentProject.Configuration.Replace("#(BASE_HREF)") + "'>");
             outputPage.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
             outputPage.HTML.Append(master.Meta);
+            outputPage.HTML.Append(pageConfig.head);
             OutputHTML html = new OutputHTML();
             myCss.Ids = "#" + myId;
             body.Ids = "body";

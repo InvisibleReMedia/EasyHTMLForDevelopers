@@ -1730,6 +1730,11 @@
             Is include into a container
             </summary>
         </member>
+        <member name="F:Library.DesignPage.head">
+            <summary>
+            Include the head of this page
+            </summary>
+        </member>
         <member name="F:Library.DesignPage.subObjects">
             <summary>
             All objects
@@ -5064,6 +5069,11 @@
             Index name for events
             </summary>
         </member>
+        <member name="F:Library.Page.headName">
+            <summary>
+            Index name for head
+            </summary>
+        </member>
         <member name="M:Library.Page.#ctor">
             <summary>
             Empty constructor
@@ -5259,6 +5269,11 @@
         <member name="P:Library.Page.ElementTitle">
             <summary>
             Gets the element title
+            </summary>
+        </member>
+        <member name="P:Library.Page.Head">
+            <summary>
+            Gets or sets the head of this page
             </summary>
         </member>
         <member name="P:Library.Page.Events">

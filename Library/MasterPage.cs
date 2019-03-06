@@ -528,6 +528,7 @@ namespace Library
             config.javascriptFile = this.JavaScriptFileName;
             config.onload = this.JavaScriptOnLoad;
             config.zones = this.HorizontalZones;
+            config.head = refPage.Head;
             config.includeContainer = true;
             config.subObjects = new List<HTMLObject>();
             config.subObjects.AddRange(this.Objects);
@@ -604,6 +605,7 @@ namespace Library
             config.onload = this.JavaScriptOnLoad;
             config.zones = this.HorizontalZones;
             config.includeContainer = true;
+            config.head = refPage.Head;
             config.subObjects = new List<HTMLObject>();
             config.subObjects.AddRange(this.Objects);
             config.subObjects.AddRange(refPage.Objects);
@@ -1002,6 +1004,7 @@ namespace Library
             config.javascriptFile = this.JavaScriptFileName;
             config.onload = this.JavaScriptOnLoad;
             config.zones = this.HorizontalZones;
+            config.head = refPage.Head;
             config.includeContainer = true;
             config.subObjects = new List<HTMLObject>();
             config.subObjects.AddRange(this.Objects);
@@ -1064,6 +1067,7 @@ namespace Library
             config.javascriptFile = this.JavaScriptFileName;
             config.onload = this.JavaScriptOnLoad;
             config.zones = this.HorizontalZones;
+            config.head = refPage.Head;
             config.includeContainer = true;
             config.subObjects = new List<HTMLObject>();
             config.subObjects.AddRange(this.Objects);

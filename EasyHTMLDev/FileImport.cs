@@ -39,6 +39,7 @@ namespace EasyHTMLDev
         {
             InitializeComponent();
             this.path.DataBindings.Add("Text", this, "DestinationPath");
+            this.valider.Enabled = false;
             this.RegisterControls(ref this.localeComponentId);
             this.InitTreeView();
         }
@@ -120,6 +121,18 @@ namespace EasyHTMLDev
             this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.Close();
             this.UnregisterControls(ref this.localeComponentId);
+        }
+
+        private void path_TextChanged(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(this.DestinationPath))
+            {
+                this.valider.Enabled = true;
+            }
+            else
+            {
+                this.valider.Enabled = false;
+            }
         }
     }
 }

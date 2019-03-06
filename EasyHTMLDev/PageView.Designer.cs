@@ -45,6 +45,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.actualiser = new System.Windows.Forms.Button();
             this.btnValidate1 = new EasyHTMLDev.BtnValidate();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pageBindingSource)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -56,10 +58,10 @@
             this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowser1.Location = new System.Drawing.Point(0, 178);
+            this.webBrowser1.Location = new System.Drawing.Point(0, 245);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(732, 250);
+            this.webBrowser1.Size = new System.Drawing.Size(732, 262);
             this.webBrowser1.TabIndex = 0;
             // 
             // groupBox2
@@ -181,7 +183,7 @@
             // actualiser
             // 
             this.actualiser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.actualiser.Location = new System.Drawing.Point(12, 475);
+            this.actualiser.Location = new System.Drawing.Point(12, 554);
             this.actualiser.Name = "actualiser";
             this.actualiser.Size = new System.Drawing.Size(75, 23);
             this.actualiser.TabIndex = 5;
@@ -192,16 +194,36 @@
             // btnValidate1
             // 
             this.btnValidate1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnValidate1.Location = new System.Drawing.Point(531, 434);
+            this.btnValidate1.Location = new System.Drawing.Point(531, 513);
             this.btnValidate1.Name = "btnValidate1";
             this.btnValidate1.Size = new System.Drawing.Size(189, 64);
             this.btnValidate1.TabIndex = 6;
+            // 
+            // textBox5
+            // 
+            this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.pageBindingSource, "Head", true));
+            this.textBox5.Location = new System.Drawing.Point(54, 166);
+            this.textBox5.Multiline = true;
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(666, 64);
+            this.textBox5.TabIndex = 7;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 169);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(33, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Head";
             // 
             // PageView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(732, 510);
+            this.ClientSize = new System.Drawing.Size(732, 589);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBox5);
             this.Controls.Add(this.btnValidate1);
             this.Controls.Add(this.actualiser);
             this.Controls.Add(this.webBrowser1);
@@ -221,6 +243,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -241,5 +264,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox3;
         public BtnValidate btnValidate1;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Label label3;
     }
 }

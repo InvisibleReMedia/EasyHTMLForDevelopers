@@ -53,6 +53,7 @@
             this.path.Name = "path";
             this.path.Size = new System.Drawing.Size(452, 20);
             this.path.TabIndex = 1;
+            this.path.TextChanged += new System.EventHandler(this.path_TextChanged);
             // 
             // browse
             // 

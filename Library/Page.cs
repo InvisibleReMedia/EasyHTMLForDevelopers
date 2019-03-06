@@ -59,6 +59,10 @@ namespace Library
         /// Index name for events
         /// </summary>
         protected static readonly string eventsName = "events";
+        /// <summary>
+        /// Index name for head
+        /// </summary>
+        protected static readonly string headName = "head";
 
         [NonSerialized]
         private OutputHTML specificOutput;
@@ -226,6 +230,15 @@ namespace Library
         public string ElementTitle
         {
             get { return this.Name; }
+        }
+
+        /// <summary>
+        /// Gets or sets the head of this page
+        /// </summary>
+        public string Head
+        {
+            get { return this.Get(headName, string.Empty); }
+            set { this.Set(headName, value); }
         }
 
         /// <summary>

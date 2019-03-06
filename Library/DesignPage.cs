@@ -67,6 +67,10 @@ namespace Library
         /// </summary>
         public bool includeContainer;
         /// <summary>
+        /// Include the head of this page
+        /// </summary>
+        public string head;
+        /// <summary>
         /// All objects
         /// </summary>
         public List<HTMLObject> subObjects;
