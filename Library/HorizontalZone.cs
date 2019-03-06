@@ -9,7 +9,7 @@ namespace Library
     /// An horizontal area that can contains multiple vertical areas
     /// </summary>
     [Serializable]
-    public class HorizontalZone : Marshalling.PersistentDataObject, IContainer, IGenerateDesignDIV, IGenerateDesignTable, IGenerateProductionDIV, IGenerateProductionTable, ICloneable
+    public class HorizontalZone : Marshalling.PersistentDataObject, IContainer, IGenerateDesign, IGenerateDesignDIV, IGenerateDesignTable, IGenerateProductionDIV, IGenerateProductionTable, ICloneable
     {
 
         #region Fields
@@ -304,6 +304,79 @@ namespace Library
         #endregion
 
         #region Interfaces Implementation
+
+        /// <summary>
+        /// Generate thumbnail
+        /// </summary>
+        /// <returns>output</returns>
+        public OutputHTML GenerateThumbnail()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Generate design
+        /// </summary>
+        /// <returns>output</returns>
+        public OutputHTML GenerateDesign()
+        {
+            Page p = new Page();
+            MasterPage mp = new MasterPage();
+            HorizontalZone h = new HorizontalZone();
+            mp.HorizontalZones.Add(h);
+            VerticalZone z = new VerticalZone();
+            h.VerticalZones.Add(z);
+            ParentConstraint parent = new ParentConstraint();
+            parent.border = BorderConstraint.CreateBorderConstraint(this.CSS, (uint)this.CountLines, this.TotalCountColumns);
+            return Routines.GenerateDesignAny(GenerateDesignDIV(p, mp, parent));
+        }
+
+        /// <summary>
+        /// Generate design page
+        /// </summary>
+        /// <param name="refPage">ref page</param>
+        /// <returns>output</returns>
+        public OutputHTML GenerateDesign(Page refPage)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Generate design
+        /// </summary>
+        /// <param name="refPage">ref page</param>
+        /// <param name="masterRefPage">ref master page</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>output</returns>
+        public OutputHTML GenerateDesign(Page refPage, MasterPage masterRefPage, ParentConstraint parentConstraint)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Generate design
+        /// </summary>
+        /// <param name="refPage">ref page</param>
+        /// <param name="objects">objects</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>output</returns>
+        public OutputHTML GenerateDesign(Page refPage, List<MasterObject> objects, ParentConstraint parentConstraint)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Generate design
+        /// </summary>
+        /// <param name="refPage">ref page</param>
+        /// <param name="masterRefPage">ref master page</param>
+        /// <param name="objects">objects</param>
+        /// <param name="parentConstraint">parent constraint</param>
+        /// <returns>output</returns>
+        public OutputHTML GenerateDesign(Page refPage, MasterPage masterRefPage, List<MasterObject> objects, ParentConstraint parentConstraint)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Generate an HTML DIV tag from null for design

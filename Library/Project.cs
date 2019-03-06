@@ -427,7 +427,7 @@ namespace Library
         /// </summary>
         public bool NotSaved
         {
-            get { return this.Get(hasErrorSaveName, true); }
+            get { return this.Get(hasErrorSaveName, false); }
         }
 
         /// <summary>
@@ -435,7 +435,7 @@ namespace Library
         /// </summary>
         public string ErrorReason
         {
-            get { return this.Get(errorReasonName, "Not saved"); }
+            get { return this.Get(errorReasonName, ""); }
         }
 
         /// <summary>

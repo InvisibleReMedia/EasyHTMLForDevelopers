@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.IO;
+using CommonDirectories;
 
 namespace EasyHTMLDev
 {
@@ -148,6 +150,27 @@ namespace EasyHTMLDev
             }
         }
 
+        private void ReloadBrowser(bool firstLoad = false)
+        {
+            try
+            {
+                string fileName = Path.Combine(ConfigDirectories.GetBuildFolder(Library.Project.CurrentProject.Title), "horiz.html");
+                Library.OutputHTML html = (this.bsHoriz.Current as Library.HorizontalZone).GenerateDesign();
+                FileStream fs = new FileStream(fileName, FileMode.Create);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.WriteLine(html.HTML.ToString());
+                sw.Close();
+                sw.Dispose();
+                fs.Close();
+                fs.Dispose();
+                this.webBrowser1.Navigate(fileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
         private void Zones_Load(object sender, EventArgs e)
         {
             this.btns.selectedChanged += new EventHandler(btns_selectedChanged);
@@ -171,6 +194,7 @@ namespace EasyHTMLDev
             }
             this.bsZoneHoriz.CurrentItemChanged += new EventHandler(CurrentItemChanged);
             this.bsZoneVert.CurrentItemChanged += new EventHandler(CurrentItemChanged);
+            this.ReloadBrowser(true);
         }
 
         void bsHoriz_CurrentItemChanged(object sender, EventArgs e)
@@ -178,6 +202,7 @@ namespace EasyHTMLDev
             this.bsZoneHoriz.DataSource = this.bsHoriz.Current;
             this.bsVert.DataSource = this.bsHoriz.Current;
             this.lstVert.DataSource = this.bsVert;
+            this.ReloadBrowser();
         }
 
         void bsVert_CurrentItemChanged(object sender, EventArgs e)
@@ -288,6 +313,11 @@ namespace EasyHTMLDev
             this.rbHorizWidth.Close();
             this.rbVertHeight.Close();
             this.rbVertWidth.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.ReloadBrowser();
         }
     }
 }

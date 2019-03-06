@@ -109,7 +109,7 @@ namespace EasyHTMLDev
             this.cases[l, c].resise(r);
         }
 
-        private void calculeSize(int width, int height)
+        internal void calculeSize(int width, int height)
         {
             int deltax = width / (int)this.CountColumns;
             int deltay = height / (int)this.CountLines;
@@ -142,6 +142,19 @@ namespace EasyHTMLDev
                 }
             }
             this.calculeSize(this.InnerWidth, this.InnerHeight);
+        }
+
+        public void resize()
+        {
+            if (started)
+            {
+                this.calculeSize(this.InnerWidth, this.InnerHeight);
+                foreach (Library.AreaSizedRectangle a in this.list)
+                {
+                    a.Resize(this.InnerWidth / (double)this.CountColumns, this.InnerHeight / (double)this.CountLines);
+                }
+                this.Invalidate();
+            }
         }
 
         protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
@@ -245,7 +258,12 @@ namespace EasyHTMLDev
                         {
                             if (start.X >= 0 && start.X < this.CountColumns && end.X >= 0 && end.X < this.CountColumns &&
                                 start.Y >= 0 && start.Y < this.CountLines && end.Y >= 0 && end.Y < this.CountLines)
-                                this.list.Add(new Library.AreaSizedRectangle(deltax * (end.X - start.X + 1), deltay * (end.Y - start.Y + 1), end.X - start.X + 1, end.Y - start.Y + 1, deltax * start.X, deltay * start.Y));
+                            {
+                                Library.AreaSizedRectangle a = new Library.AreaSizedRectangle(deltax * (end.X - start.X + 1), deltay * (end.Y - start.Y + 1), end.X - start.X + 1, end.Y - start.Y + 1, deltax * start.X, deltay * start.Y);
+                                a.StartWidth = start.X;
+                                a.StartHeight = start.Y;
+                                this.list.Add(a);
+                            }
                         }
 
                         for (int count_ligne = 0; count_ligne < this.CountLines; ++count_ligne)

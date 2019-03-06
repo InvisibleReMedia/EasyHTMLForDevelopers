@@ -413,6 +413,26 @@ namespace Library
 
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Resize a rectangle
+        /// </summary>
+        /// <param name="width">new division width</param>
+        /// <param name="height">new division height</param>
+        public void Resize(double width, double height)
+        {
+            this.Width = Convert.ToInt32(width * this.CountWidth);
+            this.Height = Convert.ToInt32(height * this.CountHeight);
+            this.Left = Convert.ToInt32(width * this.StartWidth);
+            this.Top = Convert.ToInt32(height * this.StartHeight);
+            this.Right = this.Left + this.Width;
+            this.Bottom = this.Top + this.Height;
+
+        }
+
+        #endregion
+
         #region Overriden Methods
 
         /// <summary>

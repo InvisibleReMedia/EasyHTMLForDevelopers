@@ -1084,6 +1084,25 @@ namespace Library
             return outputPage;
         }
 
+        public static OutputHTML GenerateDesignAny(OutputHTML html)
+        {
+            Project.InitializeTraceCounter();
+            string myId = "obj" + Project.IncrementedTraceCounter.ToString();
+            OutputHTML output = new OutputHTML();
+            output.HTML.Append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html lang='fr'>");
+            output.HTML.Append("<head>");
+            output.HTML.Append("<base href='" + ConfigDirectories.GetBuildFolder(Project.CurrentProject.Title) + "'>");
+            output.HTML.Append(@"<meta name='generator' content='EasyHTML For Developers'/><meta http-equiv='content-type' content='text/html; charset=utf-8' />" + Environment.NewLine);
+            output.HTML.Append("<style>");
+            output.HTML.Append(html.CSS.ToString());
+            output.HTML.Append("</style>");
+            output.HTML.Append("<body>");
+            output.HTML.Append(html.HTML.ToString());
+            output.HTML.Append("</body>");
+            output.HTML.Append("</html>");
+            return output;
+        }
+
         public static OutputHTML GenerateDesignObject(HTMLObject obj)
         {
             Project.InitializeTraceCounter();

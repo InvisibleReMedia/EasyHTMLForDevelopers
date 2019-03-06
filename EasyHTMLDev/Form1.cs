@@ -43,14 +43,6 @@ namespace EasyHTMLDev
             }
         }
 
-        private void BrowseFolder(string curPath, TreeNode node, object selectedTag, TreeNode root)
-        {
-        }
-
-        private void BrowseTool(Library.HTMLTool f, TreeNode node, object selectedTag, TreeNode root)
-        {
-        }
-
         private static string Translate(string key)
         {
             return Localization.Strings.GetString(key);
@@ -502,78 +494,6 @@ namespace EasyHTMLDev
 
                 Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
                 Project.CurrentProject.ReloadProject();
-            }
-        }
-
-        private void ImportTool(Library.HTMLTool f, TreeNode node)
-        {
-        }
-
-        private void SelectTool(TreeNode node, Library.HTMLTool import, bool all)
-        {
-        }
-
-        private void lesMasterPagesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Open op = new Open(ConfigDirectories.GetDocumentsFolder());
-                DialogResult drOp = op.ShowDialog();
-                if (drOp == System.Windows.Forms.DialogResult.OK)
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void lesOutilsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Open op = new Open(ConfigDirectories.GetDocumentsFolder());
-                DialogResult drOp = op.ShowDialog();
-                if (drOp == System.Windows.Forms.DialogResult.OK)
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void lesMasterObjetsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Open op = new Open(ConfigDirectories.GetDocumentsFolder());
-                DialogResult drOp = op.ShowDialog();
-                if (drOp == System.Windows.Forms.DialogResult.OK)
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void menuImportFoldersToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Open op = new Open(ConfigDirectories.GetDocumentsFolder());
-                DialogResult drOp = op.ShowDialog();
-                if (drOp == System.Windows.Forms.DialogResult.OK)
-                {
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
             }
         }
 

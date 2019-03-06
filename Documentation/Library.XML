@@ -2456,6 +2456,58 @@
             Gets or sets the name of the container
             </summary>
         </member>
+        <member name="T:Library.IGenerateDesign">
+            <summary>
+            Interface for the generation of page (design mode)
+            </summary>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateThumbnail">
+            <summary>
+            Generate a thumbnail
+            </summary>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateDesign">
+            <summary>
+            Generate the top-level design
+            </summary>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page)">
+            <summary>
+            Generate the next level (from a page) design
+            </summary>
+            <param name="refPage">page reference</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,Library.MasterPage,Library.ParentConstraint)">
+            <summary>
+            Generate the third level (from a page or a master page)
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate objects owned by a page
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="objects">objects owned</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
+        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate objects owned by a page or a master page
+            </summary>
+            <param name="refPage">page reference</param>
+            <param name="masterRefPage">master page reference</param>
+            <param name="objects">objects owned</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>html output</returns>
+        </member>
         <member name="T:Library.IGenerateDesignDIV">
             <summary>
             Interface for the generation of HTML DIV tag (design mode)
@@ -2685,6 +2737,53 @@
             <param name="searchName">container to search</param>
             <param name="found">container result</param>
             <returns>true if the container has found</returns>
+        </member>
+        <member name="M:Library.HorizontalZone.GenerateThumbnail">
+            <summary>
+            Generate thumbnail
+            </summary>
+            <returns>output</returns>
+        </member>
+        <member name="M:Library.HorizontalZone.GenerateDesign">
+            <summary>
+            Generate design
+            </summary>
+            <returns>output</returns>
+        </member>
+        <member name="M:Library.HorizontalZone.GenerateDesign(Library.Page)">
+            <summary>
+            Generate design page
+            </summary>
+            <param name="refPage">ref page</param>
+            <returns>output</returns>
+        </member>
+        <member name="M:Library.HorizontalZone.GenerateDesign(Library.Page,Library.MasterPage,Library.ParentConstraint)">
+            <summary>
+            Generate design
+            </summary>
+            <param name="refPage">ref page</param>
+            <param name="masterRefPage">ref master page</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>output</returns>
+        </member>
+        <member name="M:Library.HorizontalZone.GenerateDesign(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate design
+            </summary>
+            <param name="refPage">ref page</param>
+            <param name="objects">objects</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>output</returns>
+        </member>
+        <member name="M:Library.HorizontalZone.GenerateDesign(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
+            <summary>
+            Generate design
+            </summary>
+            <param name="refPage">ref page</param>
+            <param name="masterRefPage">ref master page</param>
+            <param name="objects">objects</param>
+            <param name="parentConstraint">parent constraint</param>
+            <returns>output</returns>
         </member>
         <member name="M:Library.HorizontalZone.GenerateDesignDIV">
             <summary>
@@ -3044,58 +3143,6 @@
             <summary>
             Gets or sets the container name
             </summary>
-        </member>
-        <member name="T:Library.IGenerateDesign">
-            <summary>
-            Interface for the generation of page (design mode)
-            </summary>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateThumbnail">
-            <summary>
-            Generate a thumbnail
-            </summary>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateDesign">
-            <summary>
-            Generate the top-level design
-            </summary>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page)">
-            <summary>
-            Generate the next level (from a page) design
-            </summary>
-            <param name="refPage">page reference</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,Library.MasterPage,Library.ParentConstraint)">
-            <summary>
-            Generate the third level (from a page or a master page)
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate objects owned by a page
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="objects">objects owned</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
-        </member>
-        <member name="M:Library.IGenerateDesign.GenerateDesign(Library.Page,Library.MasterPage,System.Collections.Generic.List{Library.MasterObject},Library.ParentConstraint)">
-            <summary>
-            Generate objects owned by a page or a master page
-            </summary>
-            <param name="refPage">page reference</param>
-            <param name="masterRefPage">master page reference</param>
-            <param name="objects">objects owned</param>
-            <param name="parentConstraint">parent constraint</param>
-            <returns>html output</returns>
         </member>
         <member name="T:Library.IGenerateProduction">
             <summary>
@@ -6202,6 +6249,13 @@
             <param name="countHeight">height count</param>
             <param name="left">left corner position</param>
             <param name="top">top corner position</param>
+        </member>
+        <member name="M:Library.AreaSizedRectangle.Resize(System.Double,System.Double)">
+            <summary>
+            Resize a rectangle
+            </summary>
+            <param name="width">new division width</param>
+            <param name="height">new division height</param>
         </member>
         <member name="M:Library.AreaSizedRectangle.ToString">
             <summary>

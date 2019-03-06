@@ -1712,7 +1712,7 @@ namespace Library
             string output = String.Empty;
             if (!String.IsNullOrEmpty(input))
             {
-                Regex reg = new Regex(@"(\$.*)|([^$]+)|(" + Environment.NewLine + ")|\"", RegexOptions.Multiline);
+                Regex reg = new Regex(@"\$(.*)|([^$]+)|(" + Environment.NewLine + ")|\"", RegexOptions.Multiline);
                 MatchCollection results = reg.Matches(input);
                 foreach (Match m in results)
                 {

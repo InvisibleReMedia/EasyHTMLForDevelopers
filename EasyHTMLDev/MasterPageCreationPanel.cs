@@ -40,6 +40,12 @@ namespace EasyHTMLDev
             }
         }
 
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            this.creationPanel1.resize();
+        }
+
         public void init()
         {
             this.creationPanel1.initialize_cases();

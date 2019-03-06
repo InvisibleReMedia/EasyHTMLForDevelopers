@@ -833,8 +833,7 @@ namespace Library
                 config.height = this.Height;
                 CodeCSS cssThumbnail = new CodeCSS(this.CSS);
                 cssThumbnail.Body.Add("zoom", "0.4");
-                this.CSSList.AddCSS(cssThumbnail);
-                config.cssList = this.CSSList;
+                config.cssList = ExtensionMethods.CloneThis(this.CSSList);
                 config.cssOnFile = false;
                 config.cssFile = "";
                 config.events = this.Events;

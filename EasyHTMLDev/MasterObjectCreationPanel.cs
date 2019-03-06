@@ -45,6 +45,12 @@ namespace EasyHTMLDev
             this.creationPanel1.initialize_cases();
         }
 
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            this.creationPanel1.resize();
+        }
+
         public void Confirm()
         {
             foreach (Library.AreaSizedRectangle r in this.creationPanel1.List)
