@@ -93,16 +93,23 @@ namespace EasyHTMLDev
 
         private void creer_Click(object sender, EventArgs e)
         {
-            if (Library.Project.AddPage(Library.Project.CurrentProject, this.Page, this.textBox1.Text))
+            if (!String.IsNullOrEmpty(this.textBox1.Text))
             {
-                this.Page.MasterPageName = this.listView1.SelectedItems[0].Text;
-                this.DialogResult = System.Windows.Forms.DialogResult.OK;
-                this.Close();
-                this.UnregisterControls(ref this.localeComponentId);
+                if (Library.Project.AddPage(Library.Project.CurrentProject, this.Page, this.textBox1.Text))
+                {
+                    this.Page.MasterPageName = this.listView1.SelectedItems[0].Text;
+                    this.DialogResult = System.Windows.Forms.DialogResult.OK;
+                    this.Close();
+                    this.UnregisterControls(ref this.localeComponentId);
+                }
+                else
+                {
+                    MessageBox.Show(Localization.Strings.GetString("ExceptionPageNotCreated"));
+                }
             }
             else
             {
-                MessageBox.Show(Localization.Strings.GetString("ExceptionPageNotCreated"));
+                MessageBox.Show(Localization.Strings.GetString("MissingData"), Localization.Strings.GetString("MissingDataTitle"), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 

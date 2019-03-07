@@ -67,16 +67,17 @@
             // txtTitle
             // 
             this.txtTitle.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.masterObjectBindingSource, "Title", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "Donner un titre"));
-            this.txtTitle.Location = new System.Drawing.Point(97, 83);
+            this.txtTitle.Location = new System.Drawing.Point(119, 83);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(260, 20);
+            this.txtTitle.Size = new System.Drawing.Size(238, 20);
             this.txtTitle.TabIndex = 2;
             // 
             // label3
             // 
+            this.label3.AutoEllipsis = true;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(95, 106);
+            this.label3.Location = new System.Drawing.Point(111, 106);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 3;
@@ -103,7 +104,7 @@
             // nbLines
             // 
             this.nbLines.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.masterObjectBindingSource, "CountLines", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "N0"));
-            this.nbLines.Location = new System.Drawing.Point(97, 137);
+            this.nbLines.Location = new System.Drawing.Point(119, 137);
             this.nbLines.Name = "nbLines";
             this.nbLines.Size = new System.Drawing.Size(69, 20);
             this.nbLines.TabIndex = 6;
@@ -111,7 +112,7 @@
             // nbCols
             // 
             this.nbCols.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.masterObjectBindingSource, "CountColumns", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "N0"));
-            this.nbCols.Location = new System.Drawing.Point(97, 162);
+            this.nbCols.Location = new System.Drawing.Point(119, 162);
             this.nbCols.Name = "nbCols";
             this.nbCols.Size = new System.Drawing.Size(69, 20);
             this.nbCols.TabIndex = 7;

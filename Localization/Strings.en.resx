@@ -737,4 +737,55 @@ Format name:value;...</value>
   <data name="ConversionTitle" xml:space="preserve">
     <value>Convert</value>
   </data>
+  <data name="ConfigCSS" xml:space="preserve">
+    <value>CSS links</value>
+  </data>
+  <data name="ConvertToJavascript" xml:space="preserve">
+    <value>Convert to JavaScript</value>
+  </data>
+  <data name="ConvertToTool" xml:space="preserve">
+    <value>Convert to a tool</value>
+  </data>
+  <data name="Head" xml:space="preserve">
+    <value>HTML head</value>
+  </data>
+  <data name="MasterObjectTitle" xml:space="preserve">
+    <value>Master Object - {0}</value>
+  </data>
+  <data name="MasterPageTitle" xml:space="preserve">
+    <value>Master Page - {0}</value>
+  </data>
+  <data name="MissingData" xml:space="preserve">
+    <value>Field empty</value>
+  </data>
+  <data name="MissingDataTitle" xml:space="preserve">
+    <value>Missing data</value>
+  </data>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Page - {0}</value>
+  </data>
+  <data name="SculptureTitle" xml:space="preserve">
+    <value>Sculpture - {0}</value>
+  </data>
+  <data name="SuppressText" xml:space="preserve">
+    <value>Delete this element ?</value>
+  </data>
+  <data name="SuppressTitle" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ToolProperties" xml:space="preserve">
+    <value>Tool properties</value>
+  </data>
+  <data name="ToolTitle" xml:space="preserve">
+    <value>Tool - {0}</value>
+  </data>
+  <data name="UnselectCommentCSS" xml:space="preserve">
+    <value>Type space bar to unselect</value>
+  </data>
+  <data name="UnselectCommentJavascript" xml:space="preserve">
+    <value>Type space bar to unselect</value>
+  </data>
+  <data name="URLCSS" xml:space="preserve">
+    <value>Url CSS</value>
+  </data>
 </root>

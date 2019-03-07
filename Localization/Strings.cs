@@ -110,7 +110,9 @@ namespace Localization
                 if (String.IsNullOrEmpty(localized))
                     localized = name;
             }
-            catch { }
+            catch {
+                System.Diagnostics.Trace.WriteLine(String.Format("The name '{0}' does not exist", name));
+            }
             return localized;
         }
 
@@ -245,20 +247,27 @@ namespace Localization
 
         private IEnumerable<System.Reflection.FieldInfo> GetControls(System.Windows.Forms.Control input)
         {
-            Type t = input.GetType();
-            System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.GetField;
-            flags |= System.Reflection.BindingFlags.Public;
-            flags |= System.Reflection.BindingFlags.NonPublic;
-            flags |= System.Reflection.BindingFlags.Instance;
-            System.Reflection.FieldInfo[] tab = t.GetFields(flags);
-
-            foreach (System.Reflection.FieldInfo fi in tab)
+            if (IsContentTextStatic(input))
             {
-                System.Diagnostics.Trace.WriteLine("property=" + fi.Name);
-            }
-            
-            return (from f in tab where (f.FieldType.FullName.StartsWith("System.Windows.Forms") || (f.FieldType.FullName.StartsWith("EasyHTMLDev"))) select f).AsEnumerable();
+                Type t = input.GetType();
+                System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.GetField;
+                flags |= System.Reflection.BindingFlags.Public;
+                flags |= System.Reflection.BindingFlags.NonPublic;
+                flags |= System.Reflection.BindingFlags.Instance;
+                System.Reflection.FieldInfo[] tab = t.GetFields(flags);
 
+                foreach (System.Reflection.FieldInfo fi in tab)
+                {
+                    System.Diagnostics.Trace.WriteLine("property=" + fi.Name);
+                }
+
+                return (from f in tab where (f.FieldType.FullName.StartsWith("System.Windows.Forms") || (f.FieldType.FullName.StartsWith("EasyHTMLDev"))) select f).AsEnumerable();
+
+            }
+            else
+            {
+                return new List<System.Reflection.FieldInfo>() { };
+            }
         }
 
         private void BindControls(object obj, params object[] pars)
@@ -312,7 +321,7 @@ namespace Localization
                         this.BindControls(val);
                     } 
                     else {
-                        System.Diagnostics.Trace.WriteLine("value null");
+                        System.Diagnostics.Trace.WriteLine(String.Format("The name '{0}' does not exist", fi.Name));
                     }
 
 
@@ -333,7 +342,9 @@ namespace Localization
                         string result = String.Format(Strings._resources.GetString(lv.Key), lv.Parameters.ToArray());
                         this.SetText(lv.RefObject, result);
                     }
-                    catch { }
+                    catch {
+                        System.Diagnostics.Trace.WriteLine(String.Format("The name '{0}' does not exist", lv.Key));
+                    }
                 }
             }
         }

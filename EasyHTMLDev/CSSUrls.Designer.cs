@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JavaScriptUrls));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CSSUrls));
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -78,9 +78,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 231);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(93, 13);
+            this.label3.Size = new System.Drawing.Size(114, 13);
             this.label3.TabIndex = 8;
-            this.label3.Text = "UnselectComment";
+            this.label3.Text = "UnselectCommentCSS";
             // 
             // btnValidate1
             // 
@@ -89,7 +89,7 @@
             this.btnValidate1.Size = new System.Drawing.Size(189, 64);
             this.btnValidate1.TabIndex = 9;
             // 
-            // JavaScriptUrls
+            // CSSUrls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -103,9 +103,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.Name = "JavaScriptUrls";
+            this.Name = "CSSUrls";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ConfigJavascript";
+            this.Text = "ConfigCSS";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.JavaScriptUrls_FormClosed);
             this.Load += new System.EventHandler(this.ConfigView_Load);
             this.ResumeLayout(false);

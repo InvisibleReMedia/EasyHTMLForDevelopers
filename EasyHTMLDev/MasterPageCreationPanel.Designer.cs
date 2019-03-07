@@ -57,7 +57,8 @@
 
         #endregion
 
-        private CreationPanel creationPanel1;
+        internal CreationPanel creationPanel1;
+
 
 
     }

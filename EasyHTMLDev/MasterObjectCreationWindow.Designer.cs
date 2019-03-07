@@ -90,8 +90,8 @@
 
         #endregion
 
-        private MasterObjectCreationPanel panel;
         private System.Windows.Forms.Button btnValider;
         private System.Windows.Forms.Button btnAnnuler;
+        private MasterObjectCreationPanel panel;
     }
 }

@@ -53,16 +53,6 @@ namespace CommonDirectories
             {
                 di.Create();
             }
-            DirectoryInfo src = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "examples"));
-            DirectoryInfo dest = new DirectoryInfo(GetMyDocumentsFolder());
-            if (src.Exists)
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    Copy(src.FullName, dest.FullName);
-                });
-            }
-
         }
 
         public static void CreateDirectoryProject(string projectName)

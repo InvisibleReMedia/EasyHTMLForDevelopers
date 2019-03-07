@@ -31,9 +31,16 @@ namespace EasyHTMLDev
 
         private void validate_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-            this.UnregisterControls(ref this.localeComponentId);
+            if (this.MasterPage.CountColumns > 0 && this.MasterPage.CountLines > 0 && !String.IsNullOrEmpty(this.MasterPage.Name))
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+                this.UnregisterControls(ref this.localeComponentId);
+            }
+            else
+            {
+                MessageBox.Show(Localization.Strings.GetString("MissingData"), Localization.Strings.GetString("MissingDataTitle"), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private void cancel_Click(object sender, EventArgs e)

@@ -17,11 +17,11 @@ namespace EasyHTMLDev
 {
     public partial class Form1 : Form
     {
-        private TreeNode currentNodeContext;
+        private TreeNode prv_currentNodeContext;
         private int elapseTimer;
         private int localeComponentId;
         private int currentLocale;
-        private TutorialExec tutoExec;
+        private TutorialExec prv_tutoExec;
 
         public Form1()
         {
@@ -66,8 +66,8 @@ namespace EasyHTMLDev
         private void OpenProject()
         {
             object selectedTag = null;
-            if (this.currentNodeContext != null)
-                selectedTag = this.currentNodeContext.Tag;
+            if (this.prv_currentNodeContext != null)
+                selectedTag = this.prv_currentNodeContext.Tag;
             this.treeView1.Nodes.Clear();
             Project proj = Project.CurrentProject;
             if (proj != null)
@@ -266,7 +266,7 @@ namespace EasyHTMLDev
                 if (this.treeView1.SelectedNode.Tag != null)
                 {
                     // sauvegarde selected node
-                    this.currentNodeContext = this.treeView1.SelectedNode;
+                    this.prv_currentNodeContext = this.treeView1.SelectedNode;
                     if (this.treeView1.SelectedNode.Tag is Library.MasterPage)
                     {
                         Library.MasterPage mp = this.treeView1.SelectedNode.Tag as Library.MasterPage;
@@ -425,7 +425,7 @@ namespace EasyHTMLDev
             else if (elapseTimer == 1)
             {
                 this.treeView1.SelectedNode = this.treeView1.GetNodeAt(this.treeView1.PointToClient(MousePosition));
-                this.currentNodeContext = this.treeView1.SelectedNode;
+                this.prv_currentNodeContext = this.treeView1.SelectedNode;
                 elapseTimer = 2;
                 this.tdd.Interval = 20;
                 this.tdd.Start();
@@ -545,7 +545,7 @@ namespace EasyHTMLDev
 
         private void supprimerToolStripMenuItem5_Click(object sender, EventArgs e)
         {
-            TreeNode t = this.currentNodeContext;
+            TreeNode t = this.prv_currentNodeContext;
             if (t != null)
             {
                 if (t.Tag != null)
@@ -608,8 +608,8 @@ namespace EasyHTMLDev
 
         private void cntx_Opening(object sender, CancelEventArgs e)
         {
-            this.currentNodeContext = this.treeView1.GetNodeAt(this.treeView1.PointToClient(MousePosition));
-            this.treeView1.SelectedNode = this.currentNodeContext;
+            this.prv_currentNodeContext = this.treeView1.GetNodeAt(this.treeView1.PointToClient(MousePosition));
+            this.treeView1.SelectedNode = this.prv_currentNodeContext;
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -708,7 +708,7 @@ namespace EasyHTMLDev
 
         private void supprimerToolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            TreeNode t = this.currentNodeContext;
+            TreeNode t = this.prv_currentNodeContext;
             if (t != null)
             {
                 if (t.Tag != null)
@@ -730,7 +730,7 @@ namespace EasyHTMLDev
 
         private void supprimerToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            TreeNode t = this.currentNodeContext;
+            TreeNode t = this.prv_currentNodeContext;
             if (t != null)
             {
                 if (t.Tag != null)
@@ -752,7 +752,7 @@ namespace EasyHTMLDev
 
         private void supprimerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode t = this.currentNodeContext;
+            TreeNode t = this.prv_currentNodeContext;
             if (t != null)
             {
                 if (t.Tag != null)
@@ -778,7 +778,7 @@ namespace EasyHTMLDev
 
         private void supprimerToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            TreeNode t = this.currentNodeContext;
+            TreeNode t = this.prv_currentNodeContext;
             if (t != null)
             {
                 if (t.Tag != null)
@@ -800,7 +800,7 @@ namespace EasyHTMLDev
 
         private void supprimerToolStripMenuItem6_Click(object sender, EventArgs e)
         {
-            TreeNode t = this.currentNodeContext;
+            TreeNode t = this.prv_currentNodeContext;
             if (t != null)
             {
                 if (t.Tag != null)
@@ -827,10 +827,10 @@ namespace EasyHTMLDev
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (this.tutoExec != null)
+            if (this.prv_tutoExec != null)
             {
-                this.tutoExec.Abort();
-                this.tutoExec = null;
+                this.prv_tutoExec.Abort();
+                this.prv_tutoExec = null;
             }
             this.UnregisterControls(ref this.localeComponentId);
         }
@@ -882,19 +882,19 @@ namespace EasyHTMLDev
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.tutoExec = new TutorialExec();
-            this.tutoExec.Exec();
+            this.prv_tutoExec = new TutorialExec();
+            this.prv_tutoExec.Exec();
         }
 
         private void tutorialToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.tutoExec = new TutorialExec();
-            this.tutoExec.Exec();
+            this.prv_tutoExec = new TutorialExec();
+            this.prv_tutoExec.Exec();
         }
 
         private void menuTransformToolToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode t = this.currentNodeContext;
+            TreeNode t = this.prv_currentNodeContext;
             if (t != null)
             {
                 if (t.Tag != null)
@@ -927,7 +927,7 @@ namespace EasyHTMLDev
 
         private void toJavascriptToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode t = this.currentNodeContext;
+            TreeNode t = this.prv_currentNodeContext;
             if (t != null)
             {
                 if (t.Tag != null)

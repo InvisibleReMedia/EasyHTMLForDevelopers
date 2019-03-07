@@ -34,9 +34,16 @@ namespace EasyHTMLDev
 
         private void btnValider_Click(object sender, EventArgs e)
         {
-            this.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.Close();
-            this.UnregisterControls(ref this.localeComponentId);
+            if (this.MasterObject.CountColumns > 0 && this.MasterObject.CountLines > 0 && !String.IsNullOrEmpty(this.MasterObject.Name))
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+                this.UnregisterControls(ref this.localeComponentId);
+            }
+            else
+            {
+                MessageBox.Show(Localization.Strings.GetString("MissingData"), Localization.Strings.GetString("MissingDataTitle"), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private void btnAnnuler_Click(object sender, EventArgs e)

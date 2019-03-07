@@ -417,7 +417,8 @@ Créer un outil</value>
     <value>Titre</value>
   </data>
   <data name="TitleComment" xml:space="preserve">
-    <value>Le titre sera uniquement affiché dans l'arborescence du projet</value>
+    <value>Le titre sera uniquement affiché dans
+l'arborescence du projet</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Longueur</value>
@@ -761,5 +762,53 @@ Format nom:valeur;...</value>
   </data>
   <data name="ConversionTitle" xml:space="preserve">
     <value>Convertir</value>
+  </data>
+  <data name="ConfigCSS" xml:space="preserve">
+    <value>Liens CSS</value>
+  </data>
+  <data name="ConvertToJavascript" xml:space="preserve">
+    <value>Convertir en JavaScript</value>
+  </data>
+  <data name="ConvertToTool" xml:space="preserve">
+    <value>Convertir en outil</value>
+  </data>
+  <data name="Head" xml:space="preserve">
+    <value>Entête HTML</value>
+  </data>
+  <data name="MasterObjectTitle" xml:space="preserve">
+    <value>Modèle d'objet - {0}</value>
+  </data>
+  <data name="MasterPageTitle" xml:space="preserve">
+    <value>Modèle de page - {0}</value>
+  </data>
+  <data name="MissingData" xml:space="preserve">
+    <value>Données manquantes</value>
+  </data>
+  <data name="MissingDataTitle" xml:space="preserve">
+    <value>Corriger</value>
+  </data>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Page - {0}</value>
+  </data>
+  <data name="SculptureTitle" xml:space="preserve">
+    <value>Sculpture - {0}</value>
+  </data>
+  <data name="SuppressText" xml:space="preserve">
+    <value>Supprimer l'élément ?</value>
+  </data>
+  <data name="SuppressTitle" xml:space="preserve">
+    <value>Suppression</value>
+  </data>
+  <data name="ToolTitle" xml:space="preserve">
+    <value>Outil - {0}</value>
+  </data>
+  <data name="UnselectCommentCSS" xml:space="preserve">
+    <value>Touche espace pour déselectionner</value>
+  </data>
+  <data name="UnselectCommentJavascript" xml:space="preserve">
+    <value>Touche espace pour déselectionner</value>
+  </data>
+  <data name="URLCSS" xml:space="preserve">
+    <value>Url CSS</value>
   </data>
 </root>
