@@ -88,7 +88,11 @@ namespace EasyHTMLDev
                 TreeNode config = racine.Nodes.Add(Translate("Configuration"));
                 config.Tag = proj.Configuration;
                 TreeNode urls = racine.Nodes.Add(Translate("URLJavascript"));
+                urls.Name = "JavaScriptUrls";
                 urls.Tag = proj.JavascriptUrls;
+                TreeNode cssUrls = racine.Nodes.Add(Translate("URLCSS"));
+                cssUrls.Name = "CSSUrls";
+                cssUrls.Tag = proj.CSSUrls;
                 TreeNode masterPages = racine.Nodes.Add(Translate("MasterPage"));
                 TreeNode masterObjects = racine.Nodes.Add(Translate("MasterObject"));
                 TreeNode tools = racine.Nodes.Add(Translate("Tool"));
@@ -107,6 +111,11 @@ namespace EasyHTMLDev
                 foreach (string s in proj.JavascriptUrls)
                 {
                     urls.Nodes.Add(StandardTitle(s));
+                }
+
+                foreach (string s in proj.CSSUrls)
+                {
+                    cssUrls.Nodes.Add(StandardTitle(s));
                 }
 
                 EnumerateHierarchy(proj, masterPages, proj.Hierarchy.Find(Project.MasterPagesName));
@@ -372,10 +381,20 @@ namespace EasyHTMLDev
                     }
                     else if (this.treeView1.SelectedNode.Tag is List<string>)
                     {
-                        JavaScriptUrls ju = new JavaScriptUrls();
-                        ju.FormClosed += window_FormClosed;
-                        ju.Datas = (this.treeView1.SelectedNode.Tag as List<string>);
-                        ju.ShowDialog();
+                        if (this.treeView1.SelectedNode.Name == "JavaScriptUrls")
+                        {
+                            JavaScriptUrls ju = new JavaScriptUrls();
+                            ju.FormClosed += window_FormClosed;
+                            ju.Datas = (this.treeView1.SelectedNode.Tag as List<string>);
+                            ju.ShowDialog();
+                        }
+                        else if (this.treeView1.SelectedNode.Name == "CSSUrls")
+                        {
+                            CSSUrls cu = new CSSUrls();
+                            cu.FormClosed += window_FormClosed;
+                            cu.Datas = (this.treeView1.SelectedNode.Tag as List<string>);
+                            cu.ShowDialog();
+                        }
                     }
                 }
             }

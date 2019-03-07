@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace CommonDirectories
 {
@@ -20,7 +21,6 @@ namespace CommonDirectories
 
         public static string GetDocumentsFolder()
         {
-            CreateMyDocuments();
             return ConfigDirectories.GetMyDocumentsFolder();
         }
 
@@ -43,7 +43,6 @@ namespace CommonDirectories
 
         public static string GetDefaultProductionFolder(string projectName)
         {
-            ConfigDirectories.CreateDirectoryProject(projectName);
             return Path.Combine(ConfigDirectories.GetMyDocumentsFolder(), projectName, "production") + Path.DirectorySeparatorChar;
         }
 
@@ -54,6 +53,16 @@ namespace CommonDirectories
             {
                 di.Create();
             }
+            DirectoryInfo src = new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "examples"));
+            DirectoryInfo dest = new DirectoryInfo(GetMyDocumentsFolder());
+            if (src.Exists)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    Copy(src.FullName, dest.FullName);
+                });
+            }
+
         }
 
         public static void CreateDirectoryProject(string projectName)
@@ -207,6 +216,48 @@ namespace CommonDirectories
             else
             {
                 return lead;
+            }
+        }
+
+        /// <summary>
+        /// Copy all files and subdirectories
+        /// </summary>
+        /// <param name="src">source</param>
+        /// <param name="dest">destination</param>
+        private static void Copy(string src, string dest)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(src);
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException();
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            // If the destination directory doesn't exist, create it.
+            if (!Directory.Exists(dest))
+            {
+                Directory.CreateDirectory(dest);
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                try
+                {
+                    string temppath = Path.Combine(dest, file.Name);
+                    file.CopyTo(temppath, false);
+                }
+                catch { }
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            foreach (DirectoryInfo subdir in dirs)
+            {
+                string temppath = Path.Combine(dest, subdir.Name);
+                Copy(subdir.FullName, temppath);
             }
         }
     }

@@ -184,6 +184,12 @@
     <Compile Include="Import.designer.cs">
       <DependentUpon>Import.cs</DependentUpon>
     </Compile>
+    <Compile Include="CSSUrls.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CSSUrls.Designer.cs">
+      <DependentUpon>CSSUrls.cs</DependentUpon>
+    </Compile>
     <Compile Include="LocaleKeyBinding.cs" />
     <Compile Include="SiteGenerationForm.cs">
       <SubType>Form</SubType>
@@ -490,6 +496,9 @@
     <EmbeddedResource Include="Import.resx">
       <DependentUpon>Import.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CSSUrls.resx">
+      <DependentUpon>CSSUrls.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SiteGenerationForm.resx">
       <DependentUpon>SiteGenerationForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -732,7 +741,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="examples\" />
+  </ItemGroup>
   <ItemGroup>
     <PublishFile Include="en\EasyHTMLDev.resources">
       <Visible>False</Visible>
@@ -756,6 +767,10 @@
     </PublishFile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>xcopy /Y /E /F "C:\Users\Olivier\Documents\EasyHTML" "$(TargetDir)\examples"
+</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

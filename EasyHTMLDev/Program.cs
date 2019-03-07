@@ -16,6 +16,7 @@ namespace EasyHTMLDev
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Localization.Names.Validate();
+            CommonDirectories.ConfigDirectories.CreateMyDocuments();
             try
             {
                 Application.Run(new Form1());
