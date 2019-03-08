@@ -768,8 +768,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>xcopy /Y /E /F "C:\Users\Olivier\Documents\EasyHTML" "$(TargetDir)\examples"
-xcopy /Y /E /F "C:\Users\Olivier\Documents\EasyHTML" "$(ProjectDir)\examples"
+    <PreBuildEvent>xcopy /Y /U /F "C:\Users\Olivier\Documents\EasyHTML" "$(TargetDir)\examples"
+
 </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

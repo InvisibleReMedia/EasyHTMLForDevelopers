@@ -682,7 +682,7 @@ dynamic object</value>
   <data name="ExceptionIncompletPath" xml:space="preserve">
     <value>Incomplete path</value>
   </data>
-  <data name="ExceptionMalFormedContent" xml:space="preserve">
+  <data name="ExceptionCSSMalFormedContent" xml:space="preserve">
     <value>Incorrect CSS content.
 Format name:value;...</value>
   </data>
@@ -787,5 +787,12 @@ Format name:value;...</value>
   </data>
   <data name="URLCSS" xml:space="preserve">
     <value>Url CSS</value>
+  </data>
+  <data name="ErrorIncorrectCSSFormat" xml:space="preserve">
+    <value>Incorrect CSS format.
+Format id {nom:valeur;...}...</value>
+  </data>
+  <data name="ExceptionTransformMalFormedContent" xml:space="preserve">
+    <value>Incorrect content during transformation</value>
   </data>
 </root>

@@ -110,7 +110,7 @@ namespace EasyHTMLDev
             Library.HTMLObject found = this.MasterPage.Objects.Find(a => { return a.Name == name && a.Container == "globalContainer"; });
             if (found != null)
             {
-                this.MasterPage.Objects.Remove(found);
+                Library.Project.CurrentProject.Remove(found);
                 this.btnValidate1.SetDirty();
             }
             this.ReloadBrowser();

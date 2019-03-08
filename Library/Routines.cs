@@ -171,7 +171,7 @@ namespace Library
                 if (obj.Container == "globalContainer")
                 {
                     html.HTML.Append(obj.Title + " (" + obj.Name + ")");
-                    html.HTML.Append("<input type='image' src='ehd_minus.png' onclick='var suppress = document.getElementById(\"suppress\"); suppress.objectName=\"" + obj.Name + "\"; suppress.click();'>");
+                    html.HTML.Append("<input type='image' src='ehd_minus.png' onclick='var suppress = document.getElementById(\"suppress\"); suppress.setAttribute(\"objectName\", \"" + obj.Name + "\"); suppress.click();'>");
                     html.HTML.Append("<br/>");
                 }
             }
@@ -187,7 +187,7 @@ namespace Library
                 }
             }
 
-            html.HTML.Append("<br/><input type='image' src='ehd_plus.png' onclick='var callback = document.getElementById(\"callback\"); callback.container=\"globalContainer\"; callback.click();'/>");
+            html.HTML.Append("<br/><input type='image' src='ehd_plus.png' onclick='var callback = document.getElementById(\"callback\"); callback.setAttribute(\"container\", \"globalContainer\"); callback.click();'/>");
             html.HTML.Append("</div>");
             html.HTML.Append(contents.HTML.ToString());
             html.CSS.Append(contents.CSS.ToString());
@@ -267,7 +267,7 @@ namespace Library
                 if (obj.Container == "globalContainer")
                 {
                     html.HTML.Append(obj.Title + " (" + obj.Name + ")");
-                    html.HTML.Append("<input type='image' src='ehd_minus.png' onclick='var suppress = document.getElementById(\"suppress\"); suppress.objectName=\"" + obj.Name + "\"; suppress.click();'>");
+                    html.HTML.Append("<input type='image' src='ehd_minus.png' onclick='var suppress = document.getElementById(\"suppress\"); suppress.setAttribute(\"objectName\", \"" + obj.Name + "\"); suppress.click();'>");
                     html.HTML.Append("<br/>");
                 }
             }
@@ -282,7 +282,7 @@ namespace Library
                     contents.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
                 }
             }
-            html.HTML.Append("<br/><input type='image' src='ehd_plus.png' onclick='var callback = document.getElementById(\"callback\"); callback.container=\"globalContainer\"; callback.click();'/>");
+            html.HTML.Append("<br/><input type='image' src='ehd_plus.png' onclick='var callback = document.getElementById(\"callback\"); callback.setAttribute(\"container\", \"globalContainer\"); callback.click();'/>");
             html.HTML.Append("</div>");
             html.HTML.Append(contents.HTML.ToString());
             html.CSS.Append(contents.CSS.ToString());

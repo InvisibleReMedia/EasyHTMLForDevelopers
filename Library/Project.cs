@@ -816,6 +816,7 @@ namespace Library
             foreach (KeyValuePair<IEnumerable<string>, Accessor> kv in b)
             {
                 HTMLTool tool = kv.Value.GetObject(src);
+                tool = tool.Clone() as HTMLTool;
                 List<string> path = new List<string>(kv.Key.Skip(1));
                 path.Add(tool.ElementTitle);
                 dest.Add(tool, String.Join("/", path.ToArray()));

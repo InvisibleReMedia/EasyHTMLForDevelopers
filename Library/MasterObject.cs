@@ -1685,7 +1685,7 @@ namespace Library
             string output = String.Empty;
             if (!String.IsNullOrEmpty(input))
             {
-                Regex reg = new Regex(@"\$(.*)|([^$]+)", RegexOptions.Multiline);
+                Regex reg = new Regex(@"\$([a-zA-Z]+)|([^$]+)", RegexOptions.Multiline);
                 MatchCollection results = reg.Matches(input);
                 foreach (Match m in results)
                 {
@@ -1712,7 +1712,7 @@ namespace Library
             string output = String.Empty;
             if (!String.IsNullOrEmpty(input))
             {
-                Regex reg = new Regex(@"\$(.*)|([^$]+)|(" + Environment.NewLine + ")|\"", RegexOptions.Multiline);
+                Regex reg = new Regex(@"\$([a-zA-Z]+)|([^$" + "\"" + Environment.NewLine + "]+)|(" + Environment.NewLine + ")|(" + "\")", RegexOptions.Multiline);
                 MatchCollection results = reg.Matches(input);
                 foreach (Match m in results)
                 {
@@ -1744,7 +1744,7 @@ namespace Library
                         }
                         else
                         {
-                            throw new Exception(String.Format(Localization.Strings.GetString("ExceptionMalFormedContent"), input));
+                            throw new Exception(String.Format(Localization.Strings.GetString("ExceptionTransformMalFormedContent"), input));
                         }
                     }
                     else
@@ -1780,7 +1780,7 @@ namespace Library
             tool.JavaScript.Code = output;
             tool.JavaScriptOnLoad.Code = html.JavaScriptOnLoad.ToString() + Environment.NewLine + "// call here function " + this.Title + Environment.NewLine;
             string reason;
-            CSSValidation.CSSValidate(html.CSS.ToString(), false, tool.CSSList.List, out reason);
+            CSSValidation.CSSValidate(html.CSS.ToString(), false, tool.CSSList, out reason);
             tool.Width = this.Width;
             tool.Height = this.Height;
             tool.ConstraintWidth = this.ConstraintWidth;

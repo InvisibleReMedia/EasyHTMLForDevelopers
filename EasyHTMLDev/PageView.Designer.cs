@@ -202,10 +202,10 @@
             // textBox5
             // 
             this.textBox5.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.pageBindingSource, "Head", true));
-            this.textBox5.Location = new System.Drawing.Point(54, 166);
+            this.textBox5.Location = new System.Drawing.Point(89, 166);
             this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(666, 64);
+            this.textBox5.Size = new System.Drawing.Size(631, 64);
             this.textBox5.TabIndex = 7;
             // 
             // label3

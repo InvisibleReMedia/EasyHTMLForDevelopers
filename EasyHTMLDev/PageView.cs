@@ -100,6 +100,21 @@ namespace EasyHTMLDev
             this.webBrowser1.DocumentCompleted -= new WebBrowserDocumentCompletedEventHandler(webBrowser1_DocumentCompleted);
             HtmlElement elem = this.webBrowser1.Document.GetElementById("callback");
             elem.AttachEventHandler("onclick", new EventHandler(click));
+            elem = this.webBrowser1.Document.GetElementById("suppress");
+            elem.AttachEventHandler("onclick", new EventHandler(suppress));
+        }
+
+        private void suppress(object sender, EventArgs e)
+        {
+            HtmlElement obj = this.webBrowser1.Document.GetElementById("suppress");
+            string name = obj.GetAttribute("objectName");
+            Library.HTMLObject found = this.Page.Objects.Find(a => { return a.Name == name && a.Container == "globalContainer"; });
+            if (found != null)
+            {
+                Library.Project.CurrentProject.Remove(found);
+                this.btnValidate1.SetDirty();
+            }
+            this.ReloadBrowser();
         }
 
         private void click(object sender, EventArgs e)

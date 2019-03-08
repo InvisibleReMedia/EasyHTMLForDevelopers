@@ -705,7 +705,7 @@ Format id {nom:valeur;...}...</value>
   <data name="ExceptionIncompletPath" xml:space="preserve">
     <value>Le chemin fourni est incomplet</value>
   </data>
-  <data name="ExceptionMalFormedContent" xml:space="preserve">
+  <data name="ExceptionCSSMalFormedContent" xml:space="preserve">
     <value>Contenu CSS incorrect.
 Format nom:valeur;...</value>
   </data>
@@ -810,5 +810,8 @@ Format nom:valeur;...</value>
   </data>
   <data name="URLCSS" xml:space="preserve">
     <value>Url CSS</value>
+  </data>
+  <data name="ExceptionTransformMalFormedContent" xml:space="preserve">
+    <value>Contenu incorrect pendant la transformation</value>
   </data>
 </root>

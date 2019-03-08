@@ -74,7 +74,7 @@ namespace Library
             }
             if (!matched && !String.IsNullOrWhiteSpace(input))
             {
-                reason = Localization.Strings.GetString("ErrorIncorrectCSSFormat");
+                reason = Localization.Strings.GetString("ExceptionCSSMalFormedContent");
                 return false;
             }
             else
