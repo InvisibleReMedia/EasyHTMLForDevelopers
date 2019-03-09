@@ -62,6 +62,10 @@ namespace Library
         /// Index name for css styles
         /// </summary>
         protected static readonly string cssName = "css";
+        /// <summary>
+        /// Index name for attributes
+        /// </summary>
+        protected static readonly string attributesName = "attributes";
 
         #endregion
 
@@ -75,6 +79,8 @@ namespace Library
             int val = Project.CurrentProject.IncrementedCounter;
             this.Set(automaticNameName, String.Format("horiz{0}", val));
             this.Set(automaticIdName, String.Format("idHoriz{0}", val));
+            this.Set(attributesName, new Attributes(this.Id));
+            this.Attributes.HasId = false;
         }
 
         #endregion
@@ -104,6 +110,9 @@ namespace Library
             this.Set(javascriptName, hz.JavaScript.Clone());
             this.Set(javascriptOnloadName, hz.JavaScriptOnLoad.Clone());
             this.Set(cssName, hz.CSS.Clone());
+            this.Set(attributesName, hz.Attributes.Clone());
+            this.Attributes.RenameId(this.Id);
+            this.Attributes.HasId = false;
         }
 
         #endregion
@@ -276,6 +285,14 @@ namespace Library
             get { return String.Format(Localization.Strings.GetString("HorizontalAreaStringified"), this.Name, this.CountLines); }
         }
 
+        /// <summary>
+        /// Gets attributes
+        /// </summary>
+        public Attributes Attributes
+        {
+            get { return this.Get(attributesName, new Attributes(this.Id)); }
+        }
+
         #endregion
 
         #region Public Methods
@@ -328,7 +345,7 @@ namespace Library
             h.VerticalZones.Add(z);
             ParentConstraint parent = new ParentConstraint();
             parent.border = BorderConstraint.CreateBorderConstraint(this.CSS, (uint)this.CountLines, this.TotalCountColumns);
-            return Routines.GenerateDesignAny(GenerateDesignDIV(p, mp, parent));
+            return Routines.GenerateProductionAny(GenerateProductionDIV(p, mp, parent));
         }
 
         /// <summary>
@@ -411,20 +428,13 @@ namespace Library
                                                        newInfos.maximumWidth, newInfos.constraintHeight,
                                                        newInfos.precedingHeight, newInfos.maximumHeight);
 
-                output.HTML.Append("<div");
-                output.HTML.Append(" id='" + myId + "'");
-                output.HTML.Append(" name='" + myId + "'");
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    output.HTML.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    output.HTML.Append(" " + cs.attributeHeight);
-                if (this.Events.Count > 0)
-                    output.HTML.Append(" " + this.Events.ToHTMLString());
-                output.HTML.Append(">");
-
                 // set CSS part
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
+
+                string tag;
+                this.Attributes.ToHTML("div", myId, myCss, this.Events, output.CSS, out tag);
+                output.HTML.Append(tag);
 
                 List<VerticalZone>.Enumerator e = this.VerticalZones.GetEnumerator();
                 VerticalZone lastZone = null;
@@ -452,7 +462,7 @@ namespace Library
                     output.JavaScriptOnLoad.Append(last.JavaScriptOnLoad.ToString());
                 }
                 output.HTML.Append("</div>");
-                output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
                 output.JavaScript.Append(this.JavaScript.GeneratedCode);
                 output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             }
@@ -478,20 +488,14 @@ namespace Library
                 ParentConstraint newInfos = Routines.ComputeHorizontalZone(parentConstraint, this);
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-                output.HTML.Append("<div");
-                output.HTML.Append(" id='" + myId + "'");
-                output.HTML.Append(" name='" + myId + "'");
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    output.HTML.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    output.HTML.Append(" " + cs.attributeHeight);
-                if (this.Events.Count > 0)
-                    output.HTML.Append(" " + this.Events.ToHTMLString());
-                output.HTML.Append(">");
-
                 // set CSS part
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
+
+                string tag;
+                this.Attributes.ToHTML("div", myId, myCss, this.Events, output.CSS, out tag);
+                output.HTML.Append(tag);
+
 
                 List<VerticalZone>.Enumerator e = this.VerticalZones.GetEnumerator();
                 VerticalZone lastZone = null;
@@ -518,8 +522,9 @@ namespace Library
                     output.JavaScript.Append(last.JavaScript.ToString());
                     output.JavaScriptOnLoad.Append(last.JavaScriptOnLoad.ToString());
                 }
+
                 output.HTML.Append("</div>");
-                output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
                 output.JavaScript.Append(this.JavaScript.GeneratedCode);
                 output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             }
@@ -563,20 +568,14 @@ namespace Library
                                                        newInfos.maximumWidth, newInfos.constraintHeight,
                                                        newInfos.precedingHeight, newInfos.maximumHeight);
 
-                output.HTML.Append("<div");
-                output.HTML.Append(" id='" + myId + "'");
-                output.HTML.Append(" name='" + myId + "'");
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    output.HTML.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    output.HTML.Append(" " + cs.attributeHeight);
-                if (this.Events.Count > 0)
-                    output.HTML.Append(" " + this.Events.ToHTMLString());
-                output.HTML.Append(">");
-
                 // set CSS part
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
+
+                string tag;
+                this.Attributes.ToHTML("div", myId, myCss, this.Events, output.CSS, out tag);
+                output.HTML.Append(tag);
+
 
                 List<VerticalZone>.Enumerator e = this.VerticalZones.GetEnumerator();
                 VerticalZone lastZone = null;
@@ -604,7 +603,7 @@ namespace Library
                     output.JavaScriptOnLoad.Append(last.JavaScriptOnLoad.ToString());
                 }
                 output.HTML.Append("</div>");
-                output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
                 output.JavaScript.Append(this.JavaScript.GeneratedCode);
                 output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             }
@@ -645,17 +644,12 @@ namespace Library
                                                    newInfos.maximumWidth, newInfos.constraintHeight,
                                                    newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "'");
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            output.HTML.Append(">");
-
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            this.Attributes.ToHTML("tr", myId, myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
 
             foreach (VerticalZone vz in this.VerticalZones)
             {
@@ -666,7 +660,7 @@ namespace Library
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
             }
             output.HTML.Append("</tr>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;
@@ -692,17 +686,12 @@ namespace Library
                                                    newInfos.maximumWidth, newInfos.constraintHeight,
                                                    newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "'");
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            output.HTML.Append(">");
-
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            this.Attributes.ToHTML("tr", myId, myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
 
             foreach (VerticalZone vz in this.VerticalZones)
             {
@@ -713,7 +702,7 @@ namespace Library
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
             }
             output.HTML.Append("</tr>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;
@@ -742,17 +731,12 @@ namespace Library
                                                    newInfos.maximumWidth, newInfos.constraintHeight,
                                                    newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "'");
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            output.HTML.Append(">");
-
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            this.Attributes.ToHTML("tr", myId, myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
 
             foreach (VerticalZone vz in this.VerticalZones)
             {
@@ -763,7 +747,7 @@ namespace Library
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
             }
             output.HTML.Append("</tr>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;
@@ -801,20 +785,13 @@ namespace Library
                                                        newInfos.maximumWidth, newInfos.constraintHeight,
                                                        newInfos.precedingHeight, newInfos.maximumHeight);
 
-                output.HTML.Append("<div");
-                output.HTML.Append(" id='" + myId + "'");
-                output.HTML.Append(" name='" + myId + "'");
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    output.HTML.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    output.HTML.Append(" " + cs.attributeHeight);
-                if (this.Events.Count > 0)
-                    output.HTML.Append(" " + this.Events.ToHTMLString());
-                output.HTML.Append(">");
-
                 // set CSS part
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
+
+                string tag;
+                this.Attributes.ToHTML("div", myId, myCss, this.Events, output.CSS, out tag);
+                output.HTML.Append(tag);
 
                 List<VerticalZone>.Enumerator e = this.VerticalZones.GetEnumerator();
                 VerticalZone lastZone = null;
@@ -842,7 +819,7 @@ namespace Library
                     output.JavaScriptOnLoad.Append(last.JavaScriptOnLoad.ToString());
                 }
                 output.HTML.Append("</div>");
-                output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
                 output.JavaScript.Append(this.JavaScript.GeneratedCode);
                 output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             }
@@ -873,21 +850,13 @@ namespace Library
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth,
                                                        newInfos.maximumWidth, newInfos.constraintHeight,
                                                        newInfos.precedingHeight, newInfos.maximumHeight);
-
-                output.HTML.Append("<div");
-                output.HTML.Append(" id='" + myId + "'");
-                output.HTML.Append(" name='" + myId + "'");
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    output.HTML.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    output.HTML.Append(" " + cs.attributeHeight);
-                if (this.Events.Count > 0)
-                    output.HTML.Append(" " + this.Events.ToHTMLString());
-                output.HTML.Append(">");
-
                 // set CSS part
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
+
+                string tag;
+                this.Attributes.ToHTML("div", myId, myCss, this.Events, output.CSS, out tag);
+                output.HTML.Append(tag);
 
                 List<VerticalZone>.Enumerator e = this.VerticalZones.GetEnumerator();
                 VerticalZone lastZone = null;
@@ -915,7 +884,7 @@ namespace Library
                     output.JavaScriptOnLoad.Append(last.JavaScriptOnLoad.ToString());
                 }
                 output.HTML.Append("</div>");
-                output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
                 output.JavaScript.Append(this.JavaScript.GeneratedCode);
                 output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             }
@@ -953,17 +922,12 @@ namespace Library
                                                    newInfos.maximumWidth, newInfos.constraintHeight,
                                                    newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "'");
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            output.HTML.Append(">");
-
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            this.Attributes.ToHTML("tr", myId, myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
 
             foreach (VerticalZone vz in this.VerticalZones)
             {
@@ -974,7 +938,7 @@ namespace Library
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
             }
             output.HTML.Append("</tr>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;
@@ -1003,17 +967,12 @@ namespace Library
                                                    newInfos.maximumWidth, newInfos.constraintHeight,
                                                    newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<tr id='" + myId + "' name='" + myId + "'");
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            output.HTML.Append(">");
-
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            this.Attributes.ToHTML("tr", myId, myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
 
             foreach (VerticalZone vz in this.VerticalZones)
             {
@@ -1024,7 +983,7 @@ namespace Library
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
             }
             output.HTML.Append("</tr>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;

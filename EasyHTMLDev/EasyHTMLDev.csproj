@@ -134,6 +134,12 @@
     <Compile Include="AddObject.Designer.cs">
       <DependentUpon>AddObject.cs</DependentUpon>
     </Compile>
+    <Compile Include="Attributes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Attributes.Designer.cs">
+      <DependentUpon>Attributes.cs</DependentUpon>
+    </Compile>
     <Compile Include="BtnValidate.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -468,6 +474,9 @@
       <DependentUpon>AddObject.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Attributes.resx">
+      <DependentUpon>Attributes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BtnValidate.resx">
       <DependentUpon>BtnValidate.cs</DependentUpon>
     </EmbeddedResource>
@@ -651,6 +660,7 @@
     <None Include="Graph1.dgml" />
     <None Include="Invisible Media.pfx" />
     <None Include="InvisibleMedia.snk" />
+    <None Include="Properties\DataSources\Library.Attributes.datasource" />
     <None Include="Properties\DataSources\Library.CadreModel.datasource" />
     <None Include="Properties\DataSources\Library.CadreModelType.datasource" />
     <None Include="Properties\DataSources\Library.IProjectElement.datasource" />

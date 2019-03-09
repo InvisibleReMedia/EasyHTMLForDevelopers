@@ -15,7 +15,7 @@ namespace EasyHTMLDev
 {
     public partial class ToolView : Form
     {
-        private CSSOptions opt;
+        private Attributes opt;
         private ZonesBinding rbWidth, rbHeight;
         private int localeComponentId;
 
@@ -117,7 +117,8 @@ namespace EasyHTMLDev
             }
             else
             {
-                this.opt = new CSSOptions();
+                this.opt = new Attributes();
+                this.opt.Attribs = this.HTMLTool.Attributes;
                 opt.CSS = this.HTMLTool.CSS;
                 opt.modified += new EventHandler(this.hTMLToolBindingSource_CurrentItemChanged);
                 opt.Show();

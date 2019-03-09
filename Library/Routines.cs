@@ -1088,7 +1088,7 @@ namespace Library
             return outputPage;
         }
 
-        public static OutputHTML GenerateDesignAny(OutputHTML html)
+        public static OutputHTML GenerateProductionAny(OutputHTML html)
         {
             Project.InitializeTraceCounter();
             string myId = "obj" + Project.IncrementedTraceCounter.ToString();

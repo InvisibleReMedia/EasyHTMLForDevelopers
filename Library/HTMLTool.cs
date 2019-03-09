@@ -73,6 +73,14 @@ namespace Library
         /// Index name for css list
         /// </summary>
         protected static readonly string cssListName = "cssList";
+        /// <summary>
+        /// Index name for attributes
+        /// </summary>
+        protected static readonly string attributesName = "attributes";
+        /// <summary>
+        /// Index name for css
+        /// </summary>
+        protected static readonly string cssName = "css";
 
         #endregion
 
@@ -87,6 +95,8 @@ namespace Library
             this.Set(automaticNameName, String.Format("tool{0}", val));
             this.Set(automaticIdName, String.Format("idTool{0}", val));
             this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
+            this.Set(attributesName, new Attributes(this.Id));
+            this.Attributes.HasId = false;
         }
 
         #endregion
@@ -261,16 +271,32 @@ namespace Library
         }
 
         /// <summary>
+        /// Gets attributes
+        /// </summary>
+        public Attributes Attributes
+        {
+            get { return this.Get(attributesName, new Attributes(this.Id)); }
+        }
+
+        /// <summary>
         /// Gets the css code
         /// </summary>
         public CodeCSS CSS
         {
             get
             {
-                CodeCSS c = this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
-                if (c == null)
-                    this.CSSList.List.Add(new CodeCSS("#" + this.Id));
-                return this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
+                try
+                {
+                    CodeCSS css = this.Attributes.Find(this.CSSList);
+                    if (css == null)
+                        return this.Get(cssName, new CodeCSS());
+                    else
+                        return css;
+                }
+                catch (KeyNotFoundException)
+                {
+                    return this.Get(cssName, new CodeCSS());
+                }
             }
         }
 
@@ -426,6 +452,9 @@ namespace Library
             tool.Set(javascriptOnloadName, this.JavaScriptOnLoad.Clone());
             tool.CSSList.List.AddRange(from CodeCSS c in this.CSSList.List select c.Clone() as CodeCSS);
             tool.CSSList.RenamePrincipalCSS(this.Id, tool.Id);
+            tool.Set(attributesName, this.Attributes.Clone());
+            tool.Attributes.RenameId(tool.Id);
+            tool.Attributes.HasId = false;
             return tool;
 
         }

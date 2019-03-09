@@ -15,7 +15,7 @@ namespace EasyHTMLDev
     public partial class MasterObjectView : Form
     {
         private Library.MasterObject mObject;
-        private CSSOptions opt;
+        private Attributes opt;
         private Zones z;
         private int localeComponentId;
         ZonesBinding rbWidth, rbHeight;
@@ -231,7 +231,8 @@ namespace EasyHTMLDev
             }
             else
             {
-                this.opt = new CSSOptions();
+                this.opt = new Attributes();
+                this.opt.Attribs = this.MasterObject.Attributes;
                 opt.CSS = this.MasterObject.CSS;
                 opt.modified +=new EventHandler(z_modified);
                 opt.Show();

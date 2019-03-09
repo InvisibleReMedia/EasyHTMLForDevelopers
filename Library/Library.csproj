@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accessor.cs" />
+    <Compile Include="Attributes.cs" />
     <Compile Include="BorderConstraint.cs" />
     <Compile Include="CadreModel.cs" />
     <Compile Include="CadreModelType.cs" />

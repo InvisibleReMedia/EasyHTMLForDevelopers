@@ -92,6 +92,14 @@ namespace Library
         /// Index name for css list
         /// </summary>
         protected static readonly string cssListName = "cssList";
+        /// <summary>
+        /// Index name for attributes
+        /// </summary>
+        protected static readonly string attributesName = "attributes";
+        /// <summary>
+        /// Index name for css
+        /// </summary>
+        protected static readonly string cssName = "css";
 
         #endregion
 
@@ -106,6 +114,8 @@ namespace Library
             this.Set(automaticNameName, String.Format("masterObj{0}", val));
             this.Set(automaticIdName, String.Format("idMasterObj{0}", val));
             this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
+            this.Set(attributesName, new Attributes(this.Id));
+            this.Attributes.HasId = false;
         }
         
         #endregion
@@ -144,6 +154,9 @@ namespace Library
             this.Set(javascriptOnloadName, refObj.JavaScriptOnLoad.Clone());
             this.CSSList.ImportCSS(refObj.CSSList.List);
             this.CSSList.RenamePrincipalCSS(refObj.Id, this.Id);
+            this.Set(attributesName, refObj.Attributes.Clone());
+            this.Attributes.RenameId(this.Id);
+            this.Attributes.HasId = false;
             this.HTMLBefore = ExtensionMethods.CloneThis(refObj.HTMLBefore);
             this.HTMLAfter = ExtensionMethods.CloneThis(refObj.HTMLAfter);
         }
@@ -365,19 +378,34 @@ namespace Library
         }
 
         /// <summary>
+        /// Gets attributes
+        /// </summary>
+        public Attributes Attributes
+        {
+            get { return this.Get(attributesName, new Attributes(this.Id)); }
+        }
+
+        /// <summary>
         /// Gets the css code
         /// </summary>
         public CodeCSS CSS
         {
             get
             {
-                CodeCSS c = this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
-                if (c == null)
-                    this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
-                return this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
+                try
+                {
+                    CodeCSS css = this.Attributes.Find(this.CSSList);
+                    if (css == null)
+                        return this.Get(cssName, new CodeCSS());
+                    else
+                        return css;
+                }
+                catch (KeyNotFoundException)
+                {
+                    return this.Get(cssName, new CodeCSS());
+                }
             }
         }
-
 
         /// <summary>
         /// Gets the css list
@@ -518,21 +546,14 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             myCss.Ids = "#" + myId;
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
+            string tag;
+            this.Attributes.ToHTML("div", newInfos.objectName, myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
+
             output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
-
-            output.HTML.Append("<div");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + newInfos.objectName + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
 
             List<MasterObject> list = new List<MasterObject>();
             list.Add(this);
@@ -573,21 +594,14 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
+            string tag;
+            this.Attributes.ToHTML("div", newInfos.objectName, myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
+
             output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
-
-            output.HTML.Append("<div");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + newInfos.objectName + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
 
             objects.Add(this);
             foreach (HorizontalZone hz in this.HorizontalZones)
@@ -629,21 +643,14 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
+            string tag;
+            this.Attributes.ToHTML("div", newInfos.objectName, myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
+
             output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
-
-            output.HTML.Append("<div");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + newInfos.objectName + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
 
             objects.Add(this);
             foreach (HorizontalZone hz in this.HorizontalZones)
@@ -710,25 +717,17 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
-            output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
-            output.JavaScript.Append(this.JavaScript.GeneratedCode);
-            output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
             List<MasterObject> list = new List<MasterObject>();
             list.Add(this);
 
-            output.HTML.Append("<table");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + newInfos.objectName + "'");
-            output.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
+            string tag;
+            this.Attributes.ToHTML("table", newInfos.objectName, myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
+
+            output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
+            output.JavaScript.Append(this.JavaScript.GeneratedCode);
+            output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
@@ -782,24 +781,16 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
+            string tag;
+            this.Attributes.ToHTML("table", newInfos.objectName, myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
+
             output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
-
+            
             objects.Add(this);
-
-            output.HTML.Append("<table");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + newInfos.objectName + "'");
-            output.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
 
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
@@ -856,24 +847,16 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
+            string tag;
+            this.Attributes.ToHTML("table", newInfos.objectName, myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
+
             output.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
             output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
 
             objects.Add(this);
-
-            output.HTML.Append("<table");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + newInfos.objectName + "'");
-            output.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
 
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
@@ -1268,7 +1251,11 @@ namespace Library
             Routines.SetCSSPart(myCss, cs);
             myCss.Ids = "#" + myId;
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
-            html.CSS.Append(myCss.GenerateCSS(true, true, true));
+            
+            string tag;
+            this.Attributes.ToHTML("div", newInfos.objectName, myCss, this.Events, html.CSS, out tag);
+            html.HTML.Append(tag);
+
             html.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
@@ -1279,17 +1266,6 @@ namespace Library
             // generate global Container
             OutputHTML global = new OutputHTML();
             bool hasGlobalContainer = Routines.WriteProductionGlobalContainer(this.Name, this.Id, global, this.Objects, refPage, masterRefPage, list, parentConstraint, cs);
-
-            output.HTML.Append("<div");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + newInfos.objectName + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
 
             foreach (HorizontalZone hz in this.HorizontalZones)
             {
@@ -1316,12 +1292,14 @@ namespace Library
                 group.Append(">");
 
                 group.Append(global.HTML.ToString());
-                group.Append(html.HTML.ToString());
                 group.Append("</div>");
+
                 output.HTML.Append(group.ToString());
                 output.CSS.Append(global.CSS.ToString());
                 output.JavaScript.Append(global.JavaScript.ToString());
                 output.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
+
+                output.HTML.Append(html.HTML.ToString());
                 output.CSS.Append(html.CSS.ToString());
                 output.JavaScript.Append(html.JavaScript.ToString());
                 output.JavaScriptOnLoad.Append(html.JavaScriptOnLoad.ToString());
@@ -1362,7 +1340,11 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
-            html.CSS.Append(myCss.GenerateCSS(true, true, true));
+
+            string tag;
+            this.Attributes.ToHTML("div", newInfos.objectName, myCss, this.Events, html.CSS, out tag);
+            html.HTML.Append(tag);
+
             html.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
@@ -1372,17 +1354,6 @@ namespace Library
             // generate global Container
             OutputHTML global = new OutputHTML();
             bool hasGlobalContainer = Routines.WriteProductionGlobalContainer(this.Name, this.Id, global, this.Objects, refPage, masterRefPage, objects, parentConstraint, cs);
-
-            html.HTML.Append("<div");
-            html.HTML.Append(" id='" + myId + "'");
-            html.HTML.Append(" name='" + newInfos.objectName + "'");
-            if (this.Events.Count > 0)
-                html.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                html.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                html.HTML.Append(" " + cs.attributeHeight);
-            html.HTML.Append(">");
 
             foreach (HorizontalZone hz in this.HorizontalZones)
             {
@@ -1409,12 +1380,15 @@ namespace Library
                 group.Append(">");
 
                 group.Append(global.HTML.ToString());
-                group.Append(html.HTML.ToString());
+
                 group.Append("</div>");
+
                 output.HTML.Append(group.ToString());
                 output.CSS.Append(global.CSS.ToString());
                 output.JavaScript.Append(global.JavaScript.ToString());
                 output.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
+
+                output.HTML.Append(html.HTML.ToString());
                 output.CSS.Append(html.CSS.ToString());
                 output.JavaScript.Append(html.JavaScript.ToString());
                 output.JavaScriptOnLoad.Append(html.JavaScriptOnLoad.ToString());
@@ -1465,7 +1439,11 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
-            html.CSS.Append(myCss.GenerateCSS(true, true, true));
+
+            string tag;
+            this.Attributes.ToHTML("table", newInfos.objectName, myCss, this.Events, html.CSS, out tag);
+            html.HTML.Append(tag);
+
             html.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
@@ -1476,18 +1454,6 @@ namespace Library
             // generate global Container
             OutputHTML global = new OutputHTML();
             bool hasGlobalContainer = Routines.WriteProductionGlobalContainer(this.Name, this.Id, global, this.Objects, refPage, masterRefPage, list, parentConstraint, cs);
-
-            html.HTML.Append("<table");
-            html.HTML.Append(" id='" + myId + "'");
-            html.HTML.Append(" name='" + newInfos.objectName + "'");
-            html.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
-            if (this.Events.Count > 0)
-                html.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                html.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                html.HTML.Append(" " + cs.attributeHeight);
-            html.HTML.Append(">");
 
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
@@ -1530,12 +1496,15 @@ namespace Library
                 group.Append(">");
 
                 group.Append(global.HTML.ToString());
-                group.Append(html.HTML.ToString());
+
                 group.Append("</div>");
+
                 output.HTML.Append(group.ToString());
                 output.CSS.Append(global.CSS.ToString());
                 output.JavaScript.Append(global.JavaScript.ToString());
                 output.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
+
+                output.HTML.Append(html.HTML.ToString());
                 output.CSS.Append(html.CSS.ToString());
                 output.JavaScript.Append(html.JavaScript.ToString());
                 output.JavaScriptOnLoad.Append(html.JavaScriptOnLoad.ToString());
@@ -1578,7 +1547,11 @@ namespace Library
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
             Routines.SetObjectDisposition(parentConstraint, myCss, newInfos);
-            html.CSS.Append(myCss.GenerateCSS(true, true, true));
+
+            string tag;
+            this.Attributes.ToHTML("table", newInfos.objectName, myCss, this.Events, html.CSS, out tag);
+            html.HTML.Append(tag);
+
             html.CSS.Append(this.CSSList.GenerateCSSWithoutPrincipal(this.Id, true, true));
             html.JavaScript.Append(this.JavaScript.GeneratedCode);
             html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
@@ -1586,18 +1559,6 @@ namespace Library
             // generate global Container
             OutputHTML global = new OutputHTML();
             bool hasGlobalContainer = Routines.WriteProductionGlobalContainer(this.Name, this.Id, global, this.Objects, refPage, masterRefPage, objects, parentConstraint, cs);
-
-            html.HTML.Append("<table");
-            html.HTML.Append(" id='" + myId + "'");
-            html.HTML.Append(" name='" + newInfos.objectName + "'");
-            html.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
-            if (this.Events.Count > 0)
-                html.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                html.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                html.HTML.Append(" " + cs.attributeHeight);
-            html.HTML.Append(">");
 
             objects.Add(this);
 
@@ -1642,12 +1603,15 @@ namespace Library
                 group.Append(">");
 
                 group.Append(global.HTML.ToString());
-                group.Append(html.HTML.ToString());
+
                 group.Append("</div>");
+
                 output.HTML.Append(group.ToString());
                 output.CSS.Append(global.CSS.ToString());
                 output.JavaScript.Append(global.JavaScript.ToString());
                 output.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
+
+                output.HTML.Append(html.HTML.ToString());
                 output.CSS.Append(html.CSS.ToString());
                 output.JavaScript.Append(html.JavaScript.ToString());
                 output.JavaScriptOnLoad.Append(html.JavaScriptOnLoad.ToString());
@@ -1781,6 +1745,7 @@ namespace Library
             tool.JavaScriptOnLoad.Code = html.JavaScriptOnLoad.ToString() + Environment.NewLine + "// call here function " + this.Title + Environment.NewLine;
             string reason;
             CSSValidation.CSSValidate(html.CSS.ToString(), false, tool.CSSList, out reason);
+            tool.Set(attributesName, tool.Attributes.Clone());
             tool.Width = this.Width;
             tool.Height = this.Height;
             tool.ConstraintWidth = this.ConstraintWidth;

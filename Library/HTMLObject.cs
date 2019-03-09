@@ -86,6 +86,14 @@ namespace Library
         /// Index name for additional css
         /// </summary>
         protected static readonly string cssListName = "cssList";
+        /// <summary>
+        /// Index name for attributes
+        /// </summary>
+        protected static readonly string attributesName = "attributes";
+        /// <summary>
+        /// Index name for css
+        /// </summary>
+        protected static readonly string cssName = "css";
 
         #endregion
 
@@ -116,6 +124,9 @@ namespace Library
             this.Set(cssListName, new CSSList(htmlTool.CSSList.List));
             // rename the principal css element
             this.CSSList.RenamePrincipalCSS(htmlTool.Id, this.Id);
+            this.Set(attributesName, htmlTool.Attributes.Clone());
+            this.Attributes.RenameId(this.Id);
+            this.Attributes.HasId = false;
         }
 
         /// <summary>
@@ -139,6 +150,9 @@ namespace Library
             this.Set(javascriptOnloadName, masterObject.JavaScriptOnLoad.Clone());
             this.Set(cssListName, new CSSList((from CodeCSS c in masterObject.CSSList.List select c.Clone() as CodeCSS).ToList()));
             this.CSSList.RenamePrincipalCSS(masterObject.Id, this.Id);
+            this.Set(attributesName, masterObject.Attributes.Clone());
+            this.Attributes.RenameId(this.Id);
+            this.Attributes.HasId = false;
         }
 
         /// <summary>
@@ -150,6 +164,8 @@ namespace Library
             this.Set(automaticNameName, String.Format("object{0}", val));
             this.Set(automaticIdName, String.Format("idObject{0}", val));
             this.CSSList.AddCSS(new CodeCSS("#" + this.Id));
+            this.Set(attributesName, new Attributes(this.Id));
+            this.Attributes.HasId = false;
         }
 
         /// <summary>
@@ -176,6 +192,9 @@ namespace Library
             this.Set(javascriptOnloadName, obj.JavaScriptOnLoad.Clone());
             this.Set(cssListName, new CSSList((from CodeCSS c in this.CSSList.List select c.Clone() as CodeCSS).ToList()));
             this.CSSList.RenamePrincipalCSS(obj.Id, this.Id);
+            this.Set(attributesName, obj.Attributes.Clone());
+            this.Attributes.RenameId(this.Id);
+            this.Attributes.HasId = false;
         }
 
         #endregion
@@ -408,16 +427,32 @@ namespace Library
         }
 
         /// <summary>
+        /// Gets attributes
+        /// </summary>
+        public Attributes Attributes
+        {
+            get { return this.Get(attributesName, new Attributes(this.Id)); }
+        }
+
+        /// <summary>
         /// Gets the css code
         /// </summary>
         public CodeCSS CSS
         {
             get
             {
-                CodeCSS c = this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
-                if (c == null)
-                    throw new KeyNotFoundException(this.Id);
-                return this.CSSList.List.Find(x => x.Ids == "#" + this.Id);
+                try
+                {
+                    CodeCSS css = this.Attributes.Find(this.CSSList);
+                    if (css == null)
+                        return this.Get(cssName, new CodeCSS());
+                    else
+                        return css;
+                }
+                catch (KeyNotFoundException)
+                {
+                    return this.Get(cssName, new CodeCSS());
+                }
             }
         }
 
@@ -555,21 +590,15 @@ namespace Library
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
 
-                html.HTML.Append("<div");
-                html.HTML.Append(" id='" + myId + "'");
-                html.HTML.Append(" name='" + myId + "'");
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    html.HTML.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    html.HTML.Append(" " + cs.attributeHeight);
-                if (this.Events.Count > 0)
-                    html.HTML.Append(" " + this.Events.ToHTMLString());
-                html.HTML.Append(">");
+                string tag;
+                this.Attributes.ToHTML("div", myId, myCss, this.Events, html.CSS, out tag);
+
+                html.HTML.Append(tag);
 
                 html.HTML.Append(this.GeneratedHTML);
 
                 html.HTML.Append("</div>");
-                html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
+
                 html.AppendCSS(this.CSSList.GetListWithoutPrincipal(this.Id));
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
@@ -616,21 +645,15 @@ namespace Library
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
-                html.HTML.Append("<div");
-                html.HTML.Append(" id='" + myId + "'");
-                html.HTML.Append(" name='" + myId + "'");
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    html.HTML.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    html.HTML.Append(" " + cs.attributeHeight);
-                if (this.Events.Count > 0)
-                    html.HTML.Append(" " + this.Events.ToHTMLString());
-                html.HTML.Append(">");
+                string tag;
+                this.Attributes.ToHTML("div", myId, myCss, this.Events, html.CSS, out tag);
+
+                html.HTML.Append(tag);
 
                 html.HTML.Append(this.GeneratedHTML);
 
                 html.HTML.Append("</div>");
-                html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
+
                 html.AppendCSS(this.CSSList.GetListWithoutPrincipal(this.Id));
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
@@ -675,21 +698,16 @@ namespace Library
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
-                html.HTML.Append("<div");
-                html.HTML.Append(" id='" + myId + "'");
-                html.HTML.Append(" name='" + myId + "'");
-                if (this.Events.Count > 0)
-                    html.HTML.Append(" " + this.Events.ToHTMLString());
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    html.HTML.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    html.HTML.Append(" " + cs.attributeHeight);
-                html.HTML.Append(">");
+
+                string tag;
+                this.Attributes.ToHTML("div", myId, myCss, this.Events, html.CSS, out tag);
+
+                html.HTML.Append(tag);
 
                 html.HTML.Append(this.GeneratedHTML);
 
                 html.HTML.Append("</div>");
-                html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
+
                 html.AppendCSS(this.CSSList.GetListWithoutPrincipal(this.Id));
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
@@ -763,21 +781,16 @@ namespace Library
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
-                html.HTML.Append("<div");
-                html.HTML.Append(" id='" + myId + "'");
-                html.HTML.Append(" name='" + myId + "'");
-                if (this.Events.Count > 0)
-                    html.HTML.Append(" " + this.Events.ToHTMLString());
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    html.HTML.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    html.HTML.Append(" " + cs.attributeHeight);
-                html.HTML.Append(">");
+
+                string tag;
+                this.Attributes.ToHTML("div", myId, myCss, this.Events, html.CSS, out tag);
+
+                html.HTML.Append(tag);
 
                 html.HTML.Append(this.GeneratedHTML);
 
                 html.HTML.Append("</div>");
-                html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
+
                 html.AppendCSS(this.CSSList.GetListWithoutPrincipal(this.Id));
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
@@ -822,21 +835,16 @@ namespace Library
                 ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
                 myCss.Ids = "#" + myId;
                 Routines.SetCSSPart(myCss, cs);
-                html.HTML.Append("<div");
-                html.HTML.Append(" id='" + myId + "'");
-                html.HTML.Append(" name='" + myId + "'");
-                if (this.Events.Count > 0)
-                    html.HTML.Append(" " + this.Events.ToHTMLString());
-                if (!String.IsNullOrEmpty(cs.attributeWidth))
-                    html.HTML.Append(" " + cs.attributeWidth);
-                if (!String.IsNullOrEmpty(cs.attributeHeight))
-                    html.HTML.Append(" " + cs.attributeHeight);
-                html.HTML.Append(">");
+
+                string tag;
+                this.Attributes.ToHTML("div", myId, myCss, this.Events, html.CSS, out tag);
+
+                html.HTML.Append(tag);
 
                 html.HTML.Append(this.GeneratedHTML);
 
                 html.HTML.Append("</div>");
-                html.CSS.Append(myCss.GenerateCSS(true, true, true) + Environment.NewLine);
+
                 html.AppendCSS(this.CSSList.GetListWithoutPrincipal(this.Id));
                 html.JavaScript.Append(this.JavaScript.GeneratedCode);
                 html.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);

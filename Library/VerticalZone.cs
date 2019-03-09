@@ -68,6 +68,10 @@ namespace Library
         /// Index name for css styles
         /// </summary>
         protected static readonly string cssName = "css";
+        /// <summary>
+        /// Index name for attributes
+        /// </summary>
+        protected static readonly string attributesName = "attributes";
 
 
         #endregion
@@ -82,6 +86,8 @@ namespace Library
             int val = Project.CurrentProject.IncrementedCounter;
             this.Set(automaticNameName, String.Format("verti{0}", val));
             this.Set(automaticIdName, String.Format("idVerti{0}", val));
+            this.Set(attributesName, new Attributes(this.Id));
+            this.Attributes.HasId = false;
         }
 
         #endregion
@@ -109,6 +115,10 @@ namespace Library
             this.Set(javascriptOnloadName, vz.JavaScriptOnLoad.Clone());
             this.Set(cssName, vz.CSS.Clone());
             this.CSS.Ids = "#" + this.Get(automaticIdName);
+            this.Set(attributesName, vz.Attributes.Clone());
+            this.Attributes.RenameId(this.Id);
+            this.Attributes.HasId = false;
+
         }
         #endregion
 
@@ -286,6 +296,14 @@ namespace Library
             get { return String.Format(Localization.Strings.GetString("VerticalAreaStringified"), this.Name, this.CountLines, this.CountColumns); }
         }
 
+        /// <summary>
+        /// Gets attributes
+        /// </summary>
+        public Attributes Attributes
+        {
+            get { return this.Get(attributesName, new Attributes(this.Id)); }
+        }
+
         #endregion
 
         #region Public Methods
@@ -358,21 +376,6 @@ namespace Library
             if (masterRefPage != null)
                 objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
 
-            if (objPage == null && objMasterPage == null)
-                output.HTML.Append("<div onclick='javascript:callback(this);' style='cursor:pointer'");
-            else
-                output.HTML.Append("<div");
-            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
-
             // set css part
             myCss.Ids = "#" + myId;
             if (!CommonDirectories.ConfigDirectories.RemoveTables)
@@ -381,6 +384,20 @@ namespace Library
                     myCss.Body.Add("float", "left");
             }
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            if (objPage == null && objMasterPage == null)
+                this.Attributes.ToHTML("div", "onclick='javascript:callback(this);' style='cursor:pointer'",
+                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                        myCss, this.Events, output.CSS, out tag);
+            else
+                this.Attributes.ToHTML("div", "",
+                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                        myCss, this.Events, output.CSS, out tag);
+
+            output.HTML.Append(tag);
 
             OutputHTML zone = new OutputHTML();
 
@@ -442,21 +459,6 @@ namespace Library
             }
             HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
 
-            if (objPage == null && objHtmlObject == null)
-                output.HTML.Append("<div onclick='javascript:callback(this);' style='cursor:pointer'");
-            else
-                output.HTML.Append("<div");
-            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
-
             // set css part
             myCss.Ids = "#" + myId;
             if (!CommonDirectories.ConfigDirectories.RemoveTables)
@@ -465,6 +467,20 @@ namespace Library
                     myCss.Body.Add("float", "left");
             }
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            if (objPage == null && objHtmlObject == null)
+                this.Attributes.ToHTML("div", "onclick='javascript:callback(this);' style='cursor:pointer'",
+                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                        myCss, this.Events, output.CSS, out tag);
+            else
+                this.Attributes.ToHTML("div", "",
+                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                        myCss, this.Events, output.CSS, out tag);
+
+            output.HTML.Append(tag);
 
             OutputHTML zone = new OutputHTML();
 
@@ -531,21 +547,6 @@ namespace Library
             }
             HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
 
-            if (objPage == null && objMasterPage == null && objHtmlObject == null)
-                output.HTML.Append("<div onclick='javascript:callback(this);' style='cursor:pointer'");
-            else
-                output.HTML.Append("<div");
-            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-            output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
-
             // set css part
             myCss.Ids = "#" + myId;
             if (!CommonDirectories.ConfigDirectories.RemoveTables)
@@ -554,6 +555,20 @@ namespace Library
                     myCss.Body.Add("float", "left");
             }
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            if (objPage == null && objMasterPage == null && objHtmlObject == null)
+                this.Attributes.ToHTML("div", "onclick='javascript:callback(this);' style='cursor:pointer'",
+                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                        myCss, this.Events, output.CSS, out tag);
+            else
+                this.Attributes.ToHTML("div", "",
+                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                        myCss, this.Events, output.CSS, out tag);
+
+            output.HTML.Append(tag);
 
             OutputHTML zone = new OutputHTML();
 
@@ -643,27 +658,25 @@ namespace Library
             if (masterRefPage != null)
                 objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
 
-            if (objPage == null && objMasterPage == null)
-                output.HTML.Append("<td onclick='javascript:callback(this);' style='cursor:pointer'");
-            else
-                output.HTML.Append("<td");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
-            output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
-            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
-            output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
-            output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
-
             // set css part
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            if (objPage == null && objMasterPage == null)
+                this.Attributes.ToHTML("td", "onclick='javascript:callback(this);' style='cursor:pointer'", Routines.SetTableDisposition(this.Disposition),
+                                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                                       this.CountLines, this.CountColumns, 
+                                       myCss, this.Events, output.CSS, out tag);
+            else
+                this.Attributes.ToHTML("td", "", Routines.SetTableDisposition(this.Disposition),
+                                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                                       this.CountLines, this.CountColumns,
+                                       myCss, this.Events, output.CSS, out tag);
+
+            output.HTML.Append(tag);
 
             OutputHTML zone = new OutputHTML();
 
@@ -692,8 +705,9 @@ namespace Library
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
             }
             output.HTML.Append("</td>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
+            output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;
         }
 
@@ -723,27 +737,24 @@ namespace Library
             }
             HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
 
-            if (objPage == null && objHtmlObject == null)
-                output.HTML.Append("<td onclick='javascript:callback(this);' style='cursor:pointer'");
-            else
-                output.HTML.Append("<td");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
-            output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
-            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
-            output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
-            output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
-
             // set css part
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            if (objPage == null && objHtmlObject == null)
+                this.Attributes.ToHTML("td", "onclick='javascript:callback(this);' style='cursor:pointer'", Routines.SetTableDisposition(this.Disposition),
+                                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                                       this.CountLines, this.CountColumns,
+                                       myCss, this.Events, output.CSS, out tag);
+            else
+                this.Attributes.ToHTML("td", "", Routines.SetTableDisposition(this.Disposition),
+                                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                                       this.CountLines, this.CountColumns,
+                                       myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
 
             OutputHTML zone = new OutputHTML();
 
@@ -772,8 +783,9 @@ namespace Library
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
             }
             output.HTML.Append("</td>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
+            output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;
         }
 
@@ -809,27 +821,24 @@ namespace Library
             }
             HTMLObject objHtmlObject = list.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
 
-            if (objPage == null && objMasterPage == null && objHtmlObject == null)
-                output.HTML.Append("<td onclick='javascript:callback(this);' style='cursor:pointer'");
-            else
-                output.HTML.Append("<td");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
-            output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
-            output.HTML.Append(" title='" + Routines.PrintTipSize(newInfos.objectName, this.Name, cs) + "'");
-            output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
-            output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
-
             // set css part
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            if (objPage == null && objMasterPage == null && objHtmlObject == null)
+                this.Attributes.ToHTML("td", "onclick='javascript:callback(this);' style='cursor:pointer'", Routines.SetTableDisposition(this.Disposition),
+                                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                                       this.CountLines, this.CountColumns,
+                                       myCss, this.Events, output.CSS, out tag);
+            else
+                this.Attributes.ToHTML("td", "", Routines.SetTableDisposition(this.Disposition),
+                                       (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                                       Routines.PrintTipSize(newInfos.objectName, this.Name, cs),
+                                       this.CountLines, this.CountColumns,
+                                       myCss, this.Events, output.CSS, out tag);
+            output.HTML.Append(tag);
 
             OutputHTML zone = new OutputHTML();
 
@@ -866,8 +875,9 @@ namespace Library
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
             }
             output.HTML.Append("</td>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
+            output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;
         }
 
@@ -907,17 +917,6 @@ namespace Library
             if (masterRefPage != null)
                 objMasterPage = masterRefPage.Objects.Find(a => { return a.Container == this.Name || (String.IsNullOrEmpty(newInfos.objectName) ? false : a.Container == newInfos.objectName + "_" + this.Name); });
 
-            output.HTML.Append("<div");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
-
             // set css part
             if (!CommonDirectories.ConfigDirectories.RemoveTables)
             {
@@ -926,6 +925,15 @@ namespace Library
             }
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            this.Attributes.ToHTML("div", "",
+                                   (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                                   "",
+                                   myCss, this.Events, output.CSS, out tag);
+
+            output.HTML.Append(tag);
+
 
             OutputHTML zone = new OutputHTML();
 
@@ -948,8 +956,9 @@ namespace Library
             Routines.SetDIVDisposition(output.HTML, this.Disposition, zone.HTML);
 
             output.HTML.Append("</div>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
+            output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;
         }
 
@@ -973,17 +982,6 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<div");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name) + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
-
             // set css part
             myCss.Ids = "#" + myId;
             if (!CommonDirectories.ConfigDirectories.RemoveTables)
@@ -992,6 +990,14 @@ namespace Library
                     myCss.Body.Add("float", "left");
             }
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            this.Attributes.ToHTML("div", "",
+                                   (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                                   "",
+                                   myCss, this.Events, output.CSS, out tag);
+
+            output.HTML.Append(tag);
 
             OutputHTML zone = new OutputHTML();
 
@@ -1031,8 +1037,9 @@ namespace Library
             Routines.SetDIVDisposition(output.HTML, this.Disposition, zone.HTML);
 
             output.HTML.Append("</div>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
+            output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;
         }
 
@@ -1066,23 +1073,18 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName) + "'");
-            output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
-            output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
-            output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
-
             // set css part
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            this.Attributes.ToHTML("td", "", Routines.SetTableDisposition(this.Disposition),
+                                    (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                                    "",
+                                    this.CountLines, this.CountColumns,
+                                    myCss, this.Events, output.CSS, out tag);
+
+            output.HTML.Append(tag);
 
             OutputHTML zone = new OutputHTML();
 
@@ -1107,8 +1109,9 @@ namespace Library
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
             }
             output.HTML.Append("</td>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
+            output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;
         }
 
@@ -1132,23 +1135,18 @@ namespace Library
             ParentConstraint newInfos = Routines.ComputeVerticalZone(parentConstraint, this);
             ConstraintSize cs = new ConstraintSize(newInfos.constraintWidth, newInfos.precedingWidth, newInfos.maximumWidth, newInfos.constraintHeight, newInfos.precedingHeight, newInfos.maximumHeight);
 
-            output.HTML.Append("<td");
-            output.HTML.Append(" id='" + myId + "'");
-            output.HTML.Append(" name='" + (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName) + "'");
-            output.HTML.Append(" " + Routines.SetTableDisposition(this.Disposition));
-            output.HTML.Append(" rowspan='" + this.CountLines.ToString() + "'");
-            output.HTML.Append(" colspan='" + this.CountColumns.ToString() + "'");
-            if (this.Events.Count > 0)
-                output.HTML.Append(" " + this.Events.ToHTMLString());
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                output.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                output.HTML.Append(" " + cs.attributeHeight);
-            output.HTML.Append(">");
-
             // set css part
             myCss.Ids = "#" + myId;
             Routines.SetCSSPart(myCss, cs);
+
+            string tag;
+            this.Attributes.ToHTML("td", "", Routines.SetTableDisposition(this.Disposition),
+                                    (String.IsNullOrEmpty(newInfos.objectName) ? this.Name : newInfos.objectName + "_" + this.Name),
+                                    "",
+                                    this.CountLines, this.CountColumns,
+                                    myCss, this.Events, output.CSS, out tag);
+
+            output.HTML.Append(tag);
 
             OutputHTML zone = new OutputHTML();
 
@@ -1187,8 +1185,9 @@ namespace Library
                 output.JavaScriptOnLoad.Append(zone.JavaScriptOnLoad.ToString());
             }
             output.HTML.Append("</td>");
-            output.CSS.Append(myCss.GenerateCSS(true, true, true));
+
             output.JavaScript.Append(this.JavaScript.GeneratedCode);
+            output.JavaScriptOnLoad.Append(this.JavaScriptOnLoad.GeneratedCode);
             return output;
         }
 

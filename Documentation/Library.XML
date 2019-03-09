@@ -89,6 +89,206 @@
             Gets the unique name
             </summary>
         </member>
+        <member name="T:Library.Attributes">
+            <summary>
+            Attributes (id, class, CSS)
+            </summary>
+        </member>
+        <member name="F:Library.Attributes.idName">
+            <summary>
+            Index for id
+            </summary>
+        </member>
+        <member name="F:Library.Attributes.hasIdName">
+            <summary>
+            Index if has id
+            </summary>
+        </member>
+        <member name="F:Library.Attributes.className">
+            <summary>
+            Index for CSS class
+            </summary>
+        </member>
+        <member name="F:Library.Attributes.hasClassName">
+            <summary>
+            Index if has css class
+            </summary>
+        </member>
+        <member name="F:Library.Attributes.automaticIdName">
+            <summary>
+            Index when id is automatic
+            </summary>
+        </member>
+        <member name="F:Library.Attributes.automaticClassName">
+            <summary>
+            Index when class is automatic
+            </summary>
+        </member>
+        <member name="F:Library.Attributes.useClassCSSName">
+            <summary>
+            Index when using class or id
+            </summary>
+        </member>
+        <member name="F:Library.Attributes.uniqueClassName">
+            <summary>
+            Index for unique class name
+            </summary>
+        </member>
+        <member name="F:Library.Attributes.uniqueIdName">
+            <summary>
+            Index for unique id name
+            </summary>
+        </member>
+        <member name="F:Library.Attributes.uniqueId">
+            <summary>
+            Unique id
+            </summary>
+        </member>
+        <member name="F:Library.Attributes.uniqueClass">
+            <summary>
+            Unique class
+            </summary>
+        </member>
+        <member name="M:Library.Attributes.#ctor(System.String)">
+            <summary>
+            Specific constructor
+            </summary>
+            <param name="inputId">input id</param>
+        </member>
+        <member name="M:Library.Attributes.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:Library.Attributes.Find(Library.CSSList)">
+            <summary>
+            Find css
+            </summary>
+            <param name="list">list of css</param>
+            <returns>css</returns>
+        </member>
+        <member name="M:Library.Attributes.RenameId(System.String)">
+            <summary>
+            Rename id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Library.Attributes.SetValues">
+            <summary>
+            Gets or sets values
+            </summary>
+        </member>
+        <member name="M:Library.Attributes.ToHTML(System.String,System.String,Library.CodeCSS,Library.Events,System.Text.StringBuilder,System.String@)">
+            <summary>
+            Print the html tag
+            </summary>
+            <param name="tag">tag</param>
+            <param name="name">name</param>
+            <param name="css">css</param>
+            <param name="htmlEvents">events</param>
+            <param name="cssPart">css</param>
+            <param name="output">result</param>
+            <returns>true if success</returns>
+        </member>
+        <member name="M:Library.Attributes.ToHTML(System.String,System.String,System.String,System.String,Library.CodeCSS,Library.Events,System.Text.StringBuilder,System.String@)">
+            <summary>
+            Print the html tag
+            </summary>
+            <param name="tag">tag</param>
+            <param name="onclick">onclick event</param>
+            <param name="name">name</param>
+            <param name="title">title</param>
+            <param name="css">css</param>
+            <param name="htmlEvents">events</param>
+            <param name="cssPart">css</param>
+            <param name="output">output</param>
+            <returns>true if success</returns>
+        </member>
+        <member name="M:Library.Attributes.ToHTML(System.String,System.String,System.String,System.String,System.String,System.Int32,System.Int32,Library.CodeCSS,Library.Events,System.Text.StringBuilder,System.String@)">
+            <summary>
+            Print the html tag
+            </summary>
+            <param name="tag">tag</param>
+            <param name="onclick">onclick event</param>
+            <param name="disposition">disposition</param>
+            <param name="name">name</param>
+            <param name="title">title</param>
+            <param name="rowspan">rowspan</param>
+            <param name="colspan">colspan</param>
+            <param name="css">css</param>
+            <param name="htmlEvents">events</param>
+            <param name="cssPart">css</param>
+            <param name="output">output</param>
+            <returns>true if success</returns>
+        </member>
+        <member name="M:Library.Attributes.Clone">
+            <summary>
+            Clone this object
+            </summary>
+            <returns>copied object</returns>
+        </member>
+        <member name="P:Library.Attributes.Id">
+            <summary>
+            Gets or sets the id
+            </summary>
+        </member>
+        <member name="P:Library.Attributes.HasId">
+            <summary>
+            Gets or sets if has id
+            </summary>
+        </member>
+        <member name="P:Library.Attributes.Class">
+            <summary>
+            Gets or sets the class id
+            </summary>
+        </member>
+        <member name="P:Library.Attributes.HasClass">
+            <summary>
+            Gets or sets if has class
+            </summary>
+        </member>
+        <member name="P:Library.Attributes.IsAutomaticId">
+            <summary>
+            Gets or sets when id name is automatic
+            id is manual or automatic
+            </summary>
+        </member>
+        <member name="P:Library.Attributes.IsAutomaticClass">
+            <summary>
+            Gets or sets when class name is automatic
+            class is manual or automatic
+            </summary>
+        </member>
+        <member name="P:Library.Attributes.IsUsingClassForCSS">
+            <summary>
+            Gets or sets if using class or id in css
+            </summary>
+        </member>
+        <member name="P:Library.Attributes.AutomaticId">
+            <summary>
+            Gets the automatic id
+            </summary>
+        </member>
+        <member name="P:Library.Attributes.AutomaticClass">
+            <summary>
+            Gets the automatic class
+            </summary>
+        </member>
+        <member name="P:Library.Attributes.UniqueId">
+            <summary>
+            Gets the unique id
+            </summary>
+        </member>
+        <member name="P:Library.Attributes.UniqueClass">
+            <summary>
+            Gets the unique class
+            </summary>
+        </member>
+        <member name="P:Library.Attributes.IsUsingCSS">
+            <summary>
+            Gets if using CSS
+            </summary>
+        </member>
         <member name="T:Library.BorderConstraint">
             <summary>
             Border constraint
@@ -2721,6 +2921,11 @@
             Index name for css styles
             </summary>
         </member>
+        <member name="F:Library.HorizontalZone.attributesName">
+            <summary>
+            Index name for attributes
+            </summary>
+        </member>
         <member name="M:Library.HorizontalZone.#ctor">
             <summary>
             Empty constructor
@@ -3042,6 +3247,11 @@
             Gets the stringified horizontal area
             </summary>
         </member>
+        <member name="P:Library.HorizontalZone.Attributes">
+            <summary>
+            Gets attributes
+            </summary>
+        </member>
         <member name="T:Library.HTMLEvent">
             <summary>
             HTML Event relation
@@ -3269,6 +3479,16 @@
         <member name="F:Library.HTMLObject.cssListName">
             <summary>
             Index name for additional css
+            </summary>
+        </member>
+        <member name="F:Library.HTMLObject.attributesName">
+            <summary>
+            Index name for attributes
+            </summary>
+        </member>
+        <member name="F:Library.HTMLObject.cssName">
+            <summary>
+            Index name for css
             </summary>
         </member>
         <member name="M:Library.HTMLObject.#ctor(Library.HTMLTool)">
@@ -3540,6 +3760,11 @@
             Gets or sets the javascript on load source code
             </summary>
         </member>
+        <member name="P:Library.HTMLObject.Attributes">
+            <summary>
+            Gets attributes
+            </summary>
+        </member>
         <member name="P:Library.HTMLObject.CSS">
             <summary>
             Gets the css code
@@ -3628,6 +3853,16 @@
         <member name="F:Library.HTMLTool.cssListName">
             <summary>
             Index name for css list
+            </summary>
+        </member>
+        <member name="F:Library.HTMLTool.attributesName">
+            <summary>
+            Index name for attributes
+            </summary>
+        </member>
+        <member name="F:Library.HTMLTool.cssName">
+            <summary>
+            Index name for css
             </summary>
         </member>
         <member name="M:Library.HTMLTool.#ctor">
@@ -3812,6 +4047,11 @@
             Gets or sets the javascript on load source code
             </summary>
         </member>
+        <member name="P:Library.HTMLTool.Attributes">
+            <summary>
+            Gets attributes
+            </summary>
+        </member>
         <member name="P:Library.HTMLTool.CSS">
             <summary>
             Gets the css code
@@ -3961,6 +4201,16 @@
         <member name="F:Library.MasterObject.cssListName">
             <summary>
             Index name for css list
+            </summary>
+        </member>
+        <member name="F:Library.MasterObject.attributesName">
+            <summary>
+            Index name for attributes
+            </summary>
+        </member>
+        <member name="F:Library.MasterObject.cssName">
+            <summary>
+            Index name for css
             </summary>
         </member>
         <member name="M:Library.MasterObject.#ctor">
@@ -4379,6 +4629,11 @@
         <member name="P:Library.MasterObject.JavaScriptSource">
             <summary>
             Gets or sets the javascript source code
+            </summary>
+        </member>
+        <member name="P:Library.MasterObject.Attributes">
+            <summary>
+            Gets attributes
             </summary>
         </member>
         <member name="P:Library.MasterObject.CSS">
@@ -7265,6 +7520,11 @@
             Index name for css styles
             </summary>
         </member>
+        <member name="F:Library.VerticalZone.attributesName">
+            <summary>
+            Index name for attributes
+            </summary>
+        </member>
         <member name="M:Library.VerticalZone.#ctor">
             <summary>
             Empty constructor
@@ -7549,6 +7809,11 @@
             <summary>
             Stringified vertical area
             for debugging
+            </summary>
+        </member>
+        <member name="P:Library.VerticalZone.Attributes">
+            <summary>
+            Gets attributes
             </summary>
         </member>
     </members>

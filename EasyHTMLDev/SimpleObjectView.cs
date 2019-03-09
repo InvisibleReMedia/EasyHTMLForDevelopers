@@ -15,7 +15,7 @@ namespace EasyHTMLDev
 {
     public partial class SimpleObjectView : Form
     {
-        private CSSOptions opt;
+        private Attributes opt;
         private ZonesBinding rbWidth, rbHeight;
         private int localeComponentId;
 
@@ -98,7 +98,8 @@ namespace EasyHTMLDev
             }
             else
             {
-                this.opt = new CSSOptions();
+                this.opt = new Attributes();
+                opt.Attribs = this.HTMLObject.Attributes;
                 opt.CSS = this.HTMLObject.CSS;
                 opt.modified += new EventHandler(this.hTMLObjectBindingSource_CurrentItemChanged);
                 opt.Show();

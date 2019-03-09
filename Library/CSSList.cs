@@ -139,7 +139,8 @@ namespace Library
         public void RenamePrincipalCSS(string currentId, string nextId)
         {
             CodeCSS objCSS = this.List.Find(x => x.Ids == "#" + currentId);
-            objCSS.Ids = "#" + nextId;
+            if (objCSS != null)
+                objCSS.Ids = "#" + nextId;
         }
 
         /// <summary>
@@ -160,7 +161,8 @@ namespace Library
         public void RemoveCSS(string id)
         {
             CodeCSS css = this.List.Find(x => x.Ids == id);
-            this.List.Remove(css);
+            if (css != null)
+                this.List.Remove(css);
         }
 
         /// <summary>
