@@ -5829,6 +5829,16 @@
             Index name for unique strings
             </summary>
         </member>
+        <member name="F:Library.Project.uniqueIdName">
+            <summary>
+            Index name for unique id
+            </summary>
+        </member>
+        <member name="F:Library.Project.uniqueClassName">
+            <summary>
+            Index name for unique class
+            </summary>
+        </member>
         <member name="F:Library.Project.traceCounter">
             <summary>
             counter for dumping element
@@ -6226,6 +6236,16 @@
         <member name="P:Library.Project.Unique">
             <summary>
             Gets a generation of unique strings operator
+            </summary>
+        </member>
+        <member name="P:Library.Project.UniqueId">
+            <summary>
+            Gets or sets the unique id counter
+            </summary>
+        </member>
+        <member name="P:Library.Project.UniqueClass">
+            <summary>
+            Gets or sets the unique id counter
             </summary>
         </member>
         <member name="P:Library.Project.CadreModelCounter">

@@ -153,6 +153,12 @@
       <DependentUpon>CadreUC.cs</DependentUpon>
     </Compile>
     <Compile Include="Case.cs" />
+    <Compile Include="ClassesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClassesForm.Designer.cs">
+      <DependentUpon>ClassesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ColorSchemePopup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -482,6 +488,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CadreUC.resx">
       <DependentUpon>CadreUC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClassesForm.resx">
+      <DependentUpon>ClassesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ColorSchemePopup.resx">
       <DependentUpon>ColorSchemePopup.cs</DependentUpon>

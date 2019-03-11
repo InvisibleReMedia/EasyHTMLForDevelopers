@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtId = new System.Windows.Forms.TextBox();
+            this.bsAttributes = new System.Windows.Forms.BindingSource(this.components);
             this.rbCustomId = new System.Windows.Forms.RadioButton();
             this.rbAutomaticId = new System.Windows.Forms.RadioButton();
             this.cbId = new System.Windows.Forms.CheckBox();
@@ -43,10 +44,9 @@
             this.rbClassCSS = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.bsAttributes = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bsAttributes)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -65,16 +65,20 @@
             // txtId
             // 
             this.txtId.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bsAttributes, "Id", true));
-            this.txtId.Location = new System.Drawing.Point(235, 20);
+            this.txtId.Location = new System.Drawing.Point(234, 18);
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(82, 20);
             this.txtId.TabIndex = 3;
             this.txtId.Validating += new System.ComponentModel.CancelEventHandler(this.txtId_Validating);
             // 
+            // bsAttributes
+            // 
+            this.bsAttributes.DataSource = typeof(Library.Attributes);
+            // 
             // rbCustomId
             // 
             this.rbCustomId.AutoSize = true;
-            this.rbCustomId.Location = new System.Drawing.Point(169, 20);
+            this.rbCustomId.Location = new System.Drawing.Point(155, 19);
             this.rbCustomId.Name = "rbCustomId";
             this.rbCustomId.Size = new System.Drawing.Size(59, 17);
             this.rbCustomId.TabIndex = 2;
@@ -86,7 +90,7 @@
             // rbAutomaticId
             // 
             this.rbAutomaticId.AutoSize = true;
-            this.rbAutomaticId.Location = new System.Drawing.Point(78, 20);
+            this.rbAutomaticId.Location = new System.Drawing.Point(78, 19);
             this.rbAutomaticId.Name = "rbAutomaticId";
             this.rbAutomaticId.Size = new System.Drawing.Size(71, 17);
             this.rbAutomaticId.TabIndex = 1;
@@ -124,7 +128,7 @@
             // txtClass
             // 
             this.txtClass.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bsAttributes, "Class", true));
-            this.txtClass.Location = new System.Drawing.Point(236, 17);
+            this.txtClass.Location = new System.Drawing.Point(235, 16);
             this.txtClass.Name = "txtClass";
             this.txtClass.Size = new System.Drawing.Size(82, 20);
             this.txtClass.TabIndex = 3;
@@ -133,7 +137,7 @@
             // rbCustomClass
             // 
             this.rbCustomClass.AutoSize = true;
-            this.rbCustomClass.Location = new System.Drawing.Point(170, 17);
+            this.rbCustomClass.Location = new System.Drawing.Point(156, 19);
             this.rbCustomClass.Name = "rbCustomClass";
             this.rbCustomClass.Size = new System.Drawing.Size(59, 17);
             this.rbCustomClass.TabIndex = 2;
@@ -158,7 +162,7 @@
             // rbAutomaticClass
             // 
             this.rbAutomaticClass.AutoSize = true;
-            this.rbAutomaticClass.Location = new System.Drawing.Point(79, 17);
+            this.rbAutomaticClass.Location = new System.Drawing.Point(79, 19);
             this.rbAutomaticClass.Name = "rbAutomaticClass";
             this.rbAutomaticClass.Size = new System.Drawing.Size(71, 17);
             this.rbAutomaticClass.TabIndex = 1;
@@ -211,10 +215,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // bsAttributes
-            // 
-            this.bsAttributes.DataSource = typeof(Library.Attributes);
-            // 
             // Attributes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -232,9 +232,9 @@
             this.Load += new System.EventHandler(this.Attributes_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bsAttributes)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bsAttributes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

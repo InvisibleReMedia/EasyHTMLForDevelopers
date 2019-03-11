@@ -202,6 +202,14 @@ namespace Library
         /// Index name for unique strings
         /// </summary>
         protected static readonly string uniqueStringsName = "uniqueStrings";
+        /// <summary>
+        /// Index name for unique id
+        /// </summary>
+        protected static readonly string uniqueIdName = "uniqueId";
+        /// <summary>
+        /// Index name for unique class
+        /// </summary>
+        protected static readonly string uniqueClassName = "uniqueClass";
 
 
         /// <summary>
@@ -463,6 +471,24 @@ namespace Library
             {
                 return this.Get(uniqueStringsName, new UniqueStrings());
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the unique id counter
+        /// </summary>
+        public int UniqueId
+        {
+            get { return this.Get(uniqueIdName, 0); }
+            set { this.Set(uniqueIdName, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the unique id counter
+        /// </summary>
+        public int UniqueClass
+        {
+            get { return this.Get(uniqueClassName, 0); }
+            set { this.Set(uniqueClassName, value); }
         }
 
         /// <summary>
@@ -952,6 +978,8 @@ namespace Library
             ++p.Revision;
             p.ModificationDate = DateTime.Now;
             p.CadreModelCounter = CadreModel.counter;
+            p.UniqueId = Attributes.uniqueId.Counter;
+            p.UniqueClass = Attributes.uniqueClass.Counter;
             string errorText;
             if (Save(fi, p, out errorText))
             {
@@ -986,6 +1014,8 @@ namespace Library
                 throw new FormatException(String.Format(Localization.Strings.GetString("ExceptionProjectNotLoaded"), fileName));
             }
             CadreModel.ReinitCounter(pn.CadreModelCounter);
+            Attributes.uniqueId.Counter = pn.UniqueId;
+            Attributes.uniqueClass.Counter = pn.UniqueClass;
             pn.openProject = del;
             Project.CurrentProject = pn;
             pn.ReloadProject();

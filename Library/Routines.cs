@@ -952,23 +952,15 @@ namespace Library
                 html.JavaScriptOnLoad.Append(global.JavaScriptOnLoad.ToString());
             }
 
-            html.CSS.Append(myCss.GenerateCSS(true, true, true));
             html.CSS.Append(pageConfig.cssList.GenerateCSSWithoutPrincipal(master.Id, true, true));
             html.JavaScript.Append(pageConfig.javascriptPart.GeneratedCode);
             html.JavaScriptOnLoad.Append(pageConfig.onload.GeneratedCode);
 
             html.HTML.Append(master.HTMLBefore);
 
-            html.HTML.Append("<table");
-            html.HTML.Append(" " + Routines.SetTableDisposition(refPage.Disposition));
-            html.HTML.Append(" name='globalTable'");
-            html.HTML.Append(" id='" + myId + "'");
-            html.HTML.Append(" border='0' cellspacing='0' cellpadding='0'");
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                html.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                html.HTML.Append(" " + cs.attributeHeight);
-            html.HTML.Append(">");
+            string tag;
+            master.Attributes.ToHTML("table", "border='0' cellspacing='0' cellpadding='0'", Routines.SetTableDisposition(refPage.Disposition), "globalTable", "", -1, -1, myCss, master.Events, html.CSS, out tag);
+            html.HTML.Append(tag);
 
             // Si la dernière ligne de la table est vide alors on ne l'ajoute pas
             // raison : compatibité IE/Firefox/Chrome
@@ -1071,14 +1063,9 @@ namespace Library
             outputPage.HTML.Append("</head>");
             outputPage.HTML.Append("<body onload='initialize();'>");
 
-            outputPage.HTML.Append("<div");
-            outputPage.HTML.Append(" id='" + myId + "'");
-            outputPage.HTML.Append(" name='" + myId + "'");
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                outputPage.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                outputPage.HTML.Append(" " + cs.attributeHeight);
-            outputPage.HTML.Append(">");
+            string tag;
+            tool.Attributes.ToHTML("div", myId, myCss, tool.Events, outputPage.CSS, out tag);
+            outputPage.HTML.Append(tag);
 
             outputPage.HTML.Append(html.HTML.ToString());
 
@@ -1157,14 +1144,9 @@ namespace Library
             outputPage.HTML.Append("</head>");
             outputPage.HTML.Append("<body onload='initialize();'>");
 
-            outputPage.HTML.Append("<div");
-            outputPage.HTML.Append(" id='" + myId + "'");
-            outputPage.HTML.Append(" name='" + myId + "'");
-            if (!String.IsNullOrEmpty(cs.attributeWidth))
-                outputPage.HTML.Append(" " + cs.attributeWidth);
-            if (!String.IsNullOrEmpty(cs.attributeHeight))
-                outputPage.HTML.Append(" " + cs.attributeHeight);
-            outputPage.HTML.Append(">");
+            string tag;
+            obj.Attributes.ToHTML("div", myId, myCss, obj.Events, outputPage.CSS, out tag);
+            outputPage.HTML.Append(tag);
 
             outputPage.HTML.Append(html.HTML.ToString());
 

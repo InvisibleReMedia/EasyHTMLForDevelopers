@@ -77,6 +77,7 @@ namespace EasyHTMLDev
                 if (this.optVert != null)
                 {
                     this.optVert.Text = String.Format(Localization.Strings.GetString("VerticalAreaStringified"), vert.Name, vert.CountLines, vert.CountColumns);
+                    this.optVert.Attribs = vert.Attributes;
                     this.optVert.CSS = vert.CSS;
                 }
             }
@@ -111,6 +112,7 @@ namespace EasyHTMLDev
                 if (this.optHoriz != null)
                 {
                     this.optHoriz.Text = String.Format(Localization.Strings.GetString("HorizontalAreaStringified"), horiz.Name, horiz.CountLines);
+                    this.optHoriz.Attribs = horiz.Attributes;
                     this.optHoriz.CSS = horiz.CSS;
                 }
             }
@@ -244,8 +246,8 @@ namespace EasyHTMLDev
                 this.optVert = new Attributes();
                 Library.VerticalZone vz = this.bsVert.Current as Library.VerticalZone;
                 this.optVert.Text = String.Format(Localization.Strings.GetString("VerticalAreaStringified"), vz.Name, vz.CountLines, vz.CountColumns);
-                this.optVert.CSS = vz.CSS;
                 this.optVert.Attribs = vz.Attributes;
+                this.optVert.CSS = vz.CSS;
                 this.optVert.modified += new EventHandler(CurrentItemChanged);
                 this.optVert.Show();
             }
@@ -257,7 +259,7 @@ namespace EasyHTMLDev
             {
                 Library.HorizontalZone hz = this.bsHoriz.Current as Library.HorizontalZone;
                 this.optHoriz.Text = String.Format(Localization.Strings.GetString("HorizontalAreaStringified"), hz.Name, hz.CountLines);
-                optHoriz.CSS = hz.CSS;
+                this.optHoriz.CSS = hz.CSS;
                 optHoriz.Attribs = hz.Attributes;
                 this.optHoriz.Show();
             }
@@ -266,7 +268,7 @@ namespace EasyHTMLDev
                 this.optHoriz = new Attributes();
                 Library.HorizontalZone hz = this.bsHoriz.Current as Library.HorizontalZone;
                 this.optHoriz.Text = String.Format(Localization.Strings.GetString("HorizontalAreaStringified"), hz.Name, hz.CountLines);
-                optHoriz.CSS = hz.CSS;
+                this.optHoriz.CSS = hz.CSS;
                 optHoriz.Attribs = hz.Attributes;
                 optHoriz.modified += new EventHandler(this.CurrentItemChanged);
                 optHoriz.Show();
