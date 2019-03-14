@@ -19,6 +19,11 @@ namespace EasyHTMLDev
             Localization.Strings.FreeWindow(ref id);
         }
 
+        public static void UpdateText(this System.Windows.Forms.Control control, int id, string name, params object[] pars)
+        {
+            Localization.Strings.Instances[id].OneReBindControl(control, name, pars);
+        }
+
         /// <summary>
         /// TreeNode collection to descendants
         /// </summary>

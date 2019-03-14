@@ -76,7 +76,7 @@ namespace EasyHTMLDev
                 }
                 if (this.optVert != null)
                 {
-                    this.optVert.Text = String.Format(Localization.Strings.GetString("VerticalAreaStringified"), vert.Name, vert.CountLines, vert.CountColumns);
+                    this.optVert.UpdateText("VerticalAreaStringified", vert.Name, vert.CountLines.ToString(), vert.CountColumns.ToString());
                     this.optVert.Attribs = vert.Attributes;
                     this.optVert.CSS = vert.CSS;
                 }
@@ -111,7 +111,7 @@ namespace EasyHTMLDev
                 this.lstVert.DataSource = this.bsVert;
                 if (this.optHoriz != null)
                 {
-                    this.optHoriz.Text = String.Format(Localization.Strings.GetString("HorizontalAreaStringified"), horiz.Name, horiz.CountLines);
+                    this.optHoriz.UpdateText("HorizontalAreaStringified", horiz.Name, horiz.CountLines.ToString());
                     this.optHoriz.Attribs = horiz.Attributes;
                     this.optHoriz.CSS = horiz.CSS;
                 }
@@ -236,16 +236,14 @@ namespace EasyHTMLDev
             if (this.optVert != null && !this.optVert.IsDisposed)
             {
                 Library.VerticalZone vz = this.bsVert.Current as Library.VerticalZone;
-                this.optVert.Text = String.Format(Localization.Strings.GetString("VerticalAreaStringified"), vz.Name, vz.CountLines, vz.CountColumns);
                 this.optVert.CSS = vz.CSS;
                 this.optVert.Attribs = vz.Attributes;
                 this.optVert.Show();
             }
             else
             {
-                this.optVert = new Attributes();
                 Library.VerticalZone vz = this.bsVert.Current as Library.VerticalZone;
-                this.optVert.Text = String.Format(Localization.Strings.GetString("VerticalAreaStringified"), vz.Name, vz.CountLines, vz.CountColumns);
+                this.optVert = new Attributes("VerticalAreaStringified", vz.Name, vz.CountLines.ToString(), vz.CountColumns.ToString());
                 this.optVert.Attribs = vz.Attributes;
                 this.optVert.CSS = vz.CSS;
                 this.optVert.modified += new EventHandler(CurrentItemChanged);
@@ -258,16 +256,14 @@ namespace EasyHTMLDev
             if (this.optHoriz != null && !this.optHoriz.IsDisposed)
             {
                 Library.HorizontalZone hz = this.bsHoriz.Current as Library.HorizontalZone;
-                this.optHoriz.Text = String.Format(Localization.Strings.GetString("HorizontalAreaStringified"), hz.Name, hz.CountLines);
                 this.optHoriz.CSS = hz.CSS;
                 optHoriz.Attribs = hz.Attributes;
                 this.optHoriz.Show();
             }
             else
             {
-                this.optHoriz = new Attributes();
                 Library.HorizontalZone hz = this.bsHoriz.Current as Library.HorizontalZone;
-                this.optHoriz.Text = String.Format(Localization.Strings.GetString("HorizontalAreaStringified"), hz.Name, hz.CountLines);
+                this.optHoriz = new Attributes("HorizontalAreaStringified", hz.Name, hz.CountLines.ToString());
                 this.optHoriz.CSS = hz.CSS;
                 optHoriz.Attribs = hz.Attributes;
                 optHoriz.modified += new EventHandler(this.CurrentItemChanged);

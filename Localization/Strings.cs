@@ -13,7 +13,7 @@ namespace Localization
 
         #region Inner Class
 
-        internal class LocaleValue
+        public class LocaleValue
         {
             #region Private Fields
             private KeyValuePair<string, string> kv;
@@ -33,6 +33,7 @@ namespace Localization
             public string Key
             {
                 get { return this.kv.Key; }
+                set { this.kv = new KeyValuePair<string,string>(value, kv.Value); }
             }
 
             public string Value
@@ -99,6 +100,16 @@ namespace Localization
         #endregion
 
         #region Public Static Methods
+
+        /// <summary>
+        /// Get locale
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <returns>locale value</returns>
+        public static LocaleValue GetLocale(string name)
+        {
+            return new LocaleValue(name, Strings.GetString(name));
+        }
 
         public static string GetString(string name)
         {
@@ -298,7 +309,19 @@ namespace Localization
 
         #region Internal Methods
 
-        internal void OneBindControl(System.Windows.Forms.Control c, params object[] pars)
+        public void OneReBindControl(System.Windows.Forms.Control c, string name, params object[] pars)
+        {
+            if (!this.DesignMode)
+            {
+                LocaleValue lv = this.values[0];
+                lv.Key = name;
+                lv.Parameters.Clear();
+                lv.Parameters.AddRange(pars);
+                this.Refresh();
+            }
+        }
+
+        public void OneBindControl(System.Windows.Forms.Control c, params object[] pars)
         {
             if (!this.DesignMode)
             {

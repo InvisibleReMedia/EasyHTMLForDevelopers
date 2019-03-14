@@ -261,7 +261,7 @@
             this.Name = "Zones";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Zones";
+            this.Text = "Areas";
             this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Zones_FormClosed);
             this.Load += new System.EventHandler(this.Zones_Load);

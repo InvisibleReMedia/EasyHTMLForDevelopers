@@ -110,7 +110,6 @@
             this.cbId.Text = "exists";
             this.cbId.UseVisualStyleBackColor = true;
             this.cbId.CheckedChanged += new System.EventHandler(this.cbId_CheckedChanged);
-            this.cbId.Validated += new System.EventHandler(this.cb_Validated);
             // 
             // groupBox2
             // 
@@ -157,7 +156,6 @@
             this.cbClass.Text = "exists";
             this.cbClass.UseVisualStyleBackColor = true;
             this.cbClass.CheckedChanged += new System.EventHandler(this.cbClass_CheckedChanged);
-            this.cbClass.Validated += new System.EventHandler(this.cb_Validated);
             // 
             // rbAutomaticClass
             // 
@@ -176,10 +174,10 @@
             this.rbIdCSS.AutoSize = true;
             this.rbIdCSS.Location = new System.Drawing.Point(91, 137);
             this.rbIdCSS.Name = "rbIdCSS";
-            this.rbIdCSS.Size = new System.Drawing.Size(92, 17);
+            this.rbIdCSS.Size = new System.Drawing.Size(89, 17);
             this.rbIdCSS.TabIndex = 1;
             this.rbIdCSS.TabStop = true;
-            this.rbIdCSS.Text = "use id for CSS";
+            this.rbIdCSS.Text = "UseIdForCSS";
             this.rbIdCSS.UseVisualStyleBackColor = true;
             this.rbIdCSS.CheckedChanged += new System.EventHandler(this.rbIdCSS_CheckedChanged);
             // 
@@ -188,18 +186,18 @@
             this.rbClassCSS.AutoSize = true;
             this.rbClassCSS.Location = new System.Drawing.Point(224, 137);
             this.rbClassCSS.Name = "rbClassCSS";
-            this.rbClassCSS.Size = new System.Drawing.Size(108, 17);
+            this.rbClassCSS.Size = new System.Drawing.Size(105, 17);
             this.rbClassCSS.TabIndex = 1;
             this.rbClassCSS.TabStop = true;
-            this.rbClassCSS.Text = "use class for CSS";
+            this.rbClassCSS.Text = "UseClassForCSS";
             this.rbClassCSS.UseVisualStyleBackColor = true;
             this.rbClassCSS.CheckedChanged += new System.EventHandler(this.rbClassCSS_CheckedChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(384, 164);
+            this.button1.Location = new System.Drawing.Point(320, 164);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(89, 23);
+            this.button1.Size = new System.Drawing.Size(153, 23);
             this.button1.TabIndex = 2;
             this.button1.Text = "CSSOptions";
             this.button1.UseVisualStyleBackColor = true;

@@ -14,6 +14,7 @@ namespace EasyHTMLDev
     public partial class Attributes : Form
     {
 
+        private int localeComponentId;
         CSSOptions opt;
         Library.CodeCSS code;
         public event EventHandler modified;
@@ -22,6 +23,14 @@ namespace EasyHTMLDev
         public Attributes()
         {
             InitializeComponent();
+            this.RegisterControls(ref this.localeComponentId);
+        }
+
+        public Attributes(string name, params string[] pars)
+        {
+            InitializeComponent();
+            this.Text = name;
+            this.RegisterControls(ref this.localeComponentId, pars);
         }
 
         public Library.Attributes Attribs
@@ -34,6 +43,11 @@ namespace EasyHTMLDev
         {
             get { return this.code; }
             set { this.code = value; }
+        }
+
+        public void UpdateText(string name, params string[] pars)
+        {
+            this.UpdateText(this.localeComponentId, name, pars);
         }
 
         private void Attributes_Load(object sender, EventArgs e)
@@ -182,14 +196,6 @@ namespace EasyHTMLDev
                 modified(sender, e);
         }
 
-        private void cb_Validated(object sender, EventArgs e)
-        {
-            this.bsAttributes.CurrencyManager.Refresh();
-            this.Attribs.SetValues();
-            if (!init && modified != null)
-                modified(sender, e);
-        }
-
         private void cbId_CheckedChanged(object sender, EventArgs e)
         {
             this.Attribs.HasId = cbId.Checked;
@@ -218,6 +224,10 @@ namespace EasyHTMLDev
                 this.Attribs.IsUsingClassForCSS = false;
             if (!init && modified != null)
                 modified(sender, e);
+        }
+
+        private void Attributes_FormClosed(object sender, FormClosedEventArgs e)
+        {
         }
 
     }

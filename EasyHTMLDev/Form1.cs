@@ -48,6 +48,16 @@ namespace EasyHTMLDev
             return Localization.Strings.GetString(key);
         }
 
+        /// <summary>
+        /// Update text
+        /// </summary>
+        /// <param name="name">id name</param>
+        /// <param name="pars">parameters</param>
+        public void UpdateText(string name, params string[] pars)
+        {
+            this.UpdateText(this.localeComponentId, name, pars);
+        }
+
         private void tmBlind_Tick(object sender, EventArgs e)
         {
             ++elapseTimer;
@@ -175,7 +185,7 @@ namespace EasyHTMLDev
             AppDomain.CurrentDomain.SetData("fileName", op.FileName);
             this.treeView1.SelectedNode = null;
             Project.Load(ConfigDirectories.GetDocumentsFolder(), op.FileName, new Project.OpenProject(OpenProject));
-            this.Text = String.Format(Translate("SoftwareTitleOnProject"), Project.CurrentProject.Title);
+            this.UpdateText("SoftwareTitleOnProject", Project.CurrentProject.Title);
         }
 
         private void ouvrirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -186,7 +196,7 @@ namespace EasyHTMLDev
             {
                 AppDomain.CurrentDomain.SetData("fileName", op.FileName);
                 Project.Load(ConfigDirectories.GetDocumentsFolder(), op.FileName, new Project.OpenProject(OpenProject));
-                this.Text = String.Format(Translate("SoftwareTitleOnProject"), Project.CurrentProject.Title);
+                this.UpdateText("SoftwareTitleOnProject", Project.CurrentProject.Title);
             }
         }
 
@@ -627,7 +637,7 @@ namespace EasyHTMLDev
                     Project.CurrentProject.Title = renamed;
                     AppDomain.CurrentDomain.SetData("fileName", renamed + ".bin");
                     Project.Save(Project.CurrentProject, ConfigDirectories.GetDocumentsFolder(), AppDomain.CurrentDomain.GetData("fileName").ToString());
-                    this.Text = String.Format(Translate("SoftwareTitleOnProject"), Project.CurrentProject.Title);
+                    this.UpdateText("SoftwareTitleOnProject", Project.CurrentProject.Title);
                 }
                 catch
                 {
@@ -934,7 +944,7 @@ namespace EasyHTMLDev
                 {
                     if (t.Tag is Library.MasterObject)
                     {
-                        DialogResult dr = MessageBox.Show(Translate("ConvertToJavascript"), Translate("ConvertToJavascriptTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult dr = MessageBox.Show(Translate("ConvertToJavascriptText"), Translate("ConvertToJavascriptTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (dr == System.Windows.Forms.DialogResult.Yes)
                         {
                             MasterObject mo = t.Tag as MasterObject;

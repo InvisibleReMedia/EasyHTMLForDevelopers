@@ -767,7 +767,7 @@ Format nom:valeur;...</value>
     <value>Liens CSS</value>
   </data>
   <data name="ConvertToJavascript" xml:space="preserve">
-    <value>Convertir en JavaScript</value>
+    <value>Convertir en Javascript</value>
   </data>
   <data name="ConvertToTool" xml:space="preserve">
     <value>Convertir en outil</value>
@@ -813,5 +813,56 @@ Format nom:valeur;...</value>
   </data>
   <data name="ExceptionTransformMalFormedContent" xml:space="preserve">
     <value>Contenu incorrect pendant la transformation</value>
+  </data>
+  <data name="Attributes" xml:space="preserve">
+    <value>Options CSS</value>
+  </data>
+  <data name="automatic" xml:space="preserve">
+    <value>auto</value>
+  </data>
+  <data name="Class" xml:space="preserve">
+    <value>Classe CSS</value>
+  </data>
+  <data name="ConvertToJavascriptText" xml:space="preserve">
+    <value>Convertir en Javascript ?</value>
+  </data>
+  <data name="ConvertToJavascriptTitle" xml:space="preserve">
+    <value>Conversion</value>
+  </data>
+  <data name="custom" xml:space="preserve">
+    <value>renommé</value>
+  </data>
+  <data name="exists" xml:space="preserve">
+    <value>Actif</value>
+  </data>
+  <data name="FileLoadErrorText" xml:space="preserve">
+    <value>Echec du chargement de fichier</value>
+  </data>
+  <data name="FileLoadErrorTitle" xml:space="preserve">
+    <value>Chargement</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id HTML</value>
+  </data>
+  <data name="NoTitle" xml:space="preserve">
+    <value>Sans titre</value>
+  </data>
+  <data name="ObjectTitle" xml:space="preserve">
+    <value>Objet HTML - {0}</value>
+  </data>
+  <data name="SoftwareTitleOnProject" xml:space="preserve">
+    <value>Modeleur Html pour programmeurs - {0}</value>
+  </data>
+  <data name="TransformTool" xml:space="preserve">
+    <value>Transformer en outil ?</value>
+  </data>
+  <data name="TransformToolTitle" xml:space="preserve">
+    <value>Transformer</value>
+  </data>
+  <data name="UseClassForCSS" xml:space="preserve">
+    <value>utilise class dans CSS</value>
+  </data>
+  <data name="UseIdForCSS" xml:space="preserve">
+    <value>utilise id dans CSS</value>
   </data>
 </root>

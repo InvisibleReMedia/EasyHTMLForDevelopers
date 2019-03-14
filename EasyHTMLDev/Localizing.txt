@@ -23,3 +23,7 @@ de la classe Strings.
 Pour effectuer les changements au moment du runtime, il faut aller chercher le component Strings et puis, tester si designMode ou pas.
 Et pour que cela se produise à chaque affichage, il faut un binding.
 
+Pour réaliser des effets plus complexes, on peut instruire un AmbientValueAttribute pour ajouter des paramètres. Pour cela,
+on définit un AmbientValue(string) et on place les paramètres séparés par une virgule et chaque valeur est formatté par {0}...
+
+
