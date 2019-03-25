@@ -178,6 +178,12 @@
       <DependentUpon>DynamicUC.cs</DependentUpon>
     </Compile>
     <Compile Include="Extensions.cs" />
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
     <Compile Include="FtpForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -499,6 +505,9 @@
     <EmbeddedResource Include="DynamicUC.resx">
       <DependentUpon>DynamicUC.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FtpForm.resx">
       <DependentUpon>FtpForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -698,9 +707,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="bienvenue.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="ehd_ask.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="welcome.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Resource Include="ehd_logo.png" />
     <Content Include="ehd_ico.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

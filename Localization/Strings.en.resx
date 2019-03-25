@@ -846,4 +846,17 @@ Format id {nom:valeur;...}...</value>
   <data name="UseIdForCSS" xml:space="preserve">
     <value>Use id for CSS</value>
   </data>
+  <data name="IntroductionWebFile" xml:space="preserve">
+    <value>welcome.html</value>
+  </data>
+  <data name="IntroMessageCreateDirectory" xml:space="preserve">
+    <value>A directory is going to be created into {0}.
+Download examples.zip and extract it into this directory to run examples.</value>
+  </data>
+  <data name="IntroMessageCreateDirectoryTitle" xml:space="preserve">
+    <value>Initialization</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
 </root>

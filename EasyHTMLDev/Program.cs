@@ -16,9 +16,13 @@ namespace EasyHTMLDev
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Localization.Names.Validate();
-            CommonDirectories.ConfigDirectories.CreateMyDocuments();
             try
             {
+                MessageBox.Show(String.Format(Localization.Strings.GetString("IntroMessageCreateDirectory"), CommonDirectories.ConfigDirectories.GetDocumentsFolder()),
+                                Localization.Strings.GetString("IntroMessageCreateDirectoryTitle"),
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CommonDirectories.ConfigDirectories.CreateMyDocuments();
+                Application.Run(new Form2());
                 Application.Run(new Form1());
             }
             catch(Exception ex)
